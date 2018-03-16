@@ -1,0 +1,150 @@
+<h1>1. Credits</h1>
+<p>Technical Lead: Richard Jones, Cottage Labs</p>
+<p>Community Lead: Neil Jefferies, University of Oxford</p>
+<p>Funder Liaison: Dom Fripp, Jisc</p>
+<h1>2. Introduction</h1>
+<p>The first major version of SWORD [<a href="#sword_1.3">SWORD 1.3</a>] built upon the Resouce creation aspects of AtomPub [<a href="#atompub">AtomPub</a>] to enable fire-and-forget package 
+deposit onto a server.</p>
+<p>This approach, where the depositor has no further interaction with the server is of significant value in certain use cases, but there are 
+others where this is insufficient. Consider, for example, that the depositor wishes to construct a digital artifact file by file over a 
+period of time before deciding that it is time to archive it. In these cases, a higher level of interactivity between the participating 
+systems is required, and this is the role that SWORD 2.0 [<a href="#sword_2.0">SWORD 2.0</a>] was subsequently developed to fulfil.</p>
+<p>As the use cases for SWORD have developed further, it became clear that the increasing size of files repositories were being asked to deal
+with was an issue.  As a result of this, and the fact that the technological approach for SWORD 2.0 was starting to show its age, a new
+version, SWORD 3.0, has been developed.  This is a radical departure from SWORD 2.0, eliminating ties with AtomPub, and moving to a much
+stricter REST+JSON approach, utilising JSON-LD for alignment with Linked Data.  Its key differences to SWORD 2.0 from a functional
+perspective are:</p>
+<ul>
+<li>Support for By-Reference file deposit</li>
+<li>Support for Segmented file deposit</li>
+<li>More advanced native packaging and metadata formats</li>
+</ul>
+<p>...TODO...</p>
+<h1>3. Notational Conventions</h1>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this 
+document are to be interpreted as described in [<a href="#rfc2119">RFC2119</a>].</p>
+<h1>4. Terminology</h1>
+<h2>4.1. URLs</h2>
+<dl><dt>Service-Document-URL</dt><dd>the location of the document which describes the server’s capabilities for the user</dd><dt>Deposit-URL</dt><dd>the location where new content can be created</dd><dt>Object-URL</dt><dd>an Object that exists on the server, probably as a result of a deposit operation, which is a container for Metadata and zero or more Files.</dd><dt>Metadata-URL</dt><dd>the metadata associated with the Object</dd><dt>FileSet-URL</dt><dd>The aggregate of all Binary Files associated with the Object</dd><dt>File-URL</dt><dd>a single binary file within the FileSet of the Object</dd></dl>
+
+<h2>4.2. Document Types</h2>
+<dl><dt>Service Document</dt><dd>Describes the capabilities of the server with respect to the user</dd><dt>Metadata</dt><dd>A format for depositing and retrieving object metadata</dd><dt>By-Reference</dt><dd>A format for describing one or more files to be deposited by-reference.</dd><dt>Metadata+By-Reference</dt><dd>A single expression of both the Metadata and the By-Reference file deposits.</dd><dt>Status</dt><dd>A document describing the current status of the object and its content</dd><dt>Binary File</dt><dd>An opaque binary file</dd><dt>Packaged Content</dt><dd>A serialisation of the entire Object, consisting of its Metadata and Binary Files.</dd><dt>Error</dt><dd>Describes an error that occurred while processing a request.</dd></dl>
+
+<h2>4.3. Namespaces</h2>
+<dl><dt><a href="http://purl.org/net/sword/3.0/">http://purl.org/net/sword/3.0/</a></dt><dd>All SWORDv3 extensions are defined within this namespace.  This Namespace also serves to identify the SWORD version for a given Service.</dd><dt><a href="http://purl.org/net/sword/3.0/terms/">http://purl.org/net/sword/3.0/terms/</a></dt><dd>All predicates associated with SWORDv3</dd><dt><a href="http://purl.org/net/sword/3.0/package/">http://purl.org/net/sword/3.0/package/</a></dt><dd>All packaged formats defined by SWORDv3</dd><dt><a href="http://purl.org/net/sword/3.0/error/">http://purl.org/net/sword/3.0/error/</a></dt><dd>All error documents defined by SWORDv3</dd><dt><a href="http://purl.org/net/sword/3.0/state/">http://purl.org/net/sword/3.0/state/</a></dt><dd>Terms used to describe the state of Objects in SWORDv3</dd><dt><a href="http://purl.org/net/sword/3.0/types/">http://purl.org/net/sword/3.0/types/</a></dt><dd>Namespace for all document types used in SWORDv3</dd><dt><a href="http://purl.org/net/sword/3.0/filestate/">http://purl.org/net/sword/3.0/filestate/</a></dt><dd>Terms used to descript he state of Files in SWORDv3</dd><dt><a href="http://purl.org/net/sword/3.0/discovery/">http://purl.org/net/sword/3.0/discovery/</a></dt><dd>Terms used for auto-discovery of SWORDv3 services</dd><dt><a href="http://purl.org/dc/elements/1.1/">http://purl.org/dc/elements/1.1/</a></dt><dd>The Simple Dublin Core elements.  This document uses the prefix <code>dc</code> for this namespace name; for example <code>dc:title</code></dd><dt><a href="http://purl.org/dc/terms/">http://purl.org/dc/terms/</a></dt><dd>The Extended Dublin Core terms. This document uses the prefix <code>dcterms</code> for the namespace name; for example <code>dcterms:abstract</code></dd></dl>
+
+<h2>4.4. Vocabulary</h2>
+<p>TODO</p>
+<h1>5. HTTP Headers</h1>
+<p>These are the HTTP headers used by SWORD, and their meanings within the context of the protocol.  Where a Default Value is specified, this 
+is what value the client or server MUST take the value to be if it is not provided explicitly in a request or response.</p>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authorization</td>
+<td>To pass any HTTP authorization headers, such as the content for basic auth</td>
+</tr>
+<tr>
+<td>Content-Disposition</td>
+<td>Used to transmit information to the server which tells it the nature of the deposit, and any associated parameters</td>
+</tr>
+<tr>
+<td>Content-Length</td>
+<td>Length of the depositing content</td>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>Mimetype of the content being delivered</td>
+</tr>
+<tr>
+<td>Digest</td>
+<td>Checksum for the depositing content. MUST include SHA-256, and allows for other formats such as MD5 and SHA (SHA-1) if still needed by the server.</td>
+</tr>
+<tr>
+<td>ETag</td>
+<td>Object version identifier, as provided by the server on GET requests and any requests which modify the object and return.</td>
+</tr>
+<tr>
+<td>If-Match</td>
+<td>Used to provider the server’s Object version identifier (ETag) for the version on which this request is intended to act. If the supplied ETag does not match, this means that the version on the server has changed since the client’s last operation, the server MUST reject the update. The client will need to retrieve the latest ETag and re-issue the request, taking into account any changes.</td>
+</tr>
+<tr>
+<td>In-Progress</td>
+<td>Whether this operation is part of a larger deposit operation, and the server should expect subsequent related requests before injecting the item into any ingest workflows.<br><br>Default Value: false</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>URI for the location where the requested or deposited content can be found</td>
+</tr>
+<tr>
+<td>On-Behalf-Of</td>
+<td>Username of any user the action is being carried out on behalf of</td>
+</tr>
+<tr>
+<td>Packaging</td>
+<td>URI unambiguously identifying the packaging profile<br><br>Default Value: http://purl.org/net/sword/3.0/package/Binary</td>
+</tr>
+<tr>
+<td>Slug</td>
+<td>Suggested identifier for the item</td>
+</tr>
+<tr>
+<td>Metadata-Format</td>
+<td>URI unambiguously identifying the metadata format/schema/profile<br><br>Default Value: http://purl.org/net/sword/3.0/types/Metadata</td>
+</tr>
+</tbody>
+</table>
+<h1>6. Protocol Operations</h1>
+<p>This section lists the actual on-the-wire protocol operations that are part of SWORDv3.  Actual usage of each of these operations is 
+dependent on the action that you wish to take.  See [Protocol Behaviours] for the rules which govern how to use these Protocol Operations.</p>
+<p>The full set of protocol operations is available as an OpenAPI definition [<a href="#openapi">OpenAPI</a>], available as <a href="http://localhost:8000/spec/openapi.json">JSON</a>
+and <a href="http://localhost:8000/spec/openapi.yaml">YAML</a>.</p>
+<h2>6.1. Error Responses</h2>
+<p>The following error responses are possible against some or all of the HTTP Requests.  In each case an Error Document MUST be returned by the 
+server with details as to the root cause of the error.</p>
+<ul>
+<li><strong>400 (BadRequest)</strong> - The server could not understand your request.  Either your headers or content body are wrong or malformed.</li>
+<li><strong>401 (Unauthorized)</strong> - You have not provided authentication information, please do so</li>
+<li><strong>403 (Forbidden)</strong> - You are not authorised to access this resource</li>
+<li><strong>404 (Not Found)</strong> - There is no resource available at the URL you requested</li>
+<li><strong>405 (Method Not Allowed)</strong> - The HTTP method you requested on the resource is not permitted/available in this context</li>
+<li><strong>409 (Conflict)</strong> - There was an edit conflict when updating the resource.  This means your If-Match ETag is not the correct ETag for the current version of the resource.</li>
+<li><strong>412 (Precondition Failed)</strong> - There is a problem implementing the request as-is.  For example, your checksums may not match, or you may have requested mediated deposit when the server does not support that, your headers may not be consistent with each other, or your Segmented Upload Initialisation request may not be within parameters acceptable to the server.</li>
+<li><strong>413 (Payload Too Large)</strong> - Your request body exceeds the size allowed by the server</li>
+<li><strong>415 (Unsupported Media Type)</strong> - The metadata format is not the same as that identified in Metadata-Format and/or it is not supported by the server, or the packaging format is not the same as that identified in Packaging and/or it is not supported by the server</li>
+</ul>
+<h2>6.2. Redirects</h2>
+<p>Some requests may result in redirect codes being sent to the client; the server MAY respond to any request with a suitable redirect.  These 
+are the redirect codes that are used, and what they mean:</p>
+<ul>
+<li><strong>301 (Moved Permanently)</strong> - The URL you requested has changed, re-send this request and all future requests to the new URL</li>
+<li><strong>307 (Temporary Redirect)</strong> - The URL you requested has temporarily changed, re-send this request to the new URL</li>
+<li><strong>308 (Permanent Redirect)</strong> - The URL you requested has changed, re-send this request and all future requests to the new URL</li>
+</ul>
+<h2>6.3. HTTP Requests</h2>
+<p>These are the HTTP requests that are covered by the SWORD protocol.  Each one is listed on the left with the HTTP method, the URL against 
+which it can be executed, and any headers that are permitted (requirements for headers are covered in later sections), as well as a list of 
+possible Body contents.  On the right is the set of possible successful responses from the server, with the HTTP status code, any headers 
+that may be included, and the Body content.</p>
+<p>Each request MAY be responded to by the server with a redirect code (see above).  Each request MAY also generate an error; possible errors 
+are listed for each section, please refer to the section above for details on the meanings of errors.</p>
+<h3>6.3.1. GET Service-URL</h3>
+<h3>6.3.2. POST Service-URL</h3>
+<h3>6.3.3. GET Object-URL</h3>
+<h3>6.3.4. POST Object-URL</h3>
+<h3>6.3.5. PUT Object-URL</h3>
+<h3>6.3.6. DELETE Object-URL</h3>
+<h1>7. References</h1>
+<p><a name="sword_1.3"><strong>SWORD 1.3</strong> Downing, J. "SWORD AtomPub Profile version 1.3", 2008. <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">http://www.swordapp.org/docs/sword-profile-1.3.html</a> </p>
+<p><a name="atompub"><strong>AtomPub</strong> Gregario, J. and B. de hOra, "The Atom Publishing Protocol", RFC 5023, October 2007. <a href="http://www.ietf.org/rfc/rfc5023.txt">http://www.ietf.org/rfc/rfc5023.txt</a> </p>
+<p><a name="sword_2.0"><strong>SWORD 2.0</strong> Jones, R. and Lewis, S. "SWORD 2.0 Profile", 2011 <a href="http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html">http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html</a> </p>
+<p><a name="rfc2119"><strong>RFC2119</strong> Bradner, S. "Key words for use in RFCs to Indicate Requirement Levels", March 1997. <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> </p>
+<p><a name="openapi"><strong>OpenAPI</strong> OpenAPI Specification, Version 3.0.0 <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md">https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md</a> </p>
+<p>Last modified: 2018-03-16</p>
+

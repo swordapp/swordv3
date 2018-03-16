@@ -1,0 +1,11 @@
+Namespace,Domain,Description
+http://purl.org/net/sword/3.0/,SWORD,All SWORDv3 extensions are defined within this namespace.  This Namespace also serves to identify the SWORD version for a given Service.
+http://purl.org/net/sword/3.0/terms/,SWORD,All predicates associated with SWORDv3
+http://purl.org/net/sword/3.0/package/,SWORD,All packaged formats defined by SWORDv3
+http://purl.org/net/sword/3.0/error/,SWORD,All error documents defined by SWORDv3
+http://purl.org/net/sword/3.0/state/,SWORD,Terms used to describe the state of Objects in SWORDv3
+http://purl.org/net/sword/3.0/types/,SWORD,Namespace for all document types used in SWORDv3
+http://purl.org/net/sword/3.0/filestate/,SWORD,Terms used to descript he state of Files in SWORDv3
+http://purl.org/net/sword/3.0/discovery/,SWORD,Terms used for auto-discovery of SWORDv3 services
+http://purl.org/dc/elements/1.1/,External,The Simple Dublin Core elements.  This document uses the prefix `dc` for this namespace name; for example `dc:title`
+http://purl.org/dc/terms/,External,The Extended Dublin Core terms. This document uses the prefix `dcterms` for the namespace name; for example `dcterms:abstract`

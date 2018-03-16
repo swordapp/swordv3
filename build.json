@@ -1,0 +1,27 @@
+{
+	"src_dir" : "src",
+	"out_dir" : "spec",
+	"base_url" : "http://localhost:8000/",
+
+	"files" : [
+		{
+			"root" : "MAIN.md",
+			"out" : "swordv3.html",
+			"process" : true
+		},
+		{
+			"root" : "schemas/openapi.json",
+			"out" : "openapi.json",
+			"process" : false
+		},
+		{
+			"root" : "schemas/openapi.yaml",
+			"out" : "openapi.yaml",
+			"process" : false
+		}
+	],
+
+	"resources" : {
+		"ref" : "src/tables/references.csv"
+	}
+}

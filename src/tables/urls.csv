@@ -1,0 +1,7 @@
+URL,Description
+Service-Document-URL,the location of the document which describes the server’s capabilities for the user
+Deposit-URL,the location where new content can be created
+Object-URL,"an Object that exists on the server, probably as a result of a deposit operation, which is a container for Metadata and zero or more Files."
+Metadata-URL,the metadata associated with the Object
+FileSet-URL,The aggregate of all Binary Files associated with the Object
+File-URL,a single binary file within the FileSet of the Object
