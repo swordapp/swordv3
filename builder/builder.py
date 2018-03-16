@@ -324,7 +324,7 @@ def url(file_cfg, config, relpath):
     base = config.get("base_url")
     return base + relpath
 
-def openapi_paths(file_cfg, config, source, path_order=None, method_order=None, header_depth=1):
+def openapi_paths(file_cfg, config, source, path_order=None, method_order=None, header_depth=1, omit=None, in_brief=None):
     if method_order is None:
         method_order = ["get", "post", "put", "delete"]
     header_depth = int(header_depth)
@@ -345,12 +345,55 @@ def openapi_paths(file_cfg, config, source, path_order=None, method_order=None, 
                 method_info = path_info.get(method)
                 if method_info is None:
                     continue
-                frag += _render_method_info(header_depth, pn, method, method_info)
+                frag += _render_method_info(header_depth, pn, method, method_info, omit, in_brief)
     return frag
 
-def _render_method_info(header_depth, path_name, method, method_info):
-    frag = "#" * header_depth + method.upper() + " " + path_name[1:] + "\n"
-    return frag
+def _render_method_info(header_depth, path_name, method, method_info, omit=None, in_brief=None):
+    frag = "#" * header_depth + method.upper() + " " + path_name[1:] + "\n\n"
+    frag += method_info.get("summary", "") + "\n\n"
+    frag += "**Headers**\n\n"
+
+    for param in method_info.get("parameters", []):
+        if param.get("in") != "header":
+            continue
+        frag += "* " + param.get("name") + "\n"
+    frag += "\n"
+
+    frag += "**Responses**\n\n"
+
+    frag += "| Code | Description |\n"
+    frag += "| ---- | ----------- |\n"
+    codes = method_info.get("responses", [])
+    keys = codes.keys()
+    keys = sorted(keys)
+    for code in keys:
+        if code in omit:
+            continue
+        if code in in_brief:
+            code_info = codes.get(code)
+            frag += "| " + code + " | " + code_info.get("description", "") + " |\n"
+        else:
+            code_info = codes.get(code)
+            frag += "| " + code + " | " + code_info.get("description", "") + "<br><br>"
+
+            headers = code_info.get("headers", [])
+            if len(headers) > 0:
+                frag += "**Headers**"
+                frag += "<ul>"
+                for header, hobj in headers.iteritems():
+                    frag += "<li>" + header + " - " + hobj.get("description") + "</li>"
+                frag += "</ul>"
+
+            frag += "**Body**<ul>"
+            content = code_info.get("content", [])
+            if len(content) > 0:
+                for ct, cobj in content.iteritems():
+                    frag += "<li>" + ct + "</li>"
+            else:
+                frag += "<li>None</li>"
+            frag += "</ul> |\n"
+
+    return frag + "\n\n"
 
 def _anchor_name(v):
     v = v.lower().strip()

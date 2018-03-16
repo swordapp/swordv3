@@ -433,6 +433,129 @@ paths:
           $ref: '#/components/responses/Conflict'
         '412':
           $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+  /Metadata-URL:
+    get:
+      summary: Retrieve the Metadata
+      operationId: getMetadata
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: on-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Metadata
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    put:
+      summary: Replace the Metadata
+      operationId: replaceMetadata
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: Content-Length
+          schema:
+            type: integer
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+        - in: header
+          name: Digest
+          schema:
+            type: string
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+        - in: header
+          name: Metadata-Format
+          schema:
+            type: string
+      requestBody:
+        description: "Content to replace the Metadata.  This must be a Metadata Document."
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '204':
+          description: No Content
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
 components:
   responses:
     MovedPermanently:
