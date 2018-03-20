@@ -1,12 +1,18 @@
 {
 	"src_dir" : "src",
 	"out_dir" : "spec",
+	"build_dir" : "tmp",
 	"base_url" : "http://localhost:8000/",
 
 	"files" : [
 		{
 			"root" : "MAIN.md",
 			"out" : "swordv3.html",
+			"process" : true
+		},
+		{
+			"root" : "BEHAVIOURS.md",
+			"out" : "swordv3-behaviours.html",
 			"process" : true
 		},
 		{
@@ -22,6 +28,7 @@
 	],
 
 	"resources" : {
-		"ref" : "src/tables/references.csv"
+		"ref" : "src/tables/references.csv",
+		"urls" : "src/tables/urls.csv"
 	}
 }

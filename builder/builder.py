@@ -77,6 +77,19 @@ class Command(object):
         pass
 
 def run(config):
+    bd = config.get("build_dir")
+    if not os.path.exists(bd):
+        os.mkdir(bd)
+    expand_dir = os.path.join(bd, "expand")
+    number_dir = os.path.join(bd, "number")
+    integrate_dir = os.path.join(bd, "integrate")
+    if not os.path.exists(expand_dir):
+        os.mkdir(expand_dir)
+    if not os.path.exists(number_dir):
+        os.mkdir(number_dir)
+    if not os.path.exists(integrate_dir):
+        os.mkdir(integrate_dir)
+
     od = config.get("out_dir")
     files = config.get("files", [])
     for file_cfg in files:
@@ -102,13 +115,19 @@ def build(file_cfg, config, phases=None):
 
     if "expand" in phases:
         text = expand(root, file_cfg, config)
-        fn = os.path.basename(file_cfg.get("root"))
-        with codecs.open(os.path.join("tmp", fn), "wb", "utf-8") as f:
+        fn = file_cfg.get("root").replace("/", "_")
+        with codecs.open(os.path.join(config.get("build_dir"), "expand", fn), "wb", "utf-8") as f:
             f.write(text)
     if "number" in phases:
         text = number(text, file_cfg, config)
+        fn = file_cfg.get("root").replace("/", "_")
+        with codecs.open(os.path.join(config.get("build_dir"), "number", fn), "wb", "utf-8") as f:
+            f.write(text)
     if "integrate" in phases:
         text = integrate(text, file_cfg, config)
+        fn = file_cfg.get("root").replace("/", "_")
+        with codecs.open(os.path.join(config.get("build_dir"), "integrate", fn), "wb", "utf-8") as f:
+            f.write(text)
     if "render" in phases:
         text = render(text, file_cfg, config)
 
@@ -200,7 +219,7 @@ def integrate(text, file_cfg, config):
     return text
 
 def render(text, file_cfg, config):
-    return markdown.markdown(text, extensions=["markdown.extensions.tables"])
+    return markdown.markdown(text, extensions=["markdown.extensions.tables", "markdown.extensions.fenced_code"])
 
 ##################################################
 # Commands
@@ -271,9 +290,12 @@ def dl(file_cfg, config, source, term, definition, link=None):
         for row in reader:
             dt = None
             dd = None
+            a = ""
             for i in range(len(row)):
                 col = row[i]
                 name = headers[i]
+                if name == term:
+                    a = '<a name="' + _anchor_name(col) + '">'
                 if name == link:
                     col = "[" + col + "](" + col + ")"
                 if name == term:
@@ -284,7 +306,7 @@ def dl(file_cfg, config, source, term, definition, link=None):
                     continue
             dt = markdown.markdown(dt)[3:-4]    # removes the <p> and </p> markdown inserts
             dd = markdown.markdown(dd)[3:-4]    # removes the <p> and </p> markdown inserts
-            frag += "<dt>" + dt + "</dt><dd>" + dd + "</dd>"
+            frag += "<dt>" + a + dt + "</dt><dd>" + dd + "</dd>"
     frag += "</dl>"
     return frag
 
@@ -356,7 +378,7 @@ def _render_method_info(header_depth, path_name, method, method_info, omit=None,
     for param in method_info.get("parameters", []):
         if param.get("in") != "header":
             continue
-        frag += "* " + param.get("name") + "\n"
+        frag += " * " + param.get("name") + "\n"
     frag += "\n"
 
     frag += "**Responses**\n\n"
@@ -395,6 +417,96 @@ def _render_method_info(header_depth, path_name, method, method_info, omit=None,
 
     return frag + "\n\n"
 
+def aggregated_requirements(file_cfg, config, sources=None, order=None):
+    if not isinstance(sources, list):
+        sources = [sources]
+    bd = config.get("src_dir")
+    requirements = {}
+    for source in sources:
+        path = os.path.join(bd, source)
+        with codecs.open(path, "rb", "utf-8") as f:
+            reader = UnicodeReader(f)
+            headers = reader.next()
+            for header in headers:
+                if header not in requirements:
+                    requirements[header] = []
+            for row in reader:
+                for i in range(len(row)):
+                    if row[i] == "":
+                        continue
+                    if row[i] not in requirements[headers[i]]:
+                        requirements[headers[i]].append(row[i])
+
+    if order is None:
+        order = requirements.keys()
+
+    frag = ""
+    for key in order:
+        reqs = requirements[key]
+        frag += "**" + key + "**\n\n"
+        for req in reqs:
+            frag += " * " + req.replace("\n", "<br>") + "\n"
+        frag += "\n"
+    return frag
+
+def overlay_requirements(file_cfg, config, source, groups=None, order=None):
+    if not isinstance(groups, list):
+        groups = [groups]
+    bd = config.get("src_dir")
+    path = os.path.join(bd, source)
+    with codecs.open(path, "rb", "utf-8") as f:
+        reader = UnicodeReader(f)
+        headers = reader.next()
+        requirements = {}
+        group_name = None
+        for row in reader:
+            if row[0].startswith("Group: "):
+                group_name = row[0][len("Group: "):]
+                requirements[group_name] = {}
+                for header in headers:
+                    requirements[group_name][header] = []
+            else:
+                if group_name not in groups:
+                    continue
+                for i in range(len(row)):
+                    cell = row[i]
+                    header = headers[i]
+                    if cell != "" and cell not in requirements[group_name][header]:
+                        requirements[group_name][header].append(cell)
+
+    sections = {}
+    for group in groups:
+        reqs = requirements[group]
+        for header in headers:
+            if header not in sections:
+                sections[header] = []
+            sections[header] += reqs[header]
+
+    if order is None:
+        order = headers
+
+    frag = ""
+    for key in order:
+        reqs = sections[key]
+        if len(reqs) == 0:
+            continue
+        frag += "**" + key + "**\n\n"
+        for req in reqs:
+            frag += " * " + req.replace("\n", "<br>") + "\n"
+        frag += "\n"
+    return frag
+
+
+def define(file_cfg, config, resource, id):
+    rpath = config.get("resources", {}).get(resource)
+    with codecs.open(rpath, "rb", "utf-8") as f:
+        reader = UnicodeReader(f)
+        headers = reader.next()
+        for row in reader:
+            if row[0] == id:
+                return id + '<sup>[<a href="#' + _anchor_name(id) + '">def</a>]</sup>'
+    raise BuildException("Unable to find definition for " + id)
+
 def _anchor_name(v):
     v = v.lower().strip()
     return v.replace(" ", "_")
@@ -410,7 +522,10 @@ COMMANDS = {
     "table" : table,
     "openapi_list_descriptions" : openapi_list_descriptions,
     "url" : url,
-    "openapi_paths" : openapi_paths
+    "openapi_paths" : openapi_paths,
+    "aggregated_requirements" : aggregated_requirements,
+    "def" : define,
+    "overlay_requirements" : overlay_requirements
 }
 
 EXPAND_COMMANDS = ["include", "openapi_paths"]
@@ -426,4 +541,5 @@ if __name__ == "__main__":
     config = None
     with codecs.open(args.config) as f:
         config = json.loads(f.read())
+
     run(config)

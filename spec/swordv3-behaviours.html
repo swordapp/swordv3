@@ -1,0 +1,318 @@
+<h1>1. Retrieve the Service Document</h1>
+<p>Request from the server a list of the Service-URLs that the client can deposit to.  A Service-URL allows the server to support multiple 
+different deposit conditions - each URL may have its own set of rules/workflows behind it; for example, Service-URLs may be 
+subject-specific, organisational-specific, or process-specific.  It is up to the client to determine which is the suitable URL for its 
+deposit, based on the information provided by the server.  The list of Service-URLs may vary depending on the authentication credentials 
+supplied by the client.</p>
+<p>This request can be made against a root Service-URL, which will describe the capabilities of the entire server, for information about the 
+full list of Service-URLs, or can be made against an individual Service-URL for information just about that service.</p>
+<p><strong>Protocol Operations</strong></p>
+<ul>
+<li>GET Service-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If Authorization (and optionally On-Behalf-Of) headers are provided, MUST only list Service-URLs in the Service Document for which a deposit request would be permitted</li>
+<li>MUST respond with a valid Service Document or a suitable error response</li>
+</ul>
+<h1>2. Creating New Objects</h1>
+<h2>2.1. Creating Objects with only Metadata</h2>
+<p>Create a new Object on the server, sending only Metadata content (i.e. no Binary File content, and no By-Reference Files).</p>
+<p><strong>Protocol Operations</strong></p>
+<ul>
+<li>POST Service-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Slug</code> header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+<li>SHOULD provide the <code>Metadata-Format</code> header</li>
+<li>MUST provide only the Metadata document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST either accept the content immediately, queue the content for import, or respond with an error</li>
+<li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+<li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
+<li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
+<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+</ul>
+<h2>2.2. Creating Objects with only By-Reference Files</h2>
+<p>Create a new Object on the server, sending on By-Reference Files (i.e. no Binary Files and no Metadata)</p>
+<p><strong>Protocol Operations</strong></p>
+<ul>
+<li>POST Service-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Slug</code> header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the By-Reference document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST either accept the content immediately, queue the content for import, or respond with an error</li>
+<li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+<li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
+<li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
+<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+</ul>
+<h2>2.3. Creating Objects with both Metadata and By-Reference Files</h2>
+<p>Create a new Object on the server, sending both Metadata content and By-Reference Files (i.e. no Binary File content)</p>
+<p><strong>Protocol Operations</strong></p>
+<ul>
+<li>POST Service-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Slug</code> header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+<li>SHOULD provide the Metadata-Format header</li>
+<li>MUST provide the Metadata+By Reference document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST either accept the content immediately, queue the content for import, or respond with an error</li>
+<li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+<li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If no Metadata-Format header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
+<li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
+<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+</ul>
+<h2>2.4. Creating Objects with Binary Files</h2>
+<p>Create a new Object on the server, sending a single Binary File.  The Binary File is an opaque bitstream which the server should not 
+attempt to unpack.</p>
+<p><strong>Protocol Operations</strong></p>
+<ul>
+<li>POST Service-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Slug</code> header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+<li>MAY provide the Packaging header, and if so MUST be the Binary format identifier</li>
+<li>MUST provide Binary File body content</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST either accept the content immediately, queue the content for import, or respond with an error</li>
+<li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+<li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>The server SHOULD NOT attempt to unpack the file</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
+<li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
+<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+</ul>
+<h2>2.5. Creating Objects with Packaged Content</h2>
+<p>Create a new Object on the server, sending a single Binary File.  The Binary File itself is specified as Packaged Content, which the server 
+may understand how to unpack.</p>
+<p><strong>Protocol Operations</strong></p>
+<ul>
+<li>POST Service-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Slug</code> header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the Packaging header</li>
+<li>MUST provide Packaged Content in the request body</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST either accept the content immediately, queue the content for import, or respond with an error</li>
+<li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+<li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>The server MAY attempt to unpack the file</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
+<li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
+<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+</ul>
+<h2>2.6. Creating Objects ready for Segmented Upload</h2>
+<p><strong>Protocol Operations</strong></p>
+<ul>
+<li>POST Service-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Slug</code> header</li>
+<li>MUST provide the <code>In-Progress</code> header with value <code>true</code></li>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST either accept the content immediately, queue the content for import, or respond with an error</li>
+<li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If no <code>In-Progress</code> header is provided, MUST NOT accept the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
+<li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
+<li>If no <code>In-Progress</code> header is provided, MUST respond with a <code>412</code> error</li>
+<li>MUST reject the request if the conditions of the upload are not acceptable</li>
+</ul>
+<h1>3. Retrieving all or part of Objects</h1>
+<h2>3.1. Retrieving an Object's Status</h2>
+<p>For an Object where you have an Object-URL, you may request information about the current state of that resource, and receive the Status 
+document in response.</p>
+<p><strong>Protocol Operations</strong></p>
+<ul>
+<li>GET Object-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST include ETag header if implementing concurrency control</li>
+</ul>
+<h2>3.2. Retrieving the Metadata from an Object</h2>
+<p>Retrieve the descriptive Metadata document associated with the Object in the standard SWORD format.  This operation is done against the 
+Metadata-URL, which is the resource URL representing the Object’s metadata.  When retrieved, this resource is serialised only as the 
+standard SWORD format, content negotiation is not supported.  If you want to retrieve the metadata for the Object in other formats, you can 
+see a list of the available formats in the Status document, and the individual expressions of the metadata can then be retrieved directly 
+by the appropriate URL.</p>
+<p><strong>Protocol Operations</strong></p>
+<ul>
+<li>GET Metadata-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST respond with a valid Metadata document (see definition below) or a suitable error response</li>
+</ul>
+<h2>3.3. Retrieving a Binary File from an Object</h2>
+<p>Retrieve a single File from the Object; files available for retrieval are listed in the Status document.  These single files could be 
+actual individual files that make up the object, or:</p>
+<ul>
+<li>Packaged Content that contains a full representation of the Object, including all its files and metadata, packaged according to some standard.</li>
+<li>Metadata in specific formats supported by the server</li>
+</ul>
+<p><strong>Protocol Operations</strong></p>
+<ul>
+<li>GET File-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response</li>
+</ul>
+<h2>3.4. Retrieving a Packaged Content representation of an Object</h2>
+<p>To retrieve the full Object packaged according to some Packaging format, the Status document contains all the files that the Object 
+contains, and identifies those which allow you to retrieve the entire objects as a package.  Use the Status document to obtain the URL for 
+the format you wish to retrieve, and make a GET to that URL.  See the section “Retrieving a Binary File from an Object” for the 
+specification of this operation.</p>
+
