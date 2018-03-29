@@ -1,3 +1,5 @@
+{% toc %}
+
 # Retrieve the Service Document
 
 Request from the server a list of the Service-URLs that the client can deposit to.  A Service-URL allows the server to support multiple 
@@ -13,7 +15,7 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests|Retrieve Service-URL,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -27,7 +29,7 @@ Create a new Object on the server, sending only Metadata content (i.e. no Binary
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests|Modify Requests|Create Requests|Create With Content Requests|Has Body Content|Metadata Body Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -39,7 +41,7 @@ Create a new Object on the server, sending on By-Reference Files (i.e. no Binary
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests|Modify Requests|Create Requests|Create With Content Requests|Has Body Content|By-Reference Body Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -51,7 +53,7 @@ Create a new Object on the server, sending both Metadata content and By-Referenc
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests|Modify Requests|Create Requests|Create With Content Requests|Has Body Content|Metadata + By-Reference Body Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -64,7 +66,7 @@ attempt to unpack.
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests|Modify Requests|Create Requests|Create With Content Requests|Has Body Content|Binary File Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -77,7 +79,7 @@ may understand how to unpack.
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests|Modify Requests|Create Requests|Create With Content Requests|Has Body Content|Packaged Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -87,7 +89,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests|Modify Requests|Create Requests|Create With Segment Upload Initialisation|Empty Body,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -102,7 +104,7 @@ document in response.
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests|Retrieve Object-URL,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -118,7 +120,7 @@ by the appropriate URL.
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests|Retrieve Components|Retrieve Metadata-URL,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ## Retrieving a Binary File from an Object
@@ -133,7 +135,7 @@ actual individual files that make up the object, or:
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests|Retrieve Components|Retrieve File-URL,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -141,5 +143,91 @@ overlay_requirements
 
 To retrieve the full Object packaged according to some Packaging format, the Status document contains all the files that the Object 
 contains, and identifies those which allow you to retrieve the entire objects as a package.  Use the Status document to obtain the URL for 
-the format you wish to retrieve, and make a GET to that URL.  See the section “Retrieving a Binary File from an Object” for the 
+the format you wish to retrieve, and make a GET to that URL.  See the section "Retrieving a Binary File from an Object" for the 
 specification of this operation.
+
+
+
+# Appending to existing Objects
+
+Metadata and Files may be added to existing Objects through a variety of mechanisms, which are listed in this section.
+
+## Appending/Selectively Updating Metadata on an Object
+
+Append new metadata or selectively overwrite/update existing metadata on an item.  Metadata provided in this way should be considered to 
+overlay existing metadata, such that any new metadata fields are added to the item, and any existing metadata fields are overwritten, and 
+any other metadata fields held by the server remain untouched.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Append Requests|Has Body Content|Metadata Body Content|Update Object-URL|Append Object-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+## Appending By-Reference Files to an Object
+
+Append new files to an Object by sending one or more By-Reference files.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Append Requests|Has Body Content|By-Reference Body Content|Update Object-URL|Append Object-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+
+## Appending Metadata and By-Reference Files to an Object
+
+Append new files and append/overlay Metadata at the same time.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Append Requests|Has Body Content|Metadata + By-Reference Body Content|Update Object-URL|Append Object-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+
+## Appending a single Binary File to an Object
+
+Append new File to the Object, in addition to existing content which it already contains.  This File will be added as-is to the Object, 
+without the server unpacking it as it would Packaged Content.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Append Requests|Has Body Content|Binary File Content|Update Object-URL|Append Object-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+
+## Appending Packaged Content to an Object
+
+Append new Files (via Packaged Content) to the Object, in addition to existing content which it already contains.  The package may be 
+unpacked by the server and new file resources added.  Metadata may also be appended/selectively updated, if the package contains 
+actionable metadata.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Append Requests|Has Body Content|Packaged Content|Update Object-URL|Append Object-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+## Initialising Append of Binary Files to an Object via Segmented Upload
+
+Initialise the append of a single Binary File to an Object which will be delivered via a Segmented Upload.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Append Requests|Empty Body|Update Object-URL with Segmented Upload Initialisation|Append Object-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+
+## Initialising Append of Packaged Content to an Object via Segmented Upload
+
+As {% link Initialising Append of Binary Files to an Object via Segmented Upload %} - in this case you should be sure to set the `packaging`
+format correctly in the `Content-Disposition` header when initialising the Segmented Upload. 

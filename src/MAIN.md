@@ -1,3 +1,4 @@
+{% toc %}
 {% include sections/INTRODUCTION.md %}
 {% include sections/TERMINOLOGY.md %}
 {% include sections/HTTP_HEADERS.md %}

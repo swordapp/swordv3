@@ -47,11 +47,13 @@ class Command(object):
         raw = raw.strip()
         raw = raw.replace("\n", " ").strip()
         boundary = raw.find(" ")
-        self.command = raw[:boundary].strip()
-
-        # inline = raw[boundary:].replace("\n", " ").strip()
-        sargs = StringIO(raw[boundary:])
-        args = UnicodeReader(sargs).next()
+        args = []
+        if boundary == -1:
+            self.command = raw
+        else:
+            self.command = raw[:boundary].strip()
+            sargs = StringIO(raw[boundary:])
+            args = UnicodeReader(sargs).next()
 
         def listify(val):
             if "|" in val:
@@ -119,7 +121,7 @@ def build(file_cfg, config, phases=None):
         with codecs.open(os.path.join(config.get("build_dir"), "expand", fn), "wb", "utf-8") as f:
             f.write(text)
     if "number" in phases:
-        text = number(text, file_cfg, config)
+        text = index(text, file_cfg, config)
         fn = file_cfg.get("root").replace("/", "_")
         with codecs.open(os.path.join(config.get("build_dir"), "number", fn), "wb", "utf-8") as f:
             f.write(text)
@@ -157,6 +159,28 @@ def expand(path, file_cfg, config):
             i += 1
     return out
 
+
+def index(text, file_cfg, config):
+    # now number the sections
+    numbered = ""
+    toc = {}
+    lines = text.split("\n")
+    for line in lines:
+        if line.startswith("#"):
+            num, newline = _number_header(line, file_cfg, config)
+            if num is not None:
+                toc[num] = _extract_title(line)
+            line = newline
+        numbered += line + "\n"
+    file_cfg["toc"] = toc
+    return numbered
+
+def _extract_title(line):
+    line = line.lstrip("#")
+    line = line.strip()
+    return line
+
+"""
 def number(text, file_cfg, config):
     # now number the sections
     numbered = ""
@@ -166,6 +190,7 @@ def number(text, file_cfg, config):
             line = _number_header(line, file_cfg, config)
         numbered += line + "\n"
     return numbered
+"""
 
 def _read_command(idx, first_line, lines):
     command = first_line.strip()
@@ -186,8 +211,11 @@ def _number_header(line, file_cfg, config):
         file_cfg["current_header"] = [0,0,0]
     current_header = file_cfg.get("current_header")
 
+    if "toc" not in file_cfg:
+        file_cfg["toc"] = {}
+
     if level == 0:
-        return line
+        return None, line
     elif level == 1:
         current_header[0] += 1
         current_header[1] = 0
@@ -198,14 +226,15 @@ def _number_header(line, file_cfg, config):
     elif level == 3:
         current_header[2] += 1
     else:
-        return line
+        return None, line
 
     num = ""
     for x in current_header:
         if x > 0:
             num += str(x) + "."
 
-    return "#" * level + " " + num + " " + line[level:].strip()
+    anchor = '<a name="' + num + '"></a>'
+    return num, anchor + "\n" + "#" * level + " " + num + " " + line[level:].strip()
 
 def integrate(text, file_cfg, config):
     cmd_rx = "(\{%.+?%\})"
@@ -507,6 +536,23 @@ def define(file_cfg, config, resource, id):
                 return id + '<sup>[<a href="#' + _anchor_name(id) + '">def</a>]</sup>'
     raise BuildException("Unable to find definition for " + id)
 
+def link(file_cfg, config, header):
+    toc = file_cfg["toc"]
+    for k, v in toc.iteritems():
+        if v == header:
+            return "[" + header + "](#" + k + ")"
+    raise BuildException("Unable to find header " + header)
+
+def toc(file_cfg, config):
+    contents = file_cfg["toc"]
+    numbers = contents.keys()
+    numbers.sort(key=lambda s: [int(u) for u in s.split('.') if u != ""])
+    frag = ""
+    for n in numbers:
+        indent = len(n.split(".")) - 2
+        frag += "\t" * indent + "* [" + n + " " + contents[n] + "](#" + n + ")\n"
+    return frag
+
 def _anchor_name(v):
     v = v.lower().strip()
     return v.replace(" ", "_")
@@ -525,7 +571,9 @@ COMMANDS = {
     "openapi_paths" : openapi_paths,
     "aggregated_requirements" : aggregated_requirements,
     "def" : define,
-    "overlay_requirements" : overlay_requirements
+    "overlay_requirements" : overlay_requirements,
+    "link" : link,
+    "toc" : toc
 }
 
 EXPAND_COMMANDS = ["include", "openapi_paths"]

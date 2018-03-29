@@ -47,7 +47,7 @@ addition to its own.
 overlay_requirements
     source=tables/requirements.csv,
     groups=All Requests,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### Modify Requests
@@ -56,7 +56,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Modify Requests,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### Create Requests
@@ -65,7 +65,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Create Requests,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### Create With Content
@@ -74,7 +74,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Create With Content Requests,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### Create With Segment Upload Initialisation
@@ -83,7 +83,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Create With Segment Upload Initialisation,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -93,7 +93,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Update Requests,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -103,7 +103,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Append Requests,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -113,7 +113,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Delete Requests,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -140,7 +140,7 @@ All Content
 overlay_requirements
     source=tables/requirements.csv,
     groups=Empty Body,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### Has Body Content
@@ -149,7 +149,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Has Body Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### Metadata
@@ -158,7 +158,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Metadata Body Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### By-Reference
@@ -167,7 +167,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=By-Reference Body Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### Metadata + By-Reference
@@ -176,7 +176,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Metadata + By-Reference Body Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### Binary File
@@ -185,7 +185,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Binary File Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### Packaged Content
@@ -194,7 +194,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Packaged Content,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ## The Resource
@@ -219,7 +219,7 @@ All Resources
 overlay_requirements
     source=tables/requirements.csv,
     groups=Retrieve Service-URL,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ### Object-URL
@@ -230,18 +230,35 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Retrieve Object-URL,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
-#### Update
+### Update with Segmented Upload Initialisation
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=Update Object-URL with Segmented Upload Initialisation,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+#### Update (except for Segmented Upload Initialisation)
 
 {%
 overlay_requirements
     source=tables/requirements.csv,
     groups=Update Object-URL,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+#### Append
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=Append Object-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
 
 ### Components
 
@@ -251,7 +268,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Retrieve Components,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 #### Update
@@ -260,7 +277,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Update Components,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 #### Replace
@@ -269,7 +286,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Replace Components,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -281,7 +298,7 @@ overlay_requirements
 overlay_requirements
     source=tables/requirements.csv,
     groups=Retrieve Metadata-URL,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -298,7 +315,7 @@ No additional requirements on working with the FileSet-URL
 overlay_requirements
     source=tables/requirements.csv,
     groups=Retrieve File-URL,
-    order=Protocol Operations|Request Requirements|Server Requirements|Response Requirements
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
