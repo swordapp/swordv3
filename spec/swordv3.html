@@ -65,7 +65,12 @@
 </li>
 </ul>
 </li>
-<li><a href="#8.">8. References</a></li>
+<li><a href="#8.">8. Documents</a><ul>
+<li><a href="#8.1.">8.1. JSON-LD Context</a></li>
+<li><a href="#8.2.">8.2. Service Document</a></li>
+</ul>
+</li>
+<li><a href="#9.">9. References</a></li>
 </ul>
 <p><a name="1."></a></p>
 <h1>1. Credits</h1>
@@ -1273,11 +1278,90 @@ addition to its own.</p>
 <li>MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response</li>
 </ul>
 <p><a name="8."></a></p>
-<h1>8. References</h1>
+<h1>8. Documents</h1>
+<p><a name="8.1."></a></p>
+<h2>8.1. JSON-LD Context</h2>
+<p>SWORD defines the semantics of its documents using JSON-LD [<a href="#json-ld">JSON-LD</a>].  You can see the full JSON-LD Context 
+<a href="http://localhost:8000/spec/swordv3.jsonld">here</a></p>
+<p><a name="8.2."></a></p>
+<h2>8.2. Service Document</h2>
+<p>The Service Document defines the capabilities and operational parameters of the server as a whole, or of a particular Service-URL.</p>
+<p>The Service Document consists of a set of properties at the root, and a list of "services".  Each service may define a Service-URL 
+and/or additional properties and further nested "services".  For the purposes of normalising the data held in the Service Document (for 
+brevity of the serialised document), the Service Document MAY specify at the root properties which MUST be taken to hold true for all 
+nested "services" (at any level below) unless that service definition overrides the properties.  A service which sits beneath the root of 
+the Service Document and above another Service, MAY also redefine properties, and those overrides MUST be considered to cascade down to 
+Services beneath that one.</p>
+<p>A Service Document can be retrieved either for the root of the service, or from any Service within the hierarchy of Services available. 
+If the root Service Document is requested, the full list of Services, including all their children, MUST be provided.  If the URL of a 
+Service is requested, it MUST only provide information about itself and its children.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/spec/service-document.schema.json">here</a>.</p>
+<p>An example of the Service Document:</p>
+<pre><code class="json">{
+  &quot;@context&quot; : &quot;http://swordapp.org/swordv3.jsonld&quot;,
+
+  &quot;@id&quot; : &quot;http://example.com/service-document&quot;,
+  &quot;@type&quot; : &quot;ServiceDocument&quot;,
+
+  &quot;dc:title&quot; : &quot;Site Name&quot;,
+  &quot;dcterms:abstract&quot; : &quot;Site Description&quot;,
+
+  &quot;root&quot; : &quot;http://example.com/service-document&quot;,
+  &quot;acceptDeposits&quot;: true,
+
+  &quot;version&quot;: &quot;http://purl.org/net/sword/3.0&quot;,
+  &quot;maxUploadSize&quot; : 16777216,
+  &quot;maxByReferenceSize&quot; : 30000000000000000,
+
+  &quot;accept&quot; : [&quot;*/*&quot;],
+  &quot;acceptPackaging&quot; : [&quot;*&quot;],
+  &quot;acceptMetadata&quot; : [&quot;*&quot;],
+
+  &quot;collectionPolicy&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/collectionpolicy&quot;,
+    &quot;description&quot; : &quot;....&quot;
+  },
+  &quot;treatment&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/treatment&quot;,
+    &quot;description&quot; : &quot;...&quot;
+  },
+
+  &quot;byReferenceDeposit&quot; : true,
+  &quot;segmentedUpload&quot; : true,
+  &quot;unfinishedSegmentRetention&quot; : 3600,
+  &quot;onBehalfOf&quot; : true,
+  &quot;concurrencyControl&quot; : true,
+
+  &quot;digest&quot; : [&quot;SHA-256&quot;, &quot;SHA&quot;, &quot;MD5&quot;],
+  &quot;authentication&quot;: [&quot;Basic&quot;, &quot;...&quot;],
+
+  &quot;services&quot; : [
+    {
+      &quot;@id&quot;: &quot;http://swordapp.org/deposit/43&quot;,
+
+      &quot;dc:title&quot; : &quot;Deposit Service Name&quot;,
+      &quot;dcterms:abstract&quot; : &quot;Deposit Service Description&quot;,
+
+      &quot;root&quot; : &quot;http://example.com/service-document&quot;,
+      &quot;parent&quot; : &quot;http://example.com/service-document&quot;,
+      &quot;acceptDeposits&quot;: true,
+
+      &quot;services&quot; : []
+    }
+  ]
+}
+
+</code></pre>
+
+<p>The fields available are defined as follows:</p>
+<p><a name="9."></a></p>
+<h1>9. References</h1>
 <p><a name="sword_1.3"><strong>SWORD 1.3</strong> Downing, J. "SWORD AtomPub Profile version 1.3", 2008. <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">http://www.swordapp.org/docs/sword-profile-1.3.html</a> </p>
 <p><a name="atompub"><strong>AtomPub</strong> Gregario, J. and B. de hOra, "The Atom Publishing Protocol", RFC 5023, October 2007. <a href="http://www.ietf.org/rfc/rfc5023.txt">http://www.ietf.org/rfc/rfc5023.txt</a> </p>
 <p><a name="sword_2.0"><strong>SWORD 2.0</strong> Jones, R. and Lewis, S. "SWORD 2.0 Profile", 2011 <a href="http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html">http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html</a> </p>
 <p><a name="rfc2119"><strong>RFC2119</strong> Bradner, S. "Key words for use in RFCs to Indicate Requirement Levels", March 1997. <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> </p>
 <p><a name="openapi"><strong>OpenAPI</strong> OpenAPI Specification, Version 3.0.0 <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md">https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md</a> </p>
+<p><a name="json-ld"><strong>JSON-LD</strong> JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018 <a href="https://json-ld.org/spec/latest/json-ld/">https://json-ld.org/spec/latest/json-ld/</a> </p>
+<p><a name="json-schema"><strong>JSON-SCHEMA</strong> JSON Schema: A Media Type for Describing JSON Documents <a href="http://json-schema.org/latest/json-schema-core.html">http://json-schema.org/latest/json-schema-core.html</a> </p>
 <p>Last modified: 2018-03-29</p>
 

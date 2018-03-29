@@ -553,6 +553,9 @@ def toc(file_cfg, config):
         frag += "\t" * indent + "* [" + n + " " + contents[n] + "](#" + n + ")\n"
     return frag
 
+def json_schema_definitions(file_cfg, config, schema_file):
+    return ""
+
 def _anchor_name(v):
     v = v.lower().strip()
     return v.replace(" ", "_")
@@ -573,7 +576,8 @@ COMMANDS = {
     "def" : define,
     "overlay_requirements" : overlay_requirements,
     "link" : link,
-    "toc" : toc
+    "toc" : toc,
+    "json_schema_definitions" : json_schema_definitions
 }
 
 EXPAND_COMMANDS = ["include", "openapi_paths"]

@@ -24,6 +24,16 @@
 			"root" : "schemas/openapi.yaml",
 			"out" : "openapi.yaml",
 			"process" : false
+		},
+		{
+			"root" : "schemas/swordv3.jsonld",
+			"out" : "swordv3.jsonld",
+			"process" : false
+		},
+		{
+			"root" : "schemas/service-document.schema.json",
+			"out" : "service-document.schema.json",
+			"process" : false
 		}
 	],
 

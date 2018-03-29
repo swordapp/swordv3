@@ -4,3 +4,5 @@ AtomPub,"Gregario, J. and B. de hOra, ""The Atom Publishing Protocol"", RFC 5023
 SWORD 2.0,"Jones, R. and Lewis, S. ""SWORD 2.0 Profile"", 2011",http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html
 RFC2119,"Bradner, S. ""Key words for use in RFCs to Indicate Requirement Levels"", March 1997.",http://www.ietf.org/rfc/rfc2119.txt
 OpenAPI,"OpenAPI Specification, Version 3.0.0",https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
+JSON-LD,"JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018",https://json-ld.org/spec/latest/json-ld/
+JSON-SCHEMA,JSON Schema: A Media Type for Describing JSON Documents,http://json-schema.org/latest/json-schema-core.html

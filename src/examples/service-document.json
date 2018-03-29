@@ -1,0 +1,53 @@
+{
+  "@context" : "http://swordapp.org/swordv3.jsonld",
+
+  "@id" : "http://example.com/service-document",
+  "@type" : "ServiceDocument",
+
+  "dc:title" : "Site Name",
+  "dcterms:abstract" : "Site Description",
+
+  "root" : "http://example.com/service-document",
+  "acceptDeposits": true,
+
+  "version": "http://purl.org/net/sword/3.0",
+  "maxUploadSize" : 16777216,
+  "maxByReferenceSize" : 30000000000000000,
+
+  "accept" : ["*/*"],
+  "acceptPackaging" : ["*"],
+  "acceptMetadata" : ["*"],
+
+  "collectionPolicy" : {
+    "@id" : "http://www.myorg.ac.uk/collectionpolicy",
+    "description" : "...."
+  },
+  "treatment" : {
+    "@id" : "http://www.myorg.ac.uk/treatment",
+    "description" : "..."
+  },
+
+  "byReferenceDeposit" : true,
+  "segmentedUpload" : true,
+  "unfinishedSegmentRetention" : 3600,
+  "onBehalfOf" : true,
+  "concurrencyControl" : true,
+
+  "digest" : ["SHA-256", "SHA", "MD5"],
+  "authentication": ["Basic", "..."],
+
+  "services" : [
+    {
+      "@id": "http://swordapp.org/deposit/43",
+
+      "dc:title" : "Deposit Service Name",
+      "dcterms:abstract" : "Deposit Service Description",
+
+      "root" : "http://example.com/service-document",
+      "parent" : "http://example.com/service-document",
+      "acceptDeposits": true,
+
+      "services" : []
+    }
+  ]
+}
