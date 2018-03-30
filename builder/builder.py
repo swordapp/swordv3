@@ -554,7 +554,40 @@ def toc(file_cfg, config):
     return frag
 
 def json_schema_definitions(file_cfg, config, schema_file):
-    return ""
+    bd = config.get("src_dir")
+    path = os.path.join(bd, schema_file)
+    with codecs.open(path, "rb", "utf-8") as f:
+        js = json.loads(f.read())
+    rows = []
+
+    def _recurse_properties(rows, props, prefix):
+        for prop, val in props.iteritems():
+            title = val.get("title", "")
+            desc = val.get("description", "")
+            text = ""
+            if title != "":
+                text = title
+            if desc != "":
+                if text != "":
+                    text += "\n\n"
+                text += desc
+            field_name = prefix + prop
+            rows.append([field_name, val.get("type"), text])
+
+            if "properties" in val:
+                _recurse_properties(rows, val.get("properties", {}), field_name + ".")
+
+    _recurse_properties(rows, js.get("properties", {}), "")
+
+    rows.sort(key=lambda x: x[0])
+    frag =  "| Field | Type | Description |\n"
+    frag += "| ----- | ---- | ----------- |\n"
+    for row in rows:
+        desc = row[2]
+        desc = desc.replace("\n", "<br>")
+        frag += "| " + row[0] + " | " + row[1] + " | " + desc + " |\n"
+    return frag
+
 
 def _anchor_name(v):
     v = v.lower().strip()

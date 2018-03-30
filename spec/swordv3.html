@@ -1354,6 +1354,152 @@ Service is requested, it MUST only provide information about itself and its chil
 </code></pre>
 
 <p>The fields available are defined as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@context</td>
+<td>string</td>
+<td>The JSON-LD Context for this document<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@id</td>
+<td>string</td>
+<td>The URL of the service document you are looking at<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@type</td>
+<td>string</td>
+<td>JSON-LD identifier for the document type<br><br>This field is used to define the type of the document, and in this case should always be 'ServiceDocument'.  MUST be present.</td>
+</tr>
+<tr>
+<td>accept</td>
+<td>array</td>
+<td>List of Content Types which are acceptable to the server.<br><br>MUST be present.  '<em>/</em>' for any content type, or a list of acceptable content types</td>
+</tr>
+<tr>
+<td>acceptDeposits</td>
+<td>boolean</td>
+<td>Does the Service accept deposits?<br><br>SHOULD be present.  If omitted, the client MUST assume that the service does not accept deposits.</td>
+</tr>
+<tr>
+<td>acceptMetadata</td>
+<td>array</td>
+<td>List of Metadata Formats which are acceptable to the server.<br><br>SHOULD be present.  '*' for any metadata format, or a list of acceptable metadata formats.  Acceptable metadata formats SHOULD be an IRI for a known format.  If this is omitted, the client MUST assume the server only supports the standard SWORD metadata format: http://purl.org/net/sword/3.0/types/Metadata</td>
+</tr>
+<tr>
+<td>acceptPackaging</td>
+<td>array</td>
+<td>List of Packaging Formats which are acceptable to the server.<br><br>SHOULD be present.  '*' for any packaging format, or a list of acceptable packaging formats.  Acceptable packaging formats SHOULD be an IRI for a known format.  If this is omitted, the client MUST assume the server only supports the 3 required SWORD packaging formats (see the section Packaging Formats)</td>
+</tr>
+<tr>
+<td>authentication</td>
+<td>array</td>
+<td>List of authentication schemes supported by the server.<br><br>SHOULD be present.  If not provided the client MUST assume the server does not support authentication.</td>
+</tr>
+<tr>
+<td>byReferenceDeposit</td>
+<td>boolean</td>
+<td>Does the server support By-Reference deposit?<br><br>SHOULD be present.   If omitted, the client MUST assume the server does not support By-Reference deposit.</td>
+</tr>
+<tr>
+<td>collectionPolicy</td>
+<td>object</td>
+<td>URL and description of the server’s collection policy.<br><br>MAY be present.</td>
+</tr>
+<tr>
+<td>collectionPolicy.@id</td>
+<td>string</td>
+<td>Collection Policy URL</td>
+</tr>
+<tr>
+<td>collectionPolicy.description</td>
+<td>string</td>
+<td>Collection Policy Description</td>
+</tr>
+<tr>
+<td>concurrencyControl</td>
+<td>boolean</td>
+<td>Does the server enforce concurrency control?<br><br>SHOULD be present.  If concurrency control is enforced, the client MUST take note of the ETag and use the If-Match header in relevant requests. If omitted, the client MUST assume the server does not support Concurrency Control.</td>
+</tr>
+<tr>
+<td>dc:title</td>
+<td>string</td>
+<td>The title or name of the Service<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>dcterms:abstract</td>
+<td>string</td>
+<td>A description of the service<br><br>MAY be present.</td>
+</tr>
+<tr>
+<td>digest</td>
+<td>array</td>
+<td>The list of digest formats that the server will accept.<br><br>MUST be present, and MUST include SHA-256, MAY include any others.</td>
+</tr>
+<tr>
+<td>maxByReferenceSize</td>
+<td>integer</td>
+<td>Maximum size in kB as an integer for files uploaded by reference.<br><br>SHOULD be present.  If omitted, the client MUST assume the server will accept a file of any size.</td>
+</tr>
+<tr>
+<td>maxUploadSize</td>
+<td>integer</td>
+<td>Maximum size in kB as an integer for files being uploaded.<br><br>SHOULD be present.  If omitted, the client MUST assume the server will accept an upload of any size.</td>
+</tr>
+<tr>
+<td>onBehalfOf</td>
+<td>boolean</td>
+<td>Does the server support deposit on behalf of other users (mediation)<br><br>SHOULD be present.  If omitted, the client MUST assume the server does not support On-Behalf-Of deposit.</td>
+</tr>
+<tr>
+<td>root</td>
+<td>string</td>
+<td>The URL for the root Service Document.<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>segmentedUpload</td>
+<td>boolean</td>
+<td>Does the server support Segmented Upload?<br><br>SHOULD be present.  If omitted, the client MUST assume the server does not support Segmented Upload.</td>
+</tr>
+<tr>
+<td>services</td>
+<td>array</td>
+<td>List of Services contained within the parent service<br><br>MAY be present.</td>
+</tr>
+<tr>
+<td>treatment</td>
+<td>object</td>
+<td>URL and description of the treatment content can expect during deposit.<br><br>MAY be present.</td>
+</tr>
+<tr>
+<td>treatment.@id</td>
+<td>string</td>
+<td>Treatment URL</td>
+</tr>
+<tr>
+<td>treatment.description</td>
+<td>string</td>
+<td>Treatment Description</td>
+</tr>
+<tr>
+<td>unfinishedSegmentRetention</td>
+<td>integer</td>
+<td>What is the minimum time a server will hold on to an incomplete Segmented Upload before deleting it.<br><br>SHOULD be present.  If omitted, the client MUST assume that the server will hold on to the incomplete file indefinitely.  Servers MAY delete the unfinished upload at any time after the minimum time stated here has elapsed.</td>
+</tr>
+<tr>
+<td>version</td>
+<td>string</td>
+<td>The version of the SWORD protocol this server supports<br><br>MUST be present.</td>
+</tr>
+</tbody>
+</table>
 <p><a name="9."></a></p>
 <h1>9. References</h1>
 <p><a name="sword_1.3"><strong>SWORD 1.3</strong> Downing, J. "SWORD AtomPub Profile version 1.3", 2008. <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">http://www.swordapp.org/docs/sword-profile-1.3.html</a> </p>
@@ -1363,5 +1509,5 @@ Service is requested, it MUST only provide information about itself and its chil
 <p><a name="openapi"><strong>OpenAPI</strong> OpenAPI Specification, Version 3.0.0 <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md">https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md</a> </p>
 <p><a name="json-ld"><strong>JSON-LD</strong> JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018 <a href="https://json-ld.org/spec/latest/json-ld/">https://json-ld.org/spec/latest/json-ld/</a> </p>
 <p><a name="json-schema"><strong>JSON-SCHEMA</strong> JSON Schema: A Media Type for Describing JSON Documents <a href="http://json-schema.org/latest/json-schema-core.html">http://json-schema.org/latest/json-schema-core.html</a> </p>
-<p>Last modified: 2018-03-29</p>
+<p>Last modified: 2018-03-30</p>
 

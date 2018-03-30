@@ -231,3 +231,124 @@ overlay_requirements
 
 As {% link Initialising Append of Binary Files to an Object via Segmented Upload %} - in this case you should be sure to set the `packaging`
 format correctly in the `Content-Disposition` header when initialising the Segmented Upload. 
+
+
+# Replacing all or part of existing Objects
+
+Metadata and Files may be replaced in existing Objects through a variety of mechanisms, which are listed in this section.
+
+## Replacing the Metadata of an Object
+
+Replace in its entirety the Metadata associated with an Object.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Has Body Content|Metadata Body Content|Update Components|Replace Components|Replace Metadata-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+## Replacing a single File in an Object
+
+Replace an existing file in the Object with a new file.  The server may keep the old version of the file available.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Has Body Content|Binary File Content|Update Components|Replace Components|Replace File-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+## Replacing a single File in an Object with a By-Reference File
+
+Replace an existing file in the Object with a new file which the server retrieves as a By-Reference File.  The server may keep the old
+version of the file available.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Has Body Content|By-Reference Body Content|Single By-Reference File|Update Components|Replace Components|Replace File-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+
+## Replacing a single File in an Object with a Segmented Upload
+
+TODO
+
+
+## Replacing the FileSet of an Object with By-Reference Files
+
+TODO
+
+
+## Replacing the FileSet of an Object with a single Binary File
+
+Replace in its entirety the FileSet of the Object (i.e. not the Metadata), with a single Binary File.  All previously existing files will 
+be removed, and new one will replace them.  The server may or may not keep old versions of the content available at its discretion.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Has Body Content|Binary File Content|Update Components|Replace Components|Replace FileSet-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+
+## Replacing the FileSet of an Object with a single Binary File via Segmented Upload
+
+TODO
+
+
+## Replacing an Object with Metadata only
+
+TODO
+
+
+## Replacing an Object with By-Reference Files only
+
+TODO
+
+
+## Replacing an Object with Metadata and By-Reference Files
+
+TODO
+
+
+## Replacing an Object with a single Binary File
+
+Replace in its entirety the Object, including all Metadata and Files, with the single Binary File.  All previous files and metadata will be 
+removed, and new ones will replace them (the updated item will have no Metadata, though).  The server may or may not keep old versions of 
+the content available.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Has Body Content|Binary File Content|Update Object-URL|Replace Object-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+
+##  Replacing an Object with Packaged Content
+
+Replace in its entirety the Object, including all Metadata and Files, with the Metadata and Files contained in the Packaged Content.  All 
+previous files and metadata will be removed, and new ones will replace them.  The server may or may not keep old versions of the content 
+available.
+
+{%
+overlay_requirements
+    source=tables/requirements.csv,
+    groups=All Requests|Modify Requests|Update Requests|Has Body Content|Packaged Content|Update Object-URL|Replace Object-URL,
+    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+
+## Replacing an Object with a single Binary File via Segmented Upload
+
+TODO
+
+
+## Replacing an Object with Packaged Content via Segmented Upload
+
+TODO
+

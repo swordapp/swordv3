@@ -44,6 +44,9 @@ MUST provide only the Metadata document,,,
 Group: By-Reference Body Content,,,
 MUST provide the By-Reference document,"If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request",,
 ,,,
+Group: Single By-Reference File,,,
+MUST only include a single By-Reference File in the By-Reference document,"If more than one By-Reference File is present, MUST reject the request.","If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a `400`",
+,,,
 Group: Metadata + By-Reference Body Content,,,
 SHOULD provide the Metadata-Format header,"If no Metadata-Format header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata",,
 MUST provide the Metadata+By Reference document,"If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request",,
@@ -75,6 +78,9 @@ MAY provide the In-Progress header,"If no `In-Progress` header is provided, MUST
 Group: Append Object-URL,,,
 ,,,POST Object-URL
 ,,,
+Group: Replace Object-URL,,,
+,,,PUT Object-URL
+,,,
 Group: Retrieve Components,,,
 ,,MUST include ETag header if implementing concurrency control,
 ,,,
@@ -87,5 +93,14 @@ Group: Replace Components,,,
 Group: Retrieve Metadata-URL,,,
 ,,MUST respond with a valid Metadata document (see definition below) or a suitable error response,GET Metadata-URL
 ,,,
+Group: Replace Metadata-URL,,,
+,,,PUT Metadata-URL
+,,,
 Group: Retrieve File-URL,,,
 ,,"MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response",GET File-URL
+,,,
+Group: Replace File-URL,,,
+,,,PUT File-URL
+,,,
+Group: Replace FileSet-URL,,,
+,,,PUT FileSet-URL
