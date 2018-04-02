@@ -73,6 +73,7 @@
 <li><a href="#8.">8. Documents</a><ul>
 <li><a href="#8.1.">8.1. JSON-LD Context</a></li>
 <li><a href="#8.2.">8.2. Service Document</a></li>
+<li><a href="#8.3.">8.3. Metadata</a></li>
 </ul>
 </li>
 <li><a href="#9.">9. References</a></li>
@@ -1022,7 +1023,7 @@ expanded.</p>
 </ul>
 </li>
 </ul>
-<p>So, for example, when considering an operation such as "Creating Objects with Packaged Content", this would be take tequirements as follows:</p>
+<p>So, for example, when considering an operation such as "Creating Objects with Packaged Content", this would be take requirements as follows:</p>
 <ul>
 <li>For the Request, as a Create, it takes requirements from <strong>Create</strong>, <strong>Modify</strong> and <strong>*</strong></li>
 <li>For the Content, as Packaged Content, it takes requirements from <strong>Packaged Content</strong>, <strong>Binary</strong>, <strong>Body</strong> and <strong>*</strong></li>
@@ -1570,6 +1571,74 @@ Service is requested, it MUST only provide information about itself and its chil
 </tr>
 </tbody>
 </table>
+<p><a name="8.3."></a></p>
+<h2>8.3. Metadata</h2>
+<p>The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms.  This 
+Metadata document can be sent when creating an Object initially, when appending to the metadata, or in replacing the metadata or indeed the 
+Object as a whole.</p>
+<p>The format of the document is simple and extensible (see the Metadata Formats section).  The “dc” and “dcterms” vocabularies are supported, 
+and servers MUST support this metadata format.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/spec/metadata.schema.json">here</a>.</p>
+<p>An example of the Service Document:</p>
+<pre><code class="json">{
+  &quot;@context&quot; : &quot;http://swordapp.org/swordv3.jsonld&quot;,
+
+  &quot;@id&quot; : &quot;http://example.com/object/1/metadata&quot;,
+  &quot;@type&quot; : &quot;Metadata&quot;,
+
+  &quot;dc:title&quot; : &quot;The title&quot;,
+  &quot;dcterms:abstract&quot; : &quot;This is my abstract&quot;,
+  &quot;dc:contributor&quot; : &quot;A.N. Other&quot;
+}
+
+</code></pre>
+
+<p>The fields available are defined as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@context</td>
+<td>string</td>
+<td>The JSON-LD Context for this document<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@id</td>
+<td>string</td>
+<td>The URL of the Metadata Document you are looking at<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@type</td>
+<td>string</td>
+<td>JSON-LD identifier for the document type<br><br>This field is used to define the type of the document, and in this case should always be 'Metadata'.  MUST be present.</td>
+</tr>
+<tr>
+<td>^dc:.+$</td>
+<td>string</td>
+<td>Properties from the DC namespace<br><br>MAY be present.</td>
+</tr>
+<tr>
+<td>^dcterms:.+$</td>
+<td>string</td>
+<td>Properties from the DCTERMS namespace<br><br>MAY be present.</td>
+</tr>
+</tbody>
+</table>
+<p>When sending this document, the client MUST provide a <code>Content-Disposition</code> header of the form:</p>
+<pre><code>Content-Disposition: attachment; metadata=true
+</code></pre>
+
+<p>Additionally, when sending this document the client SHOULD provide the <code>Metadata-Format</code> header with the identifier for the format: http://purl.org/net/sword/3.0/types/Metadata</p>
+<pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
+</code></pre>
+
+<p>If the client omits the <code>Metadata-Format</code> header, the server MUST assume that it is the above format.</p>
 <p><a name="9."></a></p>
 <h1>9. References</h1>
 <p><a name="sword_1.3"><strong>SWORD 1.3</strong> Downing, J. "SWORD AtomPub Profile version 1.3", 2008. <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">http://www.swordapp.org/docs/sword-profile-1.3.html</a> </p>

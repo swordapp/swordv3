@@ -1,0 +1,50 @@
+{
+	"$id" : "http://purl.org/net/sword/3.0/types/Metadata",
+
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title" : "Metadata Document",
+	"description" : "The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms.",
+	"type" : "object",
+
+	"properties": {
+		"@context": {
+			"$id": "/properties/@context",
+			"type": "string",
+			"title": "The JSON-LD Context for this document",
+			"description": "MUST be present.",
+			"examples": [
+				"http://swordapp.org/swordv3.jsonld"
+			]
+		},
+		"@id": {
+			"$id": "/properties/@id",
+			"type": "string",
+			"title": "The URL of the Metadata Document you are looking at",
+			"description": "MUST be present.",
+			"examples": [
+				"http://example.com/object/1/metadata"
+			]
+		},
+		"@type": {
+			"$id": "/properties/@type",
+			"type": "string",
+			"title": "JSON-LD identifier for the document type",
+			"description": "This field is used to define the type of the document, and in this case should always be 'Metadata'.  MUST be present."
+		}
+	},
+
+	"patternProperties" : {
+		"^dc:.+$": {
+			"type": "string",
+			"title": "Properties from the DC namespace",
+			"description": "MAY be present."
+		},
+		"^dcterms:.+$": {
+			"type": "string",
+			"title": "Properties from the DCTERMS namespace",
+			"description": "MAY be present."
+		}
+	},
+
+	"additonalProperties" : true
+}

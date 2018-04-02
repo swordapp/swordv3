@@ -788,6 +788,7 @@ def json_schema_definitions(file_cfg, config, schema_file):
                 _recurse_properties(rows, val.get("properties", {}), field_name + ".")
 
     _recurse_properties(rows, js.get("properties", {}), "")
+    _recurse_properties(rows, js.get("patternProperties", {}), "")
 
     rows.sort(key=lambda x: x[0])
     frag =  "| Field | Type | Description |\n"

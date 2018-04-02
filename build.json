@@ -34,6 +34,11 @@
 			"root" : "schemas/service-document.schema.json",
 			"out" : "service-document.schema.json",
 			"process" : false
+		},
+		{
+			"root" : "schemas/metadata.schema.json",
+			"out" : "metadata.schema.json",
+			"process" : false
 		}
 	],
 

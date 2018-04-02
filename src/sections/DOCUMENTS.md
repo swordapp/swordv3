@@ -32,3 +32,40 @@ An example of the Service Document:
 The fields available are defined as follows:
 
 {% json_schema_definitions schemas/service-document.schema.json %}
+
+
+## Metadata
+
+The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms.  This 
+Metadata document can be sent when creating an Object initially, when appending to the metadata, or in replacing the metadata or indeed the 
+Object as a whole.
+
+The format of the document is simple and extensible (see the Metadata Formats section).  The “dc” and “dcterms” vocabularies are supported, 
+and servers MUST support this metadata format.
+
+The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url spec/metadata.schema.json %}).
+
+An example of the Service Document:
+
+```json
+{% include examples/metadata.json %}
+```
+
+The fields available are defined as follows:
+
+{% json_schema_definitions schemas/metadata.schema.json %}
+
+
+When sending this document, the client MUST provide a `Content-Disposition` header of the form:
+
+```
+Content-Disposition: attachment; metadata=true
+```
+
+Additionally, when sending this document the client SHOULD provide the `Metadata-Format` header with the identifier for the format: http://purl.org/net/sword/3.0/types/Metadata
+
+```
+Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
+```
+
+If the client omits the `Metadata-Format` header, the server MUST assume that it is the above format.
