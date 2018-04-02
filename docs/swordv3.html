@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SWORDv3 Specification</title>
+
+    <link rel="stylesheet" href="swordv3.css">
+</head>
+<body>
+
+<h1 class="main_title">SWORDv3 Specification</h1><p><div class=nav>
+<div class=toc></p>
 <ul>
 <li><a href="#1.">1. Credits</a></li>
 <li><a href="#2.">2. Introduction</a></li>
@@ -76,9 +88,13 @@
 <li><a href="#8.3.">8.3. Metadata</a></li>
 </ul>
 </li>
-<li><a href="#9.">9. References</a></li>
+<li><a href="#9.">9. References</a>
+</div></li>
 </ul>
-<p><a name="1."></a></p>
+<p></div></p>
+<p><div class=spec>
+Last modified: 2018-04-02
+<a name="1."></a></p>
 <h1>1. Credits</h1>
 <p>Technical Lead: Richard Jones, Cottage Labs</p>
 <p>Community Lead: Neil Jefferies, University of Oxford</p>
@@ -127,6 +143,7 @@ document are to be interpreted as described in [<a href="#rfc2119">RFC2119</a>].
 <h1>5. HTTP Headers</h1>
 <p>These are the HTTP headers used by SWORD, and their meanings within the context of the protocol.  Where a Default Value is specified, this 
 is what value the client or server MUST take the value to be if it is not provided explicitly in a request or response.</p>
+<p><div class=http_headers></p>
 <table>
 <thead>
 <tr>
@@ -189,6 +206,7 @@ is what value the client or server MUST take the value to be if it is not provid
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6."></a></p>
 <h1>6. Protocol Operations</h1>
 <p>This section lists the actual on-the-wire protocol operations that are part of SWORDv3.  Actual usage of each of these operations is 
@@ -229,7 +247,8 @@ that may be included, and the Body content.</p>
 are listed for each section, please refer to the section above for details on the meanings of errors.</p>
 <p><a name="6.3.1."></a></p>
 <h3>6.3.1. GET Service-URL</h3>
-<p>Retrieve the Service Document</p>
+<p><div class=openapi>
+Retrieve the Service Document</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -262,9 +281,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.2."></a></p>
 <h3>6.3.2. POST Service-URL</h3>
-<p>Make a new Object</p>
+<p><div class=openapi>
+Make a new Object</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -329,9 +350,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.3."></a></p>
 <h3>6.3.3. GET Object-URL</h3>
-<p>Retrieve the Status information for the Object</p>
+<p><div class=openapi>
+Retrieve the Status information for the Object</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -372,9 +395,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.4."></a></p>
 <h3>6.3.4. POST Object-URL</h3>
-<p>Append data to an Object</p>
+<p><div class=openapi>
+Append data to an Object</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -439,9 +464,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.5."></a></p>
 <h3>6.3.5. PUT Object-URL</h3>
-<p>Replace the Object</p>
+<p><div class=openapi>
+Replace the Object</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -510,9 +537,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.6."></a></p>
 <h3>6.3.6. DELETE Object-URL</h3>
-<p>Delete the Object</p>
+<p><div class=openapi>
+Delete the Object</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -562,9 +591,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.7."></a></p>
 <h3>6.3.7. GET Metadata-URL</h3>
-<p>Retrieve the Metadata</p>
+<p><div class=openapi>
+Retrieve the Metadata</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -609,9 +640,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.8."></a></p>
 <h3>6.3.8. PUT Metadata-URL</h3>
-<p>Replace the Metadata</p>
+<p><div class=openapi>
+Replace the Metadata</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -674,9 +707,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.9."></a></p>
 <h3>6.3.9. PUT FileSet-URL</h3>
-<p>Replace the FileSet</p>
+<p><div class=openapi>
+Replace the FileSet</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -739,9 +774,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.10."></a></p>
 <h3>6.3.10. DELETE FileSet-URL</h3>
-<p>Delete the FileSet</p>
+<p><div class=openapi>
+Delete the FileSet</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -791,9 +828,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.11."></a></p>
 <h3>6.3.11. GET File-URL</h3>
-<p>Retrieve an individual File</p>
+<p><div class=openapi>
+Retrieve an individual File</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -842,9 +881,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.12."></a></p>
 <h3>6.3.12. PUT File-URL</h3>
-<p>Replace an individual File</p>
+<p><div class=openapi>
+Replace an individual File</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -902,9 +943,11 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="6.3.13."></a></p>
 <h3>6.3.13. DELETE File-URL</h3>
-<p>Delete an individual File</p>
+<p><div class=openapi>
+Delete an individual File</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
@@ -954,6 +997,7 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </tbody>
 </table>
+<p></div></p>
 <p><a name="7."></a></p>
 <h1>7. Protocol Requirements</h1>
 <p>This section describes the requirements of every kind of operation that you can do with SWORDv3.</p>
@@ -1648,5 +1692,6 @@ and servers MUST support this metadata format.</p>
 <p><a name="openapi"><strong>OpenAPI</strong> OpenAPI Specification, Version 3.0.0 <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md">https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md</a> </p>
 <p><a name="json-ld"><strong>JSON-LD</strong> JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018 <a href="https://json-ld.org/spec/latest/json-ld/">https://json-ld.org/spec/latest/json-ld/</a> </p>
 <p><a name="json-schema"><strong>JSON-SCHEMA</strong> JSON Schema: A Media Type for Describing JSON Documents <a href="http://json-schema.org/latest/json-schema-core.html">http://json-schema.org/latest/json-schema-core.html</a> </p>
-<p>Last modified: 2018-04-02</p>
+<p></div></p></body>
+</html>
 

@@ -8,7 +8,9 @@
 		{
 			"root" : "MAIN.md",
 			"out" : "swordv3.html",
-			"process" : true
+			"process" : true,
+			"header" : "templates/head.html",
+			"footer" : "templates/foot.html"
 		},
 		{
 			"root" : "BEHAVIOURS.md",
@@ -38,6 +40,11 @@
 		{
 			"root" : "schemas/metadata.schema.json",
 			"out" : "metadata.schema.json",
+			"process" : false
+		},
+		{
+			"root" : "assets/css/swordv3.css",
+			"out" : "swordv3.css",
 			"process" : false
 		}
 	],

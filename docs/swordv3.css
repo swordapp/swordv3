@@ -1,0 +1,113 @@
+body {
+    font-family: sans-serif;
+}
+
+dt {
+    font-weight: bold;
+}
+
+pre {
+    background: #eeeeee;
+    padding: 10px;
+}
+
+pre code {
+    background: #eeeeee;
+    padding-left: 0;
+    padding-right: 0;
+    border: 0;
+}
+
+code {
+    background: #fffd5d;
+    padding-left: 3px;
+    padding-right: 3px;
+    border: 1px solid #ffd73f;
+    border-radius: 3px;
+}
+
+.main_title {
+    font-size: 3em;
+    margin-left: 280px;
+}
+
+.nav {
+    position: fixed;
+    overflow: scroll;
+    width: 250px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}
+
+.spec {
+    margin-left: 280px;
+}
+
+.toc ul {
+    list-style: none;
+    padding-left: 0
+}
+
+.toc ul ul {
+    padding-left: 10px
+}
+
+.toc ul ul ul {
+    padding-left: 20px
+}
+
+table {
+    border: 1px solid #cccccc;
+    border-collapse: collapse;
+}
+
+table td {
+    border: 1px solid #cccccc;
+    padding: 5px;
+    min-width: 150px;
+    vertical-align: top;
+}
+
+table th {
+    border: 1px solid #cccccc;
+    padding: 5px;
+    vertical-align: top;
+}
+
+.http_headers table {
+    border: 1px solid #cccccc;
+    border-collapse: collapse;
+}
+
+.http_headers table td {
+    border: 1px solid #cccccc;
+    padding: 5px;
+    min-width: 150px;
+    vertical-align: top;
+}
+
+.http_headers table th {
+    border: 1px solid #cccccc;
+    padding: 5px;
+    vertical-align: top;
+}
+
+.openapi table {
+    border: 1px solid #cccccc;
+    border-collapse: collapse;
+}
+
+.openapi table td {
+    border: 1px solid #cccccc;
+    padding: 5px;
+    min-width: 150px;
+    vertical-align: top;
+}
+
+.openapi table th {
+    border: 1px solid #cccccc;
+    padding: 5px;
+    vertical-align: top;
+}

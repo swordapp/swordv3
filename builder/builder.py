@@ -180,18 +180,6 @@ def _extract_title(line):
     line = line.strip()
     return line
 
-"""
-def number(text, file_cfg, config):
-    # now number the sections
-    numbered = ""
-    lines = text.split("\n")
-    for line in lines:
-        if line.startswith("#"):
-            line = _number_header(line, file_cfg, config)
-        numbered += line + "\n"
-    return numbered
-"""
-
 def _read_command(idx, first_line, lines):
     command = first_line.strip()
     while not command.endswith("%}"):
@@ -248,7 +236,36 @@ def integrate(text, file_cfg, config):
     return text
 
 def render(text, file_cfg, config):
-    return markdown.markdown(text, extensions=["markdown.extensions.tables", "markdown.extensions.fenced_code"])
+    body = markdown.markdown(text, extensions=["markdown.extensions.tables", "markdown.extensions.fenced_code"])
+
+    cmd_rx = "(\{~.+?~\})"
+    m = re.search(cmd_rx, body, re.DOTALL)
+    while m is not None:
+        matched = m.group(0)
+        command = Command(matched[2:-2].strip(), file_cfg, config)
+        rep = command.run()
+        body = body.replace(matched, rep)
+        m = re.search(cmd_rx, body, re.DOTALL)
+
+    header = file_cfg.get("header")
+    footer = file_cfg.get("footer")
+    bd = config.get("src_dir")
+
+    head = ""
+    foot = ""
+
+    if header is not None:
+        head_path = os.path.join(bd, header)
+        with codecs.open(head_path, "rb", "utf-8") as f:
+            head = f.read()
+
+    if footer is not None:
+        foot_path = os.path.join(bd, footer)
+        with codecs.open(foot_path, "rb", "utf-8") as f:
+            foot = f.read()
+
+    return head + body + foot
+
 
 ##################################################
 # Commands
@@ -401,6 +418,7 @@ def openapi_paths(file_cfg, config, source, path_order=None, method_order=None, 
 
 def _render_method_info(header_depth, path_name, method, method_info, omit=None, in_brief=None):
     frag = "#" * header_depth + method.upper() + " " + path_name[1:] + "\n\n"
+    frag += "{~ html div,clazz=openapi ~}\n"
     frag += method_info.get("summary", "") + "\n\n"
     frag += "**Headers**\n\n"
 
@@ -444,6 +462,7 @@ def _render_method_info(header_depth, path_name, method, method_info, omit=None,
                 frag += "<li>None</li>"
             frag += "</ul> |\n"
 
+    frag += "\n{~ html /div ~}"
     return frag + "\n\n"
 
 def aggregated_requirements(file_cfg, config, sources=None, order=None):
@@ -757,10 +776,11 @@ def toc(file_cfg, config):
     contents = file_cfg["toc"]
     numbers = contents.keys()
     numbers.sort(key=lambda s: [int(u) for u in s.split('.') if u != ""])
-    frag = ""
+    frag = "{~ html div,clazz=toc ~}\n\n"
     for n in numbers:
         indent = len(n.split(".")) - 2
         frag += "\t" * indent + "* [" + n + " " + contents[n] + "](#" + n + ")\n"
+    frag += "{~ html /div ~}\n\n"
     return frag
 
 def json_schema_definitions(file_cfg, config, schema_file):
@@ -804,6 +824,18 @@ def _anchor_name(v):
     v = v.lower().strip()
     return v.replace(" ", "_")
 
+
+def html(file_cfg, config, element, clazz=None):
+    if clazz is not None and not isinstance(clazz, list):
+        clazz = [clazz]
+
+    tag = "<" + element
+    if clazz is not None:
+        tag += " class=" + " ".join(clazz)
+    tag += ">"
+
+    return tag
+
 ############
 
 COMMANDS = {
@@ -824,10 +856,13 @@ COMMANDS = {
     "json_schema_definitions" : json_schema_definitions,
     "requirements" : requirements,
     "requirements_table" : requirements_table,
-    "requirements_hierarchy" : requirements_hierarchy
+    "requirements_hierarchy" : requirements_hierarchy,
+    "html" : html
 }
 
 EXPAND_COMMANDS = ["include", "openapi_paths", "requirements_table"]
+
+POST_RENDER = ["html"]
 
 ##################################################
 
