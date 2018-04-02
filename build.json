@@ -2,7 +2,7 @@
 	"src_dir" : "src",
 	"out_dir" : "docs",
 	"build_dir" : "tmp",
-	"base_url" : "http://localhost:8000/",
+	"base_url" : "https://swordapp.github.io/swordv3/",
 
 	"files" : [
 		{

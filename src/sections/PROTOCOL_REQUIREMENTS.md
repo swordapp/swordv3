@@ -11,9 +11,9 @@ There are 3 key aspects of the specification where requirements can be applied, 
 When combined for a specific request.  For example: Creating (**Request**) a new Object by request to the Service-URL (**Resource**) 
 with Packaged Content (**Content**), these aspects tell you the exact requirements.
 
-The requirements below are presented using a hierarchy; for any given combination of **Request**, **Content** and **Resource*
+The requirements below are presented using a hierarchy; for any given combination of **Request**, **Content** and **Resource**
 all requirements above the relevant node should be imported when considering the actual requirements for an operation.  See the document
-[SWORDv3 Behaviours]({% url spec/swordv3-behaviours.html %}) to see each of the behaviours SWORDv3 is capable of with its requirements fully 
+[SWORDv3 Behaviours]({% url swordv3-behaviours.html %}) to see each of the behaviours SWORDv3 is capable of with its requirements fully 
 expanded.
 
 

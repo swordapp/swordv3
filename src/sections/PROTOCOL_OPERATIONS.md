@@ -3,8 +3,8 @@
 This section lists the actual on-the-wire protocol operations that are part of SWORDv3.  Actual usage of each of these operations is 
 dependent on the action that you wish to take.  See [Protocol Behaviours] for the rules which govern how to use these Protocol Operations.
 
-The full set of protocol operations is available as an OpenAPI definition {% ref OpenAPI %}, available as [JSON]({% url spec/openapi.json%})
-and [YAML]({% url spec/openapi.yaml %}).
+The full set of protocol operations is available as an OpenAPI definition {% ref OpenAPI %}, available as [JSON]({% url openapi.json%})
+and [YAML]({% url openapi.yaml %}).
 
 ## Error Responses
 

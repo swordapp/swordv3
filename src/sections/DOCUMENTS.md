@@ -3,7 +3,7 @@
 ## JSON-LD Context
 
 SWORD defines the semantics of its documents using JSON-LD {% ref JSON-LD %}.  You can see the full JSON-LD Context 
-[here]({% url spec/swordv3.jsonld%})
+[here]({% url swordv3.jsonld%})
 
 
 ## Service Document
@@ -21,7 +21,7 @@ A Service Document can be retrieved either for the root of the service, or from 
 If the root Service Document is requested, the full list of Services, including all their children, MUST be provided.  If the URL of a 
 Service is requested, it MUST only provide information about itself and its children.
 
-The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url spec/service-document.schema.json %}).
+The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url service-document.schema.json %}).
 
 An example of the Service Document:
 
@@ -43,7 +43,7 @@ Object as a whole.
 The format of the document is simple and extensible (see the Metadata Formats section).  The “dc” and “dcterms” vocabularies are supported, 
 and servers MUST support this metadata format.
 
-The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url spec/metadata.schema.json %}).
+The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url metadata.schema.json %}).
 
 An example of the Service Document:
 
