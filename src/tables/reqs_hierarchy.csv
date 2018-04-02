@@ -1,0 +1,16 @@
+Request,*,Retrieve,,
+Request,*,Modify,Create,
+Request,*,Modify,Update,Append
+Request,*,Modify,Update,Replace
+Request,*,Delete,,
+Content,*,Body,JSON,Metadata
+Content,*,Body,JSON,By-Reference
+Content,*,Body,JSON,MD+BR
+Content,*,Body,Binary,Binary File
+Content,*,Body,Binary,Packaged Content
+Content,*,Empty Body,,
+Resource,*,Service-URL,,
+Resource,*,Object-URL,,
+Resource,*,Components,Metadata-URL,
+Resource,*,Components,FileSet-URL,
+Resource,*,Components,File-URL,

@@ -12,10 +12,12 @@ This request can be made against a root Service-URL, which will describe the cap
 full list of Service-URLs, or can be made against an individual Service-URL for information just about that service.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Retrieve Service-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Retrieve|Empty Body|Service-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -26,22 +28,25 @@ overlay_requirements
 Create a new Object on the server, sending only Metadata content (i.e. no Binary File content, and no By-Reference Files).
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Create Requests|Create With Content Requests|Has Body Content|Metadata Body Content,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Create|Metadata|Service-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
-
 
 ## Creating Objects with only By-Reference Files
 
 Create a new Object on the server, sending on By-Reference Files (i.e. no Binary Files and no Metadata)
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Create Requests|Create With Content Requests|Has Body Content|By-Reference Body Content,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Create|By-Reference|Service-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -50,10 +55,12 @@ overlay_requirements
 Create a new Object on the server, sending both Metadata content and By-Reference Files (i.e. no Binary File content)
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Create Requests|Create With Content Requests|Has Body Content|Metadata + By-Reference Body Content,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Create|MD+BR|Service-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -63,10 +70,12 @@ Create a new Object on the server, sending a single Binary File.  The Binary Fil
 attempt to unpack.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Create Requests|Create With Content Requests|Has Body Content|Binary File Content,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Create|Binary File|Service-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -76,20 +85,24 @@ Create a new Object on the server, sending a single Binary File.  The Binary Fil
 may understand how to unpack.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Create Requests|Create With Content Requests|Has Body Content|Packaged Content,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Create|Packaged Content|Service-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
 ## Creating Objects ready for Segmented Upload
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Create Requests|Create With Segment Upload Initialisation|Empty Body,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Create|Empty Body|Service-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -101,10 +114,12 @@ For an Object where you have an Object-URL, you may request information about th
 document in response.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Retrieve Object-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Retrieve|Empty Body|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -117,11 +132,14 @@ see a list of the available formats in the Status document, and the individual e
 by the appropriate URL.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Retrieve Components|Retrieve Metadata-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Retrieve|Empty Body|Metadata-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
 
 ## Retrieving a Binary File from an Object
 
@@ -132,10 +150,12 @@ actual individual files that make up the object, or:
 * Metadata in specific formats supported by the server
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Retrieve Components|Retrieve File-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Retrieve|Empty Body|File-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -159,10 +179,12 @@ overlay existing metadata, such that any new metadata fields are added to the it
 any other metadata fields held by the server remain untouched.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Append Requests|Has Body Content|Metadata Body Content|Update Object-URL|Append Object-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Append|Metadata|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 ## Appending By-Reference Files to an Object
@@ -170,10 +192,12 @@ overlay_requirements
 Append new files to an Object by sending one or more By-Reference files.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Append Requests|Has Body Content|By-Reference Body Content|Update Object-URL|Append Object-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Append|By-Reference|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -182,10 +206,12 @@ overlay_requirements
 Append new files and append/overlay Metadata at the same time.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Append Requests|Has Body Content|Metadata + By-Reference Body Content|Update Object-URL|Append Object-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Append|MD+BR|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -195,10 +221,12 @@ Append new File to the Object, in addition to existing content which it already 
 without the server unpacking it as it would Packaged Content.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Append Requests|Has Body Content|Binary File Content|Update Object-URL|Append Object-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Append|Binary File|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -209,21 +237,26 @@ unpacked by the server and new file resources added.  Metadata may also be appen
 actionable metadata.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Append Requests|Has Body Content|Packaged Content|Update Object-URL|Append Object-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Append|Packaged Content|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
 
 ## Initialising Append of Binary Files to an Object via Segmented Upload
 
 Initialise the append of a single Binary File to an Object which will be delivered via a Segmented Upload.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Append Requests|Empty Body|Update Object-URL with Segmented Upload Initialisation|Append Object-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Append|Empty Body|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -242,22 +275,28 @@ Metadata and Files may be replaced in existing Objects through a variety of mech
 Replace in its entirety the Metadata associated with an Object.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Has Body Content|Metadata Body Content|Update Components|Replace Components|Replace Metadata-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|Metadata|Metadata-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
 
 ## Replacing a single File in an Object
 
 Replace an existing file in the Object with a new file.  The server may keep the old version of the file available.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Has Body Content|Binary File Content|Update Components|Replace Components|Replace File-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|Binary File|File-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
 
 ## Replacing a single File in an Object with a By-Reference File
 
@@ -265,33 +304,57 @@ Replace an existing file in the Object with a new file which the server retrieve
 version of the file available.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Has Body Content|By-Reference Body Content|Single By-Reference File|Update Components|Replace Components|Replace File-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|By-Reference|File-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
 ## Replacing a single File in an Object with a Segmented Upload
 
-TODO
+Replace an existing file in the Object with a new file, which the client will send in segments.  This operation initialises the segmented
+upload of that file.
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|Empty Body|File-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
 
 
 ## Replacing the FileSet of an Object with By-Reference Files
 
-TODO
+Replace all the files in the FileSet of an Object with one or more By-Reference Files.  All previously existing files will be removed, and
+new ones will replace them.  The server may or may not keep old versions of the content availabl, at its discretion.
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|By-Reference|FileSet-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
 
 
 ## Replacing the FileSet of an Object with a single Binary File
 
 Replace in its entirety the FileSet of the Object (i.e. not the Metadata), with a single Binary File.  All previously existing files will 
-be removed, and new one will replace them.  The server may or may not keep old versions of the content available at its discretion.
+be removed, and new ones will replace them.  The server may or may not keep old versions of the content available, at its discretion.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Has Body Content|Binary File Content|Update Components|Replace Components|Replace FileSet-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|Binary File|FileSet-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -322,10 +385,12 @@ removed, and new ones will replace them (the updated item will have no Metadata,
 the content available.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Has Body Content|Binary File Content|Update Object-URL|Replace Object-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|Binary File|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -336,10 +401,12 @@ previous files and metadata will be removed, and new ones will replace them.  Th
 available.
 
 {%
-overlay_requirements
-    source=tables/requirements.csv,
-    groups=All Requests|Modify Requests|Update Requests|Has Body Content|Packaged Content|Update Object-URL|Replace Object-URL,
-    order=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|Packaged Content|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
 
@@ -352,3 +419,50 @@ TODO
 
 TODO
 
+
+# Deleting all or part of Objects
+
+## Deleting an Object's Metadata
+
+TODO
+
+
+## Deleting a single Binary File from an Object
+
+Delete a single File from the Object.  The server may keep old versions of the file.
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Delete|Empty Body|File-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+## Deleting all the Files from an Object
+
+Remove all the Files from an object.  This will leave the Object and its Metadata intact.  The server may keep old versions of the files 
+available.
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Delete|Empty Body|FileSet-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+## Deleting the entire Object
+
+Delete the Object in its entirety from the server, along with all Metadata and Files.
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Delete|Empty Body|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}

@@ -478,6 +478,216 @@ def aggregated_requirements(file_cfg, config, sources=None, order=None):
         frag += "\n"
     return frag
 
+def requirements(file_cfg, config, reqs, hierarchy, groups, match, output):
+    """
+    reqs=tables/requirements2.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Retrieve|Empty Body|Service-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+    """
+    if not isinstance(groups, list):
+        groups = [groups]
+    if not isinstance(match, list):
+        match = [match]
+    if not isinstance(output, list):
+        output = [output]
+
+    bd = config.get("src_dir")
+    reqs_path = os.path.join(bd, reqs)
+    hierarchy_path = os.path.join(bd, hierarchy)
+
+    headers = []
+    requirements = []
+    with codecs.open(reqs_path, "rb", "utf-8") as f:
+        reqs_reader = UnicodeReader(f)
+        headers = reqs_reader.next()
+        for row in reqs_reader:
+            requirements.append(row)
+
+    hei = []
+    with codecs.open(hierarchy_path, "rb", "utf-8") as f:
+        hierarchy_reader = UnicodeReader(f)
+        for row in hierarchy_reader:
+            hei.append(row)
+
+    lookup = {}
+    for i in range(len(groups)):
+        group = groups[i]
+        m = match[i]
+        match_row = None
+        for row in hei:
+            broke = False
+            if row[0] == group:
+                for j in range(len(row) - 1, -1, -1):
+                    if row[j] == m:
+                        match_row = row
+                        broke = True
+                        break
+                if broke:
+                    break
+
+        if match_row is not None:
+            lookups = []
+            for i in range(len(match_row)):
+                if i == 0:
+                    continue
+                cell = match_row[i]
+                if cell != "":
+                    lookups.append(cell)
+
+            lookup[group] = lookups
+
+    idx = {}
+    for i in range(len(headers)):
+        h = headers[i]
+        for group in groups:
+            if h == group:
+                idx[group] = i
+                break
+        for o in output:
+            if h == o:
+                idx[o] = i
+                break
+
+    rs = []
+    for r in requirements:
+        score = 0
+        for group in groups:
+            if r[idx[group]] in lookup[group]:
+                score += 1
+        if score != len(groups):
+            continue
+        result = []
+        for o in output:
+            result.append(r[idx[o]])
+        rs.append(result)
+
+    sections = {}
+    for r in rs:
+        for i in range(len(output)):
+            o = output[i]
+            if o not in sections:
+                sections[o] = []
+            v = r[i]
+            if v != "":
+                sections[o].append(v)
+
+    frag = ""
+    for key in output:
+        reqs = sections[key]
+        if len(reqs) == 0:
+            continue
+        frag += "**" + key + "**\n\n"
+        for req in reqs:
+            frag += " * " + req.replace("\n", "<br>") + "\n"
+        frag += "\n"
+    return frag
+
+
+def requirements_table(file_cf, config, source, vectors, reqs, header_level=1):
+    if not isinstance(vectors, list):
+        vectors = [vectors]
+    if not isinstance(reqs, list):
+        reqs = [reqs]
+    header_level = int(header_level)
+
+    bd = config.get("src_dir")
+    path = os.path.join(bd, source)
+
+    headers = []
+    section_order = []
+    sections = {}
+    with codecs.open(path, "rb", "utf-8") as f:
+        reader = UnicodeReader(f)
+        headers = reader.next()
+
+        idx = {}
+        for i in range(len(headers)):
+            h = headers[i]
+            for v in vectors:
+                if h == v:
+                    idx[v] = i
+                    break
+            for r in reqs:
+                if h == r:
+                    idx[r] = i
+                    break
+
+        for row in reader:
+            header = ""
+            for v in vectors:
+                if header != "":
+                    header += ", "
+                header += v + ": " + row[idx[v]]
+
+            if header not in sections:
+                sections[header] = {}
+            if header not in section_order:
+                section_order.append(header)
+
+            for r in reqs:
+                if r not in sections[header]:
+                    sections[header][r] = []
+                val = row[idx[r]]
+                if val != "" and val not in sections[header][r]:
+                    sections[header][r].append(val)
+
+    frag = ""
+    for section_header in section_order:
+        requirements = sections[section_header]
+        section_header = section_header.replace("*", "\*")
+
+        frag += "#" * header_level + " " + section_header + "\n\n"
+
+        for req_title in reqs:
+            req_list = requirements[req_title]
+            if len(req_list) == 0:
+                continue
+            frag += "**" + req_title + "**\n\n"
+            for req_entry in req_list:
+                text = markdown.markdown(req_entry)[3:-4]
+                text = text.replace("\n", "")
+                frag += " * " + text + "\n"
+            frag += "\n"
+
+    return frag
+
+
+def requirements_hierarchy(file_cfg, config, source, key):
+    bd = config.get("src_dir")
+    path = os.path.join(bd, source)
+
+    rows = []
+    with codecs.open(path, "rb", "utf-8") as f:
+        reader = UnicodeReader(f)
+        for row in reader:
+            if row[0] == key:
+                rows.append(row[1:])
+
+    h = {}
+    context = h
+    for row in rows:
+        for cell in row:
+            if cell == "":
+                break
+            if cell not in context:
+                context[cell] = {}
+            context = context[cell]
+        context = h
+
+    def _recurse_heirarchy(node, depth):
+        frag = ""
+        for k, v in node.iteritems():
+            frag += "\t" * (depth - 1) + "* " + k.replace("*", "\*") + "\n"
+            if len(v.keys()) != 0:
+                frag += _recurse_heirarchy(v, depth + 1)
+        return frag
+
+    frag = _recurse_heirarchy(h, 1)
+    return frag
+
+
 def overlay_requirements(file_cfg, config, source, groups=None, order=None):
     if not isinstance(groups, list):
         groups = [groups]
@@ -610,10 +820,13 @@ COMMANDS = {
     "overlay_requirements" : overlay_requirements,
     "link" : link,
     "toc" : toc,
-    "json_schema_definitions" : json_schema_definitions
+    "json_schema_definitions" : json_schema_definitions,
+    "requirements" : requirements,
+    "requirements_table" : requirements_table,
+    "requirements_hierarchy" : requirements_hierarchy
 }
 
-EXPAND_COMMANDS = ["include", "openapi_paths"]
+EXPAND_COMMANDS = ["include", "openapi_paths", "requirements_table"]
 
 ##################################################
 

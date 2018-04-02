@@ -31,36 +31,41 @@
 </li>
 </ul>
 </li>
-<li><a href="#7.">7. Protocol Behaviours</a><ul>
-<li><a href="#7.1.">7.1. The Request</a><ul>
-<li><a href="#7.1.1.">7.1.1. All Requests</a></li>
-<li><a href="#7.1.2.">7.1.2. Modify Requests</a></li>
-<li><a href="#7.1.3.">7.1.3. Create Requests</a></li>
-<li><a href="#7.1.4.">7.1.4. Create With Content</a></li>
-<li><a href="#7.1.5.">7.1.5. Create With Segment Upload Initialisation</a></li>
-<li><a href="#7.1.6.">7.1.6. Update Requests</a></li>
-<li><a href="#7.1.7.">7.1.7. Append Requests</a></li>
-<li><a href="#7.1.8.">7.1.8. Delete Requests</a></li>
-</ul>
-</li>
-<li><a href="#7.2.">7.2. The Content</a><ul>
-<li><a href="#7.2.1.">7.2.1. Empty Body</a></li>
-<li><a href="#7.2.2.">7.2.2. Has Body Content</a></li>
-<li><a href="#7.2.3.">7.2.3. Metadata</a></li>
-<li><a href="#7.2.4.">7.2.4. By-Reference</a></li>
-<li><a href="#7.2.5.">7.2.5. Metadata + By-Reference</a></li>
-<li><a href="#7.2.6.">7.2.6. Binary File</a></li>
-<li><a href="#7.2.7.">7.2.7. Packaged Content</a></li>
-</ul>
-</li>
-<li><a href="#7.3.">7.3. The Resource</a><ul>
-<li><a href="#7.3.1.">7.3.1. Service-URL</a></li>
-<li><a href="#7.3.2.">7.3.2. Object-URL</a></li>
-<li><a href="#7.3.3.">7.3.3. Update with Segmented Upload Initialisation</a></li>
-<li><a href="#7.3.4.">7.3.4. Components</a></li>
-<li><a href="#7.3.5.">7.3.5. Metadata-URL</a></li>
-<li><a href="#7.3.6.">7.3.6. FileSet-URL</a></li>
-<li><a href="#7.3.7.">7.3.7. File-URL</a></li>
+<li><a href="#7.">7. Protocol Requirements</a><ul>
+<li><a href="#7.1.">7.1. Requirement Hierarchies</a></li>
+<li><a href="#7.2.">7.2. Requirement Groups</a><ul>
+<li><a href="#7.2.1.">7.2.1. Request: *, Content: *, Resource: *</a></li>
+<li><a href="#7.2.2.">7.2.2. Request: Retrieve, Content: *, Resource: Service-URL</a></li>
+<li><a href="#7.2.3.">7.2.3. Request: Retrieve, Content: *, Resource: Object-URL</a></li>
+<li><a href="#7.2.4.">7.2.4. Request: Retrieve, Content: *, Resource: Components</a></li>
+<li><a href="#7.2.5.">7.2.5. Request: Retrieve, Content: *, Resource: Metadata-URL</a></li>
+<li><a href="#7.2.6.">7.2.6. Request: Retrieve, Content: *, Resource: File-URL</a></li>
+<li><a href="#7.2.7.">7.2.7. Request: Modify, Content: *, Resource: *</a></li>
+<li><a href="#7.2.8.">7.2.8. Request: Modify, Content: Body, Resource: *</a></li>
+<li><a href="#7.2.9.">7.2.9. Request: Modify, Content: Metadata, Resource: *</a></li>
+<li><a href="#7.2.10.">7.2.10. Request: Modify, Content: By-Reference, Resource: *</a></li>
+<li><a href="#7.2.11.">7.2.11. Request: Modify, Content: By-Reference, Resource: File-URL</a></li>
+<li><a href="#7.2.12.">7.2.12. Request: Modify, Content: MD+BR, Resource: *</a></li>
+<li><a href="#7.2.13.">7.2.13. Request: Modify, Content: Binary File, Resource: *</a></li>
+<li><a href="#7.2.14.">7.2.14. Request: Modify, Content: Packaged Content, Resource: *</a></li>
+<li><a href="#7.2.15.">7.2.15. Request: Modify, Content: Empty Body, Resource: *</a></li>
+<li><a href="#7.2.16.">7.2.16. Request: Create, Content: *, Resource: Service-URL</a></li>
+<li><a href="#7.2.17.">7.2.17. Request: Create, Content: Body, Resource: Service-URL</a></li>
+<li><a href="#7.2.18.">7.2.18. Request: Create, Content: Empty Body, Resource: Service-URL</a></li>
+<li><a href="#7.2.19.">7.2.19. Request: Update, Content: *, Resource: *</a></li>
+<li><a href="#7.2.20.">7.2.20. Request: Append, Content: *, Resource: *</a></li>
+<li><a href="#7.2.21.">7.2.21. Request: Delete, Content: *, Resource: *</a></li>
+<li><a href="#7.2.22.">7.2.22. Request: Update, Content: Body, Resource: Object-URL</a></li>
+<li><a href="#7.2.23.">7.2.23. Request: Update, Content: Empty Body, Resource: Object-URL</a></li>
+<li><a href="#7.2.24.">7.2.24. Request: Append, Content: *, Resource: Object-URL</a></li>
+<li><a href="#7.2.25.">7.2.25. Request: Replace, Content: *, Resource: Object-URL</a></li>
+<li><a href="#7.2.26.">7.2.26. Request: Replace, Content: *, Resource: Components</a></li>
+<li><a href="#7.2.27.">7.2.27. Request: Replace, Content: *, Resource: Metadata-URL</a></li>
+<li><a href="#7.2.28.">7.2.28. Request: Replace, Content: *, Resource: FileSet-URL</a></li>
+<li><a href="#7.2.29.">7.2.29. Request: Replace, Content: *, Resource: File-URL</a></li>
+<li><a href="#7.2.30.">7.2.30. Request: Delete, Content: *, Resource: Object-URL</a></li>
+<li><a href="#7.2.31.">7.2.31. Request: Delete, Content: *, Resource: FileSet-URL</a></li>
+<li><a href="#7.2.32.">7.2.32. Request: Delete, Content: *, Resource: File-URL</a></li>
 </ul>
 </li>
 </ul>
@@ -949,42 +954,84 @@ are listed for each section, please refer to the section above for details on th
 </tbody>
 </table>
 <p><a name="7."></a></p>
-<h1>7. Protocol Behaviours</h1>
+<h1>7. Protocol Requirements</h1>
 <p>This section describes the requirements of every kind of operation that you can do with SWORDv3.</p>
 <p>There are 3 key aspects of the specification where requirements can be applied, and these are:</p>
 <ol>
-<li>The Request: Create, Append, Replace, Retrieve and Delete</li>
-<li>The Content: Metadata, By-Reference, Metadata+ByReference, Binary File, Packaged Content, Empty Body</li>
-<li>The Resource: Service-URL<sup>[<a href="#service-url">def</a>]</sup>, Object-URL<sup>[<a href="#object-url">def</a>]</sup>, Metadata-URL<sup>[<a href="#metadata-url">def</a>]</sup>, FileSet-URL<sup>[<a href="#fileset-url">def</a>]</sup>, File-URL<sup>[<a href="#file-url">def</a>]</sup></li>
+<li><strong>Request</strong>: The CRUD operations that you can perform on the resources</li>
+<li><strong>Content</strong>: The body content of the request, such as Metadata, By-Reference, Metadata+ByReference, Binary File, Packaged Content, Empty Body</li>
+<li><strong>Resource</strong>: Service-URL<sup>[<a href="#service-url">def</a>]</sup>, Object-URL<sup>[<a href="#object-url">def</a>]</sup>, Metadata-URL<sup>[<a href="#metadata-url">def</a>]</sup>, FileSet-URL<sup>[<a href="#fileset-url">def</a>]</sup>, File-URL<sup>[<a href="#file-url">def</a>]</sup></li>
 </ol>
-<p>When combined for a specific request.  For example: Creating (<strong>The Request</strong>) a new Object by request to the Service-URL (<strong>The Resource</strong>) 
-with Packaged Content (<strong>The Content</strong>), these aspects tell you the exact requirements.</p>
-<p>For the most part, requirements depend on the Request and the Content, then there are additional specific requirements for how some of
-the Resources behave on certain requests.  These are defined in the sections below.</p>
-<p>The requirements below are presented using a hierarchy; for any given Request, Resource or Content and
+<p>When combined for a specific request.  For example: Creating (<strong>Request</strong>) a new Object by request to the Service-URL (<strong>Resource</strong>) 
+with Packaged Content (<strong>Content</strong>), these aspects tell you the exact requirements.</p>
+<p>The requirements below are presented using a hierarchy; for any given combination of <strong>Request</strong>, <strong>Content</strong> and *<em>Resource</em>
 all requirements above the relevant node should be imported when considering the actual requirements for an operation.  See the document
 <a href="http://localhost:8000/spec/swordv3-behaviours.html">SWORDv3 Behaviours</a> to see each of the behaviours SWORDv3 is capable of with its requirements fully 
 expanded.</p>
 <p><a name="7.1."></a></p>
-<h2>7.1. The Request</h2>
-<p>The hierarchy for requests is as follows</p>
-<pre><code>All Requests
-| - Retrieve
-\ - Modify
-    | - Create
-    |   | - Create With Content
-    |   \ - Create With Segment Upload Initialisation
-    | - Update
-    |   | - Append
-    |   \ - Replace
-    \ - Delete
-
-</code></pre>
-
-<p>Therefore, for example, an Append request imports all the requirements (where defined) from <strong>Update</strong>, <strong>Modify</strong> and <strong>All Requests</strong> in 
-addition to its own.</p>
-<p><a name="7.1.1."></a></p>
-<h3>7.1.1. All Requests</h3>
+<h2>7.1. Requirement Hierarchies</h2>
+<p>The hierarchy for the Request is:</p>
+<ul>
+<li>*<ul>
+<li>Modify<ul>
+<li>Create</li>
+<li>Update<ul>
+<li>Append</li>
+<li>Replace</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Retrieve</li>
+<li>Delete</li>
+</ul>
+</li>
+</ul>
+<p>The hierarchy for the Content is:</p>
+<ul>
+<li>*<ul>
+<li>Body<ul>
+<li>Binary<ul>
+<li>Binary File</li>
+<li>Packaged Content</li>
+</ul>
+</li>
+<li>JSON<ul>
+<li>MD+BR</li>
+<li>By-Reference</li>
+<li>Metadata</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Empty Body</li>
+</ul>
+</li>
+</ul>
+<p>The hierarchy for the Resource is:</p>
+<ul>
+<li>*<ul>
+<li>Service-URL</li>
+<li>Components<ul>
+<li>FileSet-URL</li>
+<li>File-URL</li>
+<li>Metadata-URL</li>
+</ul>
+</li>
+<li>Object-URL</li>
+</ul>
+</li>
+</ul>
+<p>So, for example, when considering an operation such as "Creating Objects with Packaged Content", this would be take tequirements as follows:</p>
+<ul>
+<li>For the Request, as a Create, it takes requirements from <strong>Create</strong>, <strong>Modify</strong> and <strong>*</strong></li>
+<li>For the Content, as Packaged Content, it takes requirements from <strong>Packaged Content</strong>, <strong>Binary</strong>, <strong>Body</strong> and <strong>*</strong></li>
+<li>For the Resource, as an operation on the Service-URL, it takes requirements from <strong>Service-URL</strong> and <strong>*</strong></li>
+</ul>
+<p><a name="7.2."></a></p>
+<h2>7.2. Requirement Groups</h2>
+<p><a name="7.2.1."></a></p>
+<h3>7.2.1. Request: *, Content: *, Resource: *</h3>
 <p><strong>Request Requirements</strong></p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
@@ -993,8 +1040,60 @@ addition to its own.</p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
 </ul>
-<p><a name="7.1.2."></a></p>
-<h3>7.1.2. Modify Requests</h3>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+</ul>
+<p><a name="7.2.2."></a></p>
+<h3>7.2.2. Request: Retrieve, Content: *, Resource: Service-URL</h3>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET Service-URL</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST only list Service-URLs in the Service Document for which a deposit request would be permitted</li>
+<li>MUST respond with a valid Service Document or a suitable error response</li>
+</ul>
+<p><a name="7.2.3."></a></p>
+<h3>7.2.3. Request: Retrieve, Content: *, Resource: Object-URL</h3>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET Object-URL</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST include ETag header if implementing concurrency control</li>
+</ul>
+<p><a name="7.2.4."></a></p>
+<h3>7.2.4. Request: Retrieve, Content: *, Resource: Components</h3>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include ETag header if implementing concurrency control</li>
+</ul>
+<p><a name="7.2.5."></a></p>
+<h3>7.2.5. Request: Retrieve, Content: *, Resource: Metadata-URL</h3>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET Metadata-URL</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a valid Metadata document (see definition below) or a suitable error response</li>
+</ul>
+<p><a name="7.2.6."></a></p>
+<h3>7.2.6. Request: Retrieve, Content: *, Resource: File-URL</h3>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET File-URL</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response</li>
+</ul>
+<p><a name="7.2.7."></a></p>
+<h3>7.2.7. Request: Modify, Content: *, Resource: *</h3>
 <p><strong>Request Requirements</strong></p>
 <ul>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
@@ -1007,8 +1106,100 @@ addition to its own.</p>
 <ul>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
-<p><a name="7.1.3."></a></p>
-<h3>7.1.3. Create Requests</h3>
+<p><a name="7.2.8."></a></p>
+<h3>7.2.8. Request: Modify, Content: Body, Resource: *</h3>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+</ul>
+<p><a name="7.2.9."></a></p>
+<h3>7.2.9. Request: Modify, Content: Metadata, Resource: *</h3>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>SHOULD provide the <code>Metadata-Format</code> header</li>
+<li>MUST provide only the Metadata document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+</ul>
+<p><a name="7.2.10."></a></p>
+<h3>7.2.10. Request: Modify, Content: By-Reference, Resource: *</h3>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the By-Reference document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+</ul>
+<p><a name="7.2.11."></a></p>
+<h3>7.2.11. Request: Modify, Content: By-Reference, Resource: File-URL</h3>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST only include a single By-Reference File in the By-Reference document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If more than one By-Reference File is present, MUST reject the request.</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code></li>
+</ul>
+<p><a name="7.2.12."></a></p>
+<h3>7.2.12. Request: Modify, Content: MD+BR, Resource: *</h3>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>SHOULD provide the Metadata-Format header</li>
+<li>MUST provide the Metadata+By Reference document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If no Metadata-Format header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+</ul>
+<p><a name="7.2.13."></a></p>
+<h3>7.2.13. Request: Modify, Content: Binary File, Resource: *</h3>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY provide the Packaging header, and if so MUST be the Binary format identifier</li>
+<li>MUST provide Binary File body content</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>The server SHOULD NOT attempt to unpack the file</li>
+</ul>
+<p><a name="7.2.14."></a></p>
+<h3>7.2.14. Request: Modify, Content: Packaged Content, Resource: *</h3>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the Packaging header</li>
+<li>MUST provide Packaged Content in the request body</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>The server MAY attempt to unpack the file</li>
+</ul>
+<p><a name="7.2.15."></a></p>
+<h3>7.2.15. Request: Modify, Content: Empty Body, Resource: *</h3>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+</ul>
+<p><a name="7.2.16."></a></p>
+<h3>7.2.16. Request: Create, Content: *, Resource: Service-URL</h3>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>POST Service-URL</li>
@@ -1028,8 +1219,8 @@ addition to its own.</p>
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
 <li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
 </ul>
-<p><a name="7.1.4."></a></p>
-<h3>7.1.4. Create With Content</h3>
+<p><a name="7.2.17."></a></p>
+<h3>7.2.17. Request: Create, Content: Body, Resource: Service-URL</h3>
 <p><strong>Request Requirements</strong></p>
 <ul>
 <li>MAY provide the <code>In-Progress</code> header</li>
@@ -1039,8 +1230,8 @@ addition to its own.</p>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
 <li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
 </ul>
-<p><a name="7.1.5."></a></p>
-<h3>7.1.5. Create With Segment Upload Initialisation</h3>
+<p><a name="7.2.18."></a></p>
+<h3>7.2.18. Request: Create, Content: Empty Body, Resource: Service-URL</h3>
 <p><strong>Request Requirements</strong></p>
 <ul>
 <li>MUST provide the <code>In-Progress</code> header with value <code>true</code></li>
@@ -1054,8 +1245,8 @@ addition to its own.</p>
 <li>If no <code>In-Progress</code> header is provided, MUST respond with a <code>412</code> error</li>
 <li>MUST reject the request if the conditions of the upload are not acceptable</li>
 </ul>
-<p><a name="7.1.6."></a></p>
-<h3>7.1.6. Update Requests</h3>
+<p><a name="7.2.19."></a></p>
+<h3>7.2.19. Request: Update, Content: *, Resource: *</h3>
 <p><strong>Request Requirements</strong></p>
 <ul>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -1064,159 +1255,20 @@ addition to its own.</p>
 <ul>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 </ul>
-<p><a name="7.1.7."></a></p>
-<h3>7.1.7. Append Requests</h3>
+<p><a name="7.2.20."></a></p>
+<h3>7.2.20. Request: Append, Content: *, Resource: *</h3>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 </ul>
-<p><a name="7.1.8."></a></p>
-<h3>7.1.8. Delete Requests</h3>
+<p><a name="7.2.21."></a></p>
+<h3>7.2.21. Request: Delete, Content: *, Resource: *</h3>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
 </ul>
-<p><a name="7.2."></a></p>
-<h2>7.2. The Content</h2>
-<p>The hierarchy for Content is as follows</p>
-<pre><code>All Content
-| - Empty Body
-\ - Has Body Content
-    | - JSON
-    |   | - Metadata
-    |   | - By-Reference
-    |   \ - Metadata + By Reference
-    \ - Binary
-        | - Binary File
-        \ - Packaged Content
-</code></pre>
-
-<p><a name="7.2.1."></a></p>
-<h3>7.2.1. Empty Body</h3>
-<p><strong>Request Requirements</strong></p>
-<ul>
-<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
-<li>MUST NOT include any body content</li>
-</ul>
-<p><a name="7.2.2."></a></p>
-<h3>7.2.2. Has Body Content</h3>
-<p><strong>Request Requirements</strong></p>
-<ul>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
-<li>SHOULD provide the <code>Content-Length</code></li>
-</ul>
-<p><strong>Server Requirements</strong></p>
-<ul>
-<li>MUST verify that the content matches the <code>Digest</code> header</li>
-<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
-</ul>
-<p><strong>Response Requirements</strong></p>
-<ul>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
-</ul>
-<p><a name="7.2.3."></a></p>
-<h3>7.2.3. Metadata</h3>
-<p><strong>Request Requirements</strong></p>
-<ul>
-<li>SHOULD provide the <code>Metadata-Format</code> header</li>
-<li>MUST provide only the Metadata document</li>
-</ul>
-<p><strong>Server Requirements</strong></p>
-<ul>
-<li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
-</ul>
-<p><a name="7.2.4."></a></p>
-<h3>7.2.4. By-Reference</h3>
-<p><strong>Request Requirements</strong></p>
-<ul>
-<li>MUST provide the By-Reference document</li>
-</ul>
-<p><strong>Server Requirements</strong></p>
-<ul>
-<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
-</ul>
-<p><a name="7.2.5."></a></p>
-<h3>7.2.5. Metadata + By-Reference</h3>
-<p><strong>Request Requirements</strong></p>
-<ul>
-<li>SHOULD provide the Metadata-Format header</li>
-<li>MUST provide the Metadata+By Reference document</li>
-</ul>
-<p><strong>Server Requirements</strong></p>
-<ul>
-<li>If no Metadata-Format header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
-<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
-</ul>
-<p><a name="7.2.6."></a></p>
-<h3>7.2.6. Binary File</h3>
-<p><strong>Request Requirements</strong></p>
-<ul>
-<li>MAY provide the Packaging header, and if so MUST be the Binary format identifier</li>
-<li>MUST provide Binary File body content</li>
-</ul>
-<p><strong>Server Requirements</strong></p>
-<ul>
-<li>The server SHOULD NOT attempt to unpack the file</li>
-</ul>
-<p><a name="7.2.7."></a></p>
-<h3>7.2.7. Packaged Content</h3>
-<p><strong>Request Requirements</strong></p>
-<ul>
-<li>MUST provide the Packaging header</li>
-<li>MUST provide Packaged Content in the request body</li>
-</ul>
-<p><strong>Server Requirements</strong></p>
-<ul>
-<li>The server MAY attempt to unpack the file</li>
-</ul>
-<p><a name="7.3."></a></p>
-<h2>7.3. The Resource</h2>
-<p>The hierarchy for how rules apply to the resources is as follows:</p>
-<pre><code>All Resources
-| - Service-URL
-| - Object-URL
-\ - Components
-    | - Metadata-URL
-    | - FileSet-URL
-    \ - File-URL
-</code></pre>
-
-<p><a name="7.3.1."></a></p>
-<h3>7.3.1. Service-URL</h3>
-<h4>Retrieve</h4>
-<p><strong>Protocol Operation</strong></p>
-<ul>
-<li>GET Service-URL</li>
-</ul>
-<p><strong>Response Requirements</strong></p>
-<ul>
-<li>If Authorization (and optionally On-Behalf-Of) headers are provided, MUST only list Service-URLs in the Service Document for which a deposit request would be permitted</li>
-<li>MUST respond with a valid Service Document or a suitable error response</li>
-</ul>
-<p><a name="7.3.2."></a></p>
-<h3>7.3.2. Object-URL</h3>
-<h4>Retrieve</h4>
-<p><strong>Protocol Operation</strong></p>
-<ul>
-<li>GET Object-URL</li>
-</ul>
-<p><strong>Response Requirements</strong></p>
-<ul>
-<li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
-</ul>
-<p><a name="7.3.3."></a></p>
-<h3>7.3.3. Update with Segmented Upload Initialisation</h3>
-<p><strong>Request Requirements</strong></p>
-<ul>
-<li>MUST provide the In-Progress header with value <code>true</code></li>
-</ul>
-<p><strong>Response Requirements</strong></p>
-<ul>
-<li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
-</ul>
-<h4>Update (except for Segmented Upload Initialisation)</h4>
+<p><a name="7.2.22."></a></p>
+<h3>7.2.22. Request: Update, Content: Body, Resource: Object-URL</h3>
 <p><strong>Request Requirements</strong></p>
 <ul>
 <li>MAY provide the In-Progress header</li>
@@ -1230,52 +1282,70 @@ addition to its own.</p>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include ETag header if implementing concurrency control</li>
 </ul>
-<h4>Append</h4>
+<p><a name="7.2.23."></a></p>
+<h3>7.2.23. Request: Update, Content: Empty Body, Resource: Object-URL</h3>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the In-Progress header with value <code>true</code></li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST include ETag header if implementing concurrency control</li>
+</ul>
+<p><a name="7.2.24."></a></p>
+<h3>7.2.24. Request: Append, Content: *, Resource: Object-URL</h3>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>POST Object-URL</li>
 </ul>
-<p><a name="7.3.4."></a></p>
-<h3>7.3.4. Components</h3>
-<h4>Retrieve</h4>
-<p><strong>Response Requirements</strong></p>
+<p><a name="7.2.25."></a></p>
+<h3>7.2.25. Request: Replace, Content: *, Resource: Object-URL</h3>
+<p><strong>Protocol Operation</strong></p>
 <ul>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>PUT Object-URL</li>
 </ul>
-<h4>Update</h4>
-<p><strong>Response Requirements</strong></p>
-<ul>
-<li>MUST include ETag header if implementing concurrency control</li>
-</ul>
-<h4>Replace</h4>
+<p><a name="7.2.26."></a></p>
+<h3>7.2.26. Request: Replace, Content: *, Resource: Components</h3>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
-<p><a name="7.3.5."></a></p>
-<h3>7.3.5. Metadata-URL</h3>
-<h4>Retrieve</h4>
+<p><a name="7.2.27."></a></p>
+<h3>7.2.27. Request: Replace, Content: *, Resource: Metadata-URL</h3>
 <p><strong>Protocol Operation</strong></p>
 <ul>
-<li>GET Metadata-URL</li>
+<li>PUT Metadata-URL</li>
 </ul>
-<p><strong>Response Requirements</strong></p>
-<ul>
-<li>MUST respond with a valid Metadata document (see definition below) or a suitable error response</li>
-</ul>
-<p><a name="7.3.6."></a></p>
-<h3>7.3.6. FileSet-URL</h3>
-<p>No additional requirements on working with the FileSet-URL</p>
-<p><a name="7.3.7."></a></p>
-<h3>7.3.7. File-URL</h3>
-<h4>Retrieve</h4>
+<p><a name="7.2.28."></a></p>
+<h3>7.2.28. Request: Replace, Content: *, Resource: FileSet-URL</h3>
 <p><strong>Protocol Operation</strong></p>
 <ul>
-<li>GET File-URL</li>
+<li>PUT FileSet-URL</li>
 </ul>
-<p><strong>Response Requirements</strong></p>
+<p><a name="7.2.29."></a></p>
+<h3>7.2.29. Request: Replace, Content: *, Resource: File-URL</h3>
+<p><strong>Protocol Operation</strong></p>
 <ul>
-<li>MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response</li>
+<li>PUT File-URL</li>
+</ul>
+<p><a name="7.2.30."></a></p>
+<h3>7.2.30. Request: Delete, Content: *, Resource: Object-URL</h3>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>DELETE Object-URL</li>
+</ul>
+<p><a name="7.2.31."></a></p>
+<h3>7.2.31. Request: Delete, Content: *, Resource: FileSet-URL</h3>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>DELETE FileSet-URL</li>
+</ul>
+<p><a name="7.2.32."></a></p>
+<h3>7.2.32. Request: Delete, Content: *, Resource: File-URL</h3>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>DELETE File-URL</li>
 </ul>
 <p><a name="8."></a></p>
 <h1>8. Documents</h1>
@@ -1509,5 +1579,5 @@ Service is requested, it MUST only provide information about itself and its chil
 <p><a name="openapi"><strong>OpenAPI</strong> OpenAPI Specification, Version 3.0.0 <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md">https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md</a> </p>
 <p><a name="json-ld"><strong>JSON-LD</strong> JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018 <a href="https://json-ld.org/spec/latest/json-ld/">https://json-ld.org/spec/latest/json-ld/</a> </p>
 <p><a name="json-schema"><strong>JSON-SCHEMA</strong> JSON Schema: A Media Type for Describing JSON Documents <a href="http://json-schema.org/latest/json-schema-core.html">http://json-schema.org/latest/json-schema-core.html</a> </p>
-<p>Last modified: 2018-03-30</p>
+<p>Last modified: 2018-04-02</p>
 
