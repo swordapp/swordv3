@@ -1,6 +1,6 @@
 {
 	"src_dir" : "src",
-	"out_dir" : "spec",
+	"out_dir" : "docs",
 	"build_dir" : "tmp",
 	"base_url" : "http://localhost:8000/",
 
