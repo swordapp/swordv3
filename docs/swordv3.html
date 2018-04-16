@@ -97,7 +97,10 @@
 <li><a href="#8.6.3.">8.6.3. Ingest Statuses for Individual Files</a></li>
 </ul>
 </li>
-<li><a href="#8.7.">8.7. Error Document</a></li>
+<li><a href="#8.7.">8.7. Error Document</a><ul>
+<li><a href="#8.7.1.">8.7.1. Error Types</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#9.">9. Content Disposition</a><ul>
@@ -111,7 +114,13 @@
 <li><a href="#10.2.">10.2. Transmitting Digests</a></li>
 </ul>
 </li>
-<li><a href="#11.">11. References</a>
+<li><a href="#11.">11. Continued Deposit</a><ul>
+<li><a href="#11.1.">11.1. Deposit Complete</a></li>
+<li><a href="#11.2.">11.2. Deposit Incomplete</a></li>
+<li><a href="#11.3.">11.3. Completing a Previously Incomplete Deposit</a></li>
+</ul>
+</li>
+<li><a href="#12.">12. References</a>
 </div></li>
 </ul>
 <p></div></p>
@@ -1048,10 +1057,10 @@ expanded.</p>
 <li>Replace</li>
 </ul>
 </li>
-<li>Complete</li>
 </ul>
 </li>
 <li>Retrieve</li>
+<li>Complete</li>
 <li>Delete</li>
 </ul>
 </li>
@@ -1436,6 +1445,20 @@ expanded.</p>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>POST Object-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the header <code>In-Progress: false</code></li>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>MAY inject the content into any ingest workflows</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>204</code> or a suitable error</li>
 </ul>
 <p><a name="8."></a></p>
 <h1>8. Documents</h1>
@@ -2447,6 +2470,61 @@ file (Original Deposits), a “status” field will provide information on the c
 </tr>
 </tbody>
 </table>
+<p><a name="8.7.1."></a></p>
+<h3>8.7.1. Error Types</h3>
+<p>The following are the error types that are available (to place in <code>@type</code>), their associated HTTP Status Code, and the legitimate reasons
+for returning that error:</p>
+<table>
+<thead>
+<tr>
+<th>Error Type</th>
+<th>Error Code</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BadRequest</td>
+<td>400</td>
+<td>The request did not meet the standard specified by the SWORD protocol. This error can be used when no other error is appropriate</td>
+</tr>
+<tr>
+<td>ContentMalformed</td>
+<td>400</td>
+<td>The body content of the request was malformed in some way, such that the server cannot read it correctly.</td>
+</tr>
+<tr>
+<td>AuthenticationFailed</td>
+<td>403</td>
+<td>The request supplied invalid credentials, or no credentials, when the server was expecting to authenticate the request.</td>
+</tr>
+<tr>
+<td>MethodNotAllowed</td>
+<td>405</td>
+<td>The request is for a method on a resource that is not permitted. This may be permanent, temporary, and may depend on the client’s credentials</td>
+</tr>
+<tr>
+<td>OnBehalfOfNotAllowed</td>
+<td>412</td>
+<td>The request contained an <code>On-Behalf-Of</code> header, although the server indicates that it does not support this.</td>
+</tr>
+<tr>
+<td>ETagNotMatched</td>
+<td>412</td>
+<td>The client supplied an <code>If-Match</code> header which did not match the current <code>ETag</code> for the resource being updated.</td>
+</tr>
+<tr>
+<td>MaxUploadSizeExceeded</td>
+<td>413</td>
+<td>The request supplied body content which is larger than that supported by the server.</td>
+</tr>
+<tr>
+<td>FormatHeaderMismatch</td>
+<td>415</td>
+<td>The <code>Metadata-Format</code> or <code>Packaging</code> header does not match what the server found when looking at the Metadata or Packaged Content supplied in a request.</td>
+</tr>
+</tbody>
+</table>
 <p><a name="9."></a></p>
 <h1>9. Content Disposition</h1>
 <p>SWORD uses the <code>Content-Disposition</code> header in client requests to indicate to the server information about the payload being delivered. 
@@ -2519,7 +2597,40 @@ formats.</p>
 
 <p>The server MUST validate at least one digest, SHOULD validate all digests, though MAY choose its preferred format to validate against.</p>
 <p><a name="11."></a></p>
-<h1>11. References</h1>
+<h1>11. Continued Deposit</h1>
+<p>Some systems may wish to give the client more control over the ingest process, and SWORD uses the <code>In-Progress</code> HTTP header to allow the 
+client to indicate that a deposit should not yet be injected into any post-submission or pre-ingest workflow. The <code>In-Progress</code> header MUST 
+take the value <code>true</code> or <code>false</code>, and if it is not present the server MUST assume that it is <code>false</code> and behave as described below.</p>
+<p>An example use case for this is that the client may be embedded into a system which uses the SWORD server as a storage layer, but which 
+cannot acquire all of the content for a "finished" item in one deposit operation. Consider a user-facing system which encourages users to 
+upload files one at a time through some web interface, which causes each file to be directly deposited onto the SWORD server. At the start 
+of the deposit the client asserts that deposit is <code>In-Progress: true</code>, and then proceeds to upload files. If uploading them to the 
+Object-URL the client continues to assert <code>In-Progress: true</code> on each request (if depositing to other URLs this is not necessary). This 
+goes on until the user confirms that they have uploaded all the relevant files, or navigates away from the page. At that stage, the client 
+can issue a blank HTTP POST request to the SWORD server, with <code>In-Progress: false</code> to complete the deposit.</p>
+<p>Note that the <code>In-Progress</code> header is intended to indicate to the server that further content will be coming in which is associated with 
+the existing content, before it can be considered "complete". It is not intended to provide workflow control, and clients MUST NOT assume 
+that asserting <code>In-Progress: true</code> will have any specific effect on the state of the item.</p>
+<p><a name="11.1."></a></p>
+<h2>11.1. Deposit Complete</h2>
+<p>If <code>In-Progress</code> is <code>false</code>, the server MAY assume that it can carry on processing the deposit as it sees fit.</p>
+<p><a name="11.2."></a></p>
+<h2>11.2. Deposit Incomplete</h2>
+<p>If <code>In-Progress</code> is <code>true</code>, the server SHOULD expect the client to provide further updates to the item some undetermined time in the future. 
+Details of how this is implemented is dependent on the server's purpose. For example, a repository system may hold items which are marked 
+<code>In-Progress</code> in a workspace until such time as a client request indicates that the deposit is complete.</p>
+<p><a name="11.3."></a></p>
+<h2>11.3. Completing a Previously Incomplete Deposit</h2>
+<p>The client can assert that a deposit process has completed by issuing an HTTP POST to the Object-URL with a blank request body and with the 
+<code>In-Progress</code> header set to <code>false</code> (it may simply omit the header altogether too, as this is treated as <code>In-Progress: false</code> by the 
+server). The client MAY specify a <code>Content-Length: 0</code> HTTP header, and MUST NOT include any body content.</p>
+<ul>
+<li>The client MAY provide an In-Progress header with a value of false</li>
+<li>The client MAY provide an On-Behalf-Of header</li>
+</ul>
+<p>Once the server has processed the request it MUST respond with status code 204 (No Content), or a suitable error.</p>
+<p><a name="12."></a></p>
+<h1>12. References</h1>
 <p><a name="atompub"><strong>AtomPub</strong> Gregario, J. and B. de hOra, "The Atom Publishing Protocol", RFC 5023, October 2007. <a href="http://www.ietf.org/rfc/rfc5023.txt">http://www.ietf.org/rfc/rfc5023.txt</a> </p>
 <p><a name="iana_digest"><strong>IANA Digest</strong> Hypertext Transfer Protocol (HTTP) Digest Algorithm Values <a href="https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml">https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml</a> </p>
 <p><a name="json-ld"><strong>JSON-LD</strong> JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018 <a href="https://json-ld.org/spec/latest/json-ld/">https://json-ld.org/spec/latest/json-ld/</a> </p>

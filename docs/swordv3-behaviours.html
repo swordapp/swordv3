@@ -1195,18 +1195,19 @@ server that you have completed your additions or modifications to the Object, so
 <p><strong>Request Requirements</strong></p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
-<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MUST provide the header <code>In-Progress: false</code></li>
 <li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
 <li>MUST NOT include any body content</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>MAY inject the content into any ingest workflows</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
-<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>204</code> or a suitable error</li>
 </ul>
 <p></div></p></body>
 </html>

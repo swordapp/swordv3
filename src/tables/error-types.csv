@@ -1,0 +1,9 @@
+Error Type,Error Code,Reason
+BadRequest,400,The request did not meet the standard specified by the SWORD protocol. This error can be used when no other error is appropriate
+ContentMalformed,400,"The body content of the request was malformed in some way, such that the server cannot read it correctly."
+AuthenticationFailed,403,"The request supplied invalid credentials, or no credentials, when the server was expecting to authenticate the request."
+MethodNotAllowed,405,"The request is for a method on a resource that is not permitted. This may be permanent, temporary, and may depend on the client’s credentials"
+OnBehalfOfNotAllowed,412,"The request contained an `On-Behalf-Of` header, although the server indicates that it does not support this."
+ETagNotMatched,412,The client supplied an `If-Match` header which did not match the current `ETag` for the resource being updated.
+MaxUploadSizeExceeded,413,The request supplied body content which is larger than that supported by the server.
+FormatHeaderMismatch,415,The `Metadata-Format` or `Packaging` header does not match what the server found when looking at the Metadata or Packaged Content supplied in a request.

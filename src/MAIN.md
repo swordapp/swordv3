@@ -12,5 +12,6 @@ Last modified: {% date now,%Y-%m-%d %}
 {% include sections/DOCUMENTS.md %}
 {% include sections/CONTENT_DISPOSITION.md %}
 {% include sections/CONTENT_DIGESTS.md %}
+{% include sections/CONTINUED_DEPOSIT.md %}
 {% include sections/REFERENCES.md %}
 {~ html /div ~}

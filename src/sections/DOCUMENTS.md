@@ -215,3 +215,7 @@ The fields available are defined as follows:
 The following are the error types that are available (to place in `@type`), their associated HTTP Status Code, and the legitimate reasons
 for returning that error:
 
+{%
+table
+    source=tables/error-types.csv
+%}

@@ -2,7 +2,7 @@ Request,*,Retrieve,,
 Request,*,Modify,Create,
 Request,*,Modify,Update,Append
 Request,*,Modify,Update,Replace
-Request,*,Modify,Complete,
+Request,*,Complete,,
 Request,*,Delete,,
 Content,*,Body,JSON,Metadata
 Content,*,Body,JSON,By-Reference
