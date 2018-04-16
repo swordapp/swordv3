@@ -57,7 +57,8 @@
 					"title": "The ETag for the Metadata",
 					"description": "MUST be present if the server supports concurrency control"
 				}
-			}
+			},
+			"required" : ["@id"]
 		},
 		"fileSet": {
 			"$id": "/properties/fileSet",
@@ -80,7 +81,8 @@
 					"title": "The Etag for the FileSet",
 					"description": "MUST be present if the server supports concurrency control"
 				}
-			}
+			},
+			"required" : ["@id"]
 		},
 		"service": {
 			"$id": "/properties/service",
@@ -118,7 +120,8 @@
 							"the item is currently inProgress"
 						]
 					}
-				}
+				},
+				"required" : ["@id"]
 			}
 		},
 		"actions": {
@@ -126,6 +129,7 @@
 			"type": "object",
 			"title": "Container for the list of actions that are available against the object for the client.",
 			"description": "MUST be present",
+
 			"properties": {
 				"getMetadata": {
 					"$id": "/properties/actions/properties/getMetadata",
@@ -208,7 +212,9 @@
 						true
 					]
 				}
-			}
+			},
+
+			"required" : ["getMetadata", "getFiles", "appendMetadata", "appendFiles", "replaceMetadata", "replaceFiles", "deleteMetadata", "deleteFiles", "deleteObject"]
 		},
 		"lastAction": {
 			"$id": "/properties/lastAction",
@@ -268,6 +274,7 @@
 			"items": {
 				"$id": "/properties/links/items",
 				"type": "object",
+
 				"properties": {
 					"@id": {
 						"$id": "/properties/links/items/properties/@id",
@@ -459,9 +466,11 @@
 									2000000
 								]
 							}
-						}
+						},
+						"required" : ["received", "expecting", "size", "segment_size"]
 					}
-				}
+				},
+				"required" : ["@id", "rel"]
 			}
 		},
 		"forwarding": {
@@ -530,5 +539,7 @@
 				}
 			}
 		}
-	}
+	},
+
+	"required" : ["@context", "@id", "@type", "metadata", "fileSet", "service", "state", "actions"]
 }

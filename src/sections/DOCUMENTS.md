@@ -191,3 +191,27 @@ dl
     term=Status,
     definition=Description
 %}
+
+
+## Error Document
+
+An error document is returned at any point that a synchronous operation fails.
+
+The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url error.schema.json %}).
+
+An example of the Error Document:
+
+```json
+{% include examples/error.json %}
+```
+
+The fields available are defined as follows:
+
+{% json_schema_definitions schemas/error.schema.json %}
+
+
+### Error Types
+
+The following are the error types that are available (to place in `@type`), their associated HTTP Status Code, and the legitimate reasons
+for returning that error:
+

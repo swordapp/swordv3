@@ -1,0 +1,55 @@
+{
+	"$id": "http://example.com/example.json",
+	"type": "object",
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title" : "Error Document",
+	"description" : "An error document is returned at any point that a synchronous operation fails.",
+
+	"properties": {
+		"@context": {
+			"$id": "/properties/@context",
+			"type": "string",
+			"title": "The JSON-LD Context for this document",
+			"description": "MUST be present",
+			"examples": [
+				"http://swordapp.org/swordv3.jsonld"
+			]
+		},
+		"@type": {
+			"$id": "/properties/@type",
+			"type": "string",
+			"title": "JSON-LD identifier for the document type",
+			"description": "This field is used to define the type of the document, and in this case should be one of the allowed Error Doucment types.  MUST be present.",
+			"examples": [
+				"BadRequest"
+			]
+		},
+		"timestamp": {
+			"$id": "/properties/timestamp",
+			"type": "string",
+			"format" : "date-time",
+			"title": "When the error occurred.",
+			"description" : "MUST be present"
+		},
+		"error": {
+			"$id": "/properties/error",
+			"type": "string",
+			"title": "A short summary/title for the error",
+			"description" : "MUST be present",
+			"examples": [
+				"error summary"
+			]
+		},
+		"log": {
+			"$id": "/properties/log",
+			"type": "string",
+			"title": "Some detail as to the error, with any information that might help resolve it.",
+			"description" : "SHOULD be present",
+			"examples": [
+				"text log of any debug information for the client"
+			]
+		}
+	},
+
+	"required" : ["@context", "@type", "timestamp", "error"]
+}

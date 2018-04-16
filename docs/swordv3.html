@@ -97,6 +97,7 @@
 <li><a href="#8.6.3.">8.6.3. Ingest Statuses for Individual Files</a></li>
 </ul>
 </li>
+<li><a href="#8.7.">8.7. Error Document</a></li>
 </ul>
 </li>
 <li><a href="#9.">9. Content Disposition</a><ul>
@@ -2392,6 +2393,60 @@ file (Original Deposits), a “status” field will provide information on the c
 <p>The following statuses are permitted, servers SHOULD provide one of these by each relevant file:</p>
 <dl><dt><a name="http://purl.org/net/sword/3.0/filestate/pending">http://purl.org/net/sword/3.0/filestate/pending</dt><dd>the server has not yet started to process this file. It may be in a queue, or it may still be in the process of deposit via a Segmented Upload.</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/downloading">http://purl.org/net/sword/3.0/filestate/downloading</dt><dd>the server has started to download your By-Reference file, and is not yet complete</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/unpacking">http://purl.org/net/sword/3.0/filestate/unpacking</dt><dd>the server has started unpacking your Packaged Content, and is not yet finished</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/error">http://purl.org/net/sword/3.0/filestate/error</dt><dd>there was an error either downloading or unpacking your file; information should be available in the “log” field to aid the client in understanding what went wrong.</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/ingested">http://purl.org/net/sword/3.0/filestate/ingested</dt><dd>the file has been successfully ingested</dd></dl>
 
+<p><a name="8.7."></a></p>
+<h2>8.7. Error Document</h2>
+<p>An error document is returned at any point that a synchronous operation fails.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/error.schema.json">here</a>.</p>
+<p>An example of the Error Document:</p>
+<pre><code class="json">{
+  &quot;@context&quot; : &quot;http://swordapp.org/swordv3.jsonld&quot;,
+
+  &quot;@type&quot; : &quot;BadRequest&quot;,
+
+  &quot;timestamp&quot; : &quot;[xsd:dateTime]&quot;,
+  &quot;error&quot; : &quot;error summary&quot;,
+  &quot;log&quot; : &quot;text log of any debug information for the client&quot;
+}
+
+</code></pre>
+
+<p>The fields available are defined as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@context</td>
+<td>string</td>
+<td>The JSON-LD Context for this document<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>@type</td>
+<td>string</td>
+<td>JSON-LD identifier for the document type<br><br>This field is used to define the type of the document, and in this case should be one of the allowed Error Doucment types.  MUST be present.</td>
+</tr>
+<tr>
+<td>error</td>
+<td>string</td>
+<td>A short summary/title for the error<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>log</td>
+<td>string</td>
+<td>Some detail as to the error, with any information that might help resolve it.<br><br>SHOULD be present</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>string</td>
+<td>When the error occurred.<br><br>MUST be present</td>
+</tr>
+</tbody>
+</table>
 <p><a name="9."></a></p>
 <h1>9. Content Disposition</h1>
 <p>SWORD uses the <code>Content-Disposition</code> header in client requests to indicate to the server information about the payload being delivered. 

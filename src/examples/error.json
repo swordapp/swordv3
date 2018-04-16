@@ -1,0 +1,9 @@
+{
+  "@context" : "http://swordapp.org/swordv3.jsonld",
+
+  "@type" : "BadRequest",
+
+  "timestamp" : "[xsd:dateTime]",
+  "error" : "error summary",
+  "log" : "text log of any debug information for the client"
+}

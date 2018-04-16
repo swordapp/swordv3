@@ -1,4 +1,9 @@
+{~ html div,clazz=nav ~}
 {% toc %}
+{~ html /div ~}
+
+{~ html div,clazz=spec ~}
+Last modified: {% date now,%Y-%m-%d %}
 
 # Retrieve the Service Document
 
@@ -551,3 +556,6 @@ requirements
     match=Complete|Empty Body|Object-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+
+{~ html /div ~}

@@ -1,4 +1,15 @@
-<p><div class=toc></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SWORDv3 Protocol Behaviours</title>
+
+    <link rel="stylesheet" href="swordv3.css">
+</head>
+<body>
+
+<h1 class="main_title">SWORDv3 Protocol Behaviours</h1><p><div class=nav>
+<div class=toc></p>
 <ul>
 <li><a href="#1.">1. Retrieve the Service Document</a></li>
 <li><a href="#2.">2. Creating New Objects</a><ul>
@@ -54,6 +65,9 @@
 <li><a href="#7.">7. Completing Previously In-Progress Deposits</a>
 </div></li>
 </ul>
+<p></div></p>
+<p><div class=spec>
+Last modified: 2018-04-16</p>
 <p><a name="1."></a></p>
 <h1>1. Retrieve the Service Document</h1>
 <p>Request from the server a list of the Service-URLs that the client can deposit to.  A Service-URL allows the server to support multiple 
@@ -1194,4 +1208,6 @@ server that you have completed your additions or modifications to the Object, so
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
+<p></div></p></body>
+</html>
 

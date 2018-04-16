@@ -9,13 +9,15 @@
 			"root" : "MAIN.md",
 			"out" : "swordv3.html",
 			"process" : true,
-			"header" : "templates/head.html",
+			"header" : "templates/head_spec.html",
 			"footer" : "templates/foot.html"
 		},
 		{
 			"root" : "BEHAVIOURS.md",
 			"out" : "swordv3-behaviours.html",
-			"process" : true
+			"process" : true,
+			"header" : "templates/head_behaviours.html",
+			"footer" : "templates/foot.html"
 		},
 		{
 			"root" : "schemas/openapi.json",
