@@ -173,7 +173,7 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>SHOULD provide the Metadata-Format header</li>
+<li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide the Metadata+By Reference document</li>
 <li>MAY provide the <code>Slug</code> header</li>
 <li>MAY provide the <code>In-Progress</code> header</li>
@@ -184,7 +184,7 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
-<li>If no Metadata-Format header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+<li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -214,7 +214,7 @@ attempt to unpack.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>MAY provide the Packaging header, and if so MUST be the Binary format identifier</li>
+<li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 <li>MUST provide Binary File body content</li>
 <li>MAY provide the <code>Slug</code> header</li>
 <li>MAY provide the <code>In-Progress</code> header</li>
@@ -254,7 +254,7 @@ may understand how to unpack.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>MUST provide the Packaging header</li>
+<li>MUST provide the <code>Packaging</code> header</li>
 <li>MUST provide Packaged Content in the request body</li>
 <li>MAY provide the <code>Slug</code> header</li>
 <li>MAY provide the <code>In-Progress</code> header</li>
@@ -334,7 +334,7 @@ document in response.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="3.2."></a></p>
 <h2>3.2. Retrieving the Metadata from an Object</h2>
@@ -358,7 +358,7 @@ by the appropriate URL.</p>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a valid Metadata document (see definition below) or a suitable error response</li>
 </ul>
 <p><a name="3.3."></a></p>
@@ -384,7 +384,7 @@ actual individual files that make up the object, or:</p>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response</li>
 </ul>
 <p><a name="3.4."></a></p>
@@ -414,7 +414,7 @@ any other metadata fields held by the server remain untouched.</p>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide only the Metadata document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MAY provide the In-Progress header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -433,7 +433,7 @@ any other metadata fields held by the server remain untouched.</p>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="4.2."></a></p>
 <h2>4.2. Appending By-Reference Files to an Object</h2>
@@ -450,7 +450,7 @@ any other metadata fields held by the server remain untouched.</p>
 <li>SHOULD provide the <code>Content-Length</code></li>
 <li>MUST provide the By-Reference document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MAY provide the In-Progress header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -469,7 +469,7 @@ any other metadata fields held by the server remain untouched.</p>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="4.3."></a></p>
 <h2>4.3. Appending Metadata and By-Reference Files to an Object</h2>
@@ -484,10 +484,10 @@ any other metadata fields held by the server remain untouched.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>SHOULD provide the Metadata-Format header</li>
+<li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide the Metadata+By Reference document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MAY provide the In-Progress header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -495,7 +495,7 @@ any other metadata fields held by the server remain untouched.</p>
 <li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
-<li>If no Metadata-Format header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+<li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -507,7 +507,7 @@ any other metadata fields held by the server remain untouched.</p>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="4.4."></a></p>
 <h2>4.4. Appending a single Binary File to an Object</h2>
@@ -523,10 +523,10 @@ without the server unpacking it as it would Packaged Content.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>MAY provide the Packaging header, and if so MUST be the Binary format identifier</li>
+<li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 <li>MUST provide Binary File body content</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MAY provide the In-Progress header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -545,7 +545,7 @@ without the server unpacking it as it would Packaged Content.</p>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="4.5."></a></p>
 <h2>4.5. Appending Packaged Content to an Object</h2>
@@ -562,10 +562,10 @@ actionable metadata.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>MUST provide the Packaging header</li>
+<li>MUST provide the <code>Packaging</code> header</li>
 <li>MUST provide Packaged Content in the request body</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MAY provide the In-Progress header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -584,7 +584,7 @@ actionable metadata.</p>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="4.6."></a></p>
 <h2>4.6. Initialising Append of Binary Files to an Object via Segmented Upload</h2>
@@ -600,19 +600,21 @@ actionable metadata.</p>
 <li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
 <li>MUST NOT include any body content</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MUST provide the In-Progress header with value <code>true</code></li>
+<li>MUST provide the <code>In-Progress</code> header with value <code>true</code></li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
+<li>If no <code>In-Progress</code> header is provided, MUST NOT accept the request</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>If no <code>In-Progress</code> header is provided, MUST respond with a <code>412</code> error</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 </ul>
 <p><a name="4.7."></a></p>
@@ -669,7 +671,7 @@ format correctly in the <code>Content-Disposition</code> header when initialisin
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>MAY provide the Packaging header, and if so MUST be the Binary format identifier</li>
+<li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 <li>MUST provide Binary File body content</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
 </ul>
@@ -803,7 +805,7 @@ be removed, and the new one will replace them.  The server may or may not keep o
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>MAY provide the Packaging header, and if so MUST be the Binary format identifier</li>
+<li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 <li>MUST provide Binary File body content</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
 </ul>
@@ -871,7 +873,7 @@ not keep old versions of the content available, at its discretion.</p>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide only the Metadata document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MAY provide the In-Progress header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -890,7 +892,7 @@ not keep old versions of the content available, at its discretion.</p>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="5.9."></a></p>
 <h2>5.9. Replacing an Object with By-Reference Files only</h2>
@@ -908,7 +910,7 @@ The server may or may not keep old versions of the content available, at its dis
 <li>SHOULD provide the <code>Content-Length</code></li>
 <li>MUST provide the By-Reference document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MAY provide the In-Progress header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -927,7 +929,7 @@ The server may or may not keep old versions of the content available, at its dis
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="5.10."></a></p>
 <h2>5.10. Replacing an Object with Metadata and By-Reference Files</h2>
@@ -943,10 +945,10 @@ By-Reference upload.  The server may or may not keep old versions of the content
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>SHOULD provide the Metadata-Format header</li>
+<li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide the Metadata+By Reference document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MAY provide the In-Progress header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -954,7 +956,7 @@ By-Reference upload.  The server may or may not keep old versions of the content
 <li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
-<li>If no Metadata-Format header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+<li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -966,7 +968,7 @@ By-Reference upload.  The server may or may not keep old versions of the content
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="5.11."></a></p>
 <h2>5.11. Replacing an Object with a single Binary File</h2>
@@ -983,10 +985,10 @@ the content available.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>MAY provide the Packaging header, and if so MUST be the Binary format identifier</li>
+<li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 <li>MUST provide Binary File body content</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MAY provide the In-Progress header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -1005,7 +1007,7 @@ the content available.</p>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="5.12."></a></p>
 <h2>5.12. Replacing an Object with Packaged Content</h2>
@@ -1022,10 +1024,10 @@ available.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
-<li>MUST provide the Packaging header</li>
+<li>MUST provide the <code>Packaging</code> header</li>
 <li>MUST provide Packaged Content in the request body</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MAY provide the In-Progress header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -1044,19 +1046,69 @@ available.</p>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="5.13."></a></p>
 <h2>5.13. Replacing an Object with a single Binary File via Segmented Upload</h2>
-<p>TODO</p>
+<p>Replace in its entirety the Object, including all Metadata and Files, with a single Binary File, which will be delivered via Segmented
+Upload.  All previous files and metadata will be removed, and new ones will replace them.  The server may or may not keep old versions of 
+the content available.</p>
+<p>This request initialises the Segmented Upload:</p>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>PUT Object-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+<li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
+<li>MUST provide the <code>In-Progress</code> header with value <code>true</code></li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
+<li>If no <code>In-Progress</code> header is provided, MUST NOT accept the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>If no <code>In-Progress</code> header is provided, MUST respond with a <code>412</code> error</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+</ul>
+<p>You may then go on to upload the file segments as per the specification.</p>
 <p><a name="5.14."></a></p>
 <h2>5.14. Replacing an Object with Packaged Content via Segmented Upload</h2>
-<p>TODO</p>
+<p>This operation is carried out exactly as per <a href="#5.13.">Replacing an Object with a single Binary File via Segmented Upload</a>, with the
+appropriate <code>packaging</code> parameter supplied in the <code>Content-Disposition</code>.</p>
 <p><a name="6."></a></p>
 <h1>6. Deleting all or part of Objects</h1>
 <p><a name="6.1."></a></p>
 <h2>6.1. Deleting an Object's Metadata</h2>
-<p>TODO</p>
+<p>Delete all the metadata fields from the Object.</p>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>DELETE Metadata-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
+</ul>
 <p><a name="6.2."></a></p>
 <h2>6.2. Deleting a single Binary File from an Object</h2>
 <p>Delete a single File from the Object.  The server may keep old versions of the file.</p>
@@ -1120,5 +1172,26 @@ available.</p>
 </ul>
 <p><a name="7."></a></p>
 <h1>7. Completing Previously In-Progress Deposits</h1>
-<p>TODO</p>
+<p>Where you have previously carried out deposits and sent the object the <code>In-Progress: true</code> header, you will eventually need to tell the
+server that you have completed your additions or modifications to the Object, so that it can finalise your deposit.</p>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Object-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+</ul>
 

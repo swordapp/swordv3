@@ -458,20 +458,44 @@ requirements
 
 ## Replacing an Object with a single Binary File via Segmented Upload
 
-TODO
+Replace in its entirety the Object, including all Metadata and Files, with a single Binary File, which will be delivered via Segmented
+Upload.  All previous files and metadata will be removed, and new ones will replace them.  The server may or may not keep old versions of 
+the content available.
+
+This request initialises the Segmented Upload:
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|Empty Body|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+You may then go on to upload the file segments as per the specification.
 
 
 ## Replacing an Object with Packaged Content via Segmented Upload
 
-TODO
+This operation is carried out exactly as per {% link Replacing an Object with a single Binary File via Segmented Upload %}, with the
+appropriate `packaging` parameter supplied in the `Content-Disposition`.
 
 
 # Deleting all or part of Objects
 
 ## Deleting an Object's Metadata
 
-TODO
+Delete all the metadata fields from the Object.
 
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Delete|Empty Body|Metadata-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
 
 ## Deleting a single Binary File from an Object
 
@@ -516,4 +540,14 @@ requirements
 
 # Completing Previously In-Progress Deposits
 
-TODO
+Where you have previously carried out deposits and sent the object the `In-Progress: true` header, you will eventually need to tell the
+server that you have completed your additions or modifications to the Object, so that it can finalise your deposit.
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Complete|Empty Body|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}

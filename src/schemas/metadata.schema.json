@@ -46,5 +46,7 @@
 		}
 	},
 
+	"required" : ["@context", "@id", "@type"],
+
 	"additonalProperties" : true
 }

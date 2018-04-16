@@ -1,0 +1,6 @@
+Status,Description
+http://purl.org/net/sword/3.0/filestate/pending,"the server has not yet started to process this file. It may be in a queue, or it may still be in the process of deposit via a Segmented Upload."
+http://purl.org/net/sword/3.0/filestate/downloading,"the server has started to download your By-Reference file, and is not yet complete"
+http://purl.org/net/sword/3.0/filestate/unpacking,"the server has started unpacking your Packaged Content, and is not yet finished"
+http://purl.org/net/sword/3.0/filestate/error,there was an error either downloading or unpacking your file; information should be available in the “log” field to aid the client in understanding what went wrong.
+http://purl.org/net/sword/3.0/filestate/ingested,the file has been successfully ingested

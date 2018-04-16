@@ -48,6 +48,11 @@
 			"process" : false
 		},
 		{
+			"root" : "schemas/status.schema.json",
+			"out" : "status.schema.json",
+			"process" : false
+		},
+		{
 			"root" : "assets/css/swordv3.css",
 			"out" : "swordv3.css",
 			"process" : false

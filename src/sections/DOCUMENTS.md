@@ -34,7 +34,7 @@ The fields available are defined as follows:
 {% json_schema_definitions schemas/service-document.schema.json %}
 
 
-## Metadata
+## Metadata Document
 
 The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms.  This 
 Metadata document can be sent when creating an Object initially, when appending to the metadata, or in replacing the metadata or indeed the 
@@ -71,7 +71,7 @@ Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 If the client omits the `Metadata-Format` header, the server MUST assume that it is the above format.
 
 
-## By-Reference
+## By-Reference Document
 
 The By-Reference document allows the client to send a list of one or more files that the server will fetch asynchronously.  The 
 By-Reference document can be sent when creating an Object initially, or when appending to or replacing the FileSet in the Object, or 
@@ -96,7 +96,7 @@ Content-Disposition: attachment; by-reference=true
 ```
 
 
-## Metadata + By-Reference
+## Metadata + By-Reference Document
 
 In some cases it is convenient to be able to send both Metadata and By-Reference files in a single request.  This is possible because both 
 Metadata and By-Reference documents are simply JSON documents; contrast this with sending Metadata and Binary Files, where a 
@@ -129,3 +129,65 @@ Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 ```
 
 If the client omits the `Metadata-Format` header, the server MUST assume that it is the above format.
+
+
+## Status Document
+
+The status document is provided in response to a deposit operation on a Service-URL, and can be retrieved at any subsequent point by a
+GET on the Object-URL.  It tells the client detailed information about the content and current state of the item.
+
+The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url status.schema.json %}).
+
+An example of the Status Document:
+
+```json
+{% include examples/status.json %}
+```
+
+The fields available are defined as follows:
+
+{% json_schema_definitions schemas/status.schema.json %}
+
+
+### Available `rel` types and their meanings
+
+{%
+sections
+    source=tables/status_rels.csv,
+    header_field=rel,
+    header_level=4,
+    order=description|status document link fields,
+    list_fields=status document link fields,
+    intro=status document link fields:The relevant properties of the link section for any resource with this rel are
+%}
+
+
+### Required SWORD State Information
+
+`state/@id` MUST contain one of:
+
+{%
+dl
+    source=tables/states.csv,
+    term=State,
+    definition=Description
+%}
+
+The state field is a list, so it may also contain other states that are server-specific in addition to the SWORD values.
+
+
+### Ingest Statuses for Individual Files
+
+Some files, when deposited, may be processed asynchronously to the client’s request.  For example, large files that require unpacking, 
+segmented uploads, by-reference deposits, etc.  In these cases, the client will not receive feedback on the state or success of their 
+deposit in the request/response exchange.  Instead, the client may monitor the file(s) via the Status document, and for each appropriate 
+file (Original Deposits), a “status” field will provide information on the current status of processing for that file.  
+
+The following statuses are permitted, servers SHOULD provide one of these by each relevant file:
+
+{%
+dl
+    source=tables/ingest-statuses.csv,
+    term=Status,
+    definition=Description
+%}

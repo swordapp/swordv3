@@ -856,6 +856,57 @@ def json_extract(file_cfg, config, source, keys):
     out = json.dumps(show, indent=2)
     return out
 
+def sections(file_cfg, config, source, header_field, header_level, order, list_fields, intro):
+    if not isinstance(order, list):
+        order = [order]
+    if not isinstance(list_fields, list):
+        list_fields = [list_fields]
+    if not isinstance(intro, list):
+        intro = [intro]
+    header_level = int(header_level)
+
+    intros = {}
+    for pair in intro:
+        bits = pair.split(":")
+        intros[bits[0]] = bits[1]
+
+    bd = config.get("src_dir")
+    path = os.path.join(bd, source)
+    with codecs.open(path, "rb", "utf-8") as f:
+        reader = UnicodeReader(f)
+        headers = reader.next()
+
+        hindex = 0
+        for i in range(len(headers)):
+            h = headers[i]
+            if header_field == h:
+                hindex = i
+
+        oindex = []
+        for o in order:
+            for i in range(len(headers)):
+                if o == headers[i]:
+                    oindex.append(i)
+                    break
+
+        frag = ""
+        for row in reader:
+            frag += "#" * header_level + " " + row[hindex] + "\n\n"
+            for o in oindex:
+                content = row[o]
+                if content == "":
+                    continue
+                if headers[o] in intros:
+                    frag += intros[headers[o]] + "\n\n"
+                if headers[o] in list_fields:
+                    thelist = ""
+                    bits = [c.strip() for c in content.split(",")]
+                    for b in bits:
+                        thelist += " * " + b + "\n"
+                    content = thelist
+                frag += content + "\n\n"
+
+        return frag
 
 ############
 
@@ -879,7 +930,8 @@ COMMANDS = {
     "requirements_table" : requirements_table,
     "requirements_hierarchy" : requirements_hierarchy,
     "html" : html,
-    "json_extract" : json_extract
+    "json_extract" : json_extract,
+    "sections" : sections
 }
 
 EXPAND_COMMANDS = ["include", "openapi_paths", "requirements_table"]

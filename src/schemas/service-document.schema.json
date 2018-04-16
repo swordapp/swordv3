@@ -254,5 +254,7 @@
 				"$ref" : "#"
 			}
 		}
-	}
+	},
+
+	"required" : ["@context", "@id", "@type", "dc:title", "root", "version", "accept", "digest"]
 }
