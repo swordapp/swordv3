@@ -1,8 +1,10 @@
 ID,Text,URL
-SWORD 1.3,"Downing, J. ""SWORD AtomPub Profile version 1.3"", 2008.",http://www.swordapp.org/docs/sword-profile-1.3.html
 AtomPub,"Gregario, J. and B. de hOra, ""The Atom Publishing Protocol"", RFC 5023, October 2007.",http://www.ietf.org/rfc/rfc5023.txt
-SWORD 2.0,"Jones, R. and Lewis, S. ""SWORD 2.0 Profile"", 2011",http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html
-RFC2119,"Bradner, S. ""Key words for use in RFCs to Indicate Requirement Levels"", March 1997.",http://www.ietf.org/rfc/rfc2119.txt
-OpenAPI,"OpenAPI Specification, Version 3.0.0",https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
+IANA Digest,Hypertext Transfer Protocol (HTTP) Digest Algorithm Values,https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml
 JSON-LD,"JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018",https://json-ld.org/spec/latest/json-ld/
 JSON-SCHEMA,JSON Schema: A Media Type for Describing JSON Documents,http://json-schema.org/latest/json-schema-core.html
+OpenAPI,"OpenAPI Specification, Version 3.0.0",https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
+RFC2119,"Bradner, S. ""Key words for use in RFCs to Indicate Requirement Levels"", March 1997.",http://www.ietf.org/rfc/rfc2119.txt
+RFC3230,"J. Mogul et al ""Instance Digests in HTTP""",https://www.ietf.org/rfc/rfc3230.txt
+SWORD 1.3,"Downing, J. ""SWORD AtomPub Profile version 1.3"", 2008.",http://www.swordapp.org/docs/sword-profile-1.3.html
+SWORD 2.0,"Jones, R. and Lewis, S. ""SWORD 2.0 Profile"", 2011",http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html

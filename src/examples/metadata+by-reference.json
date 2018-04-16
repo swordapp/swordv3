@@ -1,0 +1,17 @@
+{
+  "metadata" : {
+    "@context" : "http://swordapp.org/swordv3.jsonld",
+    "@type" : "Metadata",
+
+    "dcterms:abstract" : "....",
+    "dc:contributor" : "...",
+    "etc..." : "...."
+  },
+
+  "by-reference" : {
+    "@context" : "http://swordapp.org/swordv3.jsonld",
+    "@type" : "ByReference",
+
+    "byReferenceFiles" : []
+  }
+}

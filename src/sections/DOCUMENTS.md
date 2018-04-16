@@ -45,7 +45,7 @@ and servers MUST support this metadata format.
 
 The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url metadata.schema.json %}).
 
-An example of the Service Document:
+An example of the Metadata Document:
 
 ```json
 {% include examples/metadata.json %}
@@ -63,6 +63,66 @@ Content-Disposition: attachment; metadata=true
 ```
 
 Additionally, when sending this document the client SHOULD provide the `Metadata-Format` header with the identifier for the format: http://purl.org/net/sword/3.0/types/Metadata
+
+```
+Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
+```
+
+If the client omits the `Metadata-Format` header, the server MUST assume that it is the above format.
+
+
+## By-Reference
+
+The By-Reference document allows the client to send a list of one or more files that the server will fetch asynchronously.  The 
+By-Reference document can be sent when creating an Object initially, or when appending to or replacing the FileSet in the Object, or 
+replacing the Object as a whole.
+
+The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url by-reference.schema.json %}).
+
+An example of the By-Reference Document:
+
+```json
+{% include examples/by-reference.json %}
+```
+
+The fields available are defined as follows:
+
+{% json_schema_definitions schemas/by-reference.schema.json %}
+
+When sending this document, the client MUST provide a Content-Disposition header of the form:
+
+```
+Content-Disposition: attachment; by-reference=true
+```
+
+
+## Metadata + By-Reference
+
+In some cases it is convenient to be able to send both Metadata and By-Reference files in a single request.  This is possible because both 
+Metadata and By-Reference documents are simply JSON documents; contrast this with sending Metadata and Binary Files, where a 
+multipart/related request would be required (which is not supported in SWORD).
+
+To do this, the client may include the Metadata and By-Reference documents embedded in a single JSON document, structured as shown below. 
+The entire Metadata document (including its JSON-LD `@context`) is embedded in a field entitled `metadata`, and the entire By-Reference 
+document (again, with its JSON-LD `@context`) is embedded in a field entitled `by-reference`.
+
+When a document of this form is sent, the client MUST set the `Content-Disposition` header appropriately, to alert the server of its 
+required behaviour.
+
+An example of the Metadata + By-Reference Document:
+
+```json
+{% include examples/metadata+by-reference.json %}
+```
+
+When sending this document, the client MUST provide a `Content-Disposition` header of the form:
+
+```
+Content-Disposition: attachment; metadata=true; by-reference=true
+```
+
+Additionally, when sending this document the client SHOULD provide the `Metadata-Format` header with the identifier for the format: 
+http://purl.org/net/sword/3.0/types/Metadata
 
 ```
 Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata

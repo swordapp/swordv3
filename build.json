@@ -43,6 +43,11 @@
 			"process" : false
 		},
 		{
+			"root" : "schemas/by-reference.schema.json",
+			"out" : "by-reference.schema.json",
+			"process" : false
+		},
+		{
 			"root" : "assets/css/swordv3.css",
 			"out" : "swordv3.css",
 			"process" : false

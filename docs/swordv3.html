@@ -65,19 +65,20 @@
 <li><a href="#7.2.17.">7.2.17. Request: Create, Content: Body, Resource: Service-URL</a></li>
 <li><a href="#7.2.18.">7.2.18. Request: Create, Content: Empty Body, Resource: Service-URL</a></li>
 <li><a href="#7.2.19.">7.2.19. Request: Update, Content: *, Resource: *</a></li>
-<li><a href="#7.2.20.">7.2.20. Request: Append, Content: *, Resource: *</a></li>
-<li><a href="#7.2.21.">7.2.21. Request: Delete, Content: *, Resource: *</a></li>
+<li><a href="#7.2.20.">7.2.20. Request: Delete, Content: *, Resource: *</a></li>
+<li><a href="#7.2.21.">7.2.21. Request: Update, Content: Body, Resource: *</a></li>
 <li><a href="#7.2.22.">7.2.22. Request: Update, Content: Body, Resource: Object-URL</a></li>
 <li><a href="#7.2.23.">7.2.23. Request: Update, Content: Empty Body, Resource: Object-URL</a></li>
 <li><a href="#7.2.24.">7.2.24. Request: Append, Content: *, Resource: Object-URL</a></li>
 <li><a href="#7.2.25.">7.2.25. Request: Replace, Content: *, Resource: Object-URL</a></li>
-<li><a href="#7.2.26.">7.2.26. Request: Replace, Content: *, Resource: Components</a></li>
-<li><a href="#7.2.27.">7.2.27. Request: Replace, Content: *, Resource: Metadata-URL</a></li>
-<li><a href="#7.2.28.">7.2.28. Request: Replace, Content: *, Resource: FileSet-URL</a></li>
-<li><a href="#7.2.29.">7.2.29. Request: Replace, Content: *, Resource: File-URL</a></li>
-<li><a href="#7.2.30.">7.2.30. Request: Delete, Content: *, Resource: Object-URL</a></li>
-<li><a href="#7.2.31.">7.2.31. Request: Delete, Content: *, Resource: FileSet-URL</a></li>
-<li><a href="#7.2.32.">7.2.32. Request: Delete, Content: *, Resource: File-URL</a></li>
+<li><a href="#7.2.26.">7.2.26. Request: Update, Content: Body, Resource: Components</a></li>
+<li><a href="#7.2.27.">7.2.27. Request: Update, Content: Empty Body, Resource: Components</a></li>
+<li><a href="#7.2.28.">7.2.28. Request: Replace, Content: *, Resource: Metadata-URL</a></li>
+<li><a href="#7.2.29.">7.2.29. Request: Replace, Content: *, Resource: FileSet-URL</a></li>
+<li><a href="#7.2.30.">7.2.30. Request: Replace, Content: *, Resource: File-URL</a></li>
+<li><a href="#7.2.31.">7.2.31. Request: Delete, Content: *, Resource: Object-URL</a></li>
+<li><a href="#7.2.32.">7.2.32. Request: Delete, Content: *, Resource: FileSet-URL</a></li>
+<li><a href="#7.2.33.">7.2.33. Request: Delete, Content: *, Resource: File-URL</a></li>
 </ul>
 </li>
 </ul>
@@ -86,14 +87,21 @@
 <li><a href="#8.1.">8.1. JSON-LD Context</a></li>
 <li><a href="#8.2.">8.2. Service Document</a></li>
 <li><a href="#8.3.">8.3. Metadata</a></li>
+<li><a href="#8.4.">8.4. By-Reference</a></li>
+<li><a href="#8.5.">8.5. Metadata + By-Reference</a></li>
 </ul>
 </li>
-<li><a href="#9.">9. References</a>
+<li><a href="#9.">9. Content Digests</a><ul>
+<li><a href="#9.1.">9.1. Announcing Support For Digests</a></li>
+<li><a href="#9.2.">9.2. Transmitting Digests</a></li>
+</ul>
+</li>
+<li><a href="#10.">10. References</a>
 </div></li>
 </ul>
 <p></div></p>
 <p><div class=spec>
-Last modified: 2018-04-02
+Last modified: 2018-04-16
 <a name="1."></a></p>
 <h1>1. Credits</h1>
 <p>Technical Lead: Richard Jones, Cottage Labs</p>
@@ -1143,10 +1151,6 @@ expanded.</p>
 <ul>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 </ul>
-<p><strong>Server Requirements</strong></p>
-<ul>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
-</ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
@@ -1160,12 +1164,13 @@ expanded.</p>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 </ul>
 <p><a name="7.2.9."></a></p>
 <h3>7.2.9. Request: Modify, Content: Metadata, Resource: *</h3>
@@ -1301,16 +1306,16 @@ expanded.</p>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 </ul>
 <p><a name="7.2.20."></a></p>
-<h3>7.2.20. Request: Append, Content: *, Resource: *</h3>
-<p><strong>Response Requirements</strong></p>
-<ul>
-<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
-</ul>
-<p><a name="7.2.21."></a></p>
-<h3>7.2.21. Request: Delete, Content: *, Resource: *</h3>
+<h3>7.2.20. Request: Delete, Content: *, Resource: *</h3>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
+</ul>
+<p><a name="7.2.21."></a></p>
+<h3>7.2.21. Request: Update, Content: Body, Resource: *</h3>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 </ul>
 <p><a name="7.2.22."></a></p>
 <h3>7.2.22. Request: Update, Content: Body, Resource: Object-URL</h3>
@@ -1337,6 +1342,7 @@ expanded.</p>
 <ul>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 </ul>
 <p><a name="7.2.24."></a></p>
 <h3>7.2.24. Request: Append, Content: *, Resource: Object-URL</h3>
@@ -1351,43 +1357,49 @@ expanded.</p>
 <li>PUT Object-URL</li>
 </ul>
 <p><a name="7.2.26."></a></p>
-<h3>7.2.26. Request: Replace, Content: *, Resource: Components</h3>
+<h3>7.2.26. Request: Update, Content: Body, Resource: Components</h3>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
 <p><a name="7.2.27."></a></p>
-<h3>7.2.27. Request: Replace, Content: *, Resource: Metadata-URL</h3>
+<h3>7.2.27. Request: Update, Content: Empty Body, Resource: Components</h3>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+</ul>
+<p><a name="7.2.28."></a></p>
+<h3>7.2.28. Request: Replace, Content: *, Resource: Metadata-URL</h3>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>PUT Metadata-URL</li>
 </ul>
-<p><a name="7.2.28."></a></p>
-<h3>7.2.28. Request: Replace, Content: *, Resource: FileSet-URL</h3>
+<p><a name="7.2.29."></a></p>
+<h3>7.2.29. Request: Replace, Content: *, Resource: FileSet-URL</h3>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>PUT FileSet-URL</li>
 </ul>
-<p><a name="7.2.29."></a></p>
-<h3>7.2.29. Request: Replace, Content: *, Resource: File-URL</h3>
+<p><a name="7.2.30."></a></p>
+<h3>7.2.30. Request: Replace, Content: *, Resource: File-URL</h3>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>PUT File-URL</li>
 </ul>
-<p><a name="7.2.30."></a></p>
-<h3>7.2.30. Request: Delete, Content: *, Resource: Object-URL</h3>
+<p><a name="7.2.31."></a></p>
+<h3>7.2.31. Request: Delete, Content: *, Resource: Object-URL</h3>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>DELETE Object-URL</li>
 </ul>
-<p><a name="7.2.31."></a></p>
-<h3>7.2.31. Request: Delete, Content: *, Resource: FileSet-URL</h3>
+<p><a name="7.2.32."></a></p>
+<h3>7.2.32. Request: Delete, Content: *, Resource: FileSet-URL</h3>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>DELETE FileSet-URL</li>
 </ul>
-<p><a name="7.2.32."></a></p>
-<h3>7.2.32. Request: Delete, Content: *, Resource: File-URL</h3>
+<p><a name="7.2.33."></a></p>
+<h3>7.2.33. Request: Delete, Content: *, Resource: File-URL</h3>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>DELETE File-URL</li>
@@ -1623,7 +1635,7 @@ Object as a whole.</p>
 <p>The format of the document is simple and extensible (see the Metadata Formats section).  The “dc” and “dcterms” vocabularies are supported, 
 and servers MUST support this metadata format.</p>
 <p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/metadata.schema.json">here</a>.</p>
-<p>An example of the Service Document:</p>
+<p>An example of the Metadata Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;http://swordapp.org/swordv3.jsonld&quot;,
 
@@ -1683,15 +1695,188 @@ and servers MUST support this metadata format.</p>
 </code></pre>
 
 <p>If the client omits the <code>Metadata-Format</code> header, the server MUST assume that it is the above format.</p>
+<p><a name="8.4."></a></p>
+<h2>8.4. By-Reference</h2>
+<p>The By-Reference document allows the client to send a list of one or more files that the server will fetch asynchronously.  The 
+By-Reference document can be sent when creating an Object initially, or when appending to or replacing the FileSet in the Object, or 
+replacing the Object as a whole.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/by-reference.schema.json">here</a>.</p>
+<p>An example of the By-Reference Document:</p>
+<pre><code class="json">{
+  &quot;@context&quot; : &quot;http://swordapp.org/swordv3.jsonld&quot;,
+
+  &quot;@type&quot; : &quot;ByReference&quot;,
+
+  &quot;byReferenceFiles&quot; : [
+    {
+      &quot;@id&quot; : &quot;http://www.otherorg.ac.uk/by-reference/file.zip&quot;,
+      &quot;contentType&quot; : &quot;application/zip&quot;,
+      &quot;contentLength&quot; : 123456,
+      &quot;contentDisposition&quot; : &quot;attachment; filename=file.zip&quot;,
+      &quot;packaging&quot; : &quot;http://purl.org/net/sword/packaging/SimpleZip&quot;,
+      &quot;digest&quot; : &quot;SHA256=....&quot;,
+      &quot;ttl&quot; : &quot;2018-04-16T00:00:00Z&quot;,
+      &quot;dereference&quot; : true
+    }
+  ]
+}
+
+</code></pre>
+
+<p>The fields available are defined as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@context</td>
+<td>string</td>
+<td>The JSON-LD Context for this document<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@type</td>
+<td>string</td>
+<td>JSON-LD identifier for the document type<br><br>This field is used to define the type of the document, and in this case should always be 'ByReference'.  MUST be present.</td>
+</tr>
+<tr>
+<td>byReferenceFiles</td>
+<td>array</td>
+<td>List of files to deposit By-Reference<br><br>MUST be present and contain one or more entries</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].@id</td>
+<td>string</td>
+<td>The URL of the file to be retrieved and deposited<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].contentDisposition</td>
+<td>string</td>
+<td>Content-Disposition as it would have been supplied if this were a regular file deposit.<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].contentLength</td>
+<td>integer</td>
+<td>Content-Length as it would have been supplied if this were a regular file deposit.<br><br>SHOULD be present</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].contentType</td>
+<td>string</td>
+<td>The Content-Type of the file to be retrieved and deposited<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].dereference</td>
+<td>boolean</td>
+<td>Should the server dereference the file (i.e. download it and store it locally) or should it simply maintain a link to the external resource.<br><br>MUST be present.  Note that servers MAY choose to do both, irrespective of the value here, though if <code>false</code>, the server should make the external link available to users accessing the resource.</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].digest</td>
+<td>string</td>
+<td>Digest as it would have been supplied if this were a regular file deposit.<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].packaging</td>
+<td>string</td>
+<td>The packaging format of the file, or the Binary file identifier<br><br>SHOULD be present.  If this is not provided, the server MUST assume this is the Binary format: http://purl.org/net/sword/3.0/package/Binary</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].ttl</td>
+<td>string</td>
+<td>A timestamp which indicates when the file will no longer be available (Time To Live)<br><br>If no date is provided, the server MAY assume the file will be available indefinitely.</td>
+</tr>
+</tbody>
+</table>
+<p>When sending this document, the client MUST provide a Content-Disposition header of the form:</p>
+<pre><code>Content-Disposition: attachment; by-reference=true
+</code></pre>
+
+<p><a name="8.5."></a></p>
+<h2>8.5. Metadata + By-Reference</h2>
+<p>In some cases it is convenient to be able to send both Metadata and By-Reference files in a single request.  This is possible because both 
+Metadata and By-Reference documents are simply JSON documents; contrast this with sending Metadata and Binary Files, where a 
+multipart/related request would be required (which is not supported in SWORD).</p>
+<p>To do this, the client may include the Metadata and By-Reference documents embedded in a single JSON document, structured as shown below. 
+The entire Metadata document (including its JSON-LD <code>@context</code>) is embedded in a field entitled <code>metadata</code>, and the entire By-Reference 
+document (again, with its JSON-LD <code>@context</code>) is embedded in a field entitled <code>by-reference</code>.</p>
+<p>When a document of this form is sent, the client MUST set the <code>Content-Disposition</code> header appropriately, to alert the server of its 
+required behaviour.</p>
+<p>An example of the Metadata + By-Reference Document:</p>
+<pre><code class="json">{
+  &quot;metadata&quot; : {
+    &quot;@context&quot; : &quot;http://swordapp.org/swordv3.jsonld&quot;,
+    &quot;@type&quot; : &quot;Metadata&quot;,
+
+    &quot;dcterms:abstract&quot; : &quot;....&quot;,
+    &quot;dc:contributor&quot; : &quot;...&quot;,
+    &quot;etc...&quot; : &quot;....&quot;
+  },
+
+  &quot;by-reference&quot; : {
+    &quot;@context&quot; : &quot;http://swordapp.org/swordv3.jsonld&quot;,
+    &quot;@type&quot; : &quot;ByReference&quot;,
+
+    &quot;byReferenceFiles&quot; : []
+  }
+}
+
+</code></pre>
+
+<p>When sending this document, the client MUST provide a <code>Content-Disposition</code> header of the form:</p>
+<pre><code>Content-Disposition: attachment; metadata=true; by-reference=true
+</code></pre>
+
+<p>Additionally, when sending this document the client SHOULD provide the <code>Metadata-Format</code> header with the identifier for the format: 
+http://purl.org/net/sword/3.0/types/Metadata</p>
+<pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
+</code></pre>
+
+<p>If the client omits the <code>Metadata-Format</code> header, the server MUST assume that it is the above format.</p>
 <p><a name="9."></a></p>
-<h1>9. References</h1>
-<p><a name="sword_1.3"><strong>SWORD 1.3</strong> Downing, J. "SWORD AtomPub Profile version 1.3", 2008. <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">http://www.swordapp.org/docs/sword-profile-1.3.html</a> </p>
+<h1>9. Content Digests</h1>
+<p>In order to ensure that the content transmitted via SWORD is correct when it arrives at its destination, clients MUST provide Digests that 
+servers MUST check against incoming content.</p>
+<p><a name="9.1."></a></p>
+<h2>9.1. Announcing Support For Digests</h2>
+<p>Servers can announce support for the Digest formats that they support in the Service Document as follows:</p>
+<pre><code class="json">{
+  &quot;digest&quot;: [
+    &quot;SHA-256&quot;, 
+    &quot;SHA&quot;, 
+    &quot;MD5&quot;
+  ]
+}
+</code></pre>
+
+<p>The Server SHOULD list all the digest formats that it supports.  Servers MUST support at least SHA-256 and MAY support any other digest 
+formats.</p>
+<p>The Digest formats MUST be identified as per the IANA HTTP Digest Algorithm values: [<a href="#iana_digest">IANA Digest</a>]</p>
+<p><a name="9.2."></a></p>
+<h2>9.2. Transmitting Digests</h2>
+<p>SWORD uses the recommendations of [<a href="#rfc3230">RFC3230</a>] for transmitting base64 encoded Digests of request bodies.</p>
+<p>For every request where there is a request body, the client MUST attach the <code>Digest</code> header with the appropriate content:</p>
+<pre><code>Digest: SHA-256=MzA1ZmIzMDJiZjA4MzUzYTg5ZGY4NDIxMjcyY2JmZTEwNzM5ODdmMjJhY2Y1ZDc5NzFhOTY3MmM1MGNkN2ZlMA==
+</code></pre>
+
+<p>Note that the client MAY send multiple digests from different algorithms, separated by commas in the header:</p>
+<pre><code>Digest: SHA-256=MzA1ZmIzMDJiZjA4MzUzYTg5ZGY4NDIxMjcyY2JmZTEwNzM5ODdmMjJhY2Y1ZDc5NzFhOTY3MmM1MGNkN2ZlMA==, MD5=ZjQxNjA3N2M3MDdhODJkZGJlMGE0YTk2NGRjZWEyNWE=
+</code></pre>
+
+<p>The server MUST validate at least one digest, SHOULD validate all digests, though MAY choose its preferred format to validate against.</p>
+<p><a name="10."></a></p>
+<h1>10. References</h1>
 <p><a name="atompub"><strong>AtomPub</strong> Gregario, J. and B. de hOra, "The Atom Publishing Protocol", RFC 5023, October 2007. <a href="http://www.ietf.org/rfc/rfc5023.txt">http://www.ietf.org/rfc/rfc5023.txt</a> </p>
-<p><a name="sword_2.0"><strong>SWORD 2.0</strong> Jones, R. and Lewis, S. "SWORD 2.0 Profile", 2011 <a href="http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html">http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html</a> </p>
-<p><a name="rfc2119"><strong>RFC2119</strong> Bradner, S. "Key words for use in RFCs to Indicate Requirement Levels", March 1997. <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> </p>
-<p><a name="openapi"><strong>OpenAPI</strong> OpenAPI Specification, Version 3.0.0 <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md">https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md</a> </p>
+<p><a name="iana_digest"><strong>IANA Digest</strong> Hypertext Transfer Protocol (HTTP) Digest Algorithm Values <a href="https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml">https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml</a> </p>
 <p><a name="json-ld"><strong>JSON-LD</strong> JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018 <a href="https://json-ld.org/spec/latest/json-ld/">https://json-ld.org/spec/latest/json-ld/</a> </p>
 <p><a name="json-schema"><strong>JSON-SCHEMA</strong> JSON Schema: A Media Type for Describing JSON Documents <a href="http://json-schema.org/latest/json-schema-core.html">http://json-schema.org/latest/json-schema-core.html</a> </p>
+<p><a name="openapi"><strong>OpenAPI</strong> OpenAPI Specification, Version 3.0.0 <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md">https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md</a> </p>
+<p><a name="rfc2119"><strong>RFC2119</strong> Bradner, S. "Key words for use in RFCs to Indicate Requirement Levels", March 1997. <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> </p>
+<p><a name="rfc3230"><strong>RFC3230</strong> J. Mogul et al "Instance Digests in HTTP" <a href="https://www.ietf.org/rfc/rfc3230.txt">https://www.ietf.org/rfc/rfc3230.txt</a> </p>
+<p><a name="sword_1.3"><strong>SWORD 1.3</strong> Downing, J. "SWORD AtomPub Profile version 1.3", 2008. <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">http://www.swordapp.org/docs/sword-profile-1.3.html</a> </p>
+<p><a name="sword_2.0"><strong>SWORD 2.0</strong> Jones, R. and Lewis, S. "SWORD 2.0 Profile", 2011 <a href="http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html">http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html</a> </p>
 <p></div></p></body>
 </html>
 

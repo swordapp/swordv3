@@ -327,6 +327,8 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+You may then go on and upload the file segments as per the specification.
+
 
 ## Replacing the FileSet of an Object with By-Reference Files
 
@@ -346,7 +348,7 @@ requirements
 ## Replacing the FileSet of an Object with a single Binary File
 
 Replace in its entirety the FileSet of the Object (i.e. not the Metadata), with a single Binary File.  All previously existing files will 
-be removed, and new ones will replace them.  The server may or may not keep old versions of the content available, at its discretion.
+be removed, and the new one will replace them.  The server may or may not keep old versions of the content available, at its discretion.
 
 {%
 requirements
@@ -360,22 +362,66 @@ requirements
 
 ## Replacing the FileSet of an Object with a single Binary File via Segmented Upload
 
-TODO
+Replace in its entirity the FileSet of the Object (i.e. not the Metadata), with a single Binary File, that is provided via Segmented Upload.
+All previously existing files will be removed, and the new one will replace them.  The server may or may not keep old versions of the 
+content available, at its discretion.
 
+This operation initialises the Segmented Upload
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|Empty Body|FileSet-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+You may then go on and upload the file segments as per the specification.
 
 ## Replacing an Object with Metadata only
 
-TODO
+Replace the entire Object, removing all previous files and metadata, and replace it with just the supplied Metadata.  The server may or may 
+not keep old versions of the content available, at its discretion.
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|Metadata|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
 
 
 ## Replacing an Object with By-Reference Files only
 
-TODO
+Replace the entire Object, removing all previous files and metadata, and replace it with one or more files supplied via By-Reference upload.
+The server may or may not keep old versions of the content available, at its discretion.
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|By-Reference|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
 
 
 ## Replacing an Object with Metadata and By-Reference Files
 
-TODO
+Replace the entire Object, removing all previous files and metadata, and replace it with new Metadata and one or more files supplied via
+By-Reference upload.  The server may or may not keep old versions of the content available, at its discretion.
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Replace|MD+BR|Object-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
 
 
 ## Replacing an Object with a single Binary File
@@ -466,3 +512,8 @@ requirements
     match=Delete|Empty Body|Object-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+
+# Completing Previously In-Progress Deposits
+
+TODO

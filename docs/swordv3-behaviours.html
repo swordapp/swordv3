@@ -48,10 +48,11 @@
 <li><a href="#6.1.">6.1. Deleting an Object's Metadata</a></li>
 <li><a href="#6.2.">6.2. Deleting a single Binary File from an Object</a></li>
 <li><a href="#6.3.">6.3. Deleting all the Files from an Object</a></li>
-<li><a href="#6.4.">6.4. Deleting the entire Object</a>
-</div></li>
+<li><a href="#6.4.">6.4. Deleting the entire Object</a></li>
 </ul>
 </li>
+<li><a href="#7.">7. Completing Previously In-Progress Deposits</a>
+</div></li>
 </ul>
 <p><a name="1."></a></p>
 <h1>1. Retrieve the Service Document</h1>
@@ -115,7 +116,7 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
@@ -153,7 +154,7 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
@@ -193,7 +194,7 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
@@ -233,7 +234,7 @@ attempt to unpack.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
@@ -273,7 +274,7 @@ may understand how to unpack.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
@@ -297,7 +298,6 @@ may understand how to unpack.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
 <li>If no <code>In-Progress</code> header is provided, MUST NOT accept the request</li>
 </ul>
@@ -430,7 +430,7 @@ any other metadata fields held by the server remain untouched.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include ETag header if implementing concurrency control</li>
@@ -466,7 +466,7 @@ any other metadata fields held by the server remain untouched.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include ETag header if implementing concurrency control</li>
@@ -504,7 +504,7 @@ any other metadata fields held by the server remain untouched.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include ETag header if implementing concurrency control</li>
@@ -542,7 +542,7 @@ without the server unpacking it as it would Packaged Content.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include ETag header if implementing concurrency control</li>
@@ -581,7 +581,7 @@ actionable metadata.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include ETag header if implementing concurrency control</li>
@@ -605,16 +605,15 @@ actionable metadata.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include ETag header if implementing concurrency control</li>
+<li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 </ul>
 <p><a name="4.7."></a></p>
 <h2>4.7. Initialising Append of Packaged Content to an Object via Segmented Upload</h2>
@@ -653,7 +652,8 @@ format correctly in the <code>Content-Disposition</code> header when initialisin
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
 <p><a name="5.2."></a></p>
@@ -686,7 +686,8 @@ format correctly in the <code>Content-Disposition</code> header when initialisin
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
 <p><a name="5.3."></a></p>
@@ -721,8 +722,9 @@ version of the file available.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code></li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
 <p><a name="5.4."></a></p>
@@ -744,15 +746,15 @@ upload of that file.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
+<li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 </ul>
+<p>You may then go on and upload the file segments as per the specification.</p>
 <p><a name="5.5."></a></p>
 <h2>5.5. Replacing the FileSet of an Object with By-Reference Files</h2>
 <p>Replace all the files in the FileSet of an Object with one or more By-Reference Files.  All previously existing files will be removed, and
@@ -783,13 +785,14 @@ new ones will replace them.  The server may or may not keep old versions of the 
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
 <p><a name="5.6."></a></p>
 <h2>5.6. Replacing the FileSet of an Object with a single Binary File</h2>
 <p>Replace in its entirety the FileSet of the Object (i.e. not the Metadata), with a single Binary File.  All previously existing files will 
-be removed, and new ones will replace them.  The server may or may not keep old versions of the content available, at its discretion.</p>
+be removed, and the new one will replace them.  The server may or may not keep old versions of the content available, at its discretion.</p>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>PUT FileSet-URL</li>
@@ -817,21 +820,154 @@ be removed, and new ones will replace them.  The server may or may not keep old 
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
 <p><a name="5.7."></a></p>
 <h2>5.7. Replacing the FileSet of an Object with a single Binary File via Segmented Upload</h2>
-<p>TODO</p>
+<p>Replace in its entirity the FileSet of the Object (i.e. not the Metadata), with a single Binary File, that is provided via Segmented Upload.
+All previously existing files will be removed, and the new one will replace them.  The server may or may not keep old versions of the 
+content available, at its discretion.</p>
+<p>This operation initialises the Segmented Upload</p>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>PUT FileSet-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+<li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+</ul>
+<p>You may then go on and upload the file segments as per the specification.</p>
 <p><a name="5.8."></a></p>
 <h2>5.8. Replacing an Object with Metadata only</h2>
-<p>TODO</p>
+<p>Replace the entire Object, removing all previous files and metadata, and replace it with just the supplied Metadata.  The server may or may 
+not keep old versions of the content available, at its discretion.</p>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>PUT Object-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+<li>SHOULD provide the <code>Metadata-Format</code> header</li>
+<li>MUST provide only the Metadata document</li>
+<li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
+<li>MAY provide the In-Progress header</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+<li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST include ETag header if implementing concurrency control</li>
+</ul>
 <p><a name="5.9."></a></p>
 <h2>5.9. Replacing an Object with By-Reference Files only</h2>
-<p>TODO</p>
+<p>Replace the entire Object, removing all previous files and metadata, and replace it with one or more files supplied via By-Reference upload.
+The server may or may not keep old versions of the content available, at its discretion.</p>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>PUT Object-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the By-Reference document</li>
+<li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
+<li>MAY provide the In-Progress header</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+<li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST include ETag header if implementing concurrency control</li>
+</ul>
 <p><a name="5.10."></a></p>
 <h2>5.10. Replacing an Object with Metadata and By-Reference Files</h2>
-<p>TODO</p>
+<p>Replace the entire Object, removing all previous files and metadata, and replace it with new Metadata and one or more files supplied via
+By-Reference upload.  The server may or may not keep old versions of the content available, at its discretion.</p>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>PUT Object-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+<li>SHOULD provide the Metadata-Format header</li>
+<li>MUST provide the Metadata+By Reference document</li>
+<li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
+<li>MAY provide the In-Progress header</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If no Metadata-Format header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+<li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST include ETag header if implementing concurrency control</li>
+</ul>
 <p><a name="5.11."></a></p>
 <h2>5.11. Replacing an Object with a single Binary File</h2>
 <p>Replace in its entirety the Object, including all Metadata and Files, with the single Binary File.  All previous files and metadata will be 
@@ -866,7 +1002,8 @@ the content available.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include ETag header if implementing concurrency control</li>
 </ul>
@@ -904,7 +1041,8 @@ available.</p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include ETag header if implementing concurrency control</li>
 </ul>
@@ -980,4 +1118,7 @@ available.</p>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
 </ul>
+<p><a name="7."></a></p>
+<h1>7. Completing Previously In-Progress Deposits</h1>
+<p>TODO</p>
 

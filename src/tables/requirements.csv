@@ -7,8 +7,9 @@ Retrieve,*,Object-URL,,,MUST include ETag header if implementing concurrency con
 Retrieve,*,Components,,,MUST include ETag header if implementing concurrency control,
 Retrieve,*,Metadata-URL,,,MUST respond with a valid Metadata document (see definition below) or a suitable error response,GET Metadata-URL
 Retrieve,*,File-URL,,,"MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response",GET File-URL
-Modify,*,*,"MUST provide the `Content-Disposition` header, with the appropriate value for the request","If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error",MUST include `ETag` header if implementing concurrency control,
-Modify,Body,*,MUST provide the `Content-Type` and `Digest` headers,MUST verify that the content matches the `Digest` header,MUST include a File-URL for the deposited content in the Status document.  The behaviour of this File-URL may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable),
+Modify,*,*,"MUST provide the `Content-Disposition` header, with the appropriate value for the request",,MUST include `ETag` header if implementing concurrency control,
+Modify,Body,*,,"If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error",,
+Modify,Body,*,MUST provide the `Content-Type` and `Digest` headers,MUST verify that the content matches the `Digest` header,MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable),
 Modify,Body,*,SHOULD provide the `Content-Length`,MUST verify that the supplied content matches the `Content-Length` if this is provided,,
 Modify,Metadata,*,SHOULD provide the `Metadata-Format` header,"If no `Metadata-Format` header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata",,
 Modify,Metadata,*,MUST provide only the Metadata document,,,
@@ -31,15 +32,17 @@ Create,Body,Service-URL,,"If `In-Progress` is `false`, SHOULD expect further upd
 Create,Empty Body,Service-URL,MUST provide the `In-Progress` header with value `true`,"If no `In-Progress` header is provided, MUST NOT accept the request","If no `In-Progress` header is provided, MUST respond with a `412` error",
 Create,Empty Body,Service-URL,,,MUST reject the request if the conditions of the upload are not acceptable,
 Update,*,*,"MUST include the `If-Match` header, if the server implements concurrency control",MUST reject the request if the `If-Match` header does not match the current `ETag` of the resource,,
-Append,*,*,,,"MUST respond with a `200` if the request was accepted immediately, a `202` if the request was queued for processing, or raise an error.",
 Delete,*,*,,,"MUST respond with a `204` if the delete is successful, or raise an error",
+Update,Body,*,,,"MUST respond with a `200` if the request was accepted immediately, a `202` if the request was queued for processing, or raise an error.",
 Update,Body,Object-URL,MAY provide the In-Progress header,"If no `In-Progress` header is provided, MUST assume that it is `false`",MUST respond with a valid Status document or a suitable error response,
 Update,Body,Object-URL,,,MUST include ETag header if implementing concurrency control,
 Update,Empty Body,Object-URL,MUST provide the In-Progress header with value `true`,,MUST respond with a valid Status document or a suitable error response,
 Update,Empty Body,Object-URL,,,MUST include ETag header if implementing concurrency control,
+Update,Empty Body,Object-URL,,,"MUST respond with a `201` to indicate that the Segmented Upload has been initialised, or raise an error.",
 Append,*,Object-URL,,,,POST Object-URL
 Replace,*,Object-URL,,,,PUT Object-URL
-Replace,*,Components,,,"MUST respond with a `204` if the replacement was deposited immediately, a `202` if the replacement was queued for import, or raise an error.",
+Update,Body,Components,,,"MUST respond with a `204` if the replacement was deposited immediately, a `202` if the replacement was queued for import, or raise an error.",
+Update,Empty Body,Components,,,"MUST respond with a `201` to indicate that the Segmented Upload has been initialised, or raise an error.",
 Replace,*,Metadata-URL,,,,PUT Metadata-URL
 Replace,*,FileSet-URL,,,,PUT FileSet-URL
 Replace,*,File-URL,,,,PUT File-URL

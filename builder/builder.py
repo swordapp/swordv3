@@ -806,6 +806,9 @@ def json_schema_definitions(file_cfg, config, schema_file):
 
             if "properties" in val:
                 _recurse_properties(rows, val.get("properties", {}), field_name + ".")
+            elif "items" in val:
+                if "properties" in val.get("items", {}):
+                    _recurse_properties(rows, val.get("items", {}).get("properties", {}), field_name + "[].")
 
     _recurse_properties(rows, js.get("properties", {}), "")
     _recurse_properties(rows, js.get("patternProperties", {}), "")
@@ -836,6 +839,24 @@ def html(file_cfg, config, element, clazz=None):
 
     return tag
 
+def json_extract(file_cfg, config, source, keys):
+    if not isinstance(keys, list):
+        keys = [keys]
+
+    bd = config.get("src_dir")
+    path = os.path.join(bd, source)
+    with codecs.open(path, "rb", "utf-8") as f:
+        js = json.loads(f.read())
+
+    show = {}
+    for key in keys:
+        if key in js:
+            show[key] = js[key]
+
+    out = json.dumps(show, indent=2)
+    return out
+
+
 ############
 
 COMMANDS = {
@@ -857,7 +878,8 @@ COMMANDS = {
     "requirements" : requirements,
     "requirements_table" : requirements_table,
     "requirements_hierarchy" : requirements_hierarchy,
-    "html" : html
+    "html" : html,
+    "json_extract" : json_extract
 }
 
 EXPAND_COMMANDS = ["include", "openapi_paths", "requirements_table"]
