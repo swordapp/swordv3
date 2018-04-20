@@ -560,6 +560,7 @@ without the server unpacking it as it would Packaged Content.</p>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>Location</code> header, containing the File-URL of the Original Deposit File</li>
 </ul>
 <p><a name="4.5."></a></p>
 <h2>4.5. Appending Packaged Content to an Object</h2>
@@ -599,6 +600,7 @@ actionable metadata.</p>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>Location</code> header, containing the File-URL of the Original Deposit File</li>
 </ul>
 <p><a name="4.6."></a></p>
 <h2>4.6. Initialising Append of Binary Files to an Object via Segmented Upload</h2>
@@ -630,6 +632,7 @@ actionable metadata.</p>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+<li>MUST respond with a <code>Location</code> header, containing the Segment-URL</li>
 </ul>
 <p><a name="4.7."></a></p>
 <h2>4.7. Initialising Append of Packaged Content to an Object via Segmented Upload</h2>

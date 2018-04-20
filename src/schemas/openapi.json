@@ -393,7 +393,7 @@
             "description": "Status",
             "headers": {
               "Location": {
-                "description": "Object-URL",
+                "description": "The File-URL or Segment-URL, whichever is appropriate",
                 "schema": {
                   "type": "string"
                 }
@@ -417,7 +417,7 @@
             "description": "Status",
             "headers": {
               "Location": {
-                "description": "Object-URL",
+                "description": "The File-URL or Segment-URL, whichever is appropriate",
                 "schema": {
                   "type": "string"
                 }
@@ -564,12 +564,6 @@
           "200": {
             "description": "Status",
             "headers": {
-              "Location": {
-                "description": "Object-URL",
-                "schema": {
-                  "type": "string"
-                }
-              },
               "ETag": {
                 "description": "version identifier",
                 "schema": {
@@ -588,12 +582,6 @@
           "202": {
             "description": "Status",
             "headers": {
-              "Location": {
-                "description": "Object-URL",
-                "schema": {
-                  "type": "string"
-                }
-              },
               "ETag": {
                 "description": "version identifier",
                 "schema": {

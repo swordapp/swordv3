@@ -243,7 +243,7 @@ paths:
           description: Status
           headers:
             Location:
-              description: Object-URL
+              description: The File-URL or Segment-URL, whichever is appropriate
               schema:
                 type: string
             ETag:
@@ -258,7 +258,7 @@ paths:
           description: Status
           headers:
             Location:
-              description: Object-URL
+              description: The File-URL or Segment-URL, whichever is appropriate
               schema:
                 type: string
             ETag:
@@ -347,10 +347,6 @@ paths:
         '200':
           description: Status
           headers:
-            Location:
-              description: Object-URL
-              schema:
-                type: string
             ETag:
               description: version identifier
               schema:
@@ -362,10 +358,6 @@ paths:
         '202':
           description: Status
           headers:
-            Location:
-              description: Object-URL
-              schema:
-                type: string
             ETag:
               description: version identifier
               schema:

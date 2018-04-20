@@ -41,6 +41,8 @@ Update,Empty Body,Object-URL,,,MUST respond with a valid Status document or a su
 Update,Empty Body,Object-URL,,,MUST include `ETag` header if implementing concurrency control,
 Update,Empty Body,Object-URL,,,"MUST respond with a `201` to indicate that the Segmented Upload has been initialised, or raise an error.",
 Append,*,Object-URL,,,,POST Object-URL
+Append,Binary,Object-URL,,,"MUST respond with a `Location` header, containing the File-URL of the Original Deposit File",
+Append,Empty Body,Object-URL,,,"MUST respond with a `Location` header, containing the Segment-URL",
 Replace,*,Object-URL,,,,PUT Object-URL
 Update,Body,Components,,,"MUST respond with a `204` if the replacement was deposited immediately, a `202` if the replacement was queued for import, or raise an error.",
 Update,Empty Body,Components,,,"MUST respond with a `201` to indicate that the Segmented Upload has been initialised, or raise an error.",
