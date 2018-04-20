@@ -908,6 +908,24 @@ def sections(file_cfg, config, source, header_field, header_level, order, list_f
 
         return frag
 
+def img(file_cfg, config, target, alt=None):
+    base = config.get("base_url")
+    altText = ""
+    if alt is not None:
+        altText = alt
+    frag = '<div><img src="' + base + target + '" alt="' + altText + '"></div>'
+    return frag
+
+def fig(file_cfg, config, target, alt=None):
+    frag = img(file_cfg, config, target, alt)
+    if alt is not None:
+        if "figures" not in file_cfg:
+            file_cfg["figures"] = []
+        altText = "Figure " + str(len(file_cfg["figures"]) + 1) + ": " + alt
+        frag += '<div class="figure_label">' + altText + '</div>'
+        file_cfg["figures"].append(alt)
+    return frag
+
 ############
 
 COMMANDS = {
@@ -931,7 +949,9 @@ COMMANDS = {
     "requirements_hierarchy" : requirements_hierarchy,
     "html" : html,
     "json_extract" : json_extract,
-    "sections" : sections
+    "sections" : sections,
+    "img" : img,
+    "fig" : fig
 }
 
 EXPAND_COMMANDS = ["include", "openapi_paths", "requirements_table"]
@@ -944,10 +964,16 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--config", help="config file for build")
+    parser.add_argument("-m", "--mode", help="the build mode for this file 'live' or 'dev'")
     args = parser.parse_args()
 
     config = None
     with codecs.open(args.config) as f:
         config = json.loads(f.read())
+
+    if args.mode == "live":
+        config["base_url"] = config["base_urls"]["live"]
+    elif args.mode == "dev":
+        config["base_url"] = config["base_urls"]["dev"]
 
     run(config)

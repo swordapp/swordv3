@@ -64,7 +64,10 @@
     },
 	  {
       "@id" : "http://www.myorg.ac.uk/sword3/object1/file1.pdf",
-      "rel" : ["http://purl.org/net/sword/3.0/terms/derivedResource"],
+      "rel" : [
+        "http://purl.org/net/sword/3.0/terms/fileSetFile",
+        "http://purl.org/net/sword/3.0/terms/derivedResource"
+      ],
       "contentType" : "application/pdf",
       "derivedFrom" : "http://www.myorg.ac.uk/sword3/object1/package.zip",
       "dcterms:relation" : "http://www.myorg.ac.uk/repo/123456789/file1.pdf",
@@ -115,7 +118,8 @@
       "@id" : "http://www.myorg.ac.uk/sword3/object1/reference.zip",
       "rel" : [
         "http://purl.org/net/sword/3.0/terms/byReferenceDeposit",
-        "http://purl.org/net/sword/3.0/terms/originalDeposit"
+        "http://purl.org/net/sword/3.0/terms/originalDeposit",
+        "http://purl.org/net/sword/3.0/terms/fileSetFile"
       ],
       "byReference" : "http://www.otherorg.ac.uk/by-reference/file2.zip",
       "log" : "Any information on the download, especially if it failed",

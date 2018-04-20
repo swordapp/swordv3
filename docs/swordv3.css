@@ -27,6 +27,17 @@ code {
     border-radius: 3px;
 }
 
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.figure_label {
+    font-style: italic;
+    text-align: right;
+}
+
 .main_title {
     font-size: 3em;
     margin-left: 280px;
