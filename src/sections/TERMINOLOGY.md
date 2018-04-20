@@ -11,7 +11,3 @@
 ## Namespaces
 
 {% dl tables/namespaces.csv,term=Namespace,definition=Description,link=Namespace %}
-
-## Vocabulary
-
-TODO
