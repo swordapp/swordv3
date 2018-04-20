@@ -15,7 +15,7 @@ server with details as to the root cause of the error.
 openapi_list_descriptions
     schemas/openapi.json,
     field=components.responses,
-    keys=BadRequest|Unauthorized|Forbidden|NotFound|MethodNotAllowed|Conflict|PreconditionFailed|PayloadTooLarge|UnsupportedMediaType
+    keys=BadRequest|Unauthorized|Forbidden|NotFound|MethodNotAllowed|PreconditionFailed|PayloadTooLarge|UnsupportedMediaType
 %}
 
 ## Redirects
@@ -47,5 +47,5 @@ openapi_paths
     method_order=get|post|put|delete,
     header_depth=3,
     omit=301|307|308,
-    in_brief=400|401|403|404|405|409|412|413|415
+    in_brief=400|401|403|404|405|412|413|415
 %}

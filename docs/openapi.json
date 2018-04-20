@@ -458,9 +458,6 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
-          "409": {
-            "$ref": "#/components/responses/Conflict"
-          },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
           },
@@ -636,9 +633,6 @@
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
           },
-          "409": {
-            "$ref": "#/components/responses/Conflict"
-          },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
           },
@@ -703,9 +697,6 @@
           },
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
-          },
-          "409": {
-            "$ref": "#/components/responses/Conflict"
           },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
@@ -888,9 +879,6 @@
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
           },
-          "409": {
-            "$ref": "#/components/responses/Conflict"
-          },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
           },
@@ -1028,9 +1016,6 @@
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
           },
-          "409": {
-            "$ref": "#/components/responses/Conflict"
-          },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
           },
@@ -1092,9 +1077,6 @@
           },
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
-          },
-          "409": {
-            "$ref": "#/components/responses/Conflict"
           },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
@@ -1165,9 +1147,6 @@
           },
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
-          },
-          "409": {
-            "$ref": "#/components/responses/Conflict"
           },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
@@ -1280,9 +1259,6 @@
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
           },
-          "409": {
-            "$ref": "#/components/responses/Conflict"
-          },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
           },
@@ -1345,9 +1321,6 @@
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
           },
-          "409": {
-            "$ref": "#/components/responses/Conflict"
-          },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
           }
@@ -1405,11 +1378,8 @@
       "MethodNotAllowed": {
         "description": "**405 (Method Not Allowed)** - The HTTP method you requested on the resource is not permitted/available in this context"
       },
-      "Conflict": {
-        "description": "**409 (Conflict)** - There was an edit conflict when updating the resource.  This means your If-Match ETag is not the correct ETag for the current version of the resource."
-      },
       "PreconditionFailed": {
-        "description": "**412 (Precondition Failed)** - There is a problem implementing the request as-is.  For example, your checksums may not match, or you may have requested mediated deposit when the server does not support that, your headers may not be consistent with each other, or your Segmented Upload Initialisation request may not be within parameters acceptable to the server."
+        "description": "**412 (Precondition Failed)** - There is a problem implementing the request as-is.  This can happen for the following reasons: your checksums may not match, you may have requested mediated deposit when the server does not support that, your headers may not be consistent with each other, your If-Match headers may not mat the current ETag, or your Segmented Upload Initialisation request may not be within parameters acceptable to the server."
       },
       "PayloadTooLarge": {
         "description": "**413 (Payload Too Large)** - Your request body exceeds the size allowed by the server"

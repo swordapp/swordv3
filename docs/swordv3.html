@@ -18,7 +18,6 @@
 <li><a href="#4.1.">4.1. URLs</a></li>
 <li><a href="#4.2.">4.2. Document Types</a></li>
 <li><a href="#4.3.">4.3. Namespaces</a></li>
-<li><a href="#4.4.">4.4. Vocabulary</a></li>
 </ul>
 </li>
 <li><a href="#5.">5. HTTP Headers</a></li>
@@ -125,7 +124,7 @@
 </ul>
 <p></div></p>
 <p><div class=spec>
-Last modified: 2018-04-16
+Last modified: 2018-04-20
 <a name="1."></a></p>
 <h1>1. Credits</h1>
 <p>Technical Lead: Richard Jones, Cottage Labs</p>
@@ -168,9 +167,6 @@ document are to be interpreted as described in [<a href="#rfc2119">RFC2119</a>].
 <h2>4.3. Namespaces</h2>
 <dl><dt><a name="http://purl.org/net/sword/3.0/"><a href="http://purl.org/net/sword/3.0/">http://purl.org/net/sword/3.0/</a></dt><dd>All SWORDv3 extensions are defined within this namespace.  This Namespace also serves to identify the SWORD version for a given Service.</dd><dt><a name="http://purl.org/net/sword/3.0/terms/"><a href="http://purl.org/net/sword/3.0/terms/">http://purl.org/net/sword/3.0/terms/</a></dt><dd>All predicates associated with SWORDv3</dd><dt><a name="http://purl.org/net/sword/3.0/package/"><a href="http://purl.org/net/sword/3.0/package/">http://purl.org/net/sword/3.0/package/</a></dt><dd>All packaged formats defined by SWORDv3</dd><dt><a name="http://purl.org/net/sword/3.0/error/"><a href="http://purl.org/net/sword/3.0/error/">http://purl.org/net/sword/3.0/error/</a></dt><dd>All error documents defined by SWORDv3</dd><dt><a name="http://purl.org/net/sword/3.0/state/"><a href="http://purl.org/net/sword/3.0/state/">http://purl.org/net/sword/3.0/state/</a></dt><dd>Terms used to describe the state of Objects in SWORDv3</dd><dt><a name="http://purl.org/net/sword/3.0/types/"><a href="http://purl.org/net/sword/3.0/types/">http://purl.org/net/sword/3.0/types/</a></dt><dd>Namespace for all document types used in SWORDv3</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/"><a href="http://purl.org/net/sword/3.0/filestate/">http://purl.org/net/sword/3.0/filestate/</a></dt><dd>Terms used to descript he state of Files in SWORDv3</dd><dt><a name="http://purl.org/net/sword/3.0/discovery/"><a href="http://purl.org/net/sword/3.0/discovery/">http://purl.org/net/sword/3.0/discovery/</a></dt><dd>Terms used for auto-discovery of SWORDv3 services</dd><dt><a name="http://purl.org/dc/elements/1.1/"><a href="http://purl.org/dc/elements/1.1/">http://purl.org/dc/elements/1.1/</a></dt><dd>The Simple Dublin Core elements.  This document uses the prefix <code>dc</code> for this namespace name; for example <code>dc:title</code></dd><dt><a name="http://purl.org/dc/terms/"><a href="http://purl.org/dc/terms/">http://purl.org/dc/terms/</a></dt><dd>The Extended Dublin Core terms. This document uses the prefix <code>dcterms</code> for the namespace name; for example <code>dcterms:abstract</code></dd></dl>
 
-<p><a name="4.4."></a></p>
-<h2>4.4. Vocabulary</h2>
-<p>TODO</p>
 <p><a name="5."></a></p>
 <h1>5. HTTP Headers</h1>
 <p>These are the HTTP headers used by SWORD, and their meanings within the context of the protocol.  Where a Default Value is specified, this 
@@ -255,8 +251,7 @@ server with details as to the root cause of the error.</p>
 <li><strong>403 (Forbidden)</strong> - You are not authorised to access this resource</li>
 <li><strong>404 (Not Found)</strong> - There is no resource available at the URL you requested</li>
 <li><strong>405 (Method Not Allowed)</strong> - The HTTP method you requested on the resource is not permitted/available in this context</li>
-<li><strong>409 (Conflict)</strong> - There was an edit conflict when updating the resource.  This means your If-Match ETag is not the correct ETag for the current version of the resource.</li>
-<li><strong>412 (Precondition Failed)</strong> - There is a problem implementing the request as-is.  For example, your checksums may not match, or you may have requested mediated deposit when the server does not support that, your headers may not be consistent with each other, or your Segmented Upload Initialisation request may not be within parameters acceptable to the server.</li>
+<li><strong>412 (Precondition Failed)</strong> - There is a problem implementing the request as-is.  This can happen for the following reasons: your checksums may not match, you may have requested mediated deposit when the server does not support that, your headers may not be consistent with each other, your If-Match headers may not mat the current ETag, or your Segmented Upload Initialisation request may not be within parameters acceptable to the server.</li>
 <li><strong>413 (Payload Too Large)</strong> - Your request body exceeds the size allowed by the server</li>
 <li><strong>415 (Unsupported Media Type)</strong> - The metadata format is not the same as that identified in Metadata-Format and/or it is not supported by the server, or the packaging format is not the same as that identified in Packaging and/or it is not supported by the server</li>
 </ul>
@@ -479,10 +474,6 @@ Append data to an Object</p>
 <td></td>
 </tr>
 <tr>
-<td>409</td>
-<td></td>
-</tr>
-<tr>
 <td>412</td>
 <td></td>
 </tr>
@@ -552,10 +543,6 @@ Replace the Object</p>
 <td></td>
 </tr>
 <tr>
-<td>409</td>
-<td></td>
-</tr>
-<tr>
 <td>412</td>
 <td></td>
 </tr>
@@ -611,10 +598,6 @@ Delete the Object</p>
 </tr>
 <tr>
 <td>405</td>
-<td></td>
-</tr>
-<tr>
-<td>409</td>
 <td></td>
 </tr>
 <tr>
@@ -722,10 +705,6 @@ Replace the Metadata</p>
 <td></td>
 </tr>
 <tr>
-<td>409</td>
-<td></td>
-</tr>
-<tr>
 <td>412</td>
 <td></td>
 </tr>
@@ -793,10 +772,6 @@ Replace the FileSet</p>
 <td></td>
 </tr>
 <tr>
-<td>409</td>
-<td></td>
-</tr>
-<tr>
 <td>412</td>
 <td></td>
 </tr>
@@ -851,10 +826,6 @@ Delete the FileSet</p>
 <td></td>
 </tr>
 <tr>
-<td>409</td>
-<td></td>
-</tr>
-<tr>
 <td>412</td>
 <td></td>
 </tr>
@@ -901,10 +872,6 @@ Retrieve an individual File</p>
 </tr>
 <tr>
 <td>405</td>
-<td></td>
-</tr>
-<tr>
-<td>409</td>
 <td></td>
 </tr>
 <tr>
@@ -962,10 +929,6 @@ Replace an individual File</p>
 <td></td>
 </tr>
 <tr>
-<td>409</td>
-<td></td>
-</tr>
-<tr>
 <td>412</td>
 <td></td>
 </tr>
@@ -1017,10 +980,6 @@ Delete an individual File</p>
 </tr>
 <tr>
 <td>405</td>
-<td></td>
-</tr>
-<tr>
-<td>409</td>
 <td></td>
 </tr>
 <tr>
