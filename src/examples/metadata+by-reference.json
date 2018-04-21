@@ -1,6 +1,6 @@
 {
   "metadata" : {
-    "@context" : "http://swordapp.org/swordv3.jsonld",
+    "@context" : "https://swordapp.github.io/swordv3/swordv3.jsonld",
     "@type" : "Metadata",
 
     "dcterms:abstract" : "....",
@@ -9,7 +9,7 @@
   },
 
   "by-reference" : {
-    "@context" : "http://swordapp.org/swordv3.jsonld",
+    "@context" : "https://swordapp.github.io/swordv3/swordv3.jsonld",
     "@type" : "ByReference",
 
     "byReferenceFiles" : []

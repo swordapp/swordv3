@@ -12,7 +12,7 @@
 			"title": "The JSON-LD Context for this document",
 			"description": "MUST be present",
 			"examples": [
-				"http://swordapp.org/swordv3.jsonld"
+				"https://swordapp.github.io/swordv3/swordv3.jsonld"
 			]
 		},
 		"@type": {

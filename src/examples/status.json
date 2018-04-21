@@ -1,5 +1,5 @@
 {
-  "@context" : "http://swordapp.org/swordv3.jsonld",
+  "@context" : "https://swordapp.github.io/swordv3/swordv3.jsonld",
 
   "@id" : "http://example.com/object/1",
   "@type" : "Status",
