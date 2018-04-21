@@ -105,29 +105,42 @@
 </li>
 </ul>
 </li>
-<li><a href="#10.">10. Content Disposition</a><ul>
-<li><a href="#10.1.">10.1. Direct Uploads:</a></li>
-<li><a href="#10.2.">10.2. Segment Upload Initialisation:</a></li>
-<li><a href="#10.3.">10.3. Segment Upload:</a></li>
+<li><a href="#10.">10. Authentication and Authorisation</a><ul>
+<li><a href="#10.1.">10.1. Announcing Support for Authentication Schemes</a></li>
+<li><a href="#10.2.">10.2. Authentication and Authorisation in requests</a></li>
+<li><a href="#10.3.">10.3. Recording Depositing Users</a></li>
 </ul>
 </li>
-<li><a href="#11.">11. Content Digests</a><ul>
-<li><a href="#11.1.">11.1. Announcing Support For Digests</a></li>
-<li><a href="#11.2.">11.2. Transmitting Digests</a></li>
+<li><a href="#11.">11. Transport Security</a></li>
+<li><a href="#12.">12. Content Disposition</a><ul>
+<li><a href="#12.1.">12.1. Direct Uploads:</a></li>
+<li><a href="#12.2.">12.2. Segment Upload Initialisation:</a></li>
+<li><a href="#12.3.">12.3. Segment Upload:</a></li>
 </ul>
 </li>
-<li><a href="#12.">12. Continued Deposit</a><ul>
-<li><a href="#12.1.">12.1. Deposit Complete</a></li>
-<li><a href="#12.2.">12.2. Deposit Incomplete</a></li>
-<li><a href="#12.3.">12.3. Completing a Previously Incomplete Deposit</a></li>
+<li><a href="#13.">13. Content Digests</a><ul>
+<li><a href="#13.1.">13.1. Announcing Support For Digests</a></li>
+<li><a href="#13.2.">13.2. Transmitting Digests</a></li>
 </ul>
 </li>
-<li><a href="#13.">13. References</a>
+<li><a href="#14.">14. Concurrency Control</a><ul>
+<li><a href="#14.1.">14.1. Announcing Support for Concurrency Control</a></li>
+<li><a href="#14.2.">14.2. Procedures around Concurrency Control</a></li>
+<li><a href="#14.3.">14.3. Resource Hierarchy for ETag Regeneration</a></li>
+</ul>
+</li>
+<li><a href="#15.">15. Continued Deposit</a><ul>
+<li><a href="#15.1.">15.1. Deposit Complete</a></li>
+<li><a href="#15.2.">15.2. Deposit Incomplete</a></li>
+<li><a href="#15.3.">15.3. Completing a Previously Incomplete Deposit</a></li>
+</ul>
+</li>
+<li><a href="#16.">16. References</a>
 </div></li>
 </ul>
 <p></div></p>
 <p><div class=spec>
-Last modified: 2018-04-20
+Last modified: 2018-04-21
 <a name="1."></a></p>
 <h1>1. Credits</h1>
 <p>Technical Lead: Richard Jones, Cottage Labs</p>
@@ -1512,7 +1525,7 @@ Service is requested, it MUST only provide information about itself and its chil
   &quot;concurrencyControl&quot; : true,
 
   &quot;digest&quot; : [&quot;SHA-256&quot;, &quot;SHA&quot;, &quot;MD5&quot;],
-  &quot;authentication&quot;: [&quot;Basic&quot;, &quot;...&quot;],
+  &quot;authentication&quot;: [&quot;Basic&quot;, &quot;OAuth&quot;, &quot;Digest&quot;, &quot;APIKey&quot;],
 
   &quot;services&quot; : [
     {
@@ -2528,7 +2541,57 @@ for returning that error:</p>
 </tbody>
 </table>
 <p><a name="10."></a></p>
-<h1>10. Content Disposition</h1>
+<h1>10. Authentication and Authorisation</h1>
+<p>It is strongly RECOMMENDED that SWORD servers support authentication and authorisation for requests.</p>
+<p>SWORD servers are not restricted in the forms of authentication that they employ, and there is no minimum requirement or default supported 
+approach.</p>
+<p><a name="10.1."></a></p>
+<h2>10.1. Announcing Support for Authentication Schemes</h2>
+<p>Servers SHOULD enumerate the authentication schemes that they support in the Service Document, in the field <code>authentication</code>, and MUST draw 
+from the IANA registry of HTTP auth scheme names [<a href="#iana_auth">IANA Auth</a>] where one is available.</p>
+<p>Where an authentication scheme is in use by the server which is not covered by the IANA registry - such as a custom API-token-based 
+approach, the server MAY indicate this in whatever way seems most appropriate.</p>
+<p>For example, a Server which supports Basic, Digest and OAuth authentication, as well as a custom API-Key approach could indicate as follows:</p>
+<pre><code class="json">{
+  &quot;authentication&quot;: [
+    &quot;Basic&quot;, 
+    &quot;OAuth&quot;, 
+    &quot;Digest&quot;, 
+    &quot;APIKey&quot;
+  ]
+}
+</code></pre>
+
+<p>Servers MAY also choose to support On-Behalf-Of deposit, which means that the authenticating user is providing content to the server, as 
+if another user were actually carrying out this request.  A use case for this would be when a known third-party deposit tool is sending 
+content to a server and has been authorised by another user to add content on their behalf.</p>
+<p>If a server supports On-Behalf-Of deposit, it SHOULD indicate this in the Service Document with the field <code>onBehalfOf</code> set to <code>true</code>. 
+If this field is not present clients MUST assume that the server does not support On-Behalf-Of deposit.</p>
+<pre><code class="json">{
+  &quot;onBehalfOf&quot;: true
+}
+</code></pre>
+
+<p><a name="10.2."></a></p>
+<h2>10.2. Authentication and Authorisation in requests</h2>
+<p>When carrying out authenticated requests, Authorization headers MUST be sent with every request to the server - the server is not 
+responsible for maintaining state for the client.  The server is responsible for authenticating and authorising every request individually. 
+Clients may choose also to send <code>Cookie</code> headers, and servers may support these, but support for Cookies is explicitly outside this 
+specification.</p>
+<p>When an On-Behalf-Of deposit is received, the server MUST ensure that the user identified in that header is valid with respect to the 
+associated Authorization header.  For example, when using OAuth2, the On-Behalf-Of user MUST match the user for which the token in the 
+Authorization header was granted.</p>
+<p><a name="10.3."></a></p>
+<h2>10.3. Recording Depositing Users</h2>
+<p>In all cases (On-Behalf-Of or not) where a user has authenticated to make a deposit, servers SHOULD preserve the user's identity in the 
+<code>depositedBy</code> property of the Original Deposit in the Status document. In On-Behalf-Of deposit, the value given in the <code>On-Behalf-Of</code> 
+header SHOULD be used for the value of the <code>depositedOnBehalfOf</code> property of the Original Deposit in the Status document.</p>
+<p><a name="11."></a></p>
+<h1>11. Transport Security</h1>
+<p>It is strongly RECOMMENDED that servers implement modern transport layer security, whether authenticating requests or not.  If you are 
+carrying out authenticated protocol operations you MUST implement TLS.</p>
+<p><a name="12."></a></p>
+<h1>12. Content Disposition</h1>
 <p>SWORD uses the <code>Content-Disposition</code> header in client requests to indicate to the server information about the payload being delivered. 
 Traditionally <code>Content-Disposition</code> is an HTTP response header, but it makes sense in the PUSH context of SWORD to use this as a request 
 header.  We follow [<a href="#rfc6266">RFC6266</a>] for its usage.</p>
@@ -2544,8 +2607,8 @@ header.  We follow [<a href="#rfc6266">RFC6266</a>] for its usage.</p>
 <li>A segment for a Segment Upload</li>
 </ol>
 <p>Each of these has a different Content-Disposition, which makes it clear to the server what it should do with that content:</p>
-<p><a name="10.1."></a></p>
-<h2>10.1. Direct Uploads:</h2>
+<p><a name="12.1."></a></p>
+<h2>12.1. Direct Uploads:</h2>
 <ul>
 <li>MUST have the disposition type <code>attachment</code></li>
 <li>A Direct Upload containing Metadata MUST contain the disposition param <code>metadata=true</code>.</li>
@@ -2553,26 +2616,26 @@ header.  We follow [<a href="#rfc6266">RFC6266</a>] for its usage.</p>
 <li>A Direct Upload containing a Binary File or Packaged Content MAY contain the disposition param <code>filename</code> (or <code>filename*</code> if using a 
 character set outside of ISO-8859-1).</li>
 </ul>
-<p><a name="10.2."></a></p>
-<h2>10.2. Segment Upload Initialisation:</h2>
+<p><a name="12.2."></a></p>
+<h2>12.2. Segment Upload Initialisation:</h2>
 <ul>
 <li>MUST have the disposition type <code>segment-init</code></li>
 <li>MUST follow the documentation in the [File Segment Upload] section of this specification on constructing the <code>Content-Disposition</code> for a 
 Segment Upload Initialisation</li>
 </ul>
-<p><a name="10.3."></a></p>
-<h2>10.3. Segment Upload:</h2>
+<p><a name="12.3."></a></p>
+<h2>12.3. Segment Upload:</h2>
 <ul>
 <li>MUST have the disposition type <code>segment</code></li>
 <li>MUST follow the documentation in the [File Segment Upload] section of this specification on constructing the <code>Content-Disposition</code> for 
 Uploading Segments</li>
 </ul>
-<p><a name="11."></a></p>
-<h1>11. Content Digests</h1>
+<p><a name="13."></a></p>
+<h1>13. Content Digests</h1>
 <p>In order to ensure that the content transmitted via SWORD is correct when it arrives at its destination, clients MUST provide Digests that 
 servers MUST check against incoming content.</p>
-<p><a name="11.1."></a></p>
-<h2>11.1. Announcing Support For Digests</h2>
+<p><a name="13.1."></a></p>
+<h2>13.1. Announcing Support For Digests</h2>
 <p>Servers can announce support for the Digest formats that they support in the Service Document as follows:</p>
 <pre><code class="json">{
   &quot;digest&quot;: [
@@ -2586,8 +2649,8 @@ servers MUST check against incoming content.</p>
 <p>The Server SHOULD list all the digest formats that it supports.  Servers MUST support at least SHA-256 and MAY support any other digest 
 formats.</p>
 <p>The Digest formats MUST be identified as per the IANA HTTP Digest Algorithm values: [<a href="#iana_digest">IANA Digest</a>]</p>
-<p><a name="11.2."></a></p>
-<h2>11.2. Transmitting Digests</h2>
+<p><a name="13.2."></a></p>
+<h2>13.2. Transmitting Digests</h2>
 <p>SWORD uses the recommendations of [<a href="#rfc3230">RFC3230</a>] for transmitting base64 encoded Digests of request bodies.</p>
 <p>For every request where there is a request body, the client MUST attach the <code>Digest</code> header with the appropriate content:</p>
 <pre><code>Digest: SHA-256=MzA1ZmIzMDJiZjA4MzUzYTg5ZGY4NDIxMjcyY2JmZTEwNzM5ODdmMjJhY2Y1ZDc5NzFhOTY3MmM1MGNkN2ZlMA==
@@ -2598,8 +2661,71 @@ formats.</p>
 </code></pre>
 
 <p>The server MUST validate at least one digest, SHOULD validate all digests, though MAY choose its preferred format to validate against.</p>
-<p><a name="12."></a></p>
-<h1>12. Continued Deposit</h1>
+<p><a name="14."></a></p>
+<h1>14. Concurrency Control</h1>
+<p>Servers MAY choose to implement concurrency control, in order to ensure that clients do not accidentally overwrite or make changes that 
+conflict with other changes which may have happened to the Object since it was first deposited.  Note that this does not prevent clients 
+causing damage to Objects, only that it cannot be so easily done by accident.</p>
+<p>Objects may change for a number of reasons after their initial creation, such as:</p>
+<ul>
+<li>Additional requests by the original depositing client to modify the Object</li>
+<li>Requests for modify by other clients with authorisation to modify the Object</li>
+<li>Modifications to the Object from agents on the server-side, such as administrators, etc.</li>
+</ul>
+<p>In order to provide concurrency control, SWORD follows [<a href="#rfc7232">RFC7232</a>], and specificially uses the <code>ETag</code> and <code>If-Match</code> headers.</p>
+<p>On each request for a resource, or when the Status document is retrieved, the <code>ETag</code> for the resource MUST be returned.  The <code>ETag</code> gives 
+the client an opaque identifier for the current version of that resource.  When the resource is being updated by the client (for example, 
+it is replacing a File), the <code>ETag</code> that the client expects to be the current one MUST be sent in the <code>If-Match</code> header.  The server MUST 
+then compare that with its actual current <code>ETag</code> for the resource.  If they match, the request can go ahead, otherwise the Server MUST 
+respond with an error (412).</p>
+<p>Note that ETags, and Concurrency Control in general, is only applicable from the Object downwards.  There are no requirements for use of 
+<code>ETag</code> or <code>If-Match</code> headers on Service-URLs.</p>
+<p><a name="14.1."></a></p>
+<h2>14.1. Announcing Support for Concurrency Control</h2>
+<p>If the server supports Concurrency Control, then it MUST advertise this in the Service Document as follows:</p>
+<pre><code class="json">{
+  &quot;concurrencyControl&quot;: true
+}
+</code></pre>
+
+<p><a name="14.2."></a></p>
+<h2>14.2. Procedures around Concurrency Control</h2>
+<p>If a server supports Concurrency Control, it MUST behave in accordance with the following rules.</p>
+<ul>
+<li>An <code>ETag</code> MUST be provided for each SWORD resource: the Object, the Metadata, the FileSet and any Files.</li>
+<li>The <code>ETag</code> is a resource-level version identifier, it MUST be the same for all expressions of the resource.  For example, all serialised 
+Metadata documents (such as in JSON, or in XML) MUST have the same <code>ETag</code> as the Metadata resource, and each other.</li>
+<li>The client MUST send the <code>ETag</code> that it expects to represent the current version with every request to change the resource (POST, PUT, 
+DELETE)</li>
+<li>If the <code>ETag</code> supplied by the client does not match the current <code>ETag</code> for the resource, the Server MUST respond with a 412 (Precondition
+Failed) error</li>
+<li>If the <code>ETag</code> supplied by the client does match the current <code>ETag</code> for the resource, the request MUST go ahead as normal.</li>
+<li>The server MUST include the <code>ETag</code> in the HTTP headers of every GET request for a resource.</li>
+<li>The server MUST include the <code>ETag</code>s for the resources in the appropriate places in the Status document.</li>
+<li>If a resource is modified, its <code>ETag</code> MUST change</li>
+<li>If a resource is modified, the <code>ETag</code>s of all resources within which it is contained MUST change.</li>
+<li>The server MAY choose between strong and weak <code>ETag</code>s, at its discretion</li>
+<li>The server MAY NOT track previous <code>ETag</code> values for a resource.</li>
+</ul>
+<p><a name="14.3."></a></p>
+<h2>14.3. Resource Hierarchy for ETag Regeneration</h2>
+<p>If an <code>ETag</code> of a resource changes, the resources above it (up to the level of the Object) MUST also change.  This is to prevent a change 
+at a higher level (e.g. an Object replacement) overwriting a change at a lower level (e.g. addition of a single file).</p>
+<p>The Object hierarchy is as follows:</p>
+<ul>
+<li>Object<ul>
+<li>Metadata</li>
+<li>FileSet<ul>
+<li>File</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>So, for example, if the Metadata is updated, then the Metadata and Object <code>ETag</code>s MUST change, but the FileSet and File <code>ETag</code>s MAY NOT. 
+Similarly, if a File <code>ETag</code> changes, then the FileSet and Object <code>ETag</code>s must also change, while the Metadata <code>ETag</code> MAY NOT.</p>
+<p><a name="15."></a></p>
+<h1>15. Continued Deposit</h1>
 <p>Some systems may wish to give the client more control over the ingest process, and SWORD uses the <code>In-Progress</code> HTTP header to allow the 
 client to indicate that a deposit should not yet be injected into any post-submission or pre-ingest workflow. The <code>In-Progress</code> header MUST 
 take the value <code>true</code> or <code>false</code>, and if it is not present the server MUST assume that it is <code>false</code> and behave as described below.</p>
@@ -2613,16 +2739,16 @@ can issue a blank HTTP POST request to the SWORD server, with <code>In-Progress:
 <p>Note that the <code>In-Progress</code> header is intended to indicate to the server that further content will be coming in which is associated with 
 the existing content, before it can be considered "complete". It is not intended to provide workflow control, and clients MUST NOT assume 
 that asserting <code>In-Progress: true</code> will have any specific effect on the state of the item.</p>
-<p><a name="12.1."></a></p>
-<h2>12.1. Deposit Complete</h2>
+<p><a name="15.1."></a></p>
+<h2>15.1. Deposit Complete</h2>
 <p>If <code>In-Progress</code> is <code>false</code>, the server MAY assume that it can carry on processing the deposit as it sees fit.</p>
-<p><a name="12.2."></a></p>
-<h2>12.2. Deposit Incomplete</h2>
+<p><a name="15.2."></a></p>
+<h2>15.2. Deposit Incomplete</h2>
 <p>If <code>In-Progress</code> is <code>true</code>, the server SHOULD expect the client to provide further updates to the item some undetermined time in the future. 
 Details of how this is implemented is dependent on the server's purpose. For example, a repository system may hold items which are marked 
 <code>In-Progress</code> in a workspace until such time as a client request indicates that the deposit is complete.</p>
-<p><a name="12.3."></a></p>
-<h2>12.3. Completing a Previously Incomplete Deposit</h2>
+<p><a name="15.3."></a></p>
+<h2>15.3. Completing a Previously Incomplete Deposit</h2>
 <p>The client can assert that a deposit process has completed by issuing an HTTP POST to the Object-URL with a blank request body and with the 
 <code>In-Progress</code> header set to <code>false</code> (it may simply omit the header altogether too, as this is treated as <code>In-Progress: false</code> by the 
 server). The client MAY specify a <code>Content-Length: 0</code> HTTP header, and MUST NOT include any body content.</p>
@@ -2631,9 +2757,10 @@ server). The client MAY specify a <code>Content-Length: 0</code> HTTP header, an
 <li>The client MAY provide an On-Behalf-Of header</li>
 </ul>
 <p>Once the server has processed the request it MUST respond with status code 204 (No Content), or a suitable error.</p>
-<p><a name="13."></a></p>
-<h1>13. References</h1>
+<p><a name="16."></a></p>
+<h1>16. References</h1>
 <p><a name="atompub"><strong>AtomPub</strong> Gregario, J. and B. de hOra, "The Atom Publishing Protocol", RFC 5023, October 2007. <a href="http://www.ietf.org/rfc/rfc5023.txt">http://www.ietf.org/rfc/rfc5023.txt</a> </p>
+<p><a name="iana_auth"><strong>IANA Auth</strong> Hypertext Transfer Protocol (HTTP) Authentication Scheme Registry <a href="https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml">https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml</a> </p>
 <p><a name="iana_digest"><strong>IANA Digest</strong> Hypertext Transfer Protocol (HTTP) Digest Algorithm Values <a href="https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml">https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml</a> </p>
 <p><a name="json-ld"><strong>JSON-LD</strong> JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018 <a href="https://json-ld.org/spec/latest/json-ld/">https://json-ld.org/spec/latest/json-ld/</a> </p>
 <p><a name="json-schema"><strong>JSON-SCHEMA</strong> JSON Schema: A Media Type for Describing JSON Documents <a href="http://json-schema.org/latest/json-schema-core.html">http://json-schema.org/latest/json-schema-core.html</a> </p>
@@ -2642,6 +2769,7 @@ server). The client MAY specify a <code>Content-Length: 0</code> HTTP header, an
 <p><a name="rfc3230"><strong>RFC3230</strong> J. Mogul et al "Instance Digests in HTTP" <a href="https://www.ietf.org/rfc/rfc3230.txt">https://www.ietf.org/rfc/rfc3230.txt</a> </p>
 <p><a name="rfc5987"><strong>RFC5987</strong> J. Reschke. "Character Set and Language Encoding for Hypertext Transfer Protocol (HTTP) Header Field Parameters" <a href="https://tools.ietf.org/html/rfc5987">https://tools.ietf.org/html/rfc5987</a> </p>
 <p><a name="rfc6266"><strong>RFC6266</strong> J. Reschke. "Use of the Content-Disposition Header Field in the Hypertext Transfer Protocol (HTTP)", 2011 <a href="https://tools.ietf.org/html/rfc6266">https://tools.ietf.org/html/rfc6266</a> </p>
+<p><a name="rfc7232"><strong>RFC7232</strong> R. Fielding and J. Reschke, "Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests", June 2014 <a href="https://tools.ietf.org/html/rfc7232">https://tools.ietf.org/html/rfc7232</a> </p>
 <p><a name="sword_1.3"><strong>SWORD 1.3</strong> Downing, J. "SWORD AtomPub Profile version 1.3", 2008. <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">http://www.swordapp.org/docs/sword-profile-1.3.html</a> </p>
 <p><a name="sword_2.0"><strong>SWORD 2.0</strong> Jones, R. and Lewis, S. "SWORD 2.0 Profile", 2011 <a href="http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html">http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html</a> </p>
 <p></div></p></body>

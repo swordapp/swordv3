@@ -1,5 +1,6 @@
 ID,Text,URL
 AtomPub,"Gregario, J. and B. de hOra, ""The Atom Publishing Protocol"", RFC 5023, October 2007.",http://www.ietf.org/rfc/rfc5023.txt
+IANA Auth,Hypertext Transfer Protocol (HTTP) Authentication Scheme Registry,https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
 IANA Digest,Hypertext Transfer Protocol (HTTP) Digest Algorithm Values,https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml
 JSON-LD,"JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018",https://json-ld.org/spec/latest/json-ld/
 JSON-SCHEMA,JSON Schema: A Media Type for Describing JSON Documents,http://json-schema.org/latest/json-schema-core.html
@@ -8,5 +9,6 @@ RFC2119,"Bradner, S. ""Key words for use in RFCs to Indicate Requirement Levels"
 RFC3230,"J. Mogul et al ""Instance Digests in HTTP""",https://www.ietf.org/rfc/rfc3230.txt
 RFC5987,"J. Reschke. ""Character Set and Language Encoding for Hypertext Transfer Protocol (HTTP) Header Field Parameters""",https://tools.ietf.org/html/rfc5987
 RFC6266,"J. Reschke. ""Use of the Content-Disposition Header Field in the Hypertext Transfer Protocol (HTTP)"", 2011",https://tools.ietf.org/html/rfc6266
+RFC7232,"R. Fielding and J. Reschke, ""Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests"", June 2014",https://tools.ietf.org/html/rfc7232
 SWORD 1.3,"Downing, J. ""SWORD AtomPub Profile version 1.3"", 2008.",http://www.swordapp.org/docs/sword-profile-1.3.html
 SWORD 2.0,"Jones, R. and Lewis, S. ""SWORD 2.0 Profile"", 2011",http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html

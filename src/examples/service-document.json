@@ -34,7 +34,7 @@
   "concurrencyControl" : true,
 
   "digest" : ["SHA-256", "SHA", "MD5"],
-  "authentication": ["Basic", "..."],
+  "authentication": ["Basic", "OAuth", "Digest", "APIKey"],
 
   "services" : [
     {
