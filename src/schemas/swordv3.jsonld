@@ -33,7 +33,7 @@
 		"SegmentLimitExceeded" : "http://purl.org/net/sword/3.0/error/SegmentLimitExceeded",
 		"UnexpectedSegment" : "http://purl.org/net/sword/3.0/error/UnexpectedSegment",
 		"ValidationFailed" : "http://purl.org/net/sword/3.0/error/ValidationFailed",
-		
+
 		"byReferenceFiles" : { "@container" : "@list" },
 		"contentDisposition" : { "@type" : "xsd:string" },
 		"contentLength" : { "@type" : "xsd:nonNegativeInteger" },
