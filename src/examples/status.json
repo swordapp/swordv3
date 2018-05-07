@@ -72,7 +72,6 @@
       "derivedFrom" : "http://www.myorg.ac.uk/sword3/object1/package.zip",
       "dcterms:relation" : "http://www.myorg.ac.uk/repo/123456789/file1.pdf",
       "dcterms:replaces" : "http://www.myorg.ac.uk/sword3/object1/versions/file1.1.pdf",
-      "methods": ["GET", "PUT", "DELETE"],
       "eTag" : "..."
     },
     {
@@ -95,26 +94,6 @@
       "versionReplacedOn" : "[xsd:dateTime]"
     },
     {
-      "@id" : "http://www.myorg.ac.uk/sword3/object1/big.zip",
-      "rel" : [
-        "http://purl.org/net/sword/3.0/terms/segmentedDeposit",
-        "http://purl.org/net/sword/3.0/terms/originalDeposit",
-        "http://purl.org/net/sword/3.0/terms/fileSetReplacement"
-      ],
-      "contentType" : "application/zip",
-      "packaging" : "http://purl.org/net/sword/3.0/package/SwordBagIt",
-      "depositedOn" : "[xsd:dateTime]",
-      "depositedBy" : "[user identifier]",
-      "depositedOnBehalfOf" : "[user identifier]",
-      "segments" : {
-        "received" : [1,2,4],
-        "expecting" : [3,5],
-        "size" : 10000000,
-        "segment_size" : 2000000
-      },
-      "status" : "http://purl.org/net/sword/3.0/filestate/pending"
-    },
-    {
       "@id" : "http://www.myorg.ac.uk/sword3/object1/reference.zip",
       "rel" : [
         "http://purl.org/net/sword/3.0/terms/byReferenceDeposit",
@@ -123,7 +102,6 @@
       ],
       "byReference" : "http://www.otherorg.ac.uk/by-reference/file2.zip",
       "log" : "Any information on the download, especially if it failed",
-      "methods": ["GET", "PUT", "DELETE"],
       "eTag" : "...",
       "status" : "http://purl.org/net/sword/3.0/filestate/ingested"
     }

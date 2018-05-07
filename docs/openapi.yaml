@@ -243,7 +243,7 @@ paths:
           description: Status
           headers:
             Location:
-              description: The File-URL or Segment-URL, whichever is appropriate
+              description: The File-URL
               schema:
                 type: string
             ETag:
@@ -258,7 +258,7 @@ paths:
           description: Status
           headers:
             Location:
-              description: The File-URL or Segment-URL, whichever is appropriate
+              description: The File-URL
               schema:
                 type: string
             ETag:
@@ -804,6 +804,168 @@ paths:
           $ref: '#/components/responses/MethodNotAllowed'
         '412':
           $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+  /Staging-URL:
+    post:
+      summary: Create a Temporary-URL for Segmented File Upload
+      operationId: createTemporary
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Temporary-URL
+          headers:
+            Location:
+              description: The Temporary-URL to which Segmented File Upload requests can be sent
+              schema:
+                type: string
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+  /Temporary-URL:
+    get:
+      summary: Retrieve Information on a Segmented File Upload
+      operationId: getTemporary
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Segmented File Upload Document
+          content:
+            application/json:
+              schema:
+                type: object
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    post:
+      summary: Upload a File Segment
+      operationId: uploadFileSegment
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: Content-Length
+          schema:
+            type: integer
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+        - in: header
+          name: Digest
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      requestBody:
+        description: "Segment to be added to the Resource."
+        content:
+          "*/*":
+            schema:
+              type: string
+              format: binary
+      responses:
+        '204':
+          description: Segment Received
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    delete:
+      summary: Abort a Segmented File Upload
+      operationId: abortSegmentedFile
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '204':
+          description: File Deleted
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '301':
           $ref: '#/components/responses/MovedPermanently'
         '307':

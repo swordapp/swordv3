@@ -29,9 +29,10 @@
     "description" : "..."
   },
 
+  "staging" : "http://example.com/staging",
+  "stagingMaxIdle" : 3600,
+
   "byReferenceDeposit" : true,
-  "segmentedUpload" : true,
-  "unfinishedSegmentRetention" : 3600,
   "onBehalfOf" : true,
   "concurrencyControl" : true,
 

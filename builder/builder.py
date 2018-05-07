@@ -497,6 +497,103 @@ def aggregated_requirements(file_cfg, config, sources=None, order=None):
         frag += "\n"
     return frag
 
+def content_disposition(file_cfg, config, reqs, hierarchy, groups, match):
+    bd = config.get("src_dir")
+    reqs_path = os.path.join(bd, reqs)
+    hierarchy_path = os.path.join(bd, hierarchy)
+
+    headers = []
+    requirements = []
+    with codecs.open(reqs_path, "rb", "utf-8") as f:
+        reqs_reader = UnicodeReader(f)
+        headers = reqs_reader.next()
+        for row in reqs_reader:
+            requirements.append(row)
+
+    hei = []
+    with codecs.open(hierarchy_path, "rb", "utf-8") as f:
+        hierarchy_reader = UnicodeReader(f)
+        for row in hierarchy_reader:
+            hei.append(row)
+
+    lookup = {}
+    for i in range(len(groups)):
+        group = groups[i]
+        m = match[i]
+        match_row = None
+        for row in hei:
+            broke = False
+            if row[0] == group:
+                for j in range(len(row) - 1, -1, -1):
+                    if row[j] == m:
+                        match_row = row
+                        broke = True
+                        break
+                if broke:
+                    break
+
+        if match_row is not None:
+            lookups = []
+            for i in range(len(match_row)):
+                if i == 0:
+                    continue
+                cell = match_row[i]
+                if cell != "":
+                    lookups.append(cell)
+
+            lookup[group] = lookups
+
+    output = ["Disposition Type", "Param"]
+    idx = {}
+    for i in range(len(headers)):
+        h = headers[i]
+        for group in groups:
+            if h == group:
+                idx[group] = i
+                break
+        for o in output:
+            if "+" in o:
+                o = o.split("+")
+            if not isinstance(o, list):
+                o = [o]
+            for bit in o:
+                if h == bit:
+                    idx[bit] = i
+                    break
+
+    rs = []
+    for r in requirements:
+        score = 0
+        for group in groups:
+            if r[idx[group]] in lookup[group]:
+                score += 1
+        if score != len(groups):
+            continue
+        result = []
+        for o in output:
+            if "+" in o:
+                o = o.split("+")
+                text = ""
+                for bit in o:
+                    text += bit + " - "
+                result.append(text)
+            else:
+                result.append(r[idx[o]])
+        rs.append(result)
+
+    sections = {}
+    for r in rs:
+        for i in range(len(output)):
+            o = output[i]
+            if o not in sections:
+                sections[o] = []
+            v = r[i]
+            if v != "":
+                sections[o].append(v)
+
+    parts = [sections["Disposition Type"][0]] + sections["Param"]
+    return "Content-Disposition: " + "; ".join(parts)
+
 def requirements(file_cfg, config, reqs, hierarchy, groups, match, output):
     """
     reqs=tables/requirements2.csv,
@@ -565,9 +662,14 @@ def requirements(file_cfg, config, reqs, hierarchy, groups, match, output):
                 idx[group] = i
                 break
         for o in output:
-            if h == o:
-                idx[o] = i
-                break
+            if "+" in o:
+                o = o.split("+")
+            if not isinstance(o, list):
+                o = [o]
+            for bit in o:
+                if h == bit:
+                    idx[bit] = i
+                    break
 
     rs = []
     for r in requirements:
@@ -579,7 +681,14 @@ def requirements(file_cfg, config, reqs, hierarchy, groups, match, output):
             continue
         result = []
         for o in output:
-            result.append(r[idx[o]])
+            if "+" in o:
+                o = o.split("+")
+                text = ""
+                for bit in o:
+                    text += bit + " - "
+                result.append(text)
+            else:
+                result.append(r[idx[o]])
         rs.append(result)
 
     sections = {}
@@ -669,6 +778,97 @@ def requirements_table(file_cf, config, source, vectors, reqs, header_level=1):
                 text = text.replace("\n", "")
                 frag += " * " + text + "\n"
             frag += "\n"
+
+    return frag
+
+def requirements_table_2(file_cf, config, source, vectors, reqs, definitions=None, header_level=1):
+    if not isinstance(vectors, list):
+        vectors = [vectors]
+    if not isinstance(reqs, list):
+        reqs = [reqs]
+    header_level = int(header_level)
+
+    bd = config.get("src_dir")
+    path = os.path.join(bd, source)
+
+    defs = {}
+    if definitions is not None:
+        def_src = os.path.join(bd, definitions)
+        with codecs.open(def_src, "rb", "utf-8") as f:
+            reader = UnicodeReader(f)
+            headers = reader.next()
+            defs = {headers[0] : {}}
+            for row in reader:
+                defs[headers[0]][row[0]] = row[1]
+
+    headers = []
+    section_order = []
+    sections = {}
+    with codecs.open(path, "rb", "utf-8") as f:
+        reader = UnicodeReader(f)
+        headers = reader.next()
+
+        idx = {}
+        for i in range(len(headers)):
+            h = headers[i]
+            for v in vectors:
+                if h == v:
+                    idx[v] = i
+                    break
+            for r in reqs:
+                if h == r:
+                    idx[r] = i
+                    break
+
+        vector_sections = []
+        expanded_requirements = {}
+        for row in reader:
+            vector_section = []
+            for v in vectors:
+                vector_section.append(row[idx[v]])
+            if not vector_section in vector_sections:
+                vector_sections.append(vector_section)
+            id = vector_sections.index(vector_section)
+            if id not in expanded_requirements:
+                expanded_requirements[id] = {}
+            for r in reqs:
+                if r not in expanded_requirements[id]:
+                    expanded_requirements[id][r] = []
+                val = row[idx[r]]
+                if val != "" and val not in expanded_requirements[id][r]:
+                    expanded_requirements[id][r].append(val)
+
+        total_width = len(vectors) * len(reqs)
+        vector_width = len(reqs)
+        req_width = len(vectors)
+
+        frag = '<table><thead><tr>'
+        for v in vectors:
+            frag += '<td colspan="' + str(vector_width) + '" style="text-align: center"><strong>' + v + '</strong></td>'
+        frag += "</tr></thead>"
+
+        for i in range(len(vector_sections)):
+            vs = vector_sections[i]
+            frag += '<tr>'
+            for vname in vs:
+                frag += '<td colspan="' + str(vector_width) + '" style="text-align: center">' + vname + "</td>"
+            frag += "</tr><tr>"
+            for r in reqs:
+                frag += '<td colspan="' + str(req_width) + '"><strong>' + r + "</strong></td>"
+            frag += "</tr><tr>"
+            context = expanded_requirements[i]
+            for r in reqs:
+                vals = context[r]
+                cell = ""
+                for v in vals:
+                    deftext = ""
+                    if r in defs:
+                        deftext = " - " + defs[r][v]
+                    cell += " * " + v + deftext + "\n"
+                    cell = markdown.markdown(cell)
+                frag += '<td colspan="' + str(req_width) + '">' + cell + '</td>'
+            frag += "</tr>"
+        frag += "</table>"
 
     return frag
 
@@ -946,12 +1146,14 @@ COMMANDS = {
     "json_schema_definitions" : json_schema_definitions,
     "requirements" : requirements,
     "requirements_table" : requirements_table,
+    "requirements_table_2" : requirements_table_2,
     "requirements_hierarchy" : requirements_hierarchy,
     "html" : html,
     "json_extract" : json_extract,
     "sections" : sections,
     "img" : img,
-    "fig" : fig
+    "fig" : fig,
+    "content_disposition" : content_disposition
 }
 
 EXPAND_COMMANDS = ["include", "openapi_paths", "requirements_table"]

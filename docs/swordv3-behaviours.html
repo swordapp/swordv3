@@ -18,7 +18,7 @@
 <li><a href="#2.3.">2.3. Creating Objects with both Metadata and By-Reference Files</a></li>
 <li><a href="#2.4.">2.4. Creating Objects with Binary Files</a></li>
 <li><a href="#2.5.">2.5. Creating Objects with Packaged Content</a></li>
-<li><a href="#2.6.">2.6. Creating Objects ready for Segmented Upload</a></li>
+<li><a href="#2.6.">2.6. Creating Objects with Segmented File Upload</a></li>
 </ul>
 </li>
 <li><a href="#3.">3. Retrieving all or part of Objects</a><ul>
@@ -34,8 +34,8 @@
 <li><a href="#4.3.">4.3. Appending Metadata and By-Reference Files to an Object</a></li>
 <li><a href="#4.4.">4.4. Appending a single Binary File to an Object</a></li>
 <li><a href="#4.5.">4.5. Appending Packaged Content to an Object</a></li>
-<li><a href="#4.6.">4.6. Initialising Append of Binary Files to an Object via Segmented Upload</a></li>
-<li><a href="#4.7.">4.7. Initialising Append of Packaged Content to an Object via Segmented Upload</a></li>
+<li><a href="#4.6.">4.6. Append of Binary Files to an Object via Segmented File Upload</a></li>
+<li><a href="#4.7.">4.7. Append of Packaged Content to an Object via Segmented File Upload</a></li>
 </ul>
 </li>
 <li><a href="#5.">5. Replacing all or part of existing Objects</a><ul>
@@ -45,14 +45,14 @@
 <li><a href="#5.4.">5.4. Replacing a single File in an Object with a Segmented Upload</a></li>
 <li><a href="#5.5.">5.5. Replacing the FileSet of an Object with By-Reference Files</a></li>
 <li><a href="#5.6.">5.6. Replacing the FileSet of an Object with a single Binary File</a></li>
-<li><a href="#5.7.">5.7. Replacing the FileSet of an Object with a single Binary File via Segmented Upload</a></li>
+<li><a href="#5.7.">5.7. Replacing the FileSet of an Object with a single Binary File via Segmented File Upload</a></li>
 <li><a href="#5.8.">5.8. Replacing an Object with Metadata only</a></li>
 <li><a href="#5.9.">5.9. Replacing an Object with By-Reference Files only</a></li>
 <li><a href="#5.10.">5.10. Replacing an Object with Metadata and By-Reference Files</a></li>
 <li><a href="#5.11.">5.11. Replacing an Object with a single Binary File</a></li>
 <li><a href="#5.12.">5.12. Replacing an Object with Packaged Content</a></li>
-<li><a href="#5.13.">5.13. Replacing an Object with a single Binary File via Segmented Upload</a></li>
-<li><a href="#5.14.">5.14. Replacing an Object with Packaged Content via Segmented Upload</a></li>
+<li><a href="#5.13.">5.13. Replacing an Object with a single Binary File via Segmented File Upload</a></li>
+<li><a href="#5.14.">5.14. Replacing an Object with Packaged Content via Segmented File Upload</a></li>
 </ul>
 </li>
 <li><a href="#6.">6. Deleting all or part of Objects</a><ul>
@@ -62,7 +62,14 @@
 <li><a href="#6.4.">6.4. Deleting the entire Object</a></li>
 </ul>
 </li>
-<li><a href="#7.">7. Completing Previously In-Progress Deposits</a>
+<li><a href="#7.">7. File Segments</a><ul>
+<li><a href="#7.1.">7.1. Initialise a Segmented File Upload</a></li>
+<li><a href="#7.2.">7.2. Upload a File Segment</a></li>
+<li><a href="#7.3.">7.3. Abort a Segmented File Upload</a></li>
+<li><a href="#7.4.">7.4. Retrieve information about a Segmented File Upload</a></li>
+</ul>
+</li>
+<li><a href="#8.">8. Completing Previously In-Progress Deposits</a>
 </div></li>
 </ul>
 <p></div></p>
@@ -118,9 +125,9 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -136,6 +143,10 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
 <li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; metadata=true
+</code></pre>
+
 <p><a name="2.2."></a></p>
 <h2>2.2. Creating Objects with only By-Reference Files</h2>
 <p>Create a new Object on the server, sending on By-Reference Files (i.e. no Binary Files and no Metadata)</p>
@@ -156,9 +167,9 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -174,6 +185,10 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
 <li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; by-reference=true
+</code></pre>
+
 <p><a name="2.3."></a></p>
 <h2>2.3. Creating Objects with both Metadata and By-Reference Files</h2>
 <p>Create a new Object on the server, sending both Metadata content and By-Reference Files (i.e. no Binary File content)</p>
@@ -195,9 +210,9 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
@@ -214,6 +229,10 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
 <li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; metadata=true; by-reference=true
+</code></pre>
+
 <p><a name="2.4."></a></p>
 <h2>2.4. Creating Objects with Binary Files</h2>
 <p>Create a new Object on the server, sending a single Binary File.  The Binary File is an opaque bitstream which the server should not 
@@ -236,9 +255,9 @@ attempt to unpack.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>The server SHOULD NOT attempt to unpack the file</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -254,6 +273,10 @@ attempt to unpack.</p>
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
 <li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; filename=[filename]
+</code></pre>
+
 <p><a name="2.5."></a></p>
 <h2>2.5. Creating Objects with Packaged Content</h2>
 <p>Create a new Object on the server, sending a single Binary File.  The Binary File itself is specified as Packaged Content, which the server 
@@ -276,9 +299,9 @@ may understand how to unpack.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>The server MAY attempt to unpack the file</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -294,11 +317,16 @@ may understand how to unpack.</p>
 <li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
 <li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; filename=[filename]
+</code></pre>
+
 <p><a name="2.6."></a></p>
-<h2>2.6. Creating Objects ready for Segmented Upload</h2>
+<h2>2.6. Creating Objects with Segmented File Upload</h2>
+<p>First create a Temporary-URL to which to upload the file segments:</p>
 <p><strong>Protocol Operation</strong></p>
 <ul>
-<li>POST Service-URL</li>
+<li>POST Staging-URL</li>
 </ul>
 <p><strong>Request Requirements</strong></p>
 <ul>
@@ -306,26 +334,25 @@ may understand how to unpack.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
 <li>MUST NOT include any body content</li>
-<li>MAY provide the <code>Slug</code> header</li>
-<li>MUST provide the <code>In-Progress</code> header with value <code>true</code></li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
-<li>If no <code>In-Progress</code> header is provided, MUST NOT accept the request</li>
+<li>If all preconditions are met, MUST create a resource to which the client can upload file segments</li>
+<li>MUST reject the request if the conditions of the upload are not acceptable</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
-<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
-<li>MUST respond with a valid Status document or a suitable error response</li>
-<li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
-<li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
-<li>If no <code>In-Progress</code> header is provided, MUST respond with a <code>412</code> error</li>
-<li>MUST reject the request if the conditions of the upload are not acceptable</li>
+<li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+<li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
+</code></pre>
+
+<p>Then upload all the file segments as per <a href="#7.2.">Upload a File Segment</a>.</p>
+<p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#2.2.">Creating Objects with only By-Reference Files</a></p>
 <p><a name="3."></a></p>
 <h1>3. Retrieving all or part of Objects</h1>
 <p><a name="3.1."></a></p>
@@ -433,9 +460,9 @@ any other metadata fields held by the server remain untouched.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -469,9 +496,9 @@ any other metadata fields held by the server remain untouched.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -506,9 +533,9 @@ any other metadata fields held by the server remain untouched.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
@@ -545,9 +572,9 @@ without the server unpacking it as it would Packaged Content.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>The server SHOULD NOT attempt to unpack the file</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -585,9 +612,9 @@ actionable metadata.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>The server MAY attempt to unpack the file</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -603,11 +630,12 @@ actionable metadata.</p>
 <li>MUST respond with a <code>Location</code> header, containing the File-URL of the Original Deposit File</li>
 </ul>
 <p><a name="4.6."></a></p>
-<h2>4.6. Initialising Append of Binary Files to an Object via Segmented Upload</h2>
-<p>Initialise the append of a single Binary File to an Object which will be delivered via a Segmented Upload.</p>
+<h2>4.6. Append of Binary Files to an Object via Segmented File Upload</h2>
+<p>Append a single Binary File to an Object which will be delivered via a Segmented File Upload.</p>
+<p>First create a Temporary-URL to which to upload the file segments:</p>
 <p><strong>Protocol Operation</strong></p>
 <ul>
-<li>POST Object-URL</li>
+<li>POST Staging-URL</li>
 </ul>
 <p><strong>Request Requirements</strong></p>
 <ul>
@@ -615,29 +643,24 @@ actionable metadata.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
 <li>MUST NOT include any body content</li>
-<li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MUST provide the <code>In-Progress</code> header with value <code>true</code></li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
-<li>If no <code>In-Progress</code> header is provided, MUST NOT accept the request</li>
+<li>If all preconditions are met, MUST create a resource to which the client can upload file segments</li>
+<li>MUST reject the request if the conditions of the upload are not acceptable</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
-<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>If no <code>In-Progress</code> header is provided, MUST respond with a <code>412</code> error</li>
-<li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
-<li>MUST respond with a <code>Location</code> header, containing the Segment-URL</li>
+<li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
+<p>Then upload all the file segments as per <a href="#7.2.">Upload a File Segment</a>.</p>
+<p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#4.2.">Appending By-Reference Files to an Object</a></p>
 <p><a name="4.7."></a></p>
-<h2>4.7. Initialising Append of Packaged Content to an Object via Segmented Upload</h2>
-<p>As <a href="#4.6.">Initialising Append of Binary Files to an Object via Segmented Upload</a> - in this case you should be sure to set the <code>packaging</code>
-format correctly in the <code>Content-Disposition</code> header when initialising the Segmented Upload. </p>
+<h2>4.7. Append of Packaged Content to an Object via Segmented File Upload</h2>
+<p>As <a href="#4.6.">Append of Binary Files to an Object via Segmented File Upload</a>. </p>
 <p><a name="5."></a></p>
 <h1>5. Replacing all or part of existing Objects</h1>
 <p>Metadata and Files may be replaced in existing Objects through a variety of mechanisms, which are listed in this section.</p>
@@ -661,9 +684,9 @@ format correctly in the <code>Content-Disposition</code> header when initialisin
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 </ul>
@@ -695,9 +718,9 @@ format correctly in the <code>Content-Disposition</code> header when initialisin
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>The server SHOULD NOT attempt to unpack the file</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 </ul>
@@ -730,9 +753,9 @@ version of the file available.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>If more than one By-Reference File is present, MUST reject the request.</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
@@ -748,11 +771,11 @@ version of the file available.</p>
 </ul>
 <p><a name="5.4."></a></p>
 <h2>5.4. Replacing a single File in an Object with a Segmented Upload</h2>
-<p>Replace an existing file in the Object with a new file, which the client will send in segments.  This operation initialises the segmented
-upload of that file.</p>
+<p>Replace an existing file in the Object with a new file, which the client will send in segments.  </p>
+<p>First create a Temporary-URL to which to upload the file segments:</p>
 <p><strong>Protocol Operation</strong></p>
 <ul>
-<li>PUT File-URL</li>
+<li>POST Staging-URL</li>
 </ul>
 <p><strong>Request Requirements</strong></p>
 <ul>
@@ -760,20 +783,21 @@ upload of that file.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
 <li>MUST NOT include any body content</li>
-<li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
+<li>If all preconditions are met, MUST create a resource to which the client can upload file segments</li>
+<li>MUST reject the request if the conditions of the upload are not acceptable</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
-<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+<li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
-<p>You may then go on and upload the file segments as per the specification.</p>
+<p>Then upload all the file segments as per <a href="#7.2.">Upload a File Segment</a>.</p>
+<p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#5.3.">Replacing a single File in an Object with a By-Reference File</a></p>
 <p><a name="5.5."></a></p>
 <h2>5.5. Replacing the FileSet of an Object with By-Reference Files</h2>
 <p>Replace all the files in the FileSet of an Object with one or more By-Reference Files.  All previously existing files will be removed, and
@@ -794,9 +818,9 @@ new ones will replace them.  The server may or may not keep old versions of the 
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 </ul>
@@ -829,9 +853,9 @@ be removed, and the new one will replace them.  The server may or may not keep o
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>The server SHOULD NOT attempt to unpack the file</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 </ul>
@@ -844,14 +868,14 @@ be removed, and the new one will replace them.  The server may or may not keep o
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
 <p><a name="5.7."></a></p>
-<h2>5.7. Replacing the FileSet of an Object with a single Binary File via Segmented Upload</h2>
-<p>Replace in its entirity the FileSet of the Object (i.e. not the Metadata), with a single Binary File, that is provided via Segmented Upload.
+<h2>5.7. Replacing the FileSet of an Object with a single Binary File via Segmented File Upload</h2>
+<p>Replace in its entirity the FileSet of the Object (i.e. not the Metadata), with a single Binary File, that is provided via Segmented File Upload.
 All previously existing files will be removed, and the new one will replace them.  The server may or may not keep old versions of the 
 content available, at its discretion.</p>
-<p>This operation initialises the Segmented Upload</p>
+<p>First create a Temporary-URL to which to upload the file segments:</p>
 <p><strong>Protocol Operation</strong></p>
 <ul>
-<li>PUT FileSet-URL</li>
+<li>POST Staging-URL</li>
 </ul>
 <p><strong>Request Requirements</strong></p>
 <ul>
@@ -859,20 +883,21 @@ content available, at its discretion.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
 <li>MUST NOT include any body content</li>
-<li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
+<li>If all preconditions are met, MUST create a resource to which the client can upload file segments</li>
+<li>MUST reject the request if the conditions of the upload are not acceptable</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
-<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+<li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
-<p>You may then go on and upload the file segments as per the specification.</p>
+<p>Then upload all the file segments as per <a href="#7.2.">Upload a File Segment</a>.</p>
+<p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#5.5.">Replacing the FileSet of an Object with By-Reference Files</a></p>
 <p><a name="5.8."></a></p>
 <h2>5.8. Replacing an Object with Metadata only</h2>
 <p>Replace the entire Object, removing all previous files and metadata, and replace it with just the supplied Metadata.  The server may or may 
@@ -895,9 +920,9 @@ not keep old versions of the content available, at its discretion.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -932,9 +957,9 @@ The server may or may not keep old versions of the content available, at its dis
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -970,9 +995,9 @@ By-Reference upload.  The server may or may not keep old versions of the content
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
@@ -1010,9 +1035,9 @@ the content available.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>The server SHOULD NOT attempt to unpack the file</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -1049,9 +1074,9 @@ available.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>MUST verify that the content matches the <code>Digest</code> header</li>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>The server MAY attempt to unpack the file</li>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
@@ -1066,14 +1091,14 @@ available.</p>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><a name="5.13."></a></p>
-<h2>5.13. Replacing an Object with a single Binary File via Segmented Upload</h2>
+<h2>5.13. Replacing an Object with a single Binary File via Segmented File Upload</h2>
 <p>Replace in its entirety the Object, including all Metadata and Files, with a single Binary File, which will be delivered via Segmented
-Upload.  All previous files and metadata will be removed, and new ones will replace them.  The server may or may not keep old versions of 
+File Upload.  All previous files and metadata will be removed, and new ones will replace them.  The server may or may not keep old versions of 
 the content available.</p>
-<p>This request initialises the Segmented Upload:</p>
+<p>First create a Temporary-URL to which to upload the file segments:</p>
 <p><strong>Protocol Operation</strong></p>
 <ul>
-<li>PUT Object-URL</li>
+<li>POST Staging-URL</li>
 </ul>
 <p><strong>Request Requirements</strong></p>
 <ul>
@@ -1081,29 +1106,24 @@ the content available.</p>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 <li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
 <li>MUST NOT include any body content</li>
-<li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
-<li>MUST provide the <code>In-Progress</code> header with value <code>true</code></li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
-<li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
-<li>If no <code>In-Progress</code> header is provided, MUST NOT accept the request</li>
+<li>If all preconditions are met, MUST create a resource to which the client can upload file segments</li>
+<li>MUST reject the request if the conditions of the upload are not acceptable</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
-<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
-<li>If no <code>In-Progress</code> header is provided, MUST respond with a <code>412</code> error</li>
-<li>MUST respond with a valid Status document or a suitable error response</li>
-<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+<li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
-<p>You may then go on to upload the file segments as per the specification.</p>
+<p>Then upload all the file segments as per <a href="#7.2.">Upload a File Segment</a>.</p>
+<p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#5.9.">Replacing an Object with By-Reference Files only</a></p>
 <p><a name="5.14."></a></p>
-<h2>5.14. Replacing an Object with Packaged Content via Segmented Upload</h2>
-<p>This operation is carried out exactly as per <a href="#5.13.">Replacing an Object with a single Binary File via Segmented Upload</a>, with the
-appropriate <code>packaging</code> parameter supplied in the <code>Content-Disposition</code>.</p>
+<h2>5.14. Replacing an Object with Packaged Content via Segmented File Upload</h2>
+<p>This operation is carried out exactly as per <a href="#5.13.">Replacing an Object with a single Binary File via Segmented File Upload</a>.</p>
 <p><a name="6."></a></p>
 <h1>6. Deleting all or part of Objects</h1>
 <p><a name="6.1."></a></p>
@@ -1188,7 +1208,78 @@ available.</p>
 <li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
 </ul>
 <p><a name="7."></a></p>
-<h1>7. Completing Previously In-Progress Deposits</h1>
+<h1>7. File Segments</h1>
+<p><a name="7.1."></a></p>
+<h2>7.1. Initialise a Segmented File Upload</h2>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Staging-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST create a resource to which the client can upload file segments</li>
+<li>MUST reject the request if the conditions of the upload are not acceptable</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+<li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
+</ul>
+<p><a name="7.2."></a></p>
+<h2>7.2. Upload a File Segment</h2>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Temporary-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>MUST reject the request if the segment is incorrect or unexpected: for example, all segments were already received, or the segment is a different size than expected.</li>
+<li>If all preconditions are met, MUST accept the file segment, and record the receipt of it</li>
+<li>MUST be prepared to accept file segments in any order</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST respond with a <code>204</code> or a suitable error</li>
+</ul>
+<p><a name="7.3."></a></p>
+<h2>7.3. Abort a Segmented File Upload</h2>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
+</ul>
+<p><a name="7.4."></a></p>
+<h2>7.4. Retrieve information about a Segmented File Upload</h2>
+<p><a name="8."></a></p>
+<h1>8. Completing Previously In-Progress Deposits</h1>
 <p>Where you have previously carried out deposits and sent the object the <code>In-Progress: true</code> header, you will eventually need to tell the
 server that you have completed your additions or modifications to the Object, so that it can finalise your deposit.</p>
 <p><strong>Protocol Operation</strong></p>

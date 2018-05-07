@@ -18,24 +18,113 @@ There are three general deposit operations in SWORD:
 2. A Segment Upload Initialisation
 3. A segment for a Segment Upload
 
-Each of these has a different Content-Disposition, which makes it clear to the server what it should do with that content:
+Each of these has a different Content-Disposition, which makes it clear to the server what it should do with that content.
 
-## Direct Uploads:
+There are two aspects which control what the Content-Disposition should be:
 
-* MUST have the disposition type `attachment`
-* A Direct Upload containing Metadata MUST contain the disposition param `metadata=true`.
-* A Direct Upload containing ByReference Files, MUST contain the disposition param `by-reference=true`
-* A Direct Upload containing a Binary File or Packaged Content MAY contain the disposition param `filename` (or `filename*` if using a 
-character set outside of ISO-8859-1).
+* The Upload Type
+* The Content
 
-##  Segment Upload Initialisation:
+The requirements below define what Disposition Type and Parameters are required for each kind of request.  The requirements should be
+interpreted according to the following hierarchy for each of the above aspects:
 
-* MUST have the disposition type `segment-init`
-* MUST follow the documentation in the [File Segment Upload] section of this specification on constructing the `Content-Disposition` for a 
-Segment Upload Initialisation
+The hierarchy for the Upload Type is:
 
-##  Segment Upload:
+{% 
+requirements_hierarchy
+    source=tables/content-disposition-hierarchy.csv,
+    key=Upload Type
+%}
 
-* MUST have the disposition type `segment`
-* MUST follow the documentation in the [File Segment Upload] section of this specification on constructing the `Content-Disposition` for 
-Uploading Segments
+The hierarchy for the Content is:
+
+{% 
+requirements_hierarchy
+    source=tables/content-disposition-heirarchy.csv,
+    key=Content
+%}
+
+The requirements are:
+
+{%
+requirements_table_2
+    source=tables/content-disposition.csv,
+    vectors=Upload Type|Content,
+    reqs=Disposition Type|Param,
+    definitions=tables/content-disposition-definitions.csv,
+    header_level=2
+%}
+
+The following examples show a number of key cases:
+
+**A Metadata Deposit**
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Metadata
+%}
+```
+
+**A By-Reference Deposit**
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|By-Reference
+%}
+```
+
+**A Metadata+By-Reference Deposit**
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|MD+BR
+%}
+```
+
+**A Binary File Deposit**
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Binary File
+%}
+```
+
+**A Segmented Upload Initialisation**
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Segmented Upload Initialisation|Empty Body
+%}
+```
+
+**A File Segment Upload**
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=File Segment Upload|File Segment
+%}
+```

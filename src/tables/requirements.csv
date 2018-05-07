@@ -7,10 +7,12 @@ Retrieve,*,Object-URL,,,MUST include `ETag` header if implementing concurrency c
 Retrieve,*,Components,,,MUST include `ETag` header if implementing concurrency control,
 Retrieve,*,Metadata-URL,,,MUST respond with a valid Metadata document (see definition below) or a suitable error response,GET Metadata-URL
 Retrieve,*,File-URL,,,"MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response",GET File-URL
-Modify,*,*,"MUST provide the `Content-Disposition` header, with the appropriate value for the request",,MUST include `ETag` header if implementing concurrency control,
-Modify,Body,*,,"If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error",,
-Modify,Body,*,MUST provide the `Content-Type` and `Digest` headers,MUST verify that the content matches the `Digest` header,MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable),
+Modify,*,*,"MUST provide the `Content-Disposition` header, with the appropriate value for the request",,,
+Modify,*,Deposit,,,MUST include `ETag` header if implementing concurrency control,
+Modify,Body,Deposit,,,MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable),
+Modify,Body,*,MUST provide the `Content-Type` and `Digest` headers,MUST verify that the content matches the `Digest` header,,
 Modify,Body,*,SHOULD provide the `Content-Length`,MUST verify that the supplied content matches the `Content-Length` if this is provided,,
+Modify,Body,Deposit,,"If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error",,
 Modify,Metadata,*,SHOULD provide the `Metadata-Format` header,"If no `Metadata-Format` header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata",,
 Modify,Metadata,*,MUST provide only the Metadata document,,,
 Modify,By-Reference,*,MUST provide the By-Reference document,"If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request",,
@@ -29,26 +31,20 @@ Create,*,Service-URL,,,Status document MUST be available on GET to the Object-UR
 Create,*,Service-URL,,,"MUST respond with a `201` if the item was created immediately, a `202` if the item was queued for import, or raise an error.",
 Create,Body,Service-URL,MAY provide the `In-Progress` header,"If no `In-Progress` header is provided, MUST assume that it is `false`",,
 Create,Body,Service-URL,,"If `In-Progress` is `false`, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.",,
-Create,Empty Body,Service-URL,MUST provide the `In-Progress` header with value `true`,"If no `In-Progress` header is provided, MUST NOT accept the request","If no `In-Progress` header is provided, MUST respond with a `412` error",
-Create,Empty Body,Service-URL,,,MUST reject the request if the conditions of the upload are not acceptable,
-Update,*,*,"MUST include the `If-Match` header, if the server implements concurrency control",MUST reject the request if the `If-Match` header does not match the current `ETag` of the resource,,
-Delete,*,*,,,"MUST respond with a `204` if the delete is successful, or raise an error",
-Update,Body,*,,,"MUST respond with a `200` if the request was accepted immediately, a `202` if the request was queued for processing, or raise an error.",
+Create,Empty Body,Staging-URL,,"If all preconditions are met, MUST create a resource to which the client can upload file segments","MUST respond with a `201` to indicate that the Segmented Upload has been initialised, or raise an error.",POST Staging-URL
+Create,Empty Body,Staging-URL,,MUST reject the request if the conditions of the upload are not acceptable,MUST respond with a `Location` header containing the Temporary-URL where the client can upload file segments,
+Update,*,Deposit,"MUST include the `If-Match` header, if the server implements concurrency control",MUST reject the request if the `If-Match` header does not match the current `ETag` of the resource,,
+Update,Body,Deposit,,,"MUST respond with a `200` if the request was accepted immediately, a `202` if the request was queued for processing, or raise an error.",
 Update,Body,Object-URL,MAY provide the `In-Progress` header,"If no `In-Progress` header is provided, MUST assume that it is `false`",MUST respond with a valid Status document or a suitable error response,
 Update,Body,Object-URL,,,MUST include `ETag` header if implementing concurrency control,
-Update,Empty Body,Object-URL,MUST provide the `In-Progress` header with value `true`,"If no `In-Progress` header is provided, MUST NOT accept the request","If no `In-Progress` header is provided, MUST respond with a `412` error",
-Update,Empty Body,Object-URL,,,MUST respond with a valid Status document or a suitable error response,
-Update,Empty Body,Object-URL,,,MUST include `ETag` header if implementing concurrency control,
-Update,Empty Body,Object-URL,,,"MUST respond with a `201` to indicate that the Segmented Upload has been initialised, or raise an error.",
 Append,*,Object-URL,,,,POST Object-URL
 Append,Binary,Object-URL,,,"MUST respond with a `Location` header, containing the File-URL of the Original Deposit File",
-Append,Empty Body,Object-URL,,,"MUST respond with a `Location` header, containing the Segment-URL",
 Replace,*,Object-URL,,,,PUT Object-URL
 Update,Body,Components,,,"MUST respond with a `204` if the replacement was deposited immediately, a `202` if the replacement was queued for import, or raise an error.",
-Update,Empty Body,Components,,,"MUST respond with a `201` to indicate that the Segmented Upload has been initialised, or raise an error.",
 Replace,*,Metadata-URL,,,,PUT Metadata-URL
 Replace,*,FileSet-URL,,,,PUT FileSet-URL
 Replace,*,File-URL,,,,PUT File-URL
+Delete,*,*,,,"MUST respond with a `204` if the delete is successful, or raise an error",
 Delete,*,Object-URL,,,,DELETE Object-URL
 Delete,*,FileSet-URL,,,,DELETE FileSet-URL
 Delete,*,File-URL,,,,DELETE File-URL
@@ -56,3 +52,6 @@ Delete,*,Metadata-URL,,,,DELETE Metadata-URL
 Complete,Empty Body,Object-URL,MUST provide the header `In-Progress: false`,MAY inject the content into any ingest workflows,MUST respond with a `204` or a suitable error,POST Object-URL
 Complete,Empty Body,Object-URL,MAY provide the `Content-Length` header with value `0`,,,
 Complete,Empty Body,Object-URL,MUST NOT include any body content,,,
+Append,Body,Temporary-URL,,"MUST reject the request if the segment is incorrect or unexpected: for example, all segments were already received, or the segment is a different size than expected.",MUST respond with a `204` or a suitable error,POST Temporary-URL
+Append,File Segment,Temporary-URL,,"If all preconditions are met, MUST accept the file segment, and record the receipt of it",,
+Append,File Segment,Temporary-URL,,MUST be prepared to accept file segments in any order,,

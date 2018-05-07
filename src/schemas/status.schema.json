@@ -412,62 +412,6 @@
 						"format": "date-time",
 						"title": "Date that the current resource was replaced by a newer resource",
 						"description": "SHOULD be present if dcterms:isReplacedBy is present"
-					},
-					"segments": {
-						"$id": "/properties/links/items/properties/segments",
-						"type": "object",
-						"title": "Container for information on segmented upload files",
-						"description": "MUST be present for files undergoing segmented upload",
-						"properties": {
-							"received": {
-								"$id": "/properties/links/items/properties/segments/properties/received",
-								"type": "array",
-								"title": "The list of integers identifying the segments that have been successfully uploaded so far.",
-								"description": "MUST be present.",
-								"items": {
-									"$id": "/properties/links/items/properties/segments/properties/received/items",
-									"type": "integer",
-									"title": "The segments that have been uploaded",
-									"examples": [
-										1,
-										2
-									]
-								}
-							},
-							"expecting": {
-								"$id": "/properties/links/items/properties/segments/properties/expecting",
-								"type": "array",
-								"title": "This list of integers identifying the segments which are expected and that have not yet been deposited",
-								"description": "MUST be present",
-								"items": {
-									"$id": "/properties/links/items/properties/segments/properties/expecting/items",
-									"type": "integer",
-									"title": "The segments that are expected",
-									"examples": [
-										3
-									]
-								}
-							},
-							"size": {
-								"$id": "/properties/links/items/properties/segments/properties/size",
-								"type": "integer",
-								"title": "The size in bytes of the final resulting assembled file.",
-								"description": "MUST be present.",
-								"examples": [
-									10000000
-								]
-							},
-							"segment_size": {
-								"$id": "/properties/links/items/properties/segments/properties/segment_size",
-								"type": "integer",
-								"title": "The size in bytes of the segments (except the final one) that will be uploaded.",
-								"description": "MUST be present.",
-								"examples": [
-									2000000
-								]
-							}
-						},
-						"required" : ["received", "expecting", "size", "segment_size"]
 					}
 				},
 				"required" : ["@id", "rel"]

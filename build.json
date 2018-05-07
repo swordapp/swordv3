@@ -58,6 +58,11 @@
 			"process" : false
 		},
 		{
+			"root" : "schemas/segmented-file-upload.schema.json",
+			"out" : "status.schema.json",
+			"process" : false
+		},
+		{
 			"root" : "assets/css/swordv3.css",
 			"out" : "swordv3.css",
 			"process" : false

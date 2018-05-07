@@ -205,17 +205,17 @@
 			"description" : "SHOULD be present.   If omitted, the client MUST assume the server does not support By-Reference deposit.",
 			"default": false
 		},
-		"segmentedUpload": {
-			"$id": "/properties/segmentedUpload",
-			"type": "boolean",
-			"title": "Does the server support Segmented Upload?",
-			"description" : "SHOULD be present.  If omitted, the client MUST assume the server does not support Segmented Upload.",
+		"staging": {
+			"$id": "/properties/staging",
+			"type": "string",
+			"title": "The URL where clients may stage content prior to deposit, in particular for segmented upload",
+			"description" : "MAY be present.  If omitted, the client MUST assume the server does not support Segmented Upload.",
 			"default": false
 		},
-		"unfinishedSegmentRetention": {
+		"stagingMaxIdle": {
 			"$id": "/properties/unfinishedSegmentRetention",
 			"type": "integer",
-			"title": "What is the minimum time a server will hold on to an incomplete Segmented Upload before deleting it.",
+			"title": "What is the minimum time a server will hold on to an incomplete Segmented File Upload since it last received any content before deleting it.",
 			"description" : "SHOULD be present.  If omitted, the client MUST assume that the server will hold on to the incomplete file indefinitely.  Servers MAY delete the unfinished upload at any time after the minimum time stated here has elapsed.",
 			"examples": [
 				3600

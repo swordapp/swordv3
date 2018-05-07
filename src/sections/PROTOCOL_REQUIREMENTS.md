@@ -4,9 +4,9 @@ This section describes the requirements of every kind of operation that you can 
 
 There are 3 key aspects of the specification where requirements can be applied, and these are:
 
-1. **Request**: The CRUD operations that you can perform on the resources
+1. **Request**: The operations that you can perform on the resources
 2. **Content**: The body content of the request, such as Metadata, By-Reference, Metadata+ByReference, Binary File, Packaged Content, Empty Body
-3. **Resource**: {% def urls,Service-URL %}, {% def urls,Object-URL %}, {% def urls,Metadata-URL %}, {% def urls,FileSet-URL %}, {% def urls,File-URL %}
+3. **Resource**: {% def urls,Service-URL %}, {% def urls,Object-URL %}, {% def urls,Metadata-URL %}, {% def urls,FileSet-URL %}, {% def urls,File-URL %}, {% def urls,Staging-URL %}. {% def urls,Temporary-URL %}
 
 When combined for a specific request.  For example: Creating (**Request**) a new Object by request to the Service-URL (**Resource**) 
 with Packaged Content (**Content**), these aspects tell you the exact requirements.
@@ -52,7 +52,7 @@ So, for example, when considering an operation such as "Creating Objects with Pa
 ## Requirement Groups
 
 {%
-requirements_table
+requirements_table_2
     source=tables/requirements.csv,
     vectors=Request|Content|Resource,
     reqs=Protocol Operation|Request Requirements|Server Requirements|Response Requirements,

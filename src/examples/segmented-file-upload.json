@@ -1,0 +1,19 @@
+{
+	"@context": "https://swordapp.github.io/swordv3/swordv3.jsonld",
+	"@id": "http://example.com/temporary/1",
+	"@type": "Temporary",
+
+	"segments": {
+		"received": [
+			1,
+			2,
+			4
+		],
+		"expecting": [
+			3,
+			5
+		],
+		"size": 10000000,
+		"segment_size": 2000000
+	}
+}

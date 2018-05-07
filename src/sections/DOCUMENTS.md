@@ -193,6 +193,23 @@ dl
 %}
 
 
+## Segmented File Upload Document
+
+A client may request information on an ongoing Segmented File Upload at any point via a GET to the Temporary-URL.
+
+The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url segmented-file-upload.schema.json %}).
+
+An example of the Segmented File Upload Document:
+
+```json
+{% include examples/segmented-file-upload.json %}
+```
+
+The fields available are defined as follows:
+
+{% json_schema_definitions schemas/segmented-file-upload.schema.json %}
+
+
 ## Error Document
 
 An error document is returned at any point that a synchronous operation fails.

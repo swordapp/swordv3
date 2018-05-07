@@ -10,6 +10,7 @@
 		"ByReference" : "http://purl.org/net/sword/3.0/types/ByReference",
 		"ServiceDocument" : "http://purl.org/net/sword/3.0/types/ServiceDocument",
 		"Status" : "http://purl.org/net/sword/3.0/types/Status",
+		"Temporary" : "http://purl.org/net/sword/3.0/types/Temporary",
 
 		"AuthenticationFailed" : "http://purl.org/net/sword/3.0/error/AuthenticationFailed",
 		"BadRequest" : "http://purl.org/net/sword/3.0/error/BadRequest",
@@ -66,9 +67,9 @@
 		"onBehalfOf" : { "@type" : "xsd:boolean" },
 		"parent" : {"@type" : "@id" },
 		"root" : {"@type" : "@id" },
-		"segmentedUpload" : { "@type" : "xsd:boolean" },
+		"staging" : { "@type" : "@id" },
 		"treatment" : { },
-		"unfinishedSegmentRetention" : { "@type" : "xsd:integer" },
+		"stagingMaxIdle" : { "@type" : "xsd:integer" },
 		"version" : { "@type" : "@id" },
 
 		"actions" : "@nest",

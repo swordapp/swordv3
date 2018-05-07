@@ -41,6 +41,18 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Metadata
+%}
+```
+
 ## Creating Objects with only By-Reference Files
 
 Create a new Object on the server, sending on By-Reference Files (i.e. no Binary Files and no Metadata)
@@ -54,6 +66,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|By-Reference
+%}
+```
 
 ## Creating Objects with both Metadata and By-Reference Files
 
@@ -68,6 +91,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|MD+BR
+%}
+```
 
 ## Creating Objects with Binary Files
 
@@ -83,6 +117,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Binary File
+%}
+```
 
 ## Creating Objects with Packaged Content
 
@@ -98,18 +143,46 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
 
-## Creating Objects ready for Segmented Upload
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Packaged Content
+%}
+```
+
+## Creating Objects with Segmented File Upload
+
+First create a Temporary-URL to which to upload the file segments:
 
 {%
 requirements
     reqs=tables/requirements.csv,
     hierarchy=tables/reqs_hierarchy.csv,
     groups=Request|Content|Resource,
-    match=Create|Empty Body|Service-URL,
+    match=Create|Empty Body|Staging-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Segmented Upload Initialisation|Empty Body
+%}
+```
+
+Then upload all the file segments as per {% link Upload a File Segment %}.
+
+Then carry out a By-Reference deposit using the Temporary-URL as per {% link Creating Objects with only By-Reference Files %}
 
 # Retrieving all or part of Objects
 
@@ -251,24 +324,29 @@ requirements
 %}
 
 
-## Initialising Append of Binary Files to an Object via Segmented Upload
+## Append of Binary Files to an Object via Segmented File Upload
 
-Initialise the append of a single Binary File to an Object which will be delivered via a Segmented Upload.
+Append a single Binary File to an Object which will be delivered via a Segmented File Upload.
+
+First create a Temporary-URL to which to upload the file segments:
 
 {%
 requirements
     reqs=tables/requirements.csv,
     hierarchy=tables/reqs_hierarchy.csv,
     groups=Request|Content|Resource,
-    match=Append|Empty Body|Object-URL,
+    match=Create|Empty Body|Staging-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+Then upload all the file segments as per {% link Upload a File Segment %}.
 
-## Initialising Append of Packaged Content to an Object via Segmented Upload
+Then carry out a By-Reference deposit using the Temporary-URL as per {% link Appending By-Reference Files to an Object %}
 
-As {% link Initialising Append of Binary Files to an Object via Segmented Upload %} - in this case you should be sure to set the `packaging`
-format correctly in the `Content-Disposition` header when initialising the Segmented Upload. 
+
+## Append of Packaged Content to an Object via Segmented File Upload
+
+As {% link Append of Binary Files to an Object via Segmented File Upload %}. 
 
 
 # Replacing all or part of existing Objects
@@ -320,19 +398,22 @@ requirements
 
 ## Replacing a single File in an Object with a Segmented Upload
 
-Replace an existing file in the Object with a new file, which the client will send in segments.  This operation initialises the segmented
-upload of that file.
+Replace an existing file in the Object with a new file, which the client will send in segments.  
+
+First create a Temporary-URL to which to upload the file segments:
 
 {%
 requirements
     reqs=tables/requirements.csv,
     hierarchy=tables/reqs_hierarchy.csv,
     groups=Request|Content|Resource,
-    match=Replace|Empty Body|File-URL,
+    match=Create|Empty Body|Staging-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
-You may then go on and upload the file segments as per the specification.
+Then upload all the file segments as per {% link Upload a File Segment %}.
+
+Then carry out a By-Reference deposit using the Temporary-URL as per {% link Replacing a single File in an Object with a By-Reference File %}
 
 
 ## Replacing the FileSet of an Object with By-Reference Files
@@ -365,24 +446,27 @@ requirements
 %}
 
 
-## Replacing the FileSet of an Object with a single Binary File via Segmented Upload
+## Replacing the FileSet of an Object with a single Binary File via Segmented File Upload
 
-Replace in its entirity the FileSet of the Object (i.e. not the Metadata), with a single Binary File, that is provided via Segmented Upload.
+Replace in its entirity the FileSet of the Object (i.e. not the Metadata), with a single Binary File, that is provided via Segmented File Upload.
 All previously existing files will be removed, and the new one will replace them.  The server may or may not keep old versions of the 
 content available, at its discretion.
 
-This operation initialises the Segmented Upload
+First create a Temporary-URL to which to upload the file segments:
 
 {%
 requirements
     reqs=tables/requirements.csv,
     hierarchy=tables/reqs_hierarchy.csv,
     groups=Request|Content|Resource,
-    match=Replace|Empty Body|FileSet-URL,
+    match=Create|Empty Body|Staging-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
-You may then go on and upload the file segments as per the specification.
+Then upload all the file segments as per {% link Upload a File Segment %}.
+
+Then carry out a By-Reference deposit using the Temporary-URL as per {% link Replacing the FileSet of an Object with By-Reference Files %}
+
 
 ## Replacing an Object with Metadata only
 
@@ -461,30 +545,31 @@ requirements
 %}
 
 
-## Replacing an Object with a single Binary File via Segmented Upload
+## Replacing an Object with a single Binary File via Segmented File Upload
 
 Replace in its entirety the Object, including all Metadata and Files, with a single Binary File, which will be delivered via Segmented
-Upload.  All previous files and metadata will be removed, and new ones will replace them.  The server may or may not keep old versions of 
+File Upload.  All previous files and metadata will be removed, and new ones will replace them.  The server may or may not keep old versions of 
 the content available.
 
-This request initialises the Segmented Upload:
+First create a Temporary-URL to which to upload the file segments:
 
 {%
 requirements
     reqs=tables/requirements.csv,
     hierarchy=tables/reqs_hierarchy.csv,
     groups=Request|Content|Resource,
-    match=Replace|Empty Body|Object-URL,
+    match=Create|Empty Body|Staging-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
-You may then go on to upload the file segments as per the specification.
+Then upload all the file segments as per {% link Upload a File Segment %}.
+
+Then carry out a By-Reference deposit using the Temporary-URL as per {% link Replacing an Object with By-Reference Files only %}
 
 
-## Replacing an Object with Packaged Content via Segmented Upload
+## Replacing an Object with Packaged Content via Segmented File Upload
 
-This operation is carried out exactly as per {% link Replacing an Object with a single Binary File via Segmented Upload %}, with the
-appropriate `packaging` parameter supplied in the `Content-Disposition`.
+This operation is carried out exactly as per {% link Replacing an Object with a single Binary File via Segmented File Upload %}.
 
 
 # Deleting all or part of Objects
@@ -541,6 +626,45 @@ requirements
     match=Delete|Empty Body|Object-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+
+# File Segments
+
+## Initialise a Segmented File Upload
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Create|Empty Body|Staging-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+## Upload a File Segment
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Append|File Segment|Temporary-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+
+## Abort a Segmented File Upload
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Delete|Empty Body|Temporary-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
+
+## Retrieve information about a Segmented File Upload
 
 
 # Completing Previously In-Progress Deposits

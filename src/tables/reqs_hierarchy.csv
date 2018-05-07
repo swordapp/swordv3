@@ -9,9 +9,12 @@ Content,*,Body,JSON,By-Reference
 Content,*,Body,JSON,MD+BR
 Content,*,Body,Binary,Binary File
 Content,*,Body,Binary,Packaged Content
+Content,*,Body,Binary,File Segment
 Content,*,Empty Body,,
-Resource,*,Service-URL,,
-Resource,*,Object-URL,,
-Resource,*,Components,Metadata-URL,
-Resource,*,Components,FileSet-URL,
-Resource,*,Components,File-URL,
+Resource,*,Deposit,Service-URL,
+Resource,*,Deposit,Object-URL,
+Resource,*,Deposit,Components,Metadata-URL
+Resource,*,Deposit,Components,FileSet-URL
+Resource,*,Deposit,Components,File-URL
+Resource,*,Staging,Staging-URL,
+Resource,*,Staging,Temporary-URL,

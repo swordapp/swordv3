@@ -43,7 +43,7 @@ are listed for each section, please refer to the section above for details on th
 {%
 openapi_paths
     schemas/openapi.json,
-    path_order=Service-URL|Object-URL|Metadata-URL|FileSet-URL|File-URL,
+    path_order=Service-URL|Object-URL|Metadata-URL|FileSet-URL|File-URL|Staging-URL|Temporary-URL,
     method_order=get|post|put|delete,
     header_depth=3,
     omit=301|307|308,
