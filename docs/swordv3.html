@@ -140,7 +140,7 @@
 </ul>
 <p></div></p>
 <p><div class=spec>
-Last modified: 2018-04-21
+Last modified: 2018-05-07
 <a name="1."></a></p>
 <h1>1. Credits</h1>
 <p>Technical Lead: Richard Jones, Cottage Labs</p>
@@ -317,7 +317,7 @@ Retrieve the Service Document</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
-<li>on-Behalf-Of</li>
+<li>On-Behalf-Of</li>
 </ul>
 <p><strong>Responses</strong></p>
 <table>
@@ -423,7 +423,7 @@ Retrieve the Status information for the Object</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
-<li>on-Behalf-Of</li>
+<li>On-Behalf-Of</li>
 </ul>
 <p><strong>Responses</strong></p>
 <table>
@@ -652,7 +652,7 @@ Retrieve the Metadata</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
-<li>on-Behalf-Of</li>
+<li>On-Behalf-Of</li>
 </ul>
 <p><strong>Responses</strong></p>
 <table>
@@ -877,7 +877,7 @@ Retrieve an individual File</p>
 <p><strong>Headers</strong></p>
 <ul>
 <li>Authorization</li>
-<li>on-Behalf-Of</li>
+<li>On-Behalf-Of</li>
 </ul>
 <p><strong>Responses</strong></p>
 <table>
@@ -1502,8 +1502,10 @@ Service is requested, it MUST only provide information about itself and its chil
   &quot;acceptDeposits&quot;: true,
 
   &quot;version&quot;: &quot;http://purl.org/net/sword/3.0&quot;,
-  &quot;maxUploadSize&quot; : 16777216,
+  &quot;maxUploadSize&quot; : 16777216000,
   &quot;maxByReferenceSize&quot; : 30000000000000000,
+  &quot;maxAssembledSize&quot; : 30000000000000,
+  &quot;maxSegments&quot; : 1000,
 
   &quot;accept&quot; : [&quot;*/*&quot;],
   &quot;acceptPackaging&quot; : [&quot;*&quot;],
@@ -1583,12 +1585,12 @@ Service is requested, it MUST only provide information about itself and its chil
 <tr>
 <td>acceptMetadata</td>
 <td>array</td>
-<td>List of Metadata Formats which are acceptable to the server.<br><br>SHOULD be present.  '*' for any metadata format, or a list of acceptable metadata formats.  Acceptable metadata formats SHOULD be an IRI for a known format.  If this is omitted, the client MUST assume the server only supports the standard SWORD metadata format: http://purl.org/net/sword/3.0/types/Metadata</td>
+<td>List of Metadata Formats which are acceptable to the server.<br><br>SHOULD be present.  '*' for any metadata format, or a list of acceptable metadata formats.  Acceptable metadata formats SHOULD be an IRI for a known format, or any other identifying string if no IRI exists.  If this is omitted, the client MUST assume the server only supports the standard SWORD metadata format: http://purl.org/net/sword/3.0/types/Metadata</td>
 </tr>
 <tr>
 <td>acceptPackaging</td>
 <td>array</td>
-<td>List of Packaging Formats which are acceptable to the server.<br><br>SHOULD be present.  '*' for any packaging format, or a list of acceptable packaging formats.  Acceptable packaging formats SHOULD be an IRI for a known format.  If this is omitted, the client MUST assume the server only supports the 3 required SWORD packaging formats (see the section Packaging Formats)</td>
+<td>List of Packaging Formats which are acceptable to the server.<br><br>SHOULD be present.  '*' for any packaging format, or a list of acceptable packaging formats.  Acceptable packaging formats SHOULD be an IRI for a known format, or any other identifying string if no IRI exists.  If this is omitted, the client MUST assume the server only supports the 3 required SWORD packaging formats (see the section Packaging Formats)</td>
 </tr>
 <tr>
 <td>authentication</td>
@@ -1618,7 +1620,7 @@ Service is requested, it MUST only provide information about itself and its chil
 <tr>
 <td>concurrencyControl</td>
 <td>boolean</td>
-<td>Does the server enforce concurrency control?<br><br>SHOULD be present.  If concurrency control is enforced, the client MUST take note of the ETag and use the If-Match header in relevant requests. If omitted, the client MUST assume the server does not support Concurrency Control.</td>
+<td>Does the server enforce concurrency control?<br><br>SHOULD be present.  If concurrency control is enforced, the client MUST take note of the ETag and use the If-Match header in relevant requests. If omitted, the client MAY assume the server does not support Concurrency Control.</td>
 </tr>
 <tr>
 <td>dc:title</td>
@@ -1636,14 +1638,24 @@ Service is requested, it MUST only provide information about itself and its chil
 <td>The list of digest formats that the server will accept.<br><br>MUST be present, and MUST include SHA-256, MAY include any others.</td>
 </tr>
 <tr>
+<td>maxAssembledSize</td>
+<td>integer</td>
+<td>Maximum size in bytes as an integer for the total size of an assembled segmented upload<br><br>SHOULD be present.  If omitted and segmented upload is supported, the client MUST assume the server will accept a file of any size.</td>
+</tr>
+<tr>
 <td>maxByReferenceSize</td>
 <td>integer</td>
-<td>Maximum size in kB as an integer for files uploaded by reference.<br><br>SHOULD be present.  If omitted, the client MUST assume the server will accept a file of any size.</td>
+<td>Maximum size in bytes as an integer for files uploaded by reference.<br><br>SHOULD be present.  If omitted, the client MUST assume the server will accept a file of any size.</td>
+</tr>
+<tr>
+<td>maxSegments</td>
+<td>integer</td>
+<td>Maximum number of segments that the server will accept for a single segmented upload, if segmented upload is supported.<br><br>SHOULD be present.  If omitted, the client MUST assume the server will accept any number of segments.</td>
 </tr>
 <tr>
 <td>maxUploadSize</td>
 <td>integer</td>
-<td>Maximum size in kB as an integer for files being uploaded.<br><br>SHOULD be present.  If omitted, the client MUST assume the server will accept an upload of any size.</td>
+<td>Maximum size in bytes as an integer for files being uploaded.<br><br>SHOULD be present.  If omitted, the client MUST assume the server will accept an upload of any size.</td>
 </tr>
 <tr>
 <td>onBehalfOf</td>
@@ -2262,7 +2274,7 @@ GET on the Object-URL.  It tells the client detailed information about the conte
 <tr>
 <td>links[].derivedFrom</td>
 <td>string</td>
-<td>Reference to URL of resource from which the current resource was derived, for example, if extracted from a package.<br><br>SHOULD be present, if the resource is derived from another resource</td>
+<td>Reference to URL of resource from which the current resource was derived, for example, if extracted from a package that was deposited.<br><br>SHOULD be present, if the resource is derived from another resource</td>
 </tr>
 <tr>
 <td>links[].eTag</td>
@@ -2499,9 +2511,24 @@ for returning that error:</p>
 </thead>
 <tbody>
 <tr>
+<td>AuthenticationFailed</td>
+<td>403</td>
+<td>The request supplied invalid credentials, or no credentials, when the server was expecting to authenticate the request.</td>
+</tr>
+<tr>
 <td>BadRequest</td>
 <td>400</td>
 <td>The request did not meet the standard specified by the SWORD protocol. This error can be used when no other error is appropriate</td>
+</tr>
+<tr>
+<td>ByReferenceFileSizeExceeded</td>
+<td>400</td>
+<td>The client supplied a By-Reference deposit file, which specified a file size which exceeded the server's limit</td>
+</tr>
+<tr>
+<td>ByReferenceNotAllowed</td>
+<td>412</td>
+<td>The client attempted to carry out a By-Reference deposit on a server which does not support it</td>
 </tr>
 <tr>
 <td>ContentMalformed</td>
@@ -2509,9 +2536,49 @@ for returning that error:</p>
 <td>The body content of the request was malformed in some way, such that the server cannot read it correctly.</td>
 </tr>
 <tr>
-<td>AuthenticationFailed</td>
-<td>403</td>
-<td>The request supplied invalid credentials, or no credentials, when the server was expecting to authenticate the request.</td>
+<td>ContentTypeNotAcceptable</td>
+<td>415</td>
+<td>The <code>Content-Type</code> header specifies a content type of the request which is in a format that the server cannot accept.</td>
+</tr>
+<tr>
+<td>DigestMismatch</td>
+<td>412</td>
+<td>One or more of the Digests that the server checked did not match the deposited content</td>
+</tr>
+<tr>
+<td>ETagNotMatched</td>
+<td>412</td>
+<td>The client supplied an <code>If-Match</code> header which did not match the current <code>ETag</code> for the resource being updated.</td>
+</tr>
+<tr>
+<td>ETagRequired</td>
+<td>412</td>
+<td>The client did not supply an <code>If-Match</code> header, when one was required by the server</td>
+</tr>
+<tr>
+<td>FormatHeaderMismatch</td>
+<td>415</td>
+<td>The <code>Metadata-Format</code> or <code>Packaging</code> header does not match what the server found when looking at the Metadata or Packaged Content supplied in a request.</td>
+</tr>
+<tr>
+<td>InvalidSegmentSize</td>
+<td>400</td>
+<td>The client sent a segment that was not the final segment, and was not the size that it indicated segments would be</td>
+</tr>
+<tr>
+<td>MaxAssembledSizeExceeded</td>
+<td>400</td>
+<td>During a segmented upload initialisation, the client specified a total file size which is larger than the maximum assembled file size supported by the server</td>
+</tr>
+<tr>
+<td>MaxUploadSizeExceeded</td>
+<td>413</td>
+<td>The request supplied body content which is larger than that supported by the server.</td>
+</tr>
+<tr>
+<td>MetadataFormatNotAcceptable</td>
+<td>415</td>
+<td>The <code>Metadata-Format</code> header specifies a metadata format for the request which is in a format that the server cannot accept</td>
 </tr>
 <tr>
 <td>MethodNotAllowed</td>
@@ -2524,19 +2591,34 @@ for returning that error:</p>
 <td>The request contained an <code>On-Behalf-Of</code> header, although the server indicates that it does not support this.</td>
 </tr>
 <tr>
-<td>ETagNotMatched</td>
-<td>412</td>
-<td>The client supplied an <code>If-Match</code> header which did not match the current <code>ETag</code> for the resource being updated.</td>
-</tr>
-<tr>
-<td>MaxUploadSizeExceeded</td>
-<td>413</td>
-<td>The request supplied body content which is larger than that supported by the server.</td>
-</tr>
-<tr>
-<td>FormatHeaderMismatch</td>
+<td>PackagingFormatNotAcceptable</td>
 <td>415</td>
-<td>The <code>Metadata-Format</code> or <code>Packaging</code> header does not match what the server found when looking at the Metadata or Packaged Content supplied in a request.</td>
+<td>The <code>Packaging</code> header specifies a packaging format for the request which is in a format that the server cannot accept</td>
+</tr>
+<tr>
+<td>SegmentedUploadNotAllowed</td>
+<td>412</td>
+<td>The client attempted to carry out a Segmented Upload on a server which does not support it</td>
+</tr>
+<tr>
+<td>SegmentedUploadTimedOut</td>
+<td>405</td>
+<td>The client's segmented upload URL has timed out.  Servers MAY respond to this with a 404 and no explanation also.</td>
+</tr>
+<tr>
+<td>SegmentLimitExceeded</td>
+<td>400</td>
+<td>During a segmented upload initialisation, the client specified a total number of intended segments which is larger than the limit specified by the server</td>
+</tr>
+<tr>
+<td>UnexpectedSegment</td>
+<td>400</td>
+<td>The client sent a segment that the server was not expecting; in particular the server may have recieved all the segments it was expecting, and this is an extra one</td>
+</tr>
+<tr>
+<td>ValidationFailed</td>
+<td>400</td>
+<td>The server could not validate the structure of the incoming content against its expected schema.  This may include the JSON schema of the SWORD documents, the metadata held within those documents, or the expected structure of packaged content.</td>
 </tr>
 </tbody>
 </table>

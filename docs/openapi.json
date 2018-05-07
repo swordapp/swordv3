@@ -19,7 +19,7 @@
           },
           {
             "in": "header",
-            "name": "on-Behalf-Of",
+            "name": "On-Behalf-Of",
             "schema": {
               "type": "string"
             }
@@ -246,7 +246,7 @@
           },
           {
             "in": "header",
-            "name": "on-Behalf-Of",
+            "name": "On-Behalf-Of",
             "schema": {
               "type": "string"
             }
@@ -706,7 +706,7 @@
           },
           {
             "in": "header",
-            "name": "on-Behalf-Of",
+            "name": "On-Behalf-Of",
             "schema": {
               "type": "string"
             }
@@ -1086,7 +1086,7 @@
           },
           {
             "in": "header",
-            "name": "on-Behalf-Of",
+            "name": "On-Behalf-Of",
             "schema": {
               "type": "string"
             }

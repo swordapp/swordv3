@@ -77,20 +77,40 @@
 		"maxUploadSize": {
 			"$id": "/properties/maxUploadSize",
 			"type": "integer",
-			"title": "Maximum size in kB as an integer for files being uploaded.",
+			"title": "Maximum size in bytes as an integer for files being uploaded.",
 			"description" : "SHOULD be present.  If omitted, the client MUST assume the server will accept an upload of any size.",
 			"examples": [
-				16777216
+				16777216000
 			]
 		},
 		"maxByReferenceSize": {
 			"$id": "/properties/maxByReferenceSize",
 			"type": "integer",
-			"title": "Maximum size in kB as an integer for files uploaded by reference.",
+			"title": "Maximum size in bytes as an integer for files uploaded by reference.",
 			"description" : "SHOULD be present.  If omitted, the client MUST assume the server will accept a file of any size.",
 			"default": 0,
 			"examples": [
 				30000000000000000
+			]
+		},
+		"maxAssembledSize": {
+			"$id": "/properties/maxAssembledSize",
+			"type": "integer",
+			"title": "Maximum size in bytes as an integer for the total size of an assembled segmented upload",
+			"description" : "SHOULD be present.  If omitted and segmented upload is supported, the client MUST assume the server will accept a file of any size.",
+			"default": 0,
+			"examples": [
+				30000000000000000
+			]
+		},
+		"maxSegments": {
+			"$id": "/properties/maxSegments",
+			"type": "integer",
+			"title": "Maximum number of segments that the server will accept for a single segmented upload, if segmented upload is supported.",
+			"description" : "SHOULD be present.  If omitted, the client MUST assume the server will accept any number of segments.",
+			"default": 0,
+			"examples": [
+				1000
 			]
 		},
 		"accept": {
@@ -112,7 +132,7 @@
 			"$id": "/properties/acceptPackaging",
 			"type": "array",
 			"title" : "List of Packaging Formats which are acceptable to the server.",
-			"description" : "SHOULD be present.  '*' for any packaging format, or a list of acceptable packaging formats.  Acceptable packaging formats SHOULD be an IRI for a known format.  If this is omitted, the client MUST assume the server only supports the 3 required SWORD packaging formats (see the section Packaging Formats)",
+			"description" : "SHOULD be present.  '*' for any packaging format, or a list of acceptable packaging formats.  Acceptable packaging formats SHOULD be an IRI for a known format, or any other identifying string if no IRI exists.  If this is omitted, the client MUST assume the server only supports the 3 required SWORD packaging formats (see the section Packaging Formats)",
 			"items": {
 				"$id": "/properties/acceptPackaging/items",
 				"type": "string",
@@ -126,7 +146,7 @@
 			"$id": "/properties/acceptMetadata",
 			"type": "array",
 			"title" : "List of Metadata Formats which are acceptable to the server.",
-			"description" : "SHOULD be present.  '*' for any metadata format, or a list of acceptable metadata formats.  Acceptable metadata formats SHOULD be an IRI for a known format.  If this is omitted, the client MUST assume the server only supports the standard SWORD metadata format: http://purl.org/net/sword/3.0/types/Metadata",
+			"description" : "SHOULD be present.  '*' for any metadata format, or a list of acceptable metadata formats.  Acceptable metadata formats SHOULD be an IRI for a known format, or any other identifying string if no IRI exists.  If this is omitted, the client MUST assume the server only supports the standard SWORD metadata format: http://purl.org/net/sword/3.0/types/Metadata",
 			"items": {
 				"$id": "/properties/acceptMetadata/items",
 				"type": "string",
@@ -212,7 +232,7 @@
 			"$id": "/properties/concurrencyControl",
 			"type": "boolean",
 			"title": "Does the server enforce concurrency control?",
-			"description" : "SHOULD be present.  If concurrency control is enforced, the client MUST take note of the ETag and use the If-Match header in relevant requests. If omitted, the client MUST assume the server does not support Concurrency Control.",
+			"description" : "SHOULD be present.  If concurrency control is enforced, the client MUST take note of the ETag and use the If-Match header in relevant requests. If omitted, the client MAY assume the server does not support Concurrency Control.",
 			"default": false
 		},
 		"digest": {

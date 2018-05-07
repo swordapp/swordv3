@@ -11,8 +11,10 @@
   "acceptDeposits": true,
 
   "version": "http://purl.org/net/sword/3.0",
-  "maxUploadSize" : 16777216,
+  "maxUploadSize" : 16777216000,
   "maxByReferenceSize" : 30000000000000000,
+  "maxAssembledSize" : 30000000000000,
+  "maxSegments" : 1000,
 
   "accept" : ["*/*"],
   "acceptPackaging" : ["*"],

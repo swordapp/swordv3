@@ -367,7 +367,7 @@
 					"derivedFrom": {
 						"$id": "/properties/links/items/properties/derivedFrom",
 						"type": "string",
-						"title": "Reference to URL of resource from which the current resource was derived, for example, if extracted from a package.",
+						"title": "Reference to URL of resource from which the current resource was derived, for example, if extracted from a package that was deposited.",
 						"description": "SHOULD be present, if the resource is derived from another resource",
 						"examples": [
 							"http://www.myorg.ac.uk/sword3/object1/package.zip"

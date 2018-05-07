@@ -11,9 +11,10 @@
 		"ServiceDocument" : "http://purl.org/net/sword/3.0/types/ServiceDocument",
 		"Status" : "http://purl.org/net/sword/3.0/types/Status",
 
+		"BadRequest" : "http://purl.org/net/sword/3.0/error/BadRequest",
 		"AuthenticationFailed" : "http://purl.org/net/sword/3.0/error/AuthenticationFailed",
 		"ChecksumMismatch" : "http://purl.org/net/sword/3.0/error/ChecksumMismatch",
-		"BadRequest" : "http://purl.org/net/sword/3.0/error/BadRequest",
+
 		"OnBehalfOfNotAllowed" : "http://purl.org/net/sword/3.0/error/OnBehalfOfNotAllowed",
 		"MethodNotAllowed" : "http://purl.org/net/sword/3.0/error/MethodNotAllowed",
 		"MaxUploadSizeExceeded" : "http://purl.org/net/sword/3.0/error/MaxUploadSizeExceeded",
@@ -46,7 +47,9 @@
 		"concurrencyControl" : { "@type" : "xsd:boolean" },
 		"description" : { "@type" : "xsd:string" },
 		"endpoint" : { "@type" : "@id" },
+		"maxAssembledSize" : { "@type" : "xsd:nonNegativeInteger" },
 		"maxByReferenceSize" : { "@type" : "xsd:nonNegativeInteger" },
+		"maxSegments" : { "@type" : "xsd:nonNegativeInteger" },
 		"maxUploadSize" : { "@type" : "xsd:nonNegativeInteger" },
 		"onBehalfOf" : { "@type" : "xsd:boolean" },
 		"parent" : {"@type" : "@id" },
