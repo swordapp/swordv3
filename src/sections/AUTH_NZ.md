@@ -55,3 +55,6 @@ Authorization header was granted.
 In all cases (On-Behalf-Of or not) where a user has authenticated to make a deposit, servers SHOULD preserve the user's identity in the 
 `depositedBy` property of the Original Deposit in the Status document. In On-Behalf-Of deposit, the value given in the `On-Behalf-Of` 
 header SHOULD be used for the value of the `depositedOnBehalfOf` property of the Original Deposit in the Status document.
+
+Note that recording a user's identity in this way does not have to contain enough information for the client to directly identify the
+user, and implementers should take note of privacy legislation when choosing what information to expose in these fields.

@@ -104,7 +104,8 @@
 <li><a href="#16.5.">16.5. Retrieving Information about a Segmented File Upload</a></li>
 <li><a href="#16.6.">16.6. Aborting an Upload</a></li>
 <li><a href="#16.7.">16.7. Incomplete Upload Retention</a></li>
-<li><a href="#16.8.">16.8. Errors</a></li>
+<li><a href="#16.8.">16.8. Completed Upload Retention</a></li>
+<li><a href="#16.9.">16.9. Errors</a></li>
 </ul>
 </li>
 <li><a href="#17.">17. By-Reference Deposit</a><ul>
@@ -1330,10 +1331,11 @@ expanded.</p>
 <ul>
 <li>For the Request, as a Create, it takes requirements from <strong>Create</strong>, <strong>Modify</strong> and <strong>*</strong></li>
 <li>For the Content, as Packaged Content, it takes requirements from <strong>Packaged Content</strong>, <strong>Binary</strong>, <strong>Body</strong> and <strong>*</strong></li>
-<li>For the Resource, as an operation on the Service-URL, it takes requirements from <strong>Service-URL</strong> and <strong>*</strong></li>
+<li>For the Resource, as an operation on the Service-URL, it takes requirements from <strong>Service-URL</strong>, <strong>Deposit</strong> and <strong>*</strong></li>
 </ul>
 <p><a name="8.2."></a></p>
 <h2>8.2. Requirement Groups</h2>
+<p><div class=requirement-groups></p>
 <table><thead><tr><td colspan="4" style="text-align: center"><strong>Request</strong></td><td colspan="4" style="text-align: center"><strong>Content</strong></td><td colspan="4" style="text-align: center"><strong>Resource</strong></td></tr></thead><tr><td colspan="4" style="text-align: center">*</td><td colspan="4" style="text-align: center">*</td><td colspan="4" style="text-align: center">*</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"><ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 </ul></td><td colspan="3"><ul>
@@ -1558,6 +1560,7 @@ expanded.</p>
 <li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
 </ul></td></tr></table>
 
+<p></div></p>
 <p><a name="9."></a></p>
 <h1>9. Documents</h1>
 <p><a name="9.1."></a></p>
@@ -1570,7 +1573,7 @@ expanded.</p>
 <p>The Service Document consists of a set of properties at the root, and a list of "services".  Each service may define a Service-URL 
 and/or additional properties and further nested "services".  For the purposes of normalising the data held in the Service Document (for 
 brevity of the serialised document), the Service Document MAY specify at the root properties which MUST be taken to hold true for all 
-nested "services" (at any level below) unless that service definition overrides the properties.  A service which sits beneath the root of 
+nested "services" (at any level below) unless that lower service definition overrides the properties.  A service which sits beneath the root of 
 the Service Document and above another Service, MAY also redefine properties, and those overrides MUST be considered to cascade down to 
 Services beneath that one.</p>
 <p>A Service Document can be retrieved either for the root of the service, or from any Service within the hierarchy of Services available. 
@@ -1665,7 +1668,7 @@ Service is requested, it MUST only provide information about itself and its chil
 <tr>
 <td>accept</td>
 <td>array</td>
-<td>List of Content Types which are acceptable to the server.<br><br>MUST be present.  '<em>/</em>' for any content type, or a list of acceptable content types</td>
+<td>List of Content Types which are acceptable to the server.<br><br>MUST be present.  '*/*' for any content type, or a list of acceptable content types</td>
 </tr>
 <tr>
 <td>acceptArchiveFormat</td>
@@ -1796,10 +1799,10 @@ Service is requested, it MUST only provide information about itself and its chil
 </table>
 <p><a name="9.3."></a></p>
 <h2>9.3. Metadata Document</h2>
-<p>The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms.  This 
+<p>The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms [<a href="#dcmi">DCMI</a>].  This 
 Metadata document can be sent when creating an Object initially, when appending to the metadata, or in replacing the metadata or indeed the 
 Object as a whole.</p>
-<p>The format of the document is simple and extensible (see the Metadata Formats section).  The “dc” and “dcterms” vocabularies are supported, 
+<p>The format of the document is simple and extensible (see the <a href="#19.">Metadata Formats</a> section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
 and servers MUST support this metadata format.</p>
 <p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/metadata.schema.json">here</a>.</p>
 <p>An example of the Metadata Document:</p>
@@ -1964,8 +1967,8 @@ replacing the Object as a whole.</p>
 <p><a name="9.5."></a></p>
 <h2>9.5. Metadata + By-Reference Document</h2>
 <p>In some cases it is convenient to be able to send both Metadata and By-Reference files in a single request.  This is possible because both 
-Metadata and By-Reference documents are simply JSON documents; contrast this with sending Metadata and Binary Files, where a 
-multipart/related request would be required (which is not supported in SWORD).</p>
+Metadata and By-Reference documents are simply JSON documents; contrast this with sending Metadata and Binary Files, where a package 
+is required.</p>
 <p>To do this, the client may include the Metadata and By-Reference documents embedded in a single JSON document, structured as shown below. 
 The entire Metadata document (including its JSON-LD <code>@context</code>) is embedded in a field entitled <code>metadata</code>, and the entire By-Reference 
 document (again, with its JSON-LD <code>@context</code>) is embedded in a field entitled <code>by-reference</code>.</p>
@@ -2005,7 +2008,8 @@ http://purl.org/net/sword/3.0/types/Metadata</p>
 <p><a name="9.6."></a></p>
 <h2>9.6. Status Document</h2>
 <p>The status document is provided in response to a deposit operation on a Service-URL, and can be retrieved at any subsequent point by a
-GET on the Object-URL.  It tells the client detailed information about the content and current state of the item.</p>
+GET on the Object-URL, and is returned each time the client takes action on the Object-URL.  It tells the client detailed information about 
+the content and current state of the item.</p>
 <p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/status.schema.json">here</a>.</p>
 <p>An example of the Status Document:</p>
 <pre><code class="json">{
@@ -2454,12 +2458,6 @@ GET on the Object-URL.  It tells the client detailed information about the conte
 <ul>
 <li>metadataFormat</li>
 </ul>
-<h4>http://purl.org/net/sword/3.0/terms/segmentedDeposit</h4>
-<p>A file which is actively being deposited in segments.  Often will also have the rel for originalDeposit, and once all segments have been uploaded the segmentedDeposit rel can be removed.</p>
-<p>The relevant properties of the link section for any resource with this rel are</p>
-<ul>
-<li>segments</li>
-</ul>
 <h4>http://purl.org/net/sword/3.0/terms/byReferenceDeposit</h4>
 <p>A file which is currently being downloaded from an external reference.  Often will also have the rel for originalDeposit, and once all segments have been uploaded the byReferenceDeposit rel can be removed.</p>
 <p>The relevant properties of the link section for any resource with this rel are</p>
@@ -2467,8 +2465,6 @@ GET on the Object-URL.  It tells the client detailed information about the conte
 <li>byReference</li>
 <li>status</li>
 </ul>
-<h4>http://purl.org/net/sword/3.0/terms/fileSetReplacement</h4>
-<p>A segmentedDeposit or byReferenceDeposit which is also going to replace all of the current Object’s content when it is completely uploaded/downloaded, reassembled (if needed) and unpacked (if needed).  This value MUST only appear alongside a segmentedDeposit rel or byReferenceDeposit rel.</p>
 <h4>http://purl.org/net/sword/3.0/terms/fileSetFile</h4>
 <p>A File which can be considered by the client to be part of the FileSet.  Files in this state are available for modification via the SWORD protocol, and should be considered to form the actual "content" of the Object.</p>
 <p><a name="9.6.2."></a></p>
@@ -2480,7 +2476,7 @@ GET on the Object-URL.  It tells the client detailed information about the conte
 <p><a name="9.6.3."></a></p>
 <h3>9.6.3. Ingest Statuses for Individual Files</h3>
 <p>Some files, when deposited, may be processed asynchronously to the client’s request.  For example, large files that require unpacking, 
-segmented uploads, by-reference deposits, etc.  In these cases, the client will not receive feedback on the state or success of their 
+by-reference deposits, etc.  In these cases, the client will not receive feedback on the state or success of their 
 deposit in the request/response exchange.  Instead, the client may monitor the file(s) via the Status document, and for each appropriate 
 file (Original Deposits), a “status” field will provide information on the current status of processing for that file.  </p>
 <p>The following statuses are permitted, servers SHOULD provide one of these by each relevant file:</p>
@@ -2790,6 +2786,8 @@ Authorization header was granted.</p>
 <p>In all cases (On-Behalf-Of or not) where a user has authenticated to make a deposit, servers SHOULD preserve the user's identity in the 
 <code>depositedBy</code> property of the Original Deposit in the Status document. In On-Behalf-Of deposit, the value given in the <code>On-Behalf-Of</code> 
 header SHOULD be used for the value of the <code>depositedOnBehalfOf</code> property of the Original Deposit in the Status document.</p>
+<p>Note that recording a user's identity in this way does not have to contain enough information for the client to directly identify the
+user, and implementers should take note of privacy legislation when choosing what information to expose in these fields.</p>
 <p><a name="11."></a></p>
 <h1>11. Transport Security</h1>
 <p>It is strongly RECOMMENDED that servers implement modern transport layer security, whether authenticating requests or not.  If you are 
@@ -2807,16 +2805,16 @@ header.  We follow [<a href="#rfc6266">RFC6266</a>] for its usage.</p>
 <p>There are three general deposit operations in SWORD:</p>
 <ol>
 <li>A direct upload of some content, which may be Metadata, a By-Reference document, or a Binary File (which may itself be Packaged Content)</li>
-<li>A Segment Upload Initialisation</li>
-<li>A segment for a Segment Upload</li>
+<li>A Segmented Upload Initialisation</li>
+<li>A File Segment for a Segmented Upload</li>
 </ol>
-<p>Each of these has a different Content-Disposition, which makes it clear to the server what it should do with that content.</p>
+<p>Each of these has a different <code>Content-Disposition</code>, which makes it clear to the server what it should do with that content.</p>
 <p>There are two aspects which control what the Content-Disposition should be:</p>
 <ul>
 <li>The Upload Type</li>
 <li>The Content</li>
 </ul>
-<p>The requirements below define what Disposition Type and Parameters are required for each kind of request.  The requirements should be
+<p>The requirements below define what <em>Disposition Type</em> and <em>Parameters</em> are required for each kind of request.  The requirements should be
 interpreted according to the following hierarchy for each of the above aspects:</p>
 <p>The hierarchy for the Upload Type is:</p>
 <ul>
@@ -2845,8 +2843,15 @@ interpreted according to the following hierarchy for each of the above aspects:<
 </li>
 </ul>
 </li>
+<li>Empty Body</li>
 </ul>
 </li>
+</ul>
+<p>So, for example, if delivering a Metadata+By-Reference Document (MD+BR) as a Direct Deposit, you would take into account the following
+requirements:</p>
+<ul>
+<li>With an Upload Type of Direct Deposit: <strong>Direct Deposit</strong> and <strong>*</strong></li>
+<li>With a Content type of MD+BR: <strong>MD+BR</strong>, <strong>JSON</strong>, <strong>Body</strong> and <strong>*</strong></li>
 </ul>
 <p>The requirements are:</p>
 <table><thead><tr><td colspan="2" style="text-align: center"><strong>Upload Type</strong></td><td colspan="2" style="text-align: center"><strong>Content</strong></td></tr></thead><tr><td colspan="2" style="text-align: center">Direct Deposit</td><td colspan="2" style="text-align: center">*</td></tr><tr><td colspan="2"><strong>Disposition Type</strong></td><td colspan="2"><strong>Param</strong></td></tr><tr><td colspan="2"><ul>
@@ -2977,10 +2982,10 @@ Object and below.</p>
 <li>The <code>ETag</code> is a resource-level version identifier, it MUST be the same for all expressions of the resource.  For example, all serialised 
 Metadata documents (such as in JSON, or in XML) MUST have the same <code>ETag</code> as the Metadata resource, and each other.</li>
 <li>The client MUST send the <code>ETag</code> that it expects to represent the current version with every request to change the resource (POST, PUT, 
-DELETE)</li>
-<li>If the <code>ETag</code> supplied by the client does not match the current <code>ETag</code> for the resource, the Server MUST respond with a 412 (Precondition
+DELETE) by placing it in the <code>If-Match</code> header</li>
+<li>If the <code>ETag</code> supplied by the client in the <code>If-Match</code> header does not match the current <code>ETag</code> for the resource, the Server MUST respond with a 412 (Precondition
 Failed) error</li>
-<li>If the <code>ETag</code> supplied by the client does match the current <code>ETag</code> for the resource, the request MUST go ahead as normal.</li>
+<li>If the <code>ETag</code> supplied by the client in the <code>If-Match</code> header does match the current <code>ETag</code> for the resource, the request MUST go ahead as normal.</li>
 <li>The server MUST include the <code>ETag</code> in the HTTP headers of every GET request for a resource.</li>
 <li>The server MUST include the <code>ETag</code>s for the resources in the appropriate places in the Status document.</li>
 <li>If a resource is modified, its <code>ETag</code> MUST change</li>
@@ -3051,7 +3056,7 @@ server will reconstitute these segments into a single file, and then the client 
 <h2>16.1. Announcing Support for Segmented File Upload</h2>
 <p>Servers MAY support Segmented File Upload.  To do so, it must provide a staging area where file segments can be uploaded prior to the client
 requesting a specific deposit operation.  The server MUST include a <code>staging</code> field in the <a href="#9.2.">Service Document</a> with a URL for where
-the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented Upload, before 
+the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented File Upload, before 
 assuming that the client will not complete it, with the <code>stagingMaxIdle</code> field:</p>
 <pre><code class="json">{
   &quot;staging&quot;: &quot;http://example.com/staging&quot;, 
@@ -3069,7 +3074,7 @@ already exists, the client should find the Service-URL from the <code>service</c
 to obtain the appropriate <a href="#9.2.">Service Document</a>, and subsequently get the Staging-URL from the <code>staging</code> field.</p>
 </li>
 <li>
-<p>Request a Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup> from the Service, via a <strong>Segmented Upload Initialisation</strong> request.</p>
+<p>Request a Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup> from the Service, via a <a href="#16.3.">Segmented Upload Initialisation</a> request.</p>
 <p>Send a POST request to the Staging-URL, as per <a href="#7.3.14.">POST Staging-URL</a>, with the appropriate <code>Content-Disposition</code> (see below).  The
 server will respond with a Temporary-URL in the <code>Location</code> header.</p>
 </li>
@@ -3158,6 +3163,8 @@ supplied <code>Content-Disposition</code> would be:</p>
 <pre><code>Content-Disposition: segment; segment_number=[n]
 </code></pre>
 
+<p>The <code>Content-Type</code> header MUST just be <code>application/octet-stream</code>.</p>
+<p>The <code>Digest</code> header MUST contain the Digest for the File Segment itself, so the server can confirm successful transfer of the segment.</p>
 <p><a name="16.5."></a></p>
 <h2>16.5. Retrieving Information about a Segmented File Upload</h2>
 <p>At any point after creating a Temporary-URL, the client may request information on the state of their Segmented File Upload.  This can
@@ -3199,12 +3206,20 @@ Temporary-URL, with the following requirements:</p>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
 </ul>
+<p>If a client submits the Temporary-URL as a By-Reference deposit to the server after completing the upload, the client SHOULD NOT delete
+the Temporary-URL themselves, the server SHOULD take responsibility for this.  If the client deletes the resource before the By-Reference
+deposit has completed, the server SHOULD record an error against the ingest.</p>
 <p><a name="16.7."></a></p>
 <h2>16.7. Incomplete Upload Retention</h2>
-<p>Servers MAY delete incomplete Segmented File Uploads after a specified amount of time (in the Service Document), if they are not 
+<p>Servers SHOULD delete incomplete Segmented File Uploads after a specified amount of time (in the Service Document), if they are not 
 finalised with all segments.</p>
 <p><a name="16.8."></a></p>
-<h2>16.8. Errors</h2>
+<h2>16.8. Completed Upload Retention</h2>
+<p>Servers SHOULD delete completed Segmented File Uploads after a specified amount of time (in the Service Document).  Servers MUST be able to
+tell when they have been given one of their own Temporary-URLs as a By-Reference deposit, and not delete that resource until after it has
+been ingested.</p>
+<p><a name="16.9."></a></p>
+<h2>16.9. Errors</h2>
 <p>Servers MUST respond with Error documents under the following circumstances (in addition to the standard errors that may arise through using
 the protocol):</p>
 <ul>
@@ -3273,6 +3288,10 @@ as part of a By-Reference deposit.  In this case the client SHOULD omit the <cod
 
 </code></pre>
 
+<p>The server MUST recognise one of its own Temporary-URLs, and should implement ingest in the most efficient way possible (i.e. the server is
+not bound to retrieving its own Temporary-URL via HTTP, it may have other means to get the binary).  The server MUST NOT delete the resource
+until after it has been successfully ingested (i.e. the <code>stagingMaxIdle</code> time should be ignored when the server has received the resource
+as a By-Reference deposit).</p>
 <p><a name="17.3."></a></p>
 <h2>17.3. Server-Side Processing of By Reference Deposits</h2>
 <p>The following is the procedure that MUST be followed by servers implementing By-Reference deposit.</p>
@@ -3289,7 +3308,7 @@ Document.  All other supplied Files MUST have the status <code>pending</code> in
 <p>The server responds to the client with the appropriate response for the action (See <a href="#7.">Protocol Operations</a> and <a href="#8.">Protocol Requirements</a>)</p>
 </li>
 <li>
-<p>At its own pace, taking into account the <code>ttl</code> of the Files, the server downloads all the files that are marked for dereference and 
+<p>At its own pace, taking into account the <code>ttl</code> of the Files, the server obtains all the files that are marked for dereference and 
 validates them against their Digest and any other supporting information such as <code>contentType</code>, <code>contentLength</code>, and <code>packaging</code>.  During 
 the download the server SHOULD set the status to <code>downloading</code>.  The server SHOULD be able to resume an interrupted download.</p>
 </li>
@@ -3393,8 +3412,8 @@ following sections show how it is represented.</p>
 <p><a name="18."></a></p>
 <h1>18. Metadata Deposit</h1>
 <p>SWORD allows the client to deposit arbitrary metadata onto the server through agnostic support for metadata formats.  A metadata format is
-any document which expresses metadata in a given serialisation, utilising semantics understood by the server.  SWORD has a default format
-which MUST be supported by the server, which consists of the set of DCMI Terms expressed as JSON.</p>
+any document which expresses metadata in a given serialisation.  SWORD has a default format
+which MUST be supported by the server, which consists of the set of DCMI Terms [<a href="#dcmi">DCMI</a>] expressed as JSON (see <a href="#9.3.">Metadata Document</a>).</p>
 <p>In general, the form of metadata consists of several aspects:</p>
 <ol>
 <li>
@@ -3407,7 +3426,7 @@ which MUST be supported by the server, which consists of the set of DCMI Terms e
 <p>The profile of the metadata, such as the RIOXX profile for DC (+extensions)</p>
 </li>
 </ol>
-<p>Any format (combining the 3 aspects above) may be represented by an IRI, or an opaque string if no IRI exists or can be minted.</p>
+<p>Any format (combining the 3 aspects above) may be represented by an IRI in the protocol, or an opaque string if no IRI exists or can be minted.</p>
 <p><a name="18.1."></a></p>
 <h2>18.1. Announcing Support for Metadata Formats</h2>
 <p>The server can list Metadata formats that it will accept in the <code>acceptMetadata</code> field of the <a href="#9.2.">Service Document</a>.</p>
@@ -3427,12 +3446,13 @@ supplying the default SWORD metadata format:</p>
 <pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 </code></pre>
 
+<p>If this header is not present the server MUST assume it has the above value.</p>
 <p><a name="19."></a></p>
 <h1>19. Metadata Formats</h1>
 <p><a name="19.1."></a></p>
 <h2>19.1. Default Format</h2>
 <p>In order to provide a baseline of interoperability, SWORD provides a default metadata format which MUST be supported by the server.  This 
-document has the following aspects:</p>
+document has the following aspects (as per <a href="#18.">Metadata Deposit</a>):</p>
 <ol>
 <li>
 <p>It is serialised as JSON and with a JSON-LD <code>@context</code></p>
@@ -3601,6 +3621,7 @@ embedded in any web interfaces associated with the service provider.</p>
 <p><a name="23."></a></p>
 <h1>23. References</h1>
 <p><a name="atompub"><strong>AtomPub</strong> Gregario, J. and B. de hOra, "The Atom Publishing Protocol", RFC 5023, October 2007. <a href="http://www.ietf.org/rfc/rfc5023.txt">http://www.ietf.org/rfc/rfc5023.txt</a> </p>
+<p><a name="dcmi"><strong>DCMI</strong> DCMI Metadata Terms, 2012-06-14 <a href="http://dublincore.org/documents/dcmi-terms/">http://dublincore.org/documents/dcmi-terms/</a> </p>
 <p><a name="iana_auth"><strong>IANA Auth</strong> Hypertext Transfer Protocol (HTTP) Authentication Scheme Registry <a href="https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml">https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml</a> </p>
 <p><a name="iana_digest"><strong>IANA Digest</strong> Hypertext Transfer Protocol (HTTP) Digest Algorithm Values <a href="https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml">https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml</a> </p>
 <p><a name="json-ld"><strong>JSON-LD</strong> JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018 <a href="https://json-ld.org/spec/latest/json-ld/">https://json-ld.org/spec/latest/json-ld/</a> </p>

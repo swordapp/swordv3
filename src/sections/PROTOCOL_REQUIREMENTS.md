@@ -47,9 +47,11 @@ So, for example, when considering an operation such as "Creating Objects with Pa
 
 * For the Request, as a Create, it takes requirements from **Create**, **Modify** and **\***
 * For the Content, as Packaged Content, it takes requirements from **Packaged Content**, **Binary**, **Body** and **\***
-* For the Resource, as an operation on the Service-URL, it takes requirements from **Service-URL** and **\***
+* For the Resource, as an operation on the Service-URL, it takes requirements from **Service-URL**, **Deposit** and **\***
 
 ## Requirement Groups
+
+{~ html div,clazz=requirement-groups ~}
 
 {%
 requirements_table_2
@@ -58,4 +60,6 @@ requirements_table_2
     reqs=Protocol Operation|Request Requirements|Server Requirements|Response Requirements,
     header_level=3
 %}
+
+{~ html /div ~}
 

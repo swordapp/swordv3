@@ -1,5 +1,7 @@
 body {
     font-family: sans-serif;
+    font-size: 14px;
+    line-height: 1.4em;
 }
 
 dt {
@@ -17,6 +19,7 @@ pre code {
     padding-left: 0;
     padding-right: 0;
     border: 0;
+    white-space: pre !important;
 }
 
 code {
@@ -25,6 +28,7 @@ code {
     padding-right: 3px;
     border: 1px solid #ffd73f;
     border-radius: 3px;
+    white-space: nowrap;
 }
 
 img {
@@ -125,4 +129,20 @@ table th {
     border: 1px solid #cccccc;
     padding: 5px;
     vertical-align: top;
+}
+
+.requirement-groups {
+
+}
+
+.requirement-groups table td {
+    min-width: 0;
+}
+
+.requirement-groups table thead td {
+    width: 33.33%;
+}
+
+.requirement-groups ul {
+    padding-left: 20px;
 }

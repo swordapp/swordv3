@@ -15,7 +15,7 @@ Segments can be uploaded in any order, and can be uploaded one at a time or in p
 
 Servers MAY support Segmented File Upload.  To do so, it must provide a staging area where file segments can be uploaded prior to the client
 requesting a specific deposit operation.  The server MUST include a `staging` field in the {% link Service Document %} with a URL for where
-the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented Upload, before 
+the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented File Upload, before 
 assuming that the client will not complete it, with the `stagingMaxIdle` field:
 
 ```json
@@ -34,7 +34,7 @@ assuming that the client will not complete it, with the `stagingMaxIdle` field:
     already exists, the client should find the Service-URL from the `service` field in the {% link Status Document %}, then GET this URL
     to obtain the appropriate {% link Service Document %}, and subsequently get the Staging-URL from the `staging` field.
 
-2. Request a {% def urls,Temporary-URL %} from the Service, via a **Segmented Upload Initialisation** request.
+2. Request a {% def urls,Temporary-URL %} from the Service, via a {% link Segmented Upload Initialisation %} request.
 
     Send a POST request to the Staging-URL, as per {% link POST Staging-URL %}, with the appropriate `Content-Disposition` (see below).  The
     server will respond with a Temporary-URL in the `Location` header.
@@ -117,6 +117,10 @@ content_disposition
 %}
 ```
 
+The `Content-Type` header MUST just be `application/octet-stream`.
+
+The `Digest` header MUST contain the Digest for the File Segment itself, so the server can confirm successful transfer of the segment.
+
 
 ## Retrieving Information about a Segmented File Upload
 
@@ -150,11 +154,21 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+If a client submits the Temporary-URL as a By-Reference deposit to the server after completing the upload, the client SHOULD NOT delete
+the Temporary-URL themselves, the server SHOULD take responsibility for this.  If the client deletes the resource before the By-Reference
+deposit has completed, the server SHOULD record an error against the ingest.
 
 ## Incomplete Upload Retention
 
-Servers MAY delete incomplete Segmented File Uploads after a specified amount of time (in the Service Document), if they are not 
+Servers SHOULD delete incomplete Segmented File Uploads after a specified amount of time (in the Service Document), if they are not 
 finalised with all segments.
+
+
+## Completed Upload Retention
+
+Servers SHOULD delete completed Segmented File Uploads after a specified amount of time (in the Service Document).  Servers MUST be able to
+tell when they have been given one of their own Temporary-URLs as a By-Reference deposit, and not delete that resource until after it has
+been ingested.
 
 
 ## Errors

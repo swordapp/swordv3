@@ -15,17 +15,17 @@ Content-Disposition: [disposition type]; [disposition param]=[value]; ...
 There are three general deposit operations in SWORD:
 
 1. A direct upload of some content, which may be Metadata, a By-Reference document, or a Binary File (which may itself be Packaged Content)
-2. A Segment Upload Initialisation
-3. A segment for a Segment Upload
+2. A Segmented Upload Initialisation
+3. A File Segment for a Segmented Upload
 
-Each of these has a different Content-Disposition, which makes it clear to the server what it should do with that content.
+Each of these has a different `Content-Disposition`, which makes it clear to the server what it should do with that content.
 
 There are two aspects which control what the Content-Disposition should be:
 
 * The Upload Type
 * The Content
 
-The requirements below define what Disposition Type and Parameters are required for each kind of request.  The requirements should be
+The requirements below define what *Disposition Type* and *Parameters* are required for each kind of request.  The requirements should be
 interpreted according to the following hierarchy for each of the above aspects:
 
 The hierarchy for the Upload Type is:
@@ -40,9 +40,16 @@ The hierarchy for the Content is:
 
 {% 
 requirements_hierarchy
-    source=tables/content-disposition-heirarchy.csv,
+    source=tables/content-disposition-hierarchy.csv,
     key=Content
 %}
+
+So, for example, if delivering a Metadata+By-Reference Document (MD+BR) as a Direct Deposit, you would take into account the following
+requirements:
+
+* With an Upload Type of Direct Deposit: **Direct Deposit** and **\***
+* With a Content type of MD+BR: **MD+BR**, **JSON**, **Body** and **\***
+
 
 The requirements are:
 

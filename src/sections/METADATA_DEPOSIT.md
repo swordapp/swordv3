@@ -1,8 +1,8 @@
 # Metadata Deposit
 
 SWORD allows the client to deposit arbitrary metadata onto the server through agnostic support for metadata formats.  A metadata format is
-any document which expresses metadata in a given serialisation, utilising semantics understood by the server.  SWORD has a default format
-which MUST be supported by the server, which consists of the set of DCMI Terms expressed as JSON.
+any document which expresses metadata in a given serialisation.  SWORD has a default format
+which MUST be supported by the server, which consists of the set of DCMI Terms {% ref DCMI %} expressed as JSON (see {% link Metadata Document %}).
 
 In general, the form of metadata consists of several aspects:
 
@@ -12,7 +12,7 @@ In general, the form of metadata consists of several aspects:
 
 3. The profile of the metadata, such as the RIOXX profile for DC (+extensions)
 
-Any format (combining the 3 aspects above) may be represented by an IRI, or an opaque string if no IRI exists or can be minted.
+Any format (combining the 3 aspects above) may be represented by an IRI in the protocol, or an opaque string if no IRI exists or can be minted.
 
 
 ## Announcing Support for Metadata Formats
@@ -39,3 +39,4 @@ supplying the default SWORD metadata format:
 Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 ```
 
+If this header is not present the server MUST assume it has the above value.

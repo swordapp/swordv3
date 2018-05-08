@@ -40,10 +40,10 @@ If a server supports Concurrency Control, it MUST behave in accordance with the 
 * The `ETag` is a resource-level version identifier, it MUST be the same for all expressions of the resource.  For example, all serialised 
 Metadata documents (such as in JSON, or in XML) MUST have the same `ETag` as the Metadata resource, and each other.
 * The client MUST send the `ETag` that it expects to represent the current version with every request to change the resource (POST, PUT, 
-DELETE)
-* If the `ETag` supplied by the client does not match the current `ETag` for the resource, the Server MUST respond with a 412 (Precondition
+DELETE) by placing it in the `If-Match` header
+* If the `ETag` supplied by the client in the `If-Match` header does not match the current `ETag` for the resource, the Server MUST respond with a 412 (Precondition
 Failed) error
-* If the `ETag` supplied by the client does match the current `ETag` for the resource, the request MUST go ahead as normal.
+* If the `ETag` supplied by the client in the `If-Match` header does match the current `ETag` for the resource, the request MUST go ahead as normal.
 * The server MUST include the `ETag` in the HTTP headers of every GET request for a resource.
 * The server MUST include the `ETag`s for the resources in the appropriate places in the Status document.
 * If a resource is modified, its `ETag` MUST change

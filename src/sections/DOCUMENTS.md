@@ -13,7 +13,7 @@ The Service Document defines the capabilities and operational parameters of the 
 The Service Document consists of a set of properties at the root, and a list of "services".  Each service may define a Service-URL 
 and/or additional properties and further nested "services".  For the purposes of normalising the data held in the Service Document (for 
 brevity of the serialised document), the Service Document MAY specify at the root properties which MUST be taken to hold true for all 
-nested "services" (at any level below) unless that service definition overrides the properties.  A service which sits beneath the root of 
+nested "services" (at any level below) unless that lower service definition overrides the properties.  A service which sits beneath the root of 
 the Service Document and above another Service, MAY also redefine properties, and those overrides MUST be considered to cascade down to 
 Services beneath that one.
 
@@ -36,11 +36,11 @@ The fields available are defined as follows:
 
 ## Metadata Document
 
-The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms.  This 
+The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms {% ref DCMI %}.  This 
 Metadata document can be sent when creating an Object initially, when appending to the metadata, or in replacing the metadata or indeed the 
 Object as a whole.
 
-The format of the document is simple and extensible (see the Metadata Formats section).  The “dc” and “dcterms” vocabularies are supported, 
+The format of the document is simple and extensible (see the {% link Metadata Formats %} section).  The `dc` and `dcterms` vocabularies are supported, 
 and servers MUST support this metadata format.
 
 The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url metadata.schema.json %}).
@@ -99,8 +99,8 @@ Content-Disposition: attachment; by-reference=true
 ## Metadata + By-Reference Document
 
 In some cases it is convenient to be able to send both Metadata and By-Reference files in a single request.  This is possible because both 
-Metadata and By-Reference documents are simply JSON documents; contrast this with sending Metadata and Binary Files, where a 
-multipart/related request would be required (which is not supported in SWORD).
+Metadata and By-Reference documents are simply JSON documents; contrast this with sending Metadata and Binary Files, where a package 
+is required.
 
 To do this, the client may include the Metadata and By-Reference documents embedded in a single JSON document, structured as shown below. 
 The entire Metadata document (including its JSON-LD `@context`) is embedded in a field entitled `metadata`, and the entire By-Reference 
@@ -134,7 +134,8 @@ If the client omits the `Metadata-Format` header, the server MUST assume that it
 ## Status Document
 
 The status document is provided in response to a deposit operation on a Service-URL, and can be retrieved at any subsequent point by a
-GET on the Object-URL.  It tells the client detailed information about the content and current state of the item.
+GET on the Object-URL, and is returned each time the client takes action on the Object-URL.  It tells the client detailed information about 
+the content and current state of the item.
 
 The full JSON Schema {% ref JSON-SCHEMA %} can be downloaded [here]({% url status.schema.json %}).
 
@@ -179,7 +180,7 @@ The state field is a list, so it may also contain other states that are server-s
 ### Ingest Statuses for Individual Files
 
 Some files, when deposited, may be processed asynchronously to the client’s request.  For example, large files that require unpacking, 
-segmented uploads, by-reference deposits, etc.  In these cases, the client will not receive feedback on the state or success of their 
+by-reference deposits, etc.  In these cases, the client will not receive feedback on the state or success of their 
 deposit in the request/response exchange.  Instead, the client may monitor the file(s) via the Status document, and for each appropriate 
 file (Original Deposits), a “status” field will provide information on the current status of processing for that file.  
 

@@ -117,7 +117,7 @@
 			"$id": "/properties/accept",
 			"type": "array",
 			"title" : "List of Content Types which are acceptable to the server.",
-			"description" : "MUST be present.  '*/*' for any content type, or a list of acceptable content types",
+			"description" : "MUST be present.  '\\*/\\*' for any content type, or a list of acceptable content types",
 			"items": {
 				"$id": "/properties/accept/items",
 				"type": "string",

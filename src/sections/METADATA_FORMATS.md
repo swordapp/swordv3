@@ -3,7 +3,7 @@
 ## Default Format
 
 In order to provide a baseline of interoperability, SWORD provides a default metadata format which MUST be supported by the server.  This 
-document has the following aspects:
+document has the following aspects (as per {% link Metadata Deposit %}):
 
 1. It is serialised as JSON and with a JSON-LD `@context`
 

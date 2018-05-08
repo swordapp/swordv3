@@ -49,6 +49,10 @@ as part of a By-Reference deposit.  In this case the client SHOULD omit the `ttl
 {% include examples/segmented-file-upload_by-reference.json %}
 ```
 
+The server MUST recognise one of its own Temporary-URLs, and should implement ingest in the most efficient way possible (i.e. the server is
+not bound to retrieving its own Temporary-URL via HTTP, it may have other means to get the binary).  The server MUST NOT delete the resource
+until after it has been successfully ingested (i.e. the `stagingMaxIdle` time should be ignored when the server has received the resource
+as a By-Reference deposit).
 
 ## Server-Side Processing of By Reference Deposits
 
@@ -62,7 +66,7 @@ Document.  All other supplied Files MUST have the status `pending` in the Status
 
 3. The server responds to the client with the appropriate response for the action (See {% link Protocol Operations %} and {% link Protocol Requirements %})
 
-4. At its own pace, taking into account the `ttl` of the Files, the server downloads all the files that are marked for dereference and 
+4. At its own pace, taking into account the `ttl` of the Files, the server obtains all the files that are marked for dereference and 
 validates them against their Digest and any other supporting information such as `contentType`, `contentLength`, and `packaging`.  During 
 the download the server SHOULD set the status to `downloading`.  The server SHOULD be able to resume an interrupted download.
 
