@@ -18,5 +18,6 @@ Last modified: {% date now,%Y-%m-%d %}
 {% include sections/CONCURRENCY_CONTROL.md %}
 {% include sections/CONTINUED_DEPOSIT.md %}
 {% include sections/SEGMENTED_FILE_UPLOAD.md %}
+{% include sections/BY_REFERENCE.md %}
 {% include sections/REFERENCES.md %}
 {~ html /div ~}

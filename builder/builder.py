@@ -1039,8 +1039,8 @@ def html(file_cfg, config, element, clazz=None):
 
     return tag
 
-def json_extract(file_cfg, config, source, keys):
-    if not isinstance(keys, list):
+def json_extract(file_cfg, config, source, keys=None, selector=None):
+    if keys is not None and not isinstance(keys, list):
         keys = [keys]
 
     bd = config.get("src_dir")
@@ -1048,10 +1048,16 @@ def json_extract(file_cfg, config, source, keys):
     with codecs.open(path, "rb", "utf-8") as f:
         js = json.loads(f.read())
 
+    if selector is not None:
+        js = js[selector]
+
     show = {}
-    for key in keys:
-        if key in js:
-            show[key] = js[key]
+    if keys is None:
+        show = js
+    else:
+        for key in keys:
+            if key in js:
+                show[key] = js[key]
 
     out = json.dumps(show, indent=2)
     return out
