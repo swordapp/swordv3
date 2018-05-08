@@ -35,7 +35,6 @@
 
   "byReferenceDeposit" : true,
   "onBehalfOf" : true,
-  "concurrencyControl" : true,
 
   "digest" : ["SHA-256", "SHA", "MD5"],
   "authentication": ["Basic", "OAuth", "Digest", "APIKey"],

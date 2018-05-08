@@ -1592,7 +1592,6 @@ Service is requested, it MUST only provide information about itself and its chil
 
   &quot;byReferenceDeposit&quot; : true,
   &quot;onBehalfOf&quot; : true,
-  &quot;concurrencyControl&quot; : true,
 
   &quot;digest&quot; : [&quot;SHA-256&quot;, &quot;SHA&quot;, &quot;MD5&quot;],
   &quot;authentication&quot;: [&quot;Basic&quot;, &quot;OAuth&quot;, &quot;Digest&quot;, &quot;APIKey&quot;],
@@ -1689,11 +1688,6 @@ Service is requested, it MUST only provide information about itself and its chil
 <td>collectionPolicy.description</td>
 <td>string</td>
 <td>Collection Policy Description</td>
-</tr>
-<tr>
-<td>concurrencyControl</td>
-<td>boolean</td>
-<td>Does the server enforce concurrency control?<br><br>SHOULD be present.  If concurrency control is enforced, the client MUST take note of the ETag and use the If-Match header in relevant requests. If omitted, the client MAY assume the server does not support Concurrency Control.</td>
 </tr>
 <tr>
 <td>dc:title</td>
@@ -2947,12 +2941,11 @@ respond with an error (412).</p>
 <code>ETag</code> or <code>If-Match</code> headers on Service-URLs.</p>
 <p><a name="14.1."></a></p>
 <h2>14.1. Announcing Support for Concurrency Control</h2>
-<p>If the server supports Concurrency Control, then it MUST advertise this in the Service Document as follows:</p>
-<pre><code class="json">{
-  &quot;concurrencyControl&quot;: true
-}
-</code></pre>
-
+<p>The server does not have to announce support for concurrency control in the Service Document.  Clients MUST check response headers for the
+presence of an <code>ETag</code>.  Presence of the <code>ETag</code> indicates that the server requires the client to pay attention to its concurrency control
+procedures, and to carry out later requests with an <code>If-Match</code> header.</p>
+<p>If supporting concurrency control, Servers MUST provide an <code>ETag</code> on all responses to requests (GET, POST, PUT) against resources from the 
+Object and below.</p>
 <p><a name="14.2."></a></p>
 <h2>14.2. Procedures around Concurrency Control</h2>
 <p>If a server supports Concurrency Control, it MUST behave in accordance with the following rules.</p>
@@ -3192,15 +3185,18 @@ finalised with all segments.</p>
 <p>Servers MUST respond with Error documents under the following circumstances (in addition to the standard errors that may arise through using
 the protocol):</p>
 <ul>
-<li>More bytes have been sent than indicated in the total_size field</li>
-<li>A request is sent after the total_size has been reached</li>
-<li>A request is sent after the segment_count has been reached.</li>
-<li>A segment is recieved which is not the final segment and is not the same as the expected file size</li>
-<li>A segment is received which is the final segment which is larger than the other segment sizes</li>
+<li>An initialisation request is sent which specifies a total size larger than that allowed by the server (MaxAssembledSizeExceeded)</li>
+<li>An initialisation request is sent which specifies a segment size larger than that allowed by the server (MaxUploadSizeExceeded)</li>
+<li>An initialisation request is sent which specifies a segment count larger than that allowed by the server (SegmentLimitExceeded)</li>
+<li>An upload request is sent after the total_size has been reached (MethodNotAllowed)</li>
+<li>An upload request is sent after the segment_count has been reached (MethodNotAllowed)</li>
+<li>A segment is received which is not the final segment and is not the same as the expected file size (InvalidSegmentSize)</li>
+<li>A segment is received which is the final segment which is larger than the other segment sizes (InvalidSegmentSize)</li>
+<li>A segment number is received which is not in the allowed range (SegmentLimitExceeded)</li>
 </ul>
 <p>The server MAY respond with an Error document under the following circumstances:</p>
 <ul>
-<li>The Temporary-URL has timed out, and the server will no longer receive updates to it</li>
+<li>The Temporary-URL has timed out, and the server will no longer receive updates to it (SegmentedUploadTimedOut)</li>
 </ul>
 <p>If any other errors occur asynchronously, such as in reassembling or unpacking the resulting file, servers MUST provide an error <code>status</code> 
 field and suitable <code>log</code> information in the link record in the Status document.</p>

@@ -162,15 +162,18 @@ finalised with all segments.
 Servers MUST respond with Error documents under the following circumstances (in addition to the standard errors that may arise through using
 the protocol):
 
-* More bytes have been sent than indicated in the total_size field
-* A request is sent after the total_size has been reached
-* A request is sent after the segment_count has been reached.
-* A segment is recieved which is not the final segment and is not the same as the expected file size
-* A segment is received which is the final segment which is larger than the other segment sizes
+* An initialisation request is sent which specifies a total size larger than that allowed by the server (MaxAssembledSizeExceeded)
+* An initialisation request is sent which specifies a segment size larger than that allowed by the server (MaxUploadSizeExceeded)
+* An initialisation request is sent which specifies a segment count larger than that allowed by the server (SegmentLimitExceeded)
+* An upload request is sent after the total_size has been reached (MethodNotAllowed)
+* An upload request is sent after the segment_count has been reached (MethodNotAllowed)
+* A segment is received which is not the final segment and is not the same as the expected file size (InvalidSegmentSize)
+* A segment is received which is the final segment which is larger than the other segment sizes (InvalidSegmentSize)
+* A segment number is received which is not in the allowed range (SegmentLimitExceeded)
 
 The server MAY respond with an Error document under the following circumstances:
 
-* The Temporary-URL has timed out, and the server will no longer receive updates to it
+* The Temporary-URL has timed out, and the server will no longer receive updates to it (SegmentedUploadTimedOut)
 
 If any other errors occur asynchronously, such as in reassembling or unpacking the resulting file, servers MUST provide an error `status` 
 field and suitable `log` information in the link record in the Status document.

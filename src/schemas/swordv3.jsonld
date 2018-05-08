@@ -58,7 +58,6 @@
 		"byReferenceDeposit" : { "@type" : "xsd:boolean" },
 		"collectionPolicy" : { },
 		"collections" : { "@container" : "@list" },
-		"concurrencyControl" : { "@type" : "xsd:boolean" },
 		"description" : { "@type" : "xsd:string" },
 		"endpoint" : { "@type" : "@id" },
 		"maxAssembledSize" : { "@type" : "xsd:nonNegativeInteger" },

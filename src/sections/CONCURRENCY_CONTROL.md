@@ -24,14 +24,12 @@ Note that ETags, and Concurrency Control in general, is only applicable from the
 
 ##  Announcing Support for Concurrency Control
 
-If the server supports Concurrency Control, then it MUST advertise this in the Service Document as follows:
+The server does not have to announce support for concurrency control in the Service Document.  Clients MUST check response headers for the
+presence of an `ETag`.  Presence of the `ETag` indicates that the server requires the client to pay attention to its concurrency control
+procedures, and to carry out later requests with an `If-Match` header.
 
-```json
-{% json_extract
-    source=examples/service-document.json,
-    keys=concurrencyControl
-%}
-```
+If supporting concurrency control, Servers MUST provide an `ETag` on all responses to requests (GET, POST, PUT) against resources from the 
+Object and below.
 
 
 ##  Procedures around Concurrency Control

@@ -242,13 +242,6 @@
 			"description" : "SHOULD be present.  If omitted, the client MUST assume the server does not support On-Behalf-Of deposit.",
 			"default": false
 		},
-		"concurrencyControl": {
-			"$id": "/properties/concurrencyControl",
-			"type": "boolean",
-			"title": "Does the server enforce concurrency control?",
-			"description" : "SHOULD be present.  If concurrency control is enforced, the client MUST take note of the ETag and use the If-Match header in relevant requests. If omitted, the client MAY assume the server does not support Concurrency Control.",
-			"default": false
-		},
 		"digest": {
 			"$id": "/properties/digest",
 			"type": "array",
