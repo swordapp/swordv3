@@ -428,6 +428,11 @@ def _render_method_info(header_depth, path_name, method, method_info, omit=None,
         frag += " * " + param.get("name") + "\n"
     frag += "\n"
 
+    rb = method_info.get("requestBody")
+    if rb is not None:
+        frag += "**Body**\n\n"
+        frag += rb.get("description", "") + "\n\n"
+
     frag += "**Responses**\n\n"
 
     frag += "| Code | Description |\n"
@@ -457,6 +462,7 @@ def _render_method_info(header_depth, path_name, method, method_info, omit=None,
             content = code_info.get("content", [])
             if len(content) > 0:
                 for ct, cobj in content.iteritems():
+                    ct = ct.replace("*", "\*")
                     frag += "<li>" + ct + "</li>"
             else:
                 frag += "<li>None</li>"

@@ -3,6 +3,8 @@
 {~ html /div ~}
 
 {~ html div,clazz=spec ~}
+DRAFT 4
+
 Last modified: {% date now,%Y-%m-%d %}
 
 # Retrieve the Service Document

@@ -1,7 +1,7 @@
 URL,Description
-File-URL,A single binary file within the FileSet of the Object
-FileSet-URL,The aggregate of all Binary Files associated with the Object
-Metadata-URL,The metadata resource associated with the Object
+File-URL,A single Binary File within the Object
+FileSet-URL,The aggregate of all Binary Files associated with the Object which are available for SWORD protocol operations to be carried out on them
+Metadata-URL,The Metadata resource associated with the Object
 Object-URL,"An Object that exists on the server, probably as a result of a deposit operation, which is a container for Metadata and zero or more Files."
 Service-URL,"The location of the document which describes the server's capabilities for the user, and which may accept initial deposits"
 Staging-URL,A URL provided by the Service where clients can initialise segmented file upload requests

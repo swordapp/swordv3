@@ -1,7 +1,8 @@
 # Protocol Operations
 
 This section lists the actual on-the-wire protocol operations that are part of SWORDv3.  Actual usage of each of these operations is 
-dependent on the action that you wish to take.  See [Protocol Behaviours] for the rules which govern how to use these Protocol Operations.
+dependent on the action that you wish to take.  See {% link Protocol Requirements %} for the rules which govern how to use these Protocol 
+Operations.
 
 The full set of protocol operations is available as an OpenAPI definition {% ref OpenAPI %}, available as [JSON]({% url openapi.json%})
 and [YAML]({% url openapi.yaml %}).
@@ -32,10 +33,7 @@ openapi_list_descriptions
 
 ## HTTP Requests
 
-These are the HTTP requests that are covered by the SWORD protocol.  Each one is listed on the left with the HTTP method, the URL against 
-which it can be executed, and any headers that are permitted (requirements for headers are covered in later sections), as well as a list of 
-possible Body contents.  On the right is the set of possible successful responses from the server, with the HTTP status code, any headers 
-that may be included, and the Body content.
+These are the HTTP requests that are covered by the SWORD protocol.
 
 Each request MAY be responded to by the server with a redirect code (see above).  Each request MAY also generate an error; possible errors 
 are listed for each section, please refer to the section above for details on the meanings of errors.

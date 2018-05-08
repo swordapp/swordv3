@@ -91,7 +91,7 @@ paths:
               format: binary
       responses:
         '201':
-          description: Status
+          description: Resource created, responds with Status Document
           headers:
             Location:
               description: Object-URL
@@ -106,7 +106,7 @@ paths:
               schema:
                 type: object
         '202':
-          description: Status
+          description: Resource accepted for processing, responds with Status Document
           headers:
             Location:
               description: Object-URL
@@ -240,7 +240,7 @@ paths:
               format: binary
       responses:
         '200':
-          description: Status
+          description: Content appended, responds with Status Document
           headers:
             Location:
               description: The File-URL
@@ -255,7 +255,7 @@ paths:
               schema:
                 type: object
         '202':
-          description: Status
+          description: Content accepted for append, responds with Status Document
           headers:
             Location:
               description: The File-URL
@@ -345,7 +345,7 @@ paths:
               format: binary
       responses:
         '200':
-          description: Status
+          description: Replace carried out, responds with Status Document
           headers:
             ETag:
               description: version identifier
@@ -356,7 +356,7 @@ paths:
               schema:
                 type: object
         '202':
-          description: Status
+          description: Replace accepted for action, responds with Status Document
           headers:
             ETag:
               description: version identifier
@@ -440,7 +440,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Metadata
+          description: Metadata Document
           headers:
             ETag:
               description: version identifier
@@ -512,7 +512,7 @@ paths:
               type: object
       responses:
         '204':
-          description: No Content
+          description: Metadata Replaced, no response body
           headers:
             ETag:
               description: version identifier
@@ -589,14 +589,14 @@ paths:
               format: binary
       responses:
         '204':
-          description: No Content
+          description: FileSet Replaced, no response body
           headers:
             ETag:
               description: version identifier
               schema:
                 type: string
         '202':
-          description: No Content
+          description: FileSet replacement accepted for processing, no response body
           headers:
             ETag:
               description: version identifier
@@ -747,7 +747,7 @@ paths:
               format: binary
       responses:
         '204':
-          description: No Content
+          description: Binary File replaced, no response body
           headers:
             ETag:
               description: version identifier
@@ -791,7 +791,7 @@ paths:
             type: string
       responses:
         '204':
-          description: File Deleted
+          description: Binary File Deleted
         '400' :
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -829,7 +829,7 @@ paths:
             type: string
       responses:
         '201':
-          description: Temporary-URL
+          description: Temporary-URL created
           headers:
             Location:
               description: The Temporary-URL to which Segmented File Upload requests can be sent
@@ -957,7 +957,7 @@ paths:
             type: string
       responses:
         '204':
-          description: File Deleted
+          description: Temporary File Deleted
         '400' :
           $ref: '#/components/responses/BadRequest'
         '401':

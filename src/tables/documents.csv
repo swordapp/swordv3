@@ -1,9 +1,10 @@
 Name,Description
 Service Document,Describes the capabilities of the server with respect to the user
-Metadata,A format for depositing and retrieving object metadata
-By-Reference,A format for describing one or more files to be deposited by-reference.
-Metadata+By-Reference,A single expression of both the Metadata and the By-Reference file deposits.
-Status,A document describing the current status of the object and its content
+Metadata Document,A format for depositing and retrieving object Metadata
+By-Reference Document,A format for describing one or more files to be deposited By-Reference.
+Metadata+By-Reference Document,A single expression of both the Metadata and the By-Reference file deposits.
+Status Document,A document describing the current status of the Object and its components
 Binary File,An opaque binary file
 Packaged Content,"A serialisation of the entire Object, consisting of its Metadata and Binary Files."
-Error,Describes an error that occurred while processing a request.
+Error Document,Describes an error that occurred while processing a request.
+Segmented File Upload Document,A document describing the current status of a Segmented File Upload
