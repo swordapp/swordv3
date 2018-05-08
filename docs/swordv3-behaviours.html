@@ -74,7 +74,7 @@
 </ul>
 <p></div></p>
 <p><div class=spec>
-Last modified: 2018-05-07</p>
+Last modified: 2018-05-08</p>
 <p><a name="1."></a></p>
 <h1>1. Retrieve the Service Document</h1>
 <p>Request from the server a list of the Service-URLs that the client can deposit to.  A Service-URL allows the server to support multiple 
@@ -476,6 +476,10 @@ any other metadata fields held by the server remain untouched.</p>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; metadata=true
+</code></pre>
+
 <p><a name="4.2."></a></p>
 <h2>4.2. Appending By-Reference Files to an Object</h2>
 <p>Append new files to an Object by sending one or more By-Reference files.</p>
@@ -512,6 +516,10 @@ any other metadata fields held by the server remain untouched.</p>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; by-reference=true
+</code></pre>
+
 <p><a name="4.3."></a></p>
 <h2>4.3. Appending Metadata and By-Reference Files to an Object</h2>
 <p>Append new files and append/overlay Metadata at the same time.</p>
@@ -550,6 +558,10 @@ any other metadata fields held by the server remain untouched.</p>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; metadata=true; by-reference=true
+</code></pre>
+
 <p><a name="4.4."></a></p>
 <h2>4.4. Appending a single Binary File to an Object</h2>
 <p>Append new File to the Object, in addition to existing content which it already contains.  This File will be added as-is to the Object, 
@@ -589,6 +601,10 @@ without the server unpacking it as it would Packaged Content.</p>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>Location</code> header, containing the File-URL of the Original Deposit File</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; filename=[filename]
+</code></pre>
+
 <p><a name="4.5."></a></p>
 <h2>4.5. Appending Packaged Content to an Object</h2>
 <p>Append new Files (via Packaged Content) to the Object, in addition to existing content which it already contains.  The package may be 
@@ -629,6 +645,10 @@ actionable metadata.</p>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>Location</code> header, containing the File-URL of the Original Deposit File</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; filename=[filename]
+</code></pre>
+
 <p><a name="4.6."></a></p>
 <h2>4.6. Append of Binary Files to an Object via Segmented File Upload</h2>
 <p>Append a single Binary File to an Object which will be delivered via a Segmented File Upload.</p>
@@ -656,6 +676,10 @@ actionable metadata.</p>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
+</code></pre>
+
 <p>Then upload all the file segments as per <a href="#7.2.">Upload a File Segment</a>.</p>
 <p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#4.2.">Appending By-Reference Files to an Object</a></p>
 <p><a name="4.7."></a></p>
@@ -698,6 +722,10 @@ actionable metadata.</p>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; metadata=true
+</code></pre>
+
 <p><a name="5.2."></a></p>
 <h2>5.2. Replacing a single File in an Object</h2>
 <p>Replace an existing file in the Object with a new file.  The server may keep the old version of the file available.</p>
@@ -732,6 +760,10 @@ actionable metadata.</p>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; filename=[filename]
+</code></pre>
+
 <p><a name="5.3."></a></p>
 <h2>5.3. Replacing a single File in an Object with a By-Reference File</h2>
 <p>Replace an existing file in the Object with a new file which the server retrieves as a By-Reference File.  The server may keep the old
@@ -769,6 +801,10 @@ version of the file available.</p>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; by-reference=true
+</code></pre>
+
 <p><a name="5.4."></a></p>
 <h2>5.4. Replacing a single File in an Object with a Segmented Upload</h2>
 <p>Replace an existing file in the Object with a new file, which the client will send in segments.  </p>
@@ -796,6 +832,10 @@ version of the file available.</p>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
+</code></pre>
+
 <p>Then upload all the file segments as per <a href="#7.2.">Upload a File Segment</a>.</p>
 <p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#5.3.">Replacing a single File in an Object with a By-Reference File</a></p>
 <p><a name="5.5."></a></p>
@@ -832,6 +872,10 @@ new ones will replace them.  The server may or may not keep old versions of the 
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; by-reference=true
+</code></pre>
+
 <p><a name="5.6."></a></p>
 <h2>5.6. Replacing the FileSet of an Object with a single Binary File</h2>
 <p>Replace in its entirety the FileSet of the Object (i.e. not the Metadata), with a single Binary File.  All previously existing files will 
@@ -867,6 +911,10 @@ be removed, and the new one will replace them.  The server may or may not keep o
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; filename=[filename]
+</code></pre>
+
 <p><a name="5.7."></a></p>
 <h2>5.7. Replacing the FileSet of an Object with a single Binary File via Segmented File Upload</h2>
 <p>Replace in its entirity the FileSet of the Object (i.e. not the Metadata), with a single Binary File, that is provided via Segmented File Upload.
@@ -896,6 +944,10 @@ content available, at its discretion.</p>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
+</code></pre>
+
 <p>Then upload all the file segments as per <a href="#7.2.">Upload a File Segment</a>.</p>
 <p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#5.5.">Replacing the FileSet of an Object with By-Reference Files</a></p>
 <p><a name="5.8."></a></p>
@@ -936,6 +988,10 @@ not keep old versions of the content available, at its discretion.</p>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; metadata=true
+</code></pre>
+
 <p><a name="5.9."></a></p>
 <h2>5.9. Replacing an Object with By-Reference Files only</h2>
 <p>Replace the entire Object, removing all previous files and metadata, and replace it with one or more files supplied via By-Reference upload.
@@ -973,6 +1029,10 @@ The server may or may not keep old versions of the content available, at its dis
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; by-reference=true
+</code></pre>
+
 <p><a name="5.10."></a></p>
 <h2>5.10. Replacing an Object with Metadata and By-Reference Files</h2>
 <p>Replace the entire Object, removing all previous files and metadata, and replace it with new Metadata and one or more files supplied via
@@ -1012,6 +1072,10 @@ By-Reference upload.  The server may or may not keep old versions of the content
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; metadata=true; by-reference=true
+</code></pre>
+
 <p><a name="5.11."></a></p>
 <h2>5.11. Replacing an Object with a single Binary File</h2>
 <p>Replace in its entirety the Object, including all Metadata and Files, with the single Binary File.  All previous files and metadata will be 
@@ -1051,6 +1115,10 @@ the content available.</p>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; filename=[filename]
+</code></pre>
+
 <p><a name="5.12."></a></p>
 <h2>5.12. Replacing an Object with Packaged Content</h2>
 <p>Replace in its entirety the Object, including all Metadata and Files, with the Metadata and Files contained in the Packaged Content.  All 
@@ -1090,6 +1158,10 @@ available.</p>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: attachment; filename=[filename]
+</code></pre>
+
 <p><a name="5.13."></a></p>
 <h2>5.13. Replacing an Object with a single Binary File via Segmented File Upload</h2>
 <p>Replace in its entirety the Object, including all Metadata and Files, with a single Binary File, which will be delivered via Segmented
@@ -1119,6 +1191,10 @@ the content available.</p>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
+</code></pre>
+
 <p>Then upload all the file segments as per <a href="#7.2.">Upload a File Segment</a>.</p>
 <p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#5.9.">Replacing an Object with By-Reference Files only</a></p>
 <p><a name="5.14."></a></p>
@@ -1234,6 +1310,10 @@ available.</p>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
+</code></pre>
+
 <p><a name="7.2."></a></p>
 <h2>7.2. Upload a File Segment</h2>
 <p><strong>Protocol Operation</strong></p>
@@ -1261,6 +1341,10 @@ available.</p>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST respond with a <code>204</code> or a suitable error</li>
 </ul>
+<p>The <code>Content-Disposition</code> in this case would be:</p>
+<pre><code>Content-Disposition: segment; segment_number=[n]
+</code></pre>
+
 <p><a name="7.3."></a></p>
 <h2>7.3. Abort a Segmented File Upload</h2>
 <p><strong>Request Requirements</strong></p>
@@ -1278,6 +1362,24 @@ available.</p>
 </ul>
 <p><a name="7.4."></a></p>
 <h2>7.4. Retrieve information about a Segmented File Upload</h2>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET Temporary-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST respond with a <code>200</code> or a suitable error</li>
+<li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
+</ul>
 <p><a name="8."></a></p>
 <h1>8. Completing Previously In-Progress Deposits</h1>
 <p>Where you have previously carried out deposits and sent the object the <code>In-Progress: true</code> header, you will eventually need to tell the
@@ -1303,6 +1405,7 @@ server that you have completed your additions or modifications to the Object, so
 <li>If authentication fails, MUST respond with a <code>403</code></li>
 <li>MUST respond with a <code>204</code> or a suitable error</li>
 </ul>
+<p>No <code>Content-Disposition</code> header is required in this request.</p>
 <p></div></p></body>
 </html>
 

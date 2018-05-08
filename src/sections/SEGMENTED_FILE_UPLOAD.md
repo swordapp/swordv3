@@ -123,6 +123,18 @@ content_disposition
 At any point after creating a Temporary-URL, the client may request information on the state of their Segmented File Upload.  This can
 be done via a GET to the Temporary-URL.
 
+This will return you a document as described in {% link Segmented File Upload Document %}.
+
+The requirements for this operation are:
+
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Retrieve|Empty Body|Temporary-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
 
 ## Aborting an Upload
 

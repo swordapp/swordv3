@@ -55,3 +55,5 @@ Complete,Empty Body,Object-URL,MUST NOT include any body content,,,
 Append,Body,Temporary-URL,,"MUST reject the request if the segment is incorrect or unexpected: for example, all segments were already received, or the segment is a different size than expected.",MUST respond with a `204` or a suitable error,POST Temporary-URL
 Append,File Segment,Temporary-URL,,"If all preconditions are met, MUST accept the file segment, and record the receipt of it",,
 Append,File Segment,Temporary-URL,,MUST be prepared to accept file segments in any order,,
+Retrieve,Empty Body,Temporary-URL,,,MUST respond with a `200` or a suitable error,GET Temporary-URL
+Retrieve,Empty Body,Temporary-URL,,,"If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.",

@@ -112,7 +112,7 @@
 </ul>
 <p></div></p>
 <p><div class=spec>
-Last modified: 2018-05-07
+Last modified: 2018-05-08
 <a name="1."></a></p>
 <h1>1. Credits</h1>
 <p>Technical Lead: Richard Jones, Cottage Labs</p>
@@ -158,7 +158,7 @@ document are to be interpreted as described in [<a href="#rfc2119">RFC2119</a>].
 <p><a name="5."></a></p>
 <h1>5. Structure of SWORD Objects</h1>
 <p>Objects, as represented by SWORD, have the following structure:</p>
-<div><img src="http://localhost:8000/docs/structure.png" alt="Structure of a SWORD Object"></div>
+<div><img src="https://swordapp.github.io/swordv3/structure.png" alt="Structure of a SWORD Object"></div>
 
 <div class="figure_label">Figure 1: Structure of a SWORD Object</div>
 
@@ -249,8 +249,8 @@ is what value the client or server MUST take the value to be if it is not provid
 <h1>7. Protocol Operations</h1>
 <p>This section lists the actual on-the-wire protocol operations that are part of SWORDv3.  Actual usage of each of these operations is 
 dependent on the action that you wish to take.  See [Protocol Behaviours] for the rules which govern how to use these Protocol Operations.</p>
-<p>The full set of protocol operations is available as an OpenAPI definition [<a href="#openapi">OpenAPI</a>], available as <a href="http://localhost:8000/docs/openapi.json">JSON</a>
-and <a href="http://localhost:8000/docs/openapi.yaml">YAML</a>.</p>
+<p>The full set of protocol operations is available as an OpenAPI definition [<a href="#openapi">OpenAPI</a>], available as <a href="https://swordapp.github.io/swordv3/openapi.json">JSON</a>
+and <a href="https://swordapp.github.io/swordv3/openapi.yaml">YAML</a>.</p>
 <p><a name="7.1."></a></p>
 <h2>7.1. Error Responses</h2>
 <p>The following error responses are possible against some or all of the HTTP Requests.  In each case an Error Document MUST be returned by the 
@@ -1197,7 +1197,7 @@ Abort a Segmented File Upload</p>
 with Packaged Content (<strong>Content</strong>), these aspects tell you the exact requirements.</p>
 <p>The requirements below are presented using a hierarchy; for any given combination of <strong>Request</strong>, <strong>Content</strong> and <strong>Resource</strong>
 all requirements above the relevant node should be imported when considering the actual requirements for an operation.  See the document
-<a href="http://localhost:8000/docs/swordv3-behaviours.html">SWORDv3 Behaviours</a> to see each of the behaviours SWORDv3 is capable of with its requirements fully 
+<a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html">SWORDv3 Behaviours</a> to see each of the behaviours SWORDv3 is capable of with its requirements fully 
 expanded.</p>
 <p><a name="8.1."></a></p>
 <h2>8.1. Requirement Hierarchies</h2>
@@ -1485,14 +1485,22 @@ expanded.</p>
 
 <ul>
 <li>MUST be prepared to accept file segments in any order</li>
-</ul></td><td colspan="3"></td></tr></table>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Retrieve</td><td colspan="4" style="text-align: center">Empty Body</td><td colspan="4" style="text-align: center">Temporary-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"><ul>
+<li>GET Temporary-URL</li>
+</ul></td><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>MUST respond with a <code>200</code> or a suitable error</li>
+</ul>
+
+<ul>
+<li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
+</ul></td></tr></table>
 
 <p><a name="9."></a></p>
 <h1>9. Documents</h1>
 <p><a name="9.1."></a></p>
 <h2>9.1. JSON-LD Context</h2>
 <p>SWORD defines the semantics of its documents using JSON-LD [<a href="#json-ld">JSON-LD</a>].  You can see the full JSON-LD Context 
-<a href="http://localhost:8000/docs/swordv3.jsonld">here</a></p>
+<a href="https://swordapp.github.io/swordv3/swordv3.jsonld">here</a></p>
 <p><a name="9.2."></a></p>
 <h2>9.2. Service Document</h2>
 <p>The Service Document defines the capabilities and operational parameters of the server as a whole, or of a particular Service-URL.</p>
@@ -1505,7 +1513,7 @@ Services beneath that one.</p>
 <p>A Service Document can be retrieved either for the root of the service, or from any Service within the hierarchy of Services available. 
 If the root Service Document is requested, the full list of Services, including all their children, MUST be provided.  If the URL of a 
 Service is requested, it MUST only provide information about itself and its children.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/service-document.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/service-document.schema.json">here</a>.</p>
 <p>An example of the Service Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -1730,7 +1738,7 @@ Metadata document can be sent when creating an Object initially, when appending 
 Object as a whole.</p>
 <p>The format of the document is simple and extensible (see the Metadata Formats section).  The “dc” and “dcterms” vocabularies are supported, 
 and servers MUST support this metadata format.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/metadata.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/metadata.schema.json">here</a>.</p>
 <p>An example of the Metadata Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -1796,7 +1804,7 @@ and servers MUST support this metadata format.</p>
 <p>The By-Reference document allows the client to send a list of one or more files that the server will fetch asynchronously.  The 
 By-Reference document can be sent when creating an Object initially, or when appending to or replacing the FileSet in the Object, or 
 replacing the Object as a whole.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/by-reference.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/by-reference.schema.json">here</a>.</p>
 <p>An example of the By-Reference Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -1935,7 +1943,7 @@ http://purl.org/net/sword/3.0/types/Metadata</p>
 <h2>9.6. Status Document</h2>
 <p>The status document is provided in response to a deposit operation on a Service-URL, and can be retrieved at any subsequent point by a
 GET on the Object-URL.  It tells the client detailed information about the content and current state of the item.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/status.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/status.schema.json">here</a>.</p>
 <p>An example of the Status Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -2418,8 +2426,8 @@ file (Original Deposits), a “status” field will provide information on the c
 <p><a name="9.7."></a></p>
 <h2>9.7. Segmented File Upload Document</h2>
 <p>A client may request information on an ongoing Segmented File Upload at any point via a GET to the Temporary-URL.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/segmented-file-upload.schema.json">here</a>.</p>
-<p>An example of the Error Document:</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/segmented-file-upload.schema.json">here</a>.</p>
+<p>An example of the Segmented File Upload Document:</p>
 <pre><code class="json">{
     &quot;@context&quot;: &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
     &quot;@id&quot;: &quot;http://example.com/temporary/1&quot;,
@@ -2497,7 +2505,7 @@ file (Original Deposits), a “status” field will provide information on the c
 <p><a name="9.8."></a></p>
 <h2>9.8. Error Document</h2>
 <p>An error document is returned at any point that a synchronous operation fails.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/error.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/error.schema.json">here</a>.</p>
 <p>An example of the Error Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -3092,6 +3100,26 @@ supplied <code>Content-Disposition</code> would be:</p>
 <h2>16.5. Retrieving Information about a Segmented File Upload</h2>
 <p>At any point after creating a Temporary-URL, the client may request information on the state of their Segmented File Upload.  This can
 be done via a GET to the Temporary-URL.</p>
+<p>This will return you a document as described in <a href="#9.7.">Segmented File Upload Document</a>.</p>
+<p>The requirements for this operation are:</p>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET Temporary-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST respond with a <code>200</code> or a suitable error</li>
+<li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
+</ul>
 <p><a name="16.6."></a></p>
 <h2>16.6. Aborting an Upload</h2>
 <p>If, part way through a segmented upload (even after completion) the client wishes to abort, it can send an DELETE request to the 

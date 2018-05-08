@@ -265,6 +265,18 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Metadata
+%}
+```
+
 ## Appending By-Reference Files to an Object
 
 Append new files to an Object by sending one or more By-Reference files.
@@ -278,6 +290,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|By-Reference
+%}
+```
 
 ## Appending Metadata and By-Reference Files to an Object
 
@@ -292,6 +315,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|MD+BR
+%}
+```
 
 ## Appending a single Binary File to an Object
 
@@ -307,6 +341,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Binary File
+%}
+```
 
 ## Appending Packaged Content to an Object
 
@@ -323,6 +368,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Packaged Content
+%}
+```
 
 ## Append of Binary Files to an Object via Segmented File Upload
 
@@ -338,6 +394,18 @@ requirements
     match=Create|Empty Body|Staging-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Segmented Upload Initialisation|Empty Body
+%}
+```
 
 Then upload all the file segments as per {% link Upload a File Segment %}.
 
@@ -366,6 +434,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Metadata
+%}
+```
 
 ## Replacing a single File in an Object
 
@@ -379,6 +458,18 @@ requirements
     match=Replace|Binary File|File-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Binary File
+%}
+```
 
 
 ## Replacing a single File in an Object with a By-Reference File
@@ -395,6 +486,18 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|By-Reference
+%}
+```
+
 
 ## Replacing a single File in an Object with a Segmented Upload
 
@@ -410,6 +513,18 @@ requirements
     match=Create|Empty Body|Staging-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Segmented Upload Initialisation|Empty Body
+%}
+```
 
 Then upload all the file segments as per {% link Upload a File Segment %}.
 
@@ -430,6 +545,18 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|By-Reference
+%}
+```
+
 
 ## Replacing the FileSet of an Object with a single Binary File
 
@@ -444,6 +571,18 @@ requirements
     match=Replace|Binary File|FileSet-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Binary File
+%}
+```
 
 
 ## Replacing the FileSet of an Object with a single Binary File via Segmented File Upload
@@ -462,6 +601,18 @@ requirements
     match=Create|Empty Body|Staging-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Segmented Upload Initialisation|Empty Body
+%}
+```
 
 Then upload all the file segments as per {% link Upload a File Segment %}.
 
@@ -482,6 +633,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Metadata
+%}
+```
 
 ## Replacing an Object with By-Reference Files only
 
@@ -497,6 +659,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|By-Reference
+%}
+```
 
 ## Replacing an Object with Metadata and By-Reference Files
 
@@ -512,6 +685,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|MD+BR
+%}
+```
 
 ## Replacing an Object with a single Binary File
 
@@ -528,6 +712,17 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Binary File
+%}
+```
 
 ##  Replacing an Object with Packaged Content
 
@@ -543,6 +738,18 @@ requirements
     match=Replace|Packaged Content|Object-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Direct Deposit|Packaged Content
+%}
+```
 
 
 ## Replacing an Object with a single Binary File via Segmented File Upload
@@ -561,6 +768,18 @@ requirements
     match=Create|Empty Body|Staging-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Segmented Upload Initialisation|Empty Body
+%}
+```
 
 Then upload all the file segments as per {% link Upload a File Segment %}.
 
@@ -641,6 +860,18 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=Segmented Upload Initialisation|Empty Body
+%}
+```
+
 ## Upload a File Segment
 
 {%
@@ -651,6 +882,18 @@ requirements
     match=Append|File Segment|Temporary-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+The `Content-Disposition` in this case would be:
+
+```
+{%
+content_disposition
+    reqs=tables/content-disposition.csv,
+    hierarchy=tables/content-disposition-hierarchy.csv,
+    groups=Upload Type|Content,
+    match=File Segment Upload|File Segment
+%}
+```
 
 
 ## Abort a Segmented File Upload
@@ -666,6 +909,14 @@ requirements
 
 ## Retrieve information about a Segmented File Upload
 
+{%
+requirements
+    reqs=tables/requirements.csv,
+    hierarchy=tables/reqs_hierarchy.csv,
+    groups=Request|Content|Resource,
+    match=Retrieve|Empty Body|Temporary-URL,
+    output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
+%}
 
 # Completing Previously In-Progress Deposits
 
@@ -680,6 +931,8 @@ requirements
     match=Complete|Empty Body|Object-URL,
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
+
+No `Content-Disposition` header is required in this request.
 
 
 {~ html /div ~}
