@@ -49,8 +49,9 @@ as part of a By-Reference deposit.  In this case the client SHOULD omit the `ttl
 {% include examples/segmented-file-upload_by-reference.json %}
 ```
 
-The server MUST recognise one of its own Temporary-URLs, and should implement ingest in the most efficient way possible (i.e. the server is
-not bound to retrieving its own Temporary-URL via HTTP, it may have other means to get the binary).  The server MUST NOT delete the resource
+The server MUST recognise one of its own Temporary-URLs, and should implement ingest in the most efficient way possible, remembering that
+you cannot retrieve a copy of the actual Segmented File Upload from the Temporary-URL via GET, so the server MUST have a way to retrieve the content
+from those uploads in another way.  The server MUST NOT delete the resource
 until after it has been successfully ingested (i.e. the `stagingMaxIdle` time should be ignored when the server has received the resource
 as a By-Reference deposit).
 

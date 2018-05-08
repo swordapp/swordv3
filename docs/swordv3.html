@@ -210,7 +210,7 @@ document are to be interpreted as described in [<a href="#rfc2119">RFC2119</a>].
 <p><a name="5."></a></p>
 <h1>5. Structure of SWORD Objects</h1>
 <p>Objects, as represented by SWORD, have the following structure:</p>
-<div><img src="http://localhost:8000/docs/structure.png" alt="Structure of a SWORD Object"></div>
+<div><img src="https://swordapp.github.io/swordv3/structure.png" alt="Structure of a SWORD Object"></div>
 
 <div class="figure_label">Figure 1: Structure of a SWORD Object</div>
 
@@ -302,8 +302,8 @@ is what value the client or server MUST take the value to be if it is not provid
 <p>This section lists the actual on-the-wire protocol operations that are part of SWORDv3.  Actual usage of each of these operations is 
 dependent on the action that you wish to take.  See <a href="#8.">Protocol Requirements</a> for the rules which govern how to use these Protocol 
 Operations.</p>
-<p>The full set of protocol operations is available as an OpenAPI definition [<a href="#openapi">OpenAPI</a>], available as <a href="http://localhost:8000/docs/openapi.json">JSON</a>
-and <a href="http://localhost:8000/docs/openapi.yaml">YAML</a>.</p>
+<p>The full set of protocol operations is available as an OpenAPI definition [<a href="#openapi">OpenAPI</a>], available as <a href="https://swordapp.github.io/swordv3/openapi.json">JSON</a>
+and <a href="https://swordapp.github.io/swordv3/openapi.yaml">YAML</a>.</p>
 <p><a name="7.1."></a></p>
 <h2>7.1. Error Responses</h2>
 <p>The following error responses are possible against some or all of the HTTP Requests.  In each case an Error Document MUST be returned by the 
@@ -1261,7 +1261,7 @@ Abort a Segmented File Upload</p>
 with Packaged Content (<strong>Content</strong>), these aspects tell you the exact requirements.</p>
 <p>The requirements below are presented using a hierarchy; for any given combination of <strong>Request</strong>, <strong>Content</strong> and <strong>Resource</strong>
 all requirements above the relevant node should be imported when considering the actual requirements for an operation.  See the document
-<a href="http://localhost:8000/docs/swordv3-behaviours.html">SWORDv3 Behaviours</a> to see each of the behaviours SWORDv3 is capable of with its requirements fully 
+<a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html">SWORDv3 Behaviours</a> to see each of the behaviours SWORDv3 is capable of with its requirements fully 
 expanded.</p>
 <p><a name="8.1."></a></p>
 <h2>8.1. Requirement Hierarchies</h2>
@@ -1418,6 +1418,8 @@ expanded.</p>
 
 <ul>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Modify</td><td colspan="4" style="text-align: center">Binary</td><td colspan="4" style="text-align: center">Deposit</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the request MUST attach the supplied file to the Object as an <code>originalDeposit</code></li>
 </ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Modify</td><td colspan="4" style="text-align: center">Binary File</td><td colspan="4" style="text-align: center">*</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"><ul>
 <li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 </ul>
@@ -1433,7 +1435,7 @@ expanded.</p>
 <ul>
 <li>MUST provide Packaged Content in the request body</li>
 </ul></td><td colspan="3"><ul>
-<li>The server MAY attempt to unpack the file</li>
+<li>The server MAY attempt to unpack the file, and create <code>derivedResource</code>s from it.</li>
 </ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Modify</td><td colspan="4" style="text-align: center">Empty Body</td><td colspan="4" style="text-align: center">*</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"><ul>
 <li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
 </ul>
@@ -1446,6 +1448,10 @@ expanded.</p>
 <li>MAY provide the <code>Slug</code> header</li>
 </ul></td><td colspan="3"><ul>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+</ul>
+
+<ul>
+<li>If accepting the request MUST create a new Object</li>
 </ul></td><td colspan="3"><ul>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
 </ul>
@@ -1468,6 +1474,12 @@ expanded.</p>
 
 <ul>
 <li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Create</td><td colspan="4" style="text-align: center">Metadata</td><td colspan="4" style="text-align: center">Service-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the request MUST populate the Object with the supplied Metadata</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Create</td><td colspan="4" style="text-align: center">By-Reference</td><td colspan="4" style="text-align: center">Service-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the request MUST attach the By-Reference files to the Object.</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Create</td><td colspan="4" style="text-align: center">MD+BR</td><td colspan="4" style="text-align: center">Service-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the request MUST populate the Object with the supplied Metadata, and attach the By-Reference files to it.</li>
 </ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Create</td><td colspan="4" style="text-align: center">Empty Body</td><td colspan="4" style="text-align: center">Staging-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"><ul>
 <li>POST Staging-URL</li>
 </ul></td><td colspan="3"></td><td colspan="3"><ul>
@@ -1502,11 +1514,35 @@ expanded.</p>
 <li>POST Object-URL</li>
 </ul></td><td colspan="3"></td><td colspan="3"></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Append</td><td colspan="4" style="text-align: center">Binary</td><td colspan="4" style="text-align: center">Object-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
 <li>MUST respond with a <code>Location</code> header, containing the File-URL of the Original Deposit File</li>
-</ul></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">*</td><td colspan="4" style="text-align: center">Object-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"><ul>
+</ul></td></tr><tr><td colspan="4" style="text-align: center">Append</td><td colspan="4" style="text-align: center">Metadata</td><td colspan="4" style="text-align: center">Object-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the new Metadata MUST add the Metadata to the item, and only treat this as an extension to existing Metadata.  The server MUST NOT overwrite or otherwise remove existing Metadata.</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">*</td><td colspan="4" style="text-align: center">Object-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"><ul>
 <li>PUT Object-URL</li>
-</ul></td><td colspan="3"></td><td colspan="3"></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Update</td><td colspan="4" style="text-align: center">Body</td><td colspan="4" style="text-align: center">Components</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+</ul></td><td colspan="3"></td><td colspan="3"></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">Binary</td><td colspan="4" style="text-align: center">Object-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the new File, MUST remove all existing Files from the Object and replace with the new File.  The new File should be marked as an <code>originalDeposit</code>.  The server MUST also remove all Metadata, so the Metadata Resource contains no fields.</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">Metadata</td><td colspan="4" style="text-align: center">Object-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the new Metadata, MUST remove all existing Files from the Object, and MUST replace the existing Metadata with the new.</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">By-Reference</td><td colspan="4" style="text-align: center">Object-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the new By-Reference files, MUST remove all existing Files from the Object and replace with the By-Reference files.  The server MUST remove the existing Files immediately, even before the By-Reference files have dereferenced.  The new files MUST be marked as <code>originalDeposit</code>s.  The server MUST also remove all Metadata, so the Metadata Resource contains no fields.</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">MD+BR</td><td colspan="4" style="text-align: center">Object-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the new Metadata and By-Reference files, MUST remove all existing Files from the Object and replace with the By-Reference files.  The server MUST remove the existing Files immediately, even before the By-Reference files have dereferenced.  The server MUST also replace all existing Metadata with the new Metadata.</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">Metadata</td><td colspan="4" style="text-align: center">Metadata-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the new Metadata MUST entirely replace the existing Metadata with the new.</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">By-Reference</td><td colspan="4" style="text-align: center">FileSet-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the new By-Reference Files, MUST replace the existing FileSet with the new files.  The server MUST remove all the old files immediately, even before the new By-Reference files have been dereferenced.  The new Files MUST be marked as <code>originalDeposit</code>s</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">Binary File</td><td colspan="4" style="text-align: center">FileSet-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the new File, MUST replace the existing FileSet with a single new File.  The File MUST be marked as an <code>originalDeposit</code></li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">By-Reference</td><td colspan="4" style="text-align: center">File-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the new By-Reference File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new file MUST be marked as an <code>originalDeposit</code></li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">Binary File</td><td colspan="4" style="text-align: center">File-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the new File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new File MUST be marked as an <code>originalDeposit</code></li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Update</td><td colspan="4" style="text-align: center">Body</td><td colspan="4" style="text-align: center">Components</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
-</ul></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">*</td><td colspan="4" style="text-align: center">Metadata-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"><ul>
+</ul></td></tr><tr><td colspan="4" style="text-align: center">Append</td><td colspan="4" style="text-align: center">By-Reference</td><td colspan="4" style="text-align: center">Object-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the request, MUST attach all the By-Reference files to the Object as <code>originalDeposit</code>s</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Append</td><td colspan="4" style="text-align: center">MD+BR</td><td colspan="4" style="text-align: center">Object-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
+<li>If accepting the request, MUST attach all the By-Reference files to the Object as <code>originalDeposit</code>s, and MUST add the Metadata to the item, and only treat this as an extension to existing Metadata.  The server MUST NOT overwrite or otherwise remove existing Metadata.</li>
+</ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">*</td><td colspan="4" style="text-align: center">Metadata-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"><ul>
 <li>PUT Metadata-URL</li>
 </ul></td><td colspan="3"></td><td colspan="3"></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Replace</td><td colspan="4" style="text-align: center">*</td><td colspan="4" style="text-align: center">FileSet-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"><ul>
 <li>PUT FileSet-URL</li>
@@ -1549,7 +1585,11 @@ expanded.</p>
 </ul>
 
 <ul>
-<li>MUST be prepared to accept file segments in any order</li>
+<li>MUST be prepared to accept file segments in any order, and in parallel</li>
+</ul>
+
+<ul>
+<li>MUST be able to store the incoming file segments as they arrive, and then reconstitute them into a single file when all segments have been received.</li>
 </ul></td><td colspan="3"></td></tr><tr><td colspan="4" style="text-align: center">Retrieve</td><td colspan="4" style="text-align: center">Empty Body</td><td colspan="4" style="text-align: center">Temporary-URL</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"><ul>
 <li>GET Temporary-URL</li>
 </ul></td><td colspan="3"></td><td colspan="3"></td><td colspan="3"><ul>
@@ -1566,7 +1606,7 @@ expanded.</p>
 <p><a name="9.1."></a></p>
 <h2>9.1. JSON-LD Context</h2>
 <p>SWORD defines the semantics of its documents using JSON-LD [<a href="#json-ld">JSON-LD</a>].  You can see the full JSON-LD Context 
-<a href="http://localhost:8000/docs/swordv3.jsonld">here</a></p>
+<a href="https://swordapp.github.io/swordv3/swordv3.jsonld">here</a></p>
 <p><a name="9.2."></a></p>
 <h2>9.2. Service Document</h2>
 <p>The Service Document defines the capabilities and operational parameters of the server as a whole, or of a particular Service-URL.</p>
@@ -1579,7 +1619,7 @@ Services beneath that one.</p>
 <p>A Service Document can be retrieved either for the root of the service, or from any Service within the hierarchy of Services available. 
 If the root Service Document is requested, the full list of Services, including all their children, MUST be provided.  If the URL of a 
 Service is requested, it MUST only provide information about itself and its children.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/service-document.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/service-document.schema.json">here</a>.</p>
 <p>An example of the Service Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -1804,7 +1844,7 @@ Metadata document can be sent when creating an Object initially, when appending 
 Object as a whole.</p>
 <p>The format of the document is simple and extensible (see the <a href="#19.">Metadata Formats</a> section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
 and servers MUST support this metadata format.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/metadata.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/metadata.schema.json">here</a>.</p>
 <p>An example of the Metadata Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -1870,7 +1910,7 @@ and servers MUST support this metadata format.</p>
 <p>The By-Reference document allows the client to send a list of one or more files that the server will fetch asynchronously.  The 
 By-Reference document can be sent when creating an Object initially, or when appending to or replacing the FileSet in the Object, or 
 replacing the Object as a whole.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/by-reference.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/by-reference.schema.json">here</a>.</p>
 <p>An example of the By-Reference Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -2010,7 +2050,7 @@ http://purl.org/net/sword/3.0/types/Metadata</p>
 <p>The status document is provided in response to a deposit operation on a Service-URL, and can be retrieved at any subsequent point by a
 GET on the Object-URL, and is returned each time the client takes action on the Object-URL.  It tells the client detailed information about 
 the content and current state of the item.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/status.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/status.schema.json">here</a>.</p>
 <p>An example of the Status Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -2485,7 +2525,7 @@ file (Original Deposits), a “status” field will provide information on the c
 <p><a name="9.7."></a></p>
 <h2>9.7. Segmented File Upload Document</h2>
 <p>A client may request information on an ongoing Segmented File Upload at any point via a GET to the Temporary-URL.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/segmented-file-upload.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/segmented-file-upload.schema.json">here</a>.</p>
 <p>An example of the Segmented File Upload Document:</p>
 <pre><code class="json">{
     &quot;@context&quot;: &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -2564,7 +2604,7 @@ file (Original Deposits), a “status” field will provide information on the c
 <p><a name="9.8."></a></p>
 <h2>9.8. Error Document</h2>
 <p>An error document is returned at any point that a synchronous operation fails.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="http://localhost:8000/docs/error.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="https://swordapp.github.io/swordv3/error.schema.json">here</a>.</p>
 <p>An example of the Error Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -3151,7 +3191,8 @@ the <a href="#9.2.">Service Document</a>.</p>
 <li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
 <li>MUST reject the request if the segment is incorrect or unexpected: for example, all segments were already received, or the segment is a different size than expected.</li>
 <li>If all preconditions are met, MUST accept the file segment, and record the receipt of it</li>
-<li>MUST be prepared to accept file segments in any order</li>
+<li>MUST be prepared to accept file segments in any order, and in parallel</li>
+<li>MUST be able to store the incoming file segments as they arrive, and then reconstitute them into a single file when all segments have been received.</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
@@ -3189,6 +3230,7 @@ be done via a GET to the Temporary-URL.</p>
 <li>MUST respond with a <code>200</code> or a suitable error</li>
 <li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
 </ul>
+<p><strong>NOTE</strong> that you cannot retrieve an actual copy of the full or partially uploaded Segmented File Upload from the Temporary-URL at any point.</p>
 <p><a name="16.6."></a></p>
 <h2>16.6. Aborting an Upload</h2>
 <p>If, part way through a segmented upload (even after completion) the client wishes to abort, it can send an DELETE request to the 
@@ -3258,7 +3300,7 @@ using the field <code>byReferenceDeposit</code>:</p>
 <p>Clients may use a By-Reference Deposit anywhere a by-value deposit could be carried out.  Instead of sending any Binary content, the 
 client sends the <a href="#9.4.">By-Reference Document</a> containing one or more (depending on context) URLs to files which the server can
 retrieve.</p>
-<p>See the document <a href="http://localhost:8000/docs/swordv3-behaviours.html">SWORDv3 Behaviours</a> for an expansion of the <a href="#8.">Protocol Requirements</a> for 
+<p>See the document <a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html">SWORDv3 Behaviours</a> for an expansion of the <a href="#8.">Protocol Requirements</a> for 
 requests to deposit By-Reference.</p>
 <p>The <a href="#12.">Content Disposition</a> for a By-Reference deposit is:</p>
 <pre><code>Content-Disposition: attachment; by-reference=true
@@ -3288,8 +3330,9 @@ as part of a By-Reference deposit.  In this case the client SHOULD omit the <cod
 
 </code></pre>
 
-<p>The server MUST recognise one of its own Temporary-URLs, and should implement ingest in the most efficient way possible (i.e. the server is
-not bound to retrieving its own Temporary-URL via HTTP, it may have other means to get the binary).  The server MUST NOT delete the resource
+<p>The server MUST recognise one of its own Temporary-URLs, and should implement ingest in the most efficient way possible, remembering that
+you cannot retrieve a copy of the actual Segmented File Upload from the Temporary-URL via GET, so the server MUST have a way to retrieve the content
+from those uploads in another way.  The server MUST NOT delete the resource
 until after it has been successfully ingested (i.e. the <code>stagingMaxIdle</code> time should be ignored when the server has received the resource
 as a By-Reference deposit).</p>
 <p><a name="17.3."></a></p>

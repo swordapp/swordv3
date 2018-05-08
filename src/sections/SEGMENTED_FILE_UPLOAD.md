@@ -140,6 +140,10 @@ requirements
     output=Protocol Operation|Request Requirements|Server Requirements|Response Requirements
 %}
 
+
+**NOTE** that you cannot retrieve an actual copy of the full or partially uploaded Segmented File Upload from the Temporary-URL at any point.
+
+
 ## Aborting an Upload
 
 If, part way through a segmented upload (even after completion) the client wishes to abort, it can send an DELETE request to the 

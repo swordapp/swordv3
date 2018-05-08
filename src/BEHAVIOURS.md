@@ -252,11 +252,10 @@ specification of this operation.
 
 Metadata and Files may be added to existing Objects through a variety of mechanisms, which are listed in this section.
 
-## Appending/Selectively Updating Metadata on an Object
+## Appending Metadata to an Object
 
-Append new metadata or selectively overwrite/update existing metadata on an item.  Metadata provided in this way should be considered to 
-overlay existing metadata, such that any new metadata fields are added to the item, and any existing metadata fields are overwritten, and 
-any other metadata fields held by the server remain untouched.
+Append new metadata to an Object.  Metadata provided in this way should be considered to 
+extend existing metadata, such that any new metadata fields are added to the Object, and any existing metadata fields are kept as-is.
 
 {%
 requirements
@@ -536,7 +535,7 @@ Then carry out a By-Reference deposit using the Temporary-URL as per {% link Rep
 ## Replacing the FileSet of an Object with By-Reference Files
 
 Replace all the files in the FileSet of an Object with one or more By-Reference Files.  All previously existing files will be removed, and
-new ones will replace them.  The server may or may not keep old versions of the content availabl, at its discretion.
+new ones will replace them.  The server may or may not keep old versions of the content available, at its discretion.
 
 {%
 requirements
