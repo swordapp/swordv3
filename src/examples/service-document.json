@@ -17,6 +17,7 @@
   "maxSegments" : 1000,
 
   "accept" : ["*/*"],
+  "acceptArchiveFormat" : ["application/zip"],
   "acceptPackaging" : ["*"],
   "acceptMetadata" : ["*"],
 

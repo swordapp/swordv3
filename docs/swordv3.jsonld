@@ -50,6 +50,7 @@
 		"timestamp" : { "@type" : "xsd:dateTime" },
 
 		"accept" : { "@type" : "xsd:string" },
+		"acceptArchiveFormat" : { "@type" : "xsd:string" },
 		"acceptDeposits" : {"@type" : "xsd:boolean" },
 		"acceptMetadata" : { "@type" : "xsd:string" },
 		"acceptPackaging" : { "@type" : "xsd:string" },

@@ -19,5 +19,10 @@ Last modified: {% date now,%Y-%m-%d %}
 {% include sections/CONTINUED_DEPOSIT.md %}
 {% include sections/SEGMENTED_FILE_UPLOAD.md %}
 {% include sections/BY_REFERENCE.md %}
+{% include sections/METADATA_DEPOSIT.md %}
+{% include sections/METADATA_FORMATS.md %}
+{% include sections/PACKAGED_CONTENT_DEPOSIT.md %}
+{% include sections/PACKAGING_FORMATS.md %}
+{% include sections/AUTO_DISCOVERY.md %}
 {% include sections/REFERENCES.md %}
 {~ html /div ~}

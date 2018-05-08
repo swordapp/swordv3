@@ -128,6 +128,20 @@
 				]
 			}
 		},
+		"acceptArchiveFormat": {
+			"$id": "/properties/acceptArchiveFormat",
+			"type": "array",
+			"title" : "List of Archive Formats that the server can unpack.  If the server sends a package using a different format, the server MAY treat it as a Binary File",
+			"description" : "SHOULD be present.  '*' for any archive format (not recommended), or a list of acceptable formats.  If this is omitted, the client MUST assume the server only supports application/zip",
+			"items": {
+				"$id": "/properties/acceptPackaging/items",
+				"type": "string",
+				"title": "Archive Format",
+				"examples": [
+					"*"
+				]
+			}
+		},
 		"acceptPackaging": {
 			"$id": "/properties/acceptPackaging",
 			"type": "array",
