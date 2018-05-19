@@ -65,7 +65,7 @@ class Command(object):
         self.kwargs = {}
         for arg in args:
             if "=" in arg:
-                bits = arg.split("=")
+                bits = arg.split("=", 1)
                 val = listify(bits[1].strip())
                 self.kwargs[bits[0].strip()] = val
             else:
@@ -350,20 +350,34 @@ def table_rows_as_paras(file_cfg, config, source, links=None, bold=None, anchor=
             paras.append(para)
     return "\n\n".join(paras)
 
-def dl(file_cfg, config, source, term, definition, link=None, size=None, offset=0):
+def dl(file_cfg, config, source, term, definition, link=None, size=None, offset=0, filter_field=None, filters=None):
     bd = config.get("src_dir")
     path = os.path.join(bd, source)
     frag = "<dl>"
     offset = int(offset)
     if size is not None:
         size = int(size)
+    if filters is not None:
+        if not isinstance(filters, list):
+            filters = [filters]
 
     with codecs.open(path, "rb", "utf-8") as f:
         reader = UnicodeReader(f)
         headers = reader.next()
 
+        filter_idx = -1
+        if filter_field is not None:
+            for i in range(len(headers)):
+                if headers[i] == filter_field:
+                    filter_idx = i
+
         n = 0
         for row in reader:
+            if filter_field is not None:
+                val = row[filter_idx]
+                if val not in filters:
+                    continue
+
             if size is not None and n >= size + offset:
                 break
             n += 1
@@ -392,6 +406,60 @@ def dl(file_cfg, config, source, term, definition, link=None, size=None, offset=
 
     frag += "</dl>"
     return frag
+
+
+def ul(file_cfg, config, source, field, link=None, size=None, offset=0, filter_field=None, filters=None):
+    bd = config.get("src_dir")
+    path = os.path.join(bd, source)
+    frag = "<ul>"
+    offset = int(offset)
+    if size is not None:
+        size = int(size)
+    if filters is not None:
+        if not isinstance(filters, list):
+            filters = [filters]
+
+    with codecs.open(path, "rb", "utf-8") as f:
+        reader = UnicodeReader(f)
+        headers = reader.next()
+
+        filter_idx = -1
+        if filter_field is not None:
+            for i in range(len(headers)):
+                if headers[i] == filter_field:
+                    filter_idx = i
+
+        n = 0
+        for row in reader:
+            if filter_field is not None:
+                val = row[filter_idx]
+                if val not in filters:
+                    continue
+
+            if size is not None and n >= size + offset:
+                break
+            n += 1
+            if n < offset + 1:
+                continue
+
+            li = None
+            a = ""
+            for i in range(len(row)):
+                col = row[i]
+                name = headers[i]
+                if name == field:
+                    a = '<a name="' + _anchor_name(col) + '"></a>'
+                if name == link:
+                    col = "[" + col + "](" + col + ")"
+                if name == field:
+                    li = col
+                    continue
+            li = markdown.markdown(li)[3:-4]    # removes the <p> and </p> markdown inserts
+            frag += "<li>" + a + li + "</li>"
+
+    frag += "</ul>"
+    return frag
+
 
 def table(file_cfg, config, source):
     bd = config.get("src_dir")
@@ -1246,7 +1314,8 @@ COMMANDS = {
     "fig" : fig,
     "content_disposition" : content_disposition,
     "title_slide" : title_slide,
-    "http_exchange" : http_exchange
+    "http_exchange" : http_exchange,
+    "ul" : ul
 }
 
 EXPAND_COMMANDS = ["include", "openapi_paths", "requirements_table"]

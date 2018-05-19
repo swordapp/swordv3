@@ -1,0 +1,231 @@
+ID,Title,Description,Sources,Categories,In/Out Scope,,Key Features,Notes,How new spec handles this
+UP-001,Research data deposit,"Researchers should be able to easily deposit data for publication, discovery, safe storage, long-term archiving and preservation","SOR - Background
+FDS - Use Case 1
+SC - Interoperability for Repository Data Submission",Protocol,In,,"* A variety of file formats
+* Potentially large files
+* Relationships to other objects (e.g. publications)","This is a relatively generic pattern, and most of the actual requirements will drop out of more specific patterns below",Enhancements around deposit of large content is primary enhancement for research data support.
+UP-002,Transmission of data meeting metadata standards,"The protocol should support the transfer of well-understood data formats and profiles such as PCDM, METS, RIOXX, etc.",SOR - Aim,"Protocol
+Content Aware",In/Out,,* Metadata content-awareness,"This pattern implies an understanding in SWORD itself as to the nature of the content being transmitted.  This is a recurring theme throughout the patterns.
+
+SWORD does have a mechanism for identifiying via a URL the package type, but it does not have an equivalent semantic for identifying the profile or scheme of the metadata in the entry document.
+
+Consider how to identify metadata profiles using a URI.  This should be straightforward for things like RIOXX, which is a documented profile.  Ad hoc profiles could be given URIs by the systems using them, in the same was as they can do now with package identifiers.
+
+We should also consider creation of a registry of such identifiers and the documentation for what they represent.","Metadata deposits can now use the MetadataFormat header to indicate content format, combining it with Content-Type gives the server enough information to choose how to ingest."
+UP-003,Deposit across organisational boundaries,"Protocol should support the transfer of content over organisational boundaries, and thus all of the associated trust/authority processes involved","FDS - Use Case 1
+FDS - Use Case 4","Protocol
+",In,,* Authentication and Authorisation,"Deposit may not always be within trusted networks, and deposit endpoints may be available on the open web.  Thus we need to check that authentication and authorisation approaches are suitable.
+
+Review auth approaches, consider formal support for token-based auth, for example, or Public Key Infrastructure.  Also review state of HTTPS recommendations in the protocol.","Authentication is now only lightly touched on by the protocol, encouraging users to choose their own approaches.  The spec has a sword:authentication field (which still needs work) to allow users to discover the supported authtentication schemes by the server.
+
+We also explicitly recomment TLS."
+UP-004,Metadata-only deposit,"Deposit only metadata content, and no associated files",FDS - Use Case 1,Protocol,In,,* Metadata-only deposit,SWORD is already well built for metadata-only deposit.  See UP-002 for further possible enhancements.,POST a metadata record to the Collection URI
+UP-005,Metadata + content deposit,"Deposit of both metadata and content at the same time.  Content may be complex, including primary and supporting materials, and multiple files.","FDS - Use Case 1
+FDS - Use Case 2
+FDS - Use Case 3",Protocol,In,,* Metadata + content deposit,"The current mechanism in SWORD for metadata + content deposit is split into two approaches.  One where metadata and content are in a package together, and one where they are in separate parts of the deposit.  The latter has not worked well, and we will need to revisit this.","This is now only possible if the metadata is in the package.  Packaged content may be as complex as is desired, provided that there is support within the repository.
+
+A standardised package format will be developed using BagIt which will provide a lower-common-denominator format for interchange."
+UP-006,Addition of content,"Deposit content onto an existing item at a later date.  Content may be complex, including primary and supporting materials, and multiple files","FDS - Use Case 1
+FDS - Use Case 2",Protocol,In,,"* Add inidividual files to object
+* Add additional packaged content to object
+* Authorisation
+* Workflow",The content operations are already supported in SWORD.  The complicating part is that depending on the (workflow) state of an item in the repository you may or may not be authorised to add the content.  It's not necessarily obvious to the client when that state has been reached,"PUT a package to the Content URI (replaces all), POST a file to the Content URI (adds individual file), POST a package to the Object URI (adds multiple files + any metadata) 
+
+It's very difficult to describe in a machine-readable way the conditions under which an item would cease to be editable, and it's unlikely that clients will be complex enough to make use of such information.  Instead the spec now allows the status report for the object to identify which of the protocol operations are currently allowed against the object."
+UP-007,Fire-and-forget deposit,Deposit content without any intention of later reviewing that content or changing it in any way,FDS - Use Case 1,Protocol,In,,* Fire-and-forget,"This has always been a key feature of sword, and the behaviour in total of SWORDv1.  We should be sure to keep this capability.","Clients can deposit a package or metadata, receive their acknowledgement or error, and leave it at that"
+UP-008,Set and modify embargo,"Deposit content/metadata with one embargo, and update the item later with a new embargo",FDS - Use Case 1,"Protocol
+Content Aware
+Process Aware",Out,,"* Embargo
+* Access restrictions","SWORD would currently consider this a content-related issue rather than a matter for the protocol, in that this information could be transmitted via the package/metadata.  Nonetheless, there is an argument that could be made about applying these restrictions via the protocol, to give certainty and a definitive approach for clients requiring it.
+
+We should consider this as a special case of access restrictions",Not explicitly supported
+UP-009,Retrieve item information,"Be able to retrieve information about an item, which may include details about its state and current restrictions","FDS - Use Case 1
+FDS - Use Case 3","Protocol
+Process Aware
+Content Aware",In/Out,,"* Retrieve
+* Item description","SWORD currently offers a couple of ways of retrieving the item information.  There is not much flexibility in what information is returned, except that arbitrary metadata can be included.  We could begin to offer support for more detailed or prescriptive item descriptions, if required.
+
+If we are becoming more content aware, then there's an opportunity here to include more content awareness in the Statement (or its successor in the new version of the spec).  We should review what information could now be appropriate to include in the response.
+
+Also, we may wish to consider simplifying the Statement to a single format, and making it part of or an extension to the Entry document, and revisit our reasons for separating these documents in the first place.","We have defined 4 key ingest progress states that repositories should use, and left it open for them to use their own states, and to allow an item to be in multiple states
+
+There is also a lot more information that can now be included alongside files inside an item, allowing for a potentially rich view of an item if the repository chooses to support it."
+UP-010,Automated machine-to-machine deposit,Autonomous systems should be able to communicate with eachother as needed via the protocol,"FDS - Use Case 1
+FDS - Use Case 4
+FDS - Use Case 7",Protocol,In,,"* Authentication and Authorisation
+* Everything machine readable","Deposit may not always have a human in the loop, so authentication and authorisation must be seamless and not require human intervention at any point.
+
+See also UP-003","We have not made any specific recommendations about authentication protocols, so implementers may use one which requires no human intervention, such as PKI, or a token based authentication scheme.
+
+Elements such as collectionPolicy and treatment now come with URIs.  All other fields which have a human-readable component already have URI counterparts.  All metadata is namespaced and use of JSON-LD makes it suitable for linked data representations."
+UP-011,Inclusion of collection-relevant metadata,Include metadata which allows deposited items to be identified as part of a particular type of collection (e.g. the ISSN and issue number for a journal),"FDS - Use Case 1
+DDS - Use Case Components","Protocol
+Content Aware",Out,,"* Metadata
+* Collections","We need to be careful to distinguish between the different types of collection metadata.  One type identifies the item as part of an abstract collection, such as the ISSN indicating membership of a journal.  The other refers to the actual deposit collection in the repository.  The former can be supported just through the application of suitable metadata, about which sword does not care, and the latter is a property of the repository, and is probably something sword can't be allowed to touch.  There is another possibility that deposit of a collection itself should be possible.  This would be a normal deposit operation, but the result is that a new collection could appear in the service document.  Is this desired?  Could be useful for research data, but comes with plenty of complexities.
+
+Investigate the need for depositing entire collections as any other item.  Keep the content aware portion of this out of scope.","Not explicitly supported.  Metadata may contain information regarding, for example, ISSNs, and this is an issue for the repository not the protocol.  Adding metadata to a collection (as sword defines it) is not supported."
+UP-012,Man-in-the-middle broker,"Deposits should be possible via a brokerage service or other itermediate, which stands between the depositor and the target archive(s)","FDS - Use Case 1
+FDS - Use Case 4","Protocol
+Process Aware",In,,"* Temporary hosting of content
+* Proxying/Forwarding
+* Authentication and Authorisation","The man-in-the-middle may or may not actually host the data for a while, and it may or may not provide a proxy url for the client for some time.  The key thing will be to be sure we have a way of handling temporary content - that which disappears from the deposit url after some time.  There's also an authorisation and authentication question, which is likely the same as UP-001 in that this is about content moving between organisations.
+
+Consider semantics for content which eventually disappears","There is a sword:status which can be used to annotate a record which is a tombstone
+
+Addition of sword:forwarding element allows the repository to respond with either/both of an onward object-url for sword operations or useful links to the item created in the forwarded location
+
+Appropriate 30x header codes are now explicit in the spec
+
+Information on when or under what conditions content may disappear is not included in the spec, as the information would be difficult to represent.  Instead we recommend the use of the sword:treatment element to allow the repository to describe in human-readable form these conditions."
+UP-013,Real-time file-storage,The protocol should offer the facilities to enable the repository to behave like a real-time file store for user-facing systems,FDS - Use Case 2,Protocol,In,,"* Individual file deposit
+* Create and Update (CRUD operations)
+* Authentication and Authorisation","SWORD is well set up for CRUD operations and individual file deposits.  The only issues will be around how the client system acting on behalf of the user is authenticated to distribute the content.  Some trust element may be required, or users may be required to authenticate or in some way authorise actions on their behalf with the repository.  In most existing deposit systems, this issue is resolved through a trust relationship that the front-end system is authenticating users appropriately.","Indicated that the server has a responsibility to provide this.
+
+sword:links elements are expressive enough to identify individual files in the item, and whether they can be used for update/retrieval via the sword:crud element."
+UP-014,Real-time file-retrieval,The protocol should offer the facilities to enable the repository to serve files on demand in real-time to user-facing systems,FDS - Use Case 2,Protocol,In,,"* Individual file retrieval
+* Authentication and Authorisation",The same commens as UP-013 apply,"GET on File URI
+
+See also UP-013"
+UP-015,Delete individual files,Be able to identify and delete an individual file from the repository item,FDS - Use Case 2,Protocol,In,,* Individual file removal,The same commens as UP-013 apply,"DELETE on File URI
+
+See also UP-013"
+UP-016,Replace individual files,Be able to replace an individual file with a new version in the repository item,FDS - Use Case 2,Protocol,In,,* Update (CRUD operation),"There's a question about versioning, and that's probably up to the particular repository implementing the sword endpoint.  Is there a need for sword to provide semantics for retrieving previous versions, if they exist?
+
+Question whether we need to do anything about formal protocol support for versioning, and propose some semantics for review","PUT on File URI
+
+We have also include some basic semantics for servers to represent versioning information if desired, using dcterms:isVersionOf and a timestamp"
+UP-017,Bulk synchronise data stores,"Be able to synchronise a number of items from some content-capture system (or, indeed any other system such as another repository) to the repository","FDS - Use Case 2
+FDS - Use Case 8",Protocol,In,,* Bulk deposits/updates,"There are a couple of ways to look at this:
+
+1. The responsibility for bulk deposits is in the client system, which can just issue multiple sword deposit requests for individual items
+
+2. SWORD provides a mechanism to deposit a collection of objects, either as a new collection, or into an existing one, all in a single operation
+
+3. This is a requirement for using ResourceSync, and the target repository should /pull/ the content it requires
+
+The likelihood is that the best answer is (1) or (3), with a preference for (3) on the grounds that errors are easier to handle that way around.  At this point we can either leave this pattern alone, to be solved by ResourceSync as-is, or look to at least harmonise the semantics between those specifications so that there is common ground.  For example, have the source repository provide packages and/or metadata marked up in line with the sword specification, for retrieval via ResourceSync.","SWORD will not provide a ""bulk"" mechanism, leaving this to the client to carry out repeat requests, or some other process such as ResourceSync.
+
+Note that we have reviewed the ResourceSync semantics, and not found it feasible to formally re-use any aspects of it in the new version of SWORD.  Their use cases are complementary, but there is not a large cross-over in semantics."
+UP-018,Deposit arbitrary content types,Protocol should allow any content type to be deposited,FDS - Use Case 3,Protocol,In,,* Content agnostic,"SWORD is currently content agnostic, and in the event that we add any content-awareness to the protocol, it must simplify/fall back to being content agnostic again.","use of sword:accepts allows the repository to define limits on file formats, and by default there are no limits."
+UP-019,Create objects with minimal metadata,It should be possible to create items via the protocol with a minimum amount of metadata,FDS - Use Case 3,Protocol,In,,"* Metadata
+* Minimum requirements","As per UP-018, we must avoid placing unnecessary constraints on what can be delivered.  It must be possible within the protocol to deliver minimal metadata.  Though note that individual implementations may choose to apply validation/minimum requirements.  If these requirements vary across repositories, it will remain a barrier to true interoperability.",No explicit support required
+UP-020,Monitor workflow progress,"Be able to track the state of an item as it is in the repository - whether it is in a workflow, in the archive, or if other actions have happened to it",FDS - Use Case 3,"Protocol
+Process Aware",In,,"* Workflow
+* Item description","SWORD already provides semantics for doing this, though the expression of the workflow progress is down to the repository to choose.  There's probably some value in prescribing some particular semantics to allow common understanding across implementations.  At the same time, allow repositories to be free to express themselves regarding more specific workflow information.","We have defined 4 key ingest progress states that repositories should use, and left it open for them to use their own states, and to allow an item to be in multiple states"
+UP-021,Deposit of unfinished content,Content that is not yet complete or ready to be archived should be depositable,FDS - Use Case 3,Protocol,In,,* In Progress items,"SWORD provides a couple of mechanisms for handling incomplete items:
+
+1. Use of an ""In-Progress"" header/flag tells the repository to expect updates later
+
+2. The repository as at liberty to allow updates to an item for any period of time after the deposit completes that it desires, independently of the In-Progress header","Spec allows the use of the In-Progress header.
+
+The sword:actions element of the status document tells the client which operations are still available to them, even if they did not pass In-Progress.
+
+Send an empty In-Progress: false request, or add In-Progress:false to any operation on the object url to finish the unfinished content."
+UP-022,External subission system,Content capture and management is done in a remote/specialised  environment and content only sent to the repository at the appropriate point(s),FDS - Use Case 5,"Protocol
+Process Aware",In,,"* Authorisation and Authentication
+* Workflow
+* Item description","An external submission system working over SWORD essentially means that the core requirements of any submisison system need to be supported by the protocol.  That is, creating, editing and deleting the item, submitting it, passing through review workflow, and ultimately publishing it.","Use the In-Progress header to carry out updates prior to final submission.
+
+Send an empty In-Progress: false request, or add In-Progress:false to any operation on the object url to finish the unfinished content
+
+Submission system can use the sword:state element to determine the workflow state of an item, and look for the ""archived"" status for when it has completed the workflow."
+UP-023,Repository migration,"Support the ability to migrate between repository platforms.  This may be from one version to another of a platform, or between two arbitrary platforms.",FDS - Use Case 8,"Protocol
+Content Aware",In/Out,,"* Bulk deposits/updates
+* Common package formats",See comments for UP-017,"We will define a BagIt format for lowest-common-denominator interoperability, which will enable a basic native migration strategy.
+
+See also UP-017"
+UP-024,Collection import,"Bulk import data, where the set of all deposits forms a collection",FDS - Use Case 8,Protocol,In,,* Collections,"This feels like quite a special case of deposit, which could be broken down into a number of components:
+
+1. The creation of an item via a deposit operation that itself forms a collection
+
+2. The subsequent deposit of further items into that collection.
+
+There are a couple of ways to model that in SWORD, and each would be down to the preferences and behaviours of the repository.  For example, there are two obvious ways to approach:
+
+A. The initial deposit creates an actual collection in the repository which is listed in the Service Document, and can then be a target for deposits just like any other collection
+
+B. The initial deposit just creates an item, which is also a collection in the repository, and addition of content to that item is modelled by the repository as items within the collection.
+
+In either case, the protocol probably doesn't need to change, it's only the behaviour of the repository which matters, so is probably an implementation issue only.
+
+See also comments for UP-011.","No additions to the spec to support this pattern explicitly.  As per the Notes, clients/repositories may agree on a process using sword which has the desired effect, and this is an implementation decision not a protocol issue."
+UP-025,Streaming content,Some sources will produce data streams which may be large and be deposited over a period of time.,DDS - Use Case Components,Protocol,Out,,"* Streaming content
+* Large files
+* File segments","We'd need to look into the technical requirements to support streaming, and what the best approach to use would be.  Then we'll know if this is a matter for the specification or just a matter for an implementation which allows a deposit of a file to be open and streamed for some period of time.  An initial review suggests that this is not something we would want to explicitly declare in the protocol.",No attempt to explicitly support
+UP-026,Temporarily hosted content,"Some deposited content may disappear after a period of time, or after some event.",DDS - Use Case Components,"Protocol
+Process Aware",In,,* Temporary hosting of content,See comments in UP-012,See UP-012
+UP-027,Arbitrarily large files,Deposited files may be very large,"DDS - Use Case Components
+SC - SWORD and Archivematica",Protocol,In,,"* Large files
+* Deposit by reference
+* File segments","We need to have the ability to handle arbitrarily large files at the protocol level.  Actually, large files on fast networks are not that problematic, and we've seen sword used for files of 20Gb used comfortably.  The problem is when networks are slower or suffer blips, particularly over the open web.  There are a couple of approaches that we can take:
+
+1. Support deposit by reference, ensuring that the downloaded file can be resumed in the case of a network outage during download.  To take this approach, we need to answer the questions around by-reference deposit posed in UP-034
+
+2. Support file segment deposit, so large files can be split at the binary level and send in packets.  A similar approach is used by, for example, DANS","For by-reference a number of  features are now supported:
+1. by-reference size limit can be declared separately to the upload size limit
+2. Support for by-reference deposit is declared in the service document
+3. The sword metadata deposit format allows for zero or more by-reference files to be deposited
+4. The status document allows the status of by-reference deposits to be tracked until they are fully dereferenced
+
+For segmented deposit:
+Use ContentDisposition to mark up a deposit into segments.  Start with a POST to Collection then continue to POST to Object, with suitable sequence id and number"
+UP-028,Content-only deposit,Some deposits will not come with readily available metadata or any metadata at all,DDS - Use Case Components,Protocol,In,,* Minimum requirements,See comments on UP-019,No specific support required
+UP-029,Identifiable individual depositor,Deposits may be made by users who can be identified by the repository system (e.g. via a user account),DDS - Use Case Components,Protocol,In,,* Authorisation and Authentication,"The main point here is that in some scenarios, the repository will want to have the depositing user to have an account on that system.  How does that user account get created?  That is probably outside the remit of sword.  We need to remember that increasingly repositories are not taking logins from individual users, and instead are often managed by intermediaries.",This will be down to the repositories to implement over whatever authentication protocol and approach they prefer
+UP-030,Proxy depositor,Deposits may be made on behalf of users who may not be identifiable by the repository system (e.g. via a proxy user account),DDS - Use Case Components,Protocol,In,,* Authorisation and Authentication,"Like the other patterns around deposit on behalf of a user, there are a variety of issues to take into account.  Primarily trust relationships are used between the front-end and back-end systems.  As per UP-029, the repository may not be able to authenticate an individual in all cases, and in other cases it may wish to have a say.","It needs to be up to the repository to decide whether to support mediation, and how to authorise one user to deposit on behalf of another"
+UP-031,Relationships to other objects,"It should be possible to create relationships between objects stored in one system, and objects stored in another system, and to update those relationships",DDS - Use Case Components,"Protocol
+Content Aware",In/Out,,"* Linked data
+* Metadata",For the most part we expect relationships to other objects to be done via URLs in the metadata.  SWORD reports a number of urls via the Statement that clients could use to reference the item.  It's not clear that this should be part of the protocol in any formal sense.,"There are URIs for just about everything coming from sword, which should be sufficient to satisfy this requirement.  Explicit support for URLs in the metadata is a repository implementation decision."
+UP-032,Select deposit collection,"It must be possible for the depositor to select an appropriate deposit target, both the repository itself and the collection within the repository",DDS - Use Case Components,Protocol,In,,"* Collections
+* Browsing","SWORD already has a mechanism for exposing collections, even heirarchical ones.  This seems sufficient, and arguably may be more complex than is required.","Use the Service Document, which supports hierarchical collections."
+UP-033,Send individual files,"Send individual files (perhaps multiple, one after the other) to be attached to an item in the repository",SC - SWORD and Archivematica,Protocol,In,,* Individual files,"Similar to UP-013, and same comments apply","To create an item with a single file: Post to Collection URI without package format, or with package format Binary
+
+To add a single file to an existing item: POST to Content URI"
+UP-034,Send files by reference,"Send one or more links to files to be ingested and attached to an item.  Some links may not need to be ingested, a reference may just need to be created",SC - SWORD and Archivematica,"Protocol
+",In,,* Deposit by reference,"See comments on UP-027.  The main questions around deposit by reference are:
+
+1. What requirements are placed on the service providing the reference?  e.g. does it support resumable downloads?
+2. How long will the reference persist?
+3. Should the reference be downloaded, or should the repository just record the URL for use by end-users?
+4. Are there file size limits on deposit by reference?
+5. Should we harmonise the semantics with ResourceSync if appropriate?
+6. Do we need to tell the reference server when we have finished with the file?","A number of by-reference features are now supported:
+1. by-reference size limit can be declared separately to the upload size limit (sword:maxByReferenceSize)
+2. Support for by-reference deposit is declared in the service document
+3. The sword metadata deposit format allows for zero or more by-reference files to be deposited
+4. The status document allows the status of by-reference deposits to be tracked until they are fully dereferenced
+
+By reference deposit also supports a flag to indicate the repository should or should not download the reference.
+
+By reference deposit provides a TTL field which contains a timestamp indicating how long the resource will be available for
+
+The Status document can indicate if a download has failed, and describe the reasons"
+UP-035,Callback mechanism,Be able to register a callback to be called when processing of a deposit is complete,SC - SWORD and Archivematica,"Protocol
+",Out,,"* Callbacks
+* Workflow","A callback would allow a remote system to trigger behaviours based on events happening to the item in the repository.  There are benefits to this for the repository, such as not having to serve repeated poll requests for information, but there are also costs such as having to integrate the callback mechanisms into workflows, and to handle failed requests to the callback url.
+
+This seems like too great a burden on the repository to support.  Do not propose to investigate this any further.",Not supported
+UP-036,Accept deposits for processing,"Not all deposits will be ""live"" in the target repository immediately.  There may be asynchronous processing tasks to take place, such as unpacking, format migrations, etc.",SC - SWORD and Archivematica,Protocol,In,,"* In Progress items
+* Asynchronous processing","For large file deposits or other complex objects, it's possible that repositories may accept a deposit but not finish processing it during the synchronous deposit request.  To that end, we should adhere to the HTTP specification and support the 202 (Accepted) response formally in the protocol.","Repository may now respond with a 202 (Accepted)
+
+The client may monitor the item's status with the sword:state element, to find out when the item has been processed"
+UP-037,Access restrictions,Be able to specify detailed access restrictions to items and their contents,SC - SWORD and Archivematica,"Protocol
+Content Aware",Out,,"* Access restrictions
+* Embargo","Access restrictions could arguably be placed within the protocol.  This would apply constraints on the server implementation, which it may not be able to fulfil.  We would also need to choose a semantic framework for this, and determine to what level of complexity we support restrictions.
+
+We may choose to adopt a fairly blunt instrument for broad use, such as the application of an open/closed status, which would be suitable for use in embargoing an item.  Attempts to provide fine-grained control over access to individual files would likely be too difficult.
+
+Note that right now there's no reason that a particular client/server couldn't agree on a set of semantics between themselves for exchanging access restrictions in the metadata provided during deposit.
+
+Review our options with regards to specifying access restrictions, and consider approaches from the finer-grained to the coarse-grained.  This would mean something which allows the caller to specify file-level (and metadata level?) access restrictions, with time-bounds, to something which is just open/closed status on the item as a whole.",Not explicitly supported
+UP-038,Specify a valid object,"Some objects need to be validated as they are deposited, to ensure they have the correct metadata or files, or are appropriately organised to be ingested",SC - Interoperability for Repository Data Submission,"Protocol
+Content Aware",In/Out,,"* Minimum requirements
+* Validation","Some repositories may have minimum requirements for what can be deposited.  If this is variable across systems, this will be another barrier to interoperability.  It would be risky for sword to have an opinion about what a minimum requirement or valid object would be, this should be down to the repositories to specify.  Most likely the best way to do this would be through a package/metadata profile identifier which the repository declares to support, which may come with minimum requirements.
+
+If we can build a registry of package (and metadata profile) identifiers, we can specify validation of the content there, keeping it out of the core of the protocol but giving it somewhere to sit.  We would need to investigate the creation of a package registry, and figure out how to do heirarchical formats (e.g. DSpace METS SIP is a special case of a METS package, which is a special case of a plain zip file)",Server should use an error document and the sword:log field for this information
+UP-039,Repository sword profile,"Repositories should be able to expose their level of protocol support, including operations, metadata support, content type support, and other factors",SC - Interoperability for Repository Data Submission,Protocol,In,,* Sword meta-information,"SWORD already has a mechanism for this, and we just need to make sure it stays up to date with changes we make in the next version which represent variable attributes a server may expose.",Every aspect of the protocol can now be determined through the service document through feature flags.  Actions then available on individual deposited items are also available as flags in the status document
+UP-040,Incremental transfer,"Be able to send chunks of a data package bit by bit, until the full data package has been transferred",SC - Implementations,Protocol,In,,* File segments,"See comments on UP-027, and in particular point (2)",See UP-027
+UP-041,Metadata then Content,"Metadata is deposited first and then content is deposited as a file or a package in a subsequent deposit.  Usually this is done in rapid succession for systems where the metadata is readily available, and no special content packaging is required.",,Protocol,In,,* In Progress items,"In SWORDv2 there is a multipart deposit option using the Atom Multipart extension, which has turned out to be poorly supported in the web technology stacks.  It has therefore not been used widely, and is poorly implemented.  As a work-around this pattern has emerged.  It is well supported by the other sword operations, and the main thing we need to do is remove the multipart support for clarity.","Initial metadata deposit comes with In-Progress header.
+
+Subsequent deposits can provide additional content.
+
+The sword:actions element of the status document tells the client which operations are still available to them, even if they did not pass In-Progress."

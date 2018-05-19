@@ -1,7 +1,7 @@
 {~ html section,clazz=title ~}
 
 {% title_slide 
-    title=Differences between SWORD&nbsp;3 and SWORD&nbsp;2,"attribution=Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com"
+    title=Differences between SWORD&nbsp;3 and SWORD&nbsp;2,"attribution=Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com<br><a href='https://twitter.com/richard_d_jones'>@richard_d_jones</a> <a href='https://twitter.com/cottagelabs'>@cottagelabs</a>"
 %}
 
 {~ html /section ~}
@@ -462,7 +462,7 @@ This has been removed from SWORDv3 for the following reasons:
 {~ html section,clazz=title ~}
 
 {% title_slide 
-    title=Thanks for Listening,"attribution=Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com"
+    title=Thanks for Listening,"attribution=Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com<br><a href='https://twitter.com/richard_d_jones'>@richard_d_jones</a> <a href='https://twitter.com/cottagelabs'>@cottagelabs</a>"
 %}
 
 {~ html /section ~}

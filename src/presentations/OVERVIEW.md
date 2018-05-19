@@ -1,7 +1,7 @@
 {~ html section,clazz=title ~}
 
 {% title_slide 
-    title=Overview of SWORD&nbsp;3,"attribution=Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com"
+    title=Overview of SWORD&nbsp;3,"attribution=Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com<br><a href='https://twitter.com/richard_d_jones'>@richard_d_jones</a> <a href='https://twitter.com/cottagelabs'>@cottagelabs</a>"
 %}
 
 {~ html /section ~}
@@ -199,7 +199,7 @@ specialist staging hardware, or where the files are already readily available el
 {~ html section,clazz=title ~}
 
 {% title_slide 
-    title=Thanks for Listening,"attribution=Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com"
+    title=Thanks for Listening,"attribution=Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com<br><a href='https://twitter.com/richard_d_jones'>@richard_d_jones</a> <a href='https://twitter.com/cottagelabs'>@cottagelabs</a>"
 %}
 
 {~ html /section ~}

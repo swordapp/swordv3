@@ -39,6 +39,14 @@
 			"phases" : ["expand", "integrate", "render"]
 		},
 		{
+			"root" : "presentations/USAGE_PATTERNS_AND_REQUIREMENTS.md",
+			"out" : "usage-patterns-and-requirements.html",
+			"process" : true,
+			"header" : "templates/head_presentation.html",
+			"footer" : "templates/foot_presentation.html",
+			"phases" : ["expand", "integrate", "render"]
+		},
+		{
 			"root" : "schemas/openapi.json",
 			"out" : "openapi.json",
 			"process" : false
