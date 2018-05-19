@@ -31,6 +31,14 @@
 			"phases" : ["expand", "integrate", "render"]
 		},
 		{
+			"root" : "presentations/DIFFERENCES_TO_SWORDV2.md",
+			"out" : "differences-to-swordv2.html",
+			"process" : true,
+			"header" : "templates/head_presentation.html",
+			"footer" : "templates/foot_presentation.html",
+			"phases" : ["expand", "integrate", "render"]
+		},
+		{
 			"root" : "schemas/openapi.json",
 			"out" : "openapi.json",
 			"process" : false

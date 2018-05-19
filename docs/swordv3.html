@@ -8,8 +8,8 @@
 </head>
 <body>
 
-<h1 class="main_title">SWORDv3 Specification</h1><p><div class=nav>
-<div class=toc></p>
+<h1 class="main_title">SWORDv3 Specification</h1><div class=nav>
+<div class=toc>
 <ul>
 <li><a href="#1.">1. Credits</a></li>
 <li><a href="#2.">2. Introduction</a></li>
@@ -151,8 +151,8 @@
 <li><a href="#23.">23. References</a>
 </div></li>
 </ul>
-<p></div></p>
-<p><div class=spec>
+</div>
+<div class=spec>
 DRAFT 4</p>
 <p>Last modified: 2018-05-19
 <a name="1."></a></p>
@@ -233,7 +233,7 @@ document are to be interpreted as described in [<a href="#rfc2119">RFC2119</a>].
 <h1>6. HTTP Headers</h1>
 <p>These are the HTTP headers used by SWORD, and their meanings within the context of the protocol.  Where a Default Value is specified, this 
 is what value the client or server MUST take the value to be if it is not provided explicitly in a request or response.</p>
-<p><div class=http_headers></p>
+<div class=http_headers>
 <table>
 <thead>
 <tr>
@@ -296,7 +296,7 @@ is what value the client or server MUST take the value to be if it is not provid
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7."></a></p>
 <h1>7. Protocol Operations</h1>
 <p>This section lists the actual on-the-wire protocol operations that are part of SWORDv3.  Actual usage of each of these operations is 
@@ -334,7 +334,7 @@ are the redirect codes that are used, and what they mean:</p>
 are listed for each section, please refer to the section above for details on the meanings of errors.</p>
 <p><a name="7.3.1."></a></p>
 <h3>7.3.1. GET Service-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Retrieve the Service Document</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -368,10 +368,10 @@ Retrieve the Service Document</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.2."></a></p>
 <h3>7.3.2. POST Service-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Make a new Object</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -439,10 +439,10 @@ Make a new Object</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.3."></a></p>
 <h3>7.3.3. GET Object-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Retrieve the Status information for the Object</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -484,10 +484,10 @@ Retrieve the Status information for the Object</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.4."></a></p>
 <h3>7.3.4. POST Object-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Append data to an Object</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -551,10 +551,10 @@ Append data to an Object</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.5."></a></p>
 <h3>7.3.5. PUT Object-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Replace the Object</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -622,10 +622,10 @@ Replace the Object</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.6."></a></p>
 <h3>7.3.6. DELETE Object-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Delete the Object</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -672,10 +672,10 @@ Delete the Object</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.7."></a></p>
 <h3>7.3.7. GET Metadata-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Retrieve the Metadata</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -721,10 +721,10 @@ Retrieve the Metadata</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.8."></a></p>
 <h3>7.3.8. PUT Metadata-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Replace the Metadata</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -786,10 +786,10 @@ Replace the Metadata</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.9."></a></p>
 <h3>7.3.9. PUT FileSet-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Replace the FileSet</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -851,10 +851,10 @@ Replace the FileSet</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.10."></a></p>
 <h3>7.3.10. DELETE FileSet-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Delete the FileSet</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -901,10 +901,10 @@ Delete the FileSet</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.11."></a></p>
 <h3>7.3.11. GET File-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Retrieve an individual File</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -950,10 +950,10 @@ Retrieve an individual File</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.12."></a></p>
 <h3>7.3.12. PUT File-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Replace an individual File</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -1010,10 +1010,10 @@ Replace an individual File</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.13."></a></p>
 <h3>7.3.13. DELETE File-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Delete an individual File</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -1060,10 +1060,10 @@ Delete an individual File</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.14."></a></p>
 <h3>7.3.14. POST Staging-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Create a Temporary-URL for Segmented File Upload</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -1110,10 +1110,10 @@ Create a Temporary-URL for Segmented File Upload</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.15."></a></p>
 <h3>7.3.15. GET Temporary-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Retrieve Information on a Segmented File Upload</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -1151,10 +1151,10 @@ Retrieve Information on a Segmented File Upload</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.16."></a></p>
 <h3>7.3.16. POST Temporary-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Upload a File Segment</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -1206,10 +1206,10 @@ Upload a File Segment</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="7.3.17."></a></p>
 <h3>7.3.17. DELETE Temporary-URL</h3>
-<p><div class=openapi>
+<div class=openapi>
 Abort a Segmented File Upload</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -1247,7 +1247,7 @@ Abort a Segmented File Upload</p>
 </tr>
 </tbody>
 </table>
-<p></div></p>
+</div>
 <p><a name="8."></a></p>
 <h1>8. Protocol Requirements</h1>
 <p>This section describes the requirements of every kind of operation that you can do with SWORDv3.</p>
@@ -1335,7 +1335,7 @@ expanded.</p>
 </ul>
 <p><a name="8.2."></a></p>
 <h2>8.2. Requirement Groups</h2>
-<p><div class=requirement-groups></p>
+<div class=requirement-groups>
 <table><thead><tr><td colspan="4" style="text-align: center"><strong>Request</strong></td><td colspan="4" style="text-align: center"><strong>Content</strong></td><td colspan="4" style="text-align: center"><strong>Resource</strong></td></tr></thead><tr><td colspan="4" style="text-align: center">*</td><td colspan="4" style="text-align: center">*</td><td colspan="4" style="text-align: center">*</td></tr><tr><td colspan="3"><strong>Protocol Operation</strong></td><td colspan="3"><strong>Request Requirements</strong></td><td colspan="3"><strong>Server Requirements</strong></td><td colspan="3"><strong>Response Requirements</strong></td></tr><tr><td colspan="3"></td><td colspan="3"><ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 </ul></td><td colspan="3"><ul>
@@ -1600,7 +1600,7 @@ expanded.</p>
 <li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
 </ul></td></tr></table>
 
-<p></div></p>
+</div>
 <p><a name="9."></a></p>
 <h1>9. Documents</h1>
 <p><a name="9.1."></a></p>
@@ -3640,8 +3640,7 @@ the formats specified in the <a href="#9.2.">Service Document</a> field <code>ac
 <p>This allows us to represent the item as a combination of an arbitrary structure of bitstreams in the data directory (similar to SimpleZip), 
 and the metadata in the sword default format in <code>metadata/sword.json</code>.  A <code>manifest</code> (and <code>tagmanifest</code>) of sha-256 checksums is required, as 
 well as the <code>bagit.txt</code> file and a <code>bag-info.txt</code> file.</p>
-<p>The content of <code>sword.json</code> is exactly as defined in the Metadata file, including the ability to supply by-reference files during deposit in 
-this way.  Note that use of <code>fetch.txt</code> is not supported here.</p>
+<p>The content of <code>sword.json</code> is exactly as defined in the SWORD default Metadata.  Note that use of <code>fetch.txt</code> is not supported here.</p>
 <p>The server SHOULD unpack this file, and action at least the Metadata.  The contents of the data directory MAY be unpackaged into 
 <code>derivedResource</code>s if the server desires.  It is RECOMMENDED that the contents of the data directory be a flat file structure, to aid 
 mutual comprehension by servers/clients.</p>
@@ -3677,6 +3676,6 @@ embedded in any web interfaces associated with the service provider.</p>
 <p><a name="rfc7232"><strong>RFC7232</strong> R. Fielding and J. Reschke, "Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests", June 2014 <a href="https://tools.ietf.org/html/rfc7232">https://tools.ietf.org/html/rfc7232</a> </p>
 <p><a name="sword_1.3"><strong>SWORD 1.3</strong> Downing, J. "SWORD AtomPub Profile version 1.3", 2008. <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">http://www.swordapp.org/docs/sword-profile-1.3.html</a> </p>
 <p><a name="sword_2.0"><strong>SWORD 2.0</strong> Jones, R. and Lewis, S. "SWORD 2.0 Profile", 2011 <a href="http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html">http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html</a> </p>
-<p></div></p></body>
+</div></body>
 </html>
 

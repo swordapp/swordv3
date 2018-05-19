@@ -196,3 +196,10 @@ specialist staging hardware, or where the files are already readily available el
 {~ html /section ~}
 
 
+{~ html section,clazz=title ~}
+
+{% title_slide 
+    title=Thanks for Listening,"attribution=Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com"
+%}
+
+{~ html /section ~}

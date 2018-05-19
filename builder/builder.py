@@ -255,7 +255,13 @@ def integrate(text, file_cfg, config):
     return text
 
 def render(text, file_cfg, config):
+    # first do a full markdown render
     body = markdown.markdown(text, extensions=["markdown.extensions.tables", "markdown.extensions.fenced_code"])
+
+    # now clean up any unnecessary para tags before the html functions are run
+    para_rxs = [("<p>\{~", "{~"), ("~\}</p>", "~}")]
+    for rx in para_rxs:
+        body = re.sub(rx[0], rx[1], body)
 
     cmd_rx = "(\{~.+?~\})"
     m = re.search(cmd_rx, body, re.DOTALL)
@@ -1210,7 +1216,6 @@ def title_slide(file_cfg, config, title, subtitle="", attribution=""):
     frag += "\n\n"
     frag += attribution
     return frag
-
 
 ############
 

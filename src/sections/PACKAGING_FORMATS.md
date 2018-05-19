@@ -50,8 +50,7 @@ This allows us to represent the item as a combination of an arbitrary structure 
 and the metadata in the sword default format in `metadata/sword.json`.  A `manifest` (and `tagmanifest`) of sha-256 checksums is required, as 
 well as the `bagit.txt` file and a `bag-info.txt` file.
 
-The content of `sword.json` is exactly as defined in the Metadata file, including the ability to supply by-reference files during deposit in 
-this way.  Note that use of `fetch.txt` is not supported here.
+The content of `sword.json` is exactly as defined in the SWORD default Metadata.  Note that use of `fetch.txt` is not supported here.
 
 The server SHOULD unpack this file, and action at least the Metadata.  The contents of the data directory MAY be unpackaged into 
 `derivedResource`s if the server desires.  It is RECOMMENDED that the contents of the data directory be a flat file structure, to aid 

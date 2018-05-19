@@ -7,6 +7,10 @@ section dl {
     font-size: 30px !important;
 }
 
+section li {
+    font-size: 30px !important;
+}
+
 .title p {
     text-align: center;
 }

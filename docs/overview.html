@@ -6,36 +6,36 @@
 	</head>
 	<body>
 		<div class="reveal">
-			<div class="slides"><p><section class=title></p>
+			<div class="slides"><section class=title>
 <h2>Overview of SWORD&nbsp;3</h2>
 
 <p>Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com</p>
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <p>SWORD 3.0 is a protocol enabling clients and servers to communicate around complex digital objects</p>
 <p>Complex digital objects consist of both Metadata and File content, where the Files may be in a variety of formats, there may be many files, 
 and some may be very large.  </p>
 <p>It defines semantics for creating, appending, replacing, deleting, and retrieving information about these complex resources.  </p>
 <p>It also enables servers to communicate regarding the status of treatment of deposited content, such as exposing ingest workflow information.</p>
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <div><img src="https://swordapp.github.io/swordv3/structure.png" alt="SWORD Object Structure"></div>
 
 <div class="figure_label">Figure 1: SWORD Object Structure</div>
 
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <h3>Document Types</h3>
 <dl><dt><a name="service_document"></a>Service Document</dt><dd>Describes the capabilities of the server with respect to the user</dd><dt><a name="metadata_document"></a>Metadata Document</dt><dd>A format for depositing and retrieving object Metadata</dd><dt><a name="by-reference_document"></a>By-Reference Document</dt><dd>A format for describing one or more files to be deposited By-Reference.</dd><dt><a name="metadata+by-reference_document"></a>Metadata+By-Reference Document</dt><dd>A single expression of both the Metadata and the By-Reference file deposits.</dd><dt><a name="status_document"></a>Status Document</dt><dd>A document describing the current status of the Object and its components</dd></dl>
 
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <h3>Document Types</h3>
 <dl><dt><a name="binary_file"></a>Binary File</dt><dd>An opaque binary file</dd><dt><a name="packaged_content"></a>Packaged Content</dt><dd>A serialisation of the entire Object, consisting of its Metadata and Binary Files.</dd><dt><a name="error_document"></a>Error Document</dt><dd>Describes an error that occurred while processing a request.</dd><dt><a name="segmented_file_upload_document"></a>Segmented File Upload Document</dt><dd>A document describing the current status of a Segmented File Upload</dd></dl>
 
-<p></section></p>
-<p><section></p>
-<p><section></p>
+</section>
+<section>
+<section>
 <h3>Basic Workflow</h3>
 <p><strong>Retrieve a Service Document</strong></p>
 <pre><code>GET /Service-URL HTTP/1.1
@@ -50,8 +50,8 @@ Content-Type: application/json
 
 </code></pre>
 
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <pre><code>{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
 
@@ -111,8 +111,8 @@ Content-Type: application/json
 
 </code></pre>
 
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <p><strong>Create a new Object</strong></p>
 <pre><code>POST /Service-URL HTTP/1.1
 Authorization: ...
@@ -129,8 +129,8 @@ Content-Type: application/json
 
 </code></pre>
 
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <p><strong>Retrieve Status Document</strong></p>
 <pre><code>GET /Object-URL HTTP/1.1
 Authorization: ...
@@ -144,8 +144,8 @@ Content-Type: application/json
 
 </code></pre>
 
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <pre><code>{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
 
@@ -272,48 +272,53 @@ Content-Type: application/json
 
 </code></pre>
 
-<p></section></p>
-<p></section></p>
-<p><section></p>
+</section>
+</section>
+<section>
 <h2>Key Features</h2>
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <h3>Concurrency Control</h3>
 <p>Servers MAY implement Concurrency Control, to prevent clients from unintentionally overwriting data.</p>
 <p>The Server provides the <code>ETag</code> header on every response, which contains a unique version number for the Object.</p>
 <p>The client must then provide the <code>If-Match</code> header with every request to change data, which reflects the latest <code>ETag</code></p>
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <h3>Continued Deposit</h3>
 <p>Clients can indicate to a server that there is more content coming, and the item shouldn't be injected into any post-submission
 workflows by providing the <code>In-Progress</code> header.</p>
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <h3>Metadata Deposit</h3>
 <p>SWORD allows the client to deposit arbitrary metadata onto the server through agnostic support for metadata formats.</p>
 <p>SWORD has a default format which MUST be supported by the server, which consists of the set of DCMI Terms expressed as JSON</p>
 <p>During deposit, the client specifies a <code>Metadata-Format</code> header which contains the identifier for the format.</p>
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <h3>Package Deposit</h3>
 <p>SWORD allows you to deposit both Files and Metadata simultaneously through support of Packaged Content.</p>
 <p>When depositing Packaged Content, the client indicates information about the format using the <code>Packaging</code> header.</p>
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <h3>Segmented File Upload</h3>
 <p>If a client has a very large file that it wishes to transfer to the server by value, then in may be beneficial to do this in several small 
 operations, rather than as a single large operation.</p>
 <p>In order to transfer a large file, the client can break it down into a number of equally sized segments of binary data (the final segment 
 may be a different size to the rest).  It can then initialise a Segmented File Upload with the server, and then transfer the segments.  The 
 server will reconstitute these segments into a single file, and then the client may deposit this file by-reference.</p>
-<p></section></p>
-<p><section></p>
+</section>
+<section>
 <h3>By-Reference Deposit</h3>
 <p>By-Reference Deposit is when the client provides the server with URLs for Files which it would like the server to retrieve asynchronously 
 to the deposit request itself.  </p>
 <p>This could be useful in a number of contexts, such as when the files are very large and are stored on 
 specialist staging hardware, or where the files are already readily available elsewhere.</p>
-<p></section></p>            </div>
+</section>
+<section class=title>
+<h2>Thanks for Listening</h2>
+
+<p>Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com</p>
+</section>            </div>
         </div>
 		<script src="assets/js/reveal/reveal.js"></script>
 		<script>
