@@ -498,12 +498,16 @@ def url(file_cfg, config, relpath):
     return base + relpath
 
 
-def http_exchange(file_cfg, config, source, method, url, response, include_headers=None):
+def http_exchange(file_cfg, config, source, method, url, response, include_headers=None, request_body=None, header_values=None):
     bd = config.get("src_dir")
     path = os.path.join(bd, source)
     if include_headers is not None:
         if not isinstance(include_headers, list):
             include_headers = [include_headers]
+    header_values_lookup = {}
+    if header_values is not None:
+        for i in range(0, len(header_values), 2):
+            header_values_lookup[header_values[i]] = header_values[i+1]
 
     frag = method.upper() + " " + url + " HTTP/1.1\n"
     with codecs.open(path, "rb", "utf-8") as f:
@@ -516,12 +520,22 @@ def http_exchange(file_cfg, config, source, method, url, response, include_heade
         if include_headers is not None:
             headers = [h for h in headers if h.get("name") in include_headers]
         for h in headers:
-            frag += h.get("name") + ": ...\n"
+            val = header_values_lookup.get(h.get("name"), "...")
+            frag += h.get("name") + ": " + val + "\n"
+
+        if request_body is None:
+            request_body = request.get("requestBody", {}).get("description")
+        if request_body is not None:
+            frag += "\n"
+            frag += "[" + request_body + "]\n"
 
         frag += "\n\n"
 
         frag += "HTTP/1.1 " + response + "\n"
         resp = request.get("responses", {}).get(response)
+        resp_headers = resp.get("headers", {}).keys()
+        for rh in resp_headers:
+            frag += rh + ": ...\n"
         cts = resp.get("content", {}).keys()
         if len(cts) > 0:
             frag += "Content-Type: " + cts[0] + "\n"

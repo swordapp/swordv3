@@ -73,7 +73,7 @@ Content-Type: application/json
   &quot;accept&quot; : [&quot;*/*&quot;],
   &quot;acceptArchiveFormat&quot; : [&quot;application/zip&quot;],
   &quot;acceptPackaging&quot; : [&quot;*&quot;],
-  &quot;acceptMetadata&quot; : [&quot;*&quot;],
+  &quot;acceptMetadata&quot; : [&quot;http://purl.org/net/sword/3.0/types/Metadata&quot;],
 
   &quot;collectionPolicy&quot; : {
     &quot;@id&quot; : &quot;http://www.myorg.ac.uk/collectionpolicy&quot;,
@@ -121,8 +121,12 @@ Digest: ...
 On-Behalf-Of: ...
 Packaging: ...
 
+[Content used to create new Object.  This can be one of: Metadata, By-Reference, Metadata+By-Reference, Binary File, Packaged Content, Empty Body]
+
 
 HTTP/1.1 201
+ETag: ...
+Location: ...
 Content-Type: application/json
 
 [Resource created, responds with Status Document]
@@ -138,6 +142,7 @@ On-Behalf-Of: ...
 
 
 HTTP/1.1 200
+ETag: ...
 Content-Type: application/json
 
 [Status Document]

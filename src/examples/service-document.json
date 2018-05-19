@@ -19,7 +19,7 @@
   "accept" : ["*/*"],
   "acceptArchiveFormat" : ["application/zip"],
   "acceptPackaging" : ["*"],
-  "acceptMetadata" : ["*"],
+  "acceptMetadata" : ["http://purl.org/net/sword/3.0/types/Metadata"],
 
   "collectionPolicy" : {
     "@id" : "http://www.myorg.ac.uk/collectionpolicy",
