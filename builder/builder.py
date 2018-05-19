@@ -80,8 +80,12 @@ class Command(object):
 
 def run(config):
     bd = config.get("build_dir")
-    if not os.path.exists(bd):
-        os.mkdir(bd)
+    od = config.get("out_dir")
+    shutil.rmtree(bd)
+    shutil.rmtree(od)
+    os.mkdir(bd)
+    os.mkdir(od)
+
     expand_dir = os.path.join(bd, "expand")
     number_dir = os.path.join(bd, "number")
     integrate_dir = os.path.join(bd, "integrate")
@@ -92,25 +96,40 @@ def run(config):
     if not os.path.exists(integrate_dir):
         os.mkdir(integrate_dir)
 
-    od = config.get("out_dir")
     files = config.get("files", [])
     for file_cfg in files:
-        of = file_cfg.get("out")
-        out = os.path.join(od, of)
-
         if file_cfg.get("process", False):
+
+            of = file_cfg.get("out")
+            out = os.path.join(od, of)
             text = build(file_cfg, config)
             with codecs.open(out, "wb", "utf-8") as f:
                 f.write(text)
         else:
-            src_dir = config.get("src_dir")
-            root = file_cfg.get("root")
-            infile = os.path.join(src_dir, root)
-            shutil.copy(infile, out)
+            _unprocessed_entry(file_cfg, config)
+
+
+def _unprocessed_entry(file_cfg, config):
+    src_dir = config.get("src_dir")
+    out_dir = config.get("out_dir")
+    root = file_cfg.get("root")
+    out_file = file_cfg.get("out")
+    root_dir = file_cfg.get("root_dir")
+    file_out_dir = file_cfg.get("out_dir")
+
+    if root is not None:
+        out = os.path.join(out_dir, out_file)
+        infile = os.path.join(src_dir, root)
+        shutil.copy(infile, out)
+    elif root_dir is not None:
+        indir = os.path.join(src_dir, root_dir)
+        out = os.path.join(out_dir, file_out_dir)
+        shutil.copytree(indir, out)
+
 
 def build(file_cfg, config, phases=None):
     if phases is None:
-        phases = ["expand", "number", "integrate", "render"]
+        phases = file_cfg.get("phases", ["expand", "number", "integrate", "render"])
     src_dir = config.get("src_dir")
     root = file_cfg.get("root")
     root = os.path.join(src_dir, root)
@@ -325,15 +344,26 @@ def table_rows_as_paras(file_cfg, config, source, links=None, bold=None, anchor=
             paras.append(para)
     return "\n\n".join(paras)
 
-def dl(file_cfg, config, source, term, definition, link=None):
+def dl(file_cfg, config, source, term, definition, link=None, size=None, offset=0):
     bd = config.get("src_dir")
     path = os.path.join(bd, source)
     frag = "<dl>"
+    offset = int(offset)
+    if size is not None:
+        size = int(size)
+
     with codecs.open(path, "rb", "utf-8") as f:
         reader = UnicodeReader(f)
         headers = reader.next()
 
+        n = 0
         for row in reader:
+            if size is not None and n >= size + offset:
+                break
+            n += 1
+            if n < offset + 1:
+                continue
+
             dt = None
             dd = None
             a = ""
@@ -341,7 +371,7 @@ def dl(file_cfg, config, source, term, definition, link=None):
                 col = row[i]
                 name = headers[i]
                 if name == term:
-                    a = '<a name="' + _anchor_name(col) + '">'
+                    a = '<a name="' + _anchor_name(col) + '"></a>'
                 if name == link:
                     col = "[" + col + "](" + col + ")"
                 if name == term:
@@ -353,6 +383,7 @@ def dl(file_cfg, config, source, term, definition, link=None):
             dt = markdown.markdown(dt)[3:-4]    # removes the <p> and </p> markdown inserts
             dd = markdown.markdown(dd)[3:-4]    # removes the <p> and </p> markdown inserts
             frag += "<dt>" + a + dt + "</dt><dd>" + dd + "</dd>"
+
     frag += "</dl>"
     return frag
 
@@ -391,6 +422,40 @@ def openapi_list_descriptions(file_cfg, config, source, field, keys=None):
 def url(file_cfg, config, relpath):
     base = config.get("base_url")
     return base + relpath
+
+
+def http_exchange(file_cfg, config, source, method, url, response, include_headers=None):
+    bd = config.get("src_dir")
+    path = os.path.join(bd, source)
+    if include_headers is not None:
+        if not isinstance(include_headers, list):
+            include_headers = [include_headers]
+
+    frag = method.upper() + " " + url + " HTTP/1.1\n"
+    with codecs.open(path, "rb", "utf-8") as f:
+        api = json.loads(f.read())
+        paths = api.get("paths")
+        path = paths.get(url)
+        request = path.get(method)
+
+        headers = [p for p in request.get("parameters", []) if p.get("in") == "header"]
+        if include_headers is not None:
+            headers = [h for h in headers if h.get("name") in include_headers]
+        for h in headers:
+            frag += h.get("name") + ": ...\n"
+
+        frag += "\n\n"
+
+        frag += "HTTP/1.1 " + response + "\n"
+        resp = request.get("responses", {}).get(response)
+        cts = resp.get("content", {}).keys()
+        if len(cts) > 0:
+            frag += "Content-Type: " + cts[0] + "\n"
+        frag += "\n"
+        frag += "[" + resp.get("description", "Empty Body") + "]\n"
+
+    return frag
+
 
 def openapi_paths(file_cfg, config, source, path_order=None, method_order=None, header_depth=1, omit=None, in_brief=None):
     if method_order is None:
@@ -1138,6 +1203,15 @@ def fig(file_cfg, config, target, alt=None):
         file_cfg["figures"].append(alt)
     return frag
 
+def title_slide(file_cfg, config, title, subtitle="", attribution=""):
+    frag = "<h2>" + title + "</h2>"
+    if subtitle != "":
+        frag += "<h3>" + subtitle + "</h3>"
+    frag += "\n\n"
+    frag += attribution
+    return frag
+
+
 ############
 
 COMMANDS = {
@@ -1165,7 +1239,9 @@ COMMANDS = {
     "sections" : sections,
     "img" : img,
     "fig" : fig,
-    "content_disposition" : content_disposition
+    "content_disposition" : content_disposition,
+    "title_slide" : title_slide,
+    "http_exchange" : http_exchange
 }
 
 EXPAND_COMMANDS = ["include", "openapi_paths", "requirements_table"]

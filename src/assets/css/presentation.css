@@ -1,0 +1,29 @@
+section p {
+    font-size: 30px !important;
+    text-align: left;
+}
+
+section dl {
+    font-size: 30px !important;
+}
+
+.title p {
+    text-align: center;
+}
+
+pre code {
+    background: #eeeeee;
+    padding-left: 0;
+    padding-right: 0;
+    border: 0;
+    white-space: pre !important;
+}
+
+code {
+    background: #fffd5d;
+    padding-left: 3px;
+    padding-right: 3px;
+    border: 1px solid #ffd73f !important;
+    border-radius: 3px;
+    white-space: nowrap;
+}

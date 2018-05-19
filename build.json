@@ -23,6 +23,14 @@
 			"footer" : "templates/foot.html"
 		},
 		{
+			"root" : "presentations/OVERVIEW.md",
+			"out" : "overview.html",
+			"process" : true,
+			"header" : "templates/head_presentation.html",
+			"footer" : "templates/foot_presentation.html",
+			"phases" : ["expand", "integrate", "render"]
+		},
+		{
 			"root" : "schemas/openapi.json",
 			"out" : "openapi.json",
 			"process" : false
@@ -63,8 +71,8 @@
 			"process" : false
 		},
 		{
-			"root" : "assets/css/swordv3.css",
-			"out" : "swordv3.css",
+			"root_dir" : "assets",
+			"out_dir" : "assets",
 			"process" : false
 		},
 		{
