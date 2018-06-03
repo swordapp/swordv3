@@ -16,15 +16,13 @@
 
 3. Usage Patterns and Requirements
 
-    **---- short break ----**
-
 4. Differences to SWORDv2
+
+    ** --- morning break --- **
 
 5. New Features
 
 6. Community
-
-    **---- short break ----**
 
 7. Discussion on new version and feedback on new features
 
@@ -65,8 +63,6 @@ approx 1 minute each.
 1. [Overview]({% url overview.html %})
 
 2. [Usage Patterns and Requirements]({% url usage-patterns-and-requirements.html %})
-
-    **---- short break ----**
 
 3. [Differences to SWORDv2]({% url differences-to-swordv2.html %})
 
