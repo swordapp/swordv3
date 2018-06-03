@@ -9,6 +9,8 @@
 
 {~ html section ~}
 
+{~ html section ~}
+
 SWORD 3.0 is a protocol enabling clients and servers to communicate around complex digital objects
 
 Complex digital objects consist of both Metadata and File content, where the Files may be in a variety of formats, there may be many files, 
@@ -17,6 +19,29 @@ and some may be very large.
 It defines semantics for creating, appending, replacing, deleting, and retrieving information about these complex resources.  
 
 It also enables servers to communicate regarding the status of treatment of deposited content, such as exposing ingest workflow information.
+
+{~ html /section ~}
+
+{~ html section ~}
+
+The first major version of SWORD (1.3) built upon the Resouce creation aspects of AtomPub to enable 
+fire-and-forget package deposit onto a server.
+
+There are use-cases where this is insufficient: e.g. that the depositor wishes to construct a digital artifact file by file over a 
+period of time before deciding that it is time to archive it. 
+
+SWORD 2.0 was developed to service these use cases.
+
+SWORD 3.0 is a radical departure from SWORD 2.0, eliminating ties with AtomPub, and moving to a much
+stricter REST+JSON approach, utilising JSON-LD for alignment with Linked Data, and supporting Research Data Management use cases.
+
+{~ html /section ~}
+
+{~ html section ~}
+
+SWORD has been funded and supported by [Jisc](https://jisc.ac.uk) since the beginning.
+
+{~ html /section ~}
 
 {~ html /section ~}
 
@@ -30,18 +55,19 @@ It also enables servers to communicate regarding the status of treatment of depo
 
 {~ html section ~}
 
+{~ html section ~}
+
 ### Document Types
 
 {% dl tables/documents.csv,term=Name,definition=Description,size=5 %} 
 
 {~ html /section ~}
 
-
 {~ html section ~}
 
-### Document Types
-
 {% dl tables/documents.csv,term=Name,definition=Description,size=5,offset=5 %} 
+
+{~ html /section ~}
 
 {~ html /section ~}
 

@@ -55,6 +55,14 @@
 			"phases" : ["expand", "integrate", "render"]
 		},
 		{
+			"root" : "presentations/WORKSHOP.md",
+			"out" : "workshop.html",
+			"process" : true,
+			"header" : "templates/head_presentation.html",
+			"footer" : "templates/foot_presentation.html",
+			"phases" : ["expand", "integrate", "render"]
+		},
+		{
 			"root" : "schemas/openapi.json",
 			"out" : "openapi.json",
 			"process" : false
