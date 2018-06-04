@@ -22,9 +22,9 @@
 
 5. New Features
 
-6. Community
+6. Discussion on new version and feedback on new features
 
-7. Discussion on new version and feedback on new features
+7. Community
 
 {~ html /section ~}
 
@@ -73,20 +73,18 @@ approx 1 minute each.
 
 {~ html section ~}
 
-## Community Presentations
-
-TODO
-
-{~ html /section ~}
-
-
-{~ html section ~}
-
 ## Discussion
 
 * What are your use cases, and how would this spec meet/not meet them?
 * What context do you see (if any) for your use of SWORDv3?
 * Do the features scratch any itches you have?
 * Any other comments/feedback?
+
+{~ html /section ~}
+
+
+{~ html section ~}
+
+## Community Presentations
 
 {~ html /section ~}
