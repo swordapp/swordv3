@@ -3,9 +3,8 @@
 {~ html /div ~}
 
 {~ html div,clazz=spec ~}
-DRAFT 4
 
-Last modified: {% date now,%Y-%m-%d %}
+{% include VERSION.md %}
 {% include sections/INTRODUCTION.md %}
 {% include sections/TERMINOLOGY.md %}
 {% include sections/STRUCTURE.md %}
