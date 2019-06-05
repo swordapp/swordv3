@@ -7,10 +7,10 @@
 **Funder Liaison**: Dom Fripp, Jisc
 
 **Technical Advisory Group**:
-Adam Rehin, Adrian Stevenson, Alan Stiles, Catherine Jones, Claire Knowles, David Moles, David Wilcox, Eoghan Ó Carragáin, Erick Peirson, 
+Adam Rehin, Adrian Stevenson, Alan Stiles, Catherine Jones, Claire Knowles, David Moles, David Wilcox, Eoghan &Oacute; Carrag&aacute;in, Erick Peirson, 
 Gertjan Filarski, Goosyara Kovbasniy, Graham Triggs, Hideaki Takeda, Jan van Mansum, Jauco Noordzij, Jochen Schirrwagen, John Chodacki,
-Justin Simpson, Lars Holm Nielsen, Marisa Strong, Martin Wrigley, Masaharu Hayashi, Masud Khokhar, Mike Jackson, Mike Jackson,
-Morane GRUENPETER, Neil Chue Hong, Paul Walk, Peter Sefton, Ralf Claussnitzer, Ricardo Otelo Santos Saraiva Cruz, Richard Rodgers, 
+Justin Simpson, Lars Holm Nielsen, Marisa Strong, Martin Wrigley, Masaharu Hayashi, Masud Khokhar, Mike Jackson,
+Morane Gruenpeter, Neil Chue Hong, Paul Walk, Peter Sefton, Ralf Claussnitzer, Ricardo Otelo Santos Saraiva Cruz, Richard Rodgers, 
 Scott Wilson, Shannon Searle, Stephanie Taylor, Stuart Lewis, Tomasz Parkola, Vitali Peil
 
 
