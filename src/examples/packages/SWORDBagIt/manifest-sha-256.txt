@@ -1,0 +1,2 @@
+bd0481b0b89023f3f011dff2e127045a29a48269ec45eb9f747ecaa18c23c2bd    data/datafile.txt
+459737ee1656f5e5a8b7ef4d8502fab3fb9fe56043014f386b4bfd24572508ba    data/anotherfile.txt
