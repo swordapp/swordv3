@@ -1,10 +1,11 @@
 Error Type,Error Code,Reason
-AuthenticationFailed,403,"The request supplied invalid credentials, or no credentials, when the server was expecting to authenticate the request."
+AuthenticationFailed,401,"The request supplied invalid credentials, or no credentials, when the server was expecting to authenticate the request."
 BadRequest,400,The request did not meet the standard specified by the SWORD protocol. This error can be used when no other error is appropriate
 ByReferenceFileSizeExceeded,400,"The client supplied a By-Reference deposit file, which specified a file size which exceeded the server's limit"
 ByReferenceNotAllowed,412,The client attempted to carry out a By-Reference deposit on a server which does not support it
 ContentMalformed,400,"The body content of the request was malformed in some way, such that the server cannot read it correctly."
 ContentTypeNotAcceptable,415,The `Content-Type` header specifies a content type of the request which is in a format that the server cannot accept.
+DepositComplete,403,"The deposit is not In-Progress, so can no longer be altered."
 DigestMismatch,412,One or more of the Digests that the server checked did not match the deposited content
 ETagNotMatched,412,The client supplied an `If-Match` header which did not match the current `ETag` for the resource being updated.
 ETagRequired,412,"The client did not supply an `If-Match` header, when one was required by the server"

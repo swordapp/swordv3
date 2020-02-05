@@ -119,6 +119,11 @@
 			"root" : "diagrams/structure.png",
 			"out" : "structure.png",
 			"process" : false
+		},
+		{
+			"root": "tables/error-types.csv",
+			"out": "error-types.csv",
+			"process": false
 		}
 	],
 
