@@ -1,0 +1,25 @@
+{
+    "src_dir" : "src",
+    "out_dir" : "site",
+    "build_dir" : "_build",
+
+    "base_url" : "https://swordapp.github.io/swordv3/",
+	"utils" : {
+        "url_for" : {
+            "include_base_url" : false,
+            "include_file_suffix" : true
+        }
+    },
+
+    "exports" : [
+        { "source" : "data/schemas/by-reference.schema.json", "target" : "by-reference.schema.json" },
+        { "source" : "data/schemas/error.schema.json", "target" : "error.schema.json" },
+        { "source" : "data/schemas/metadata.schema.json", "target" : "metadata.schema.json" },
+        { "source" : "data/schemas/openapi.json", "target" : "openapi.json" },
+        { "source" : "data/schemas/openapi.yaml", "target" : "openapi.yaml" },
+        { "source" : "data/schemas/segmented-file-upload.schema.json", "target" : "segmented-file-upload.schema.json" },
+        { "source" : "data/schemas/service-document.schema.json", "target" : "service-document.schema.json" },
+        { "source" : "data/schemas/status.schema.json", "target" : "status.schema.json" },
+        { "source" : "data/schemas/swordv3.jsonld", "target" : "swordv3.jsonld" }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+  "@context" : "https://swordapp.github.io/swordv3/swordv3.jsonld",
+
+  "@id" : "http://example.com/object/1/metadata",
+  "@type" : "Metadata",
+
+  "dc:title" : "The title",
+  "dcterms:abstract" : "This is my abstract",
+  "dc:contributor" : "A.N. Other"
+}

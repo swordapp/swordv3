@@ -1,0 +1,114 @@
+{
+	"$id" : "http://purl.org/net/sword/3.0/types/ServiceDocument",
+
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title" : "Service Document",
+	"description" : "The By-Reference document allows the client to send a list of one or more files that the server will fetch asynchronously.",
+	"type" : "object",
+
+	"properties": {
+		"@context": {
+			"$id": "/properties/@context",
+			"type": "string",
+			"title": "The JSON-LD Context for this document",
+			"description": "MUST be present.",
+			"examples": [
+				"https://swordapp.github.io/swordv3/swordv3.jsonld"
+			]
+		},
+		"@type": {
+			"$id": "/properties/@type",
+			"type": "string",
+			"title": "JSON-LD identifier for the document type",
+			"description": "This field is used to define the type of the document, and in this case should always be 'ByReference'.  MUST be present."
+		},
+		"byReferenceFiles": {
+			"$id": "/properties/byReferenceFiles",
+			"type": "array",
+			"title" : "List of files to deposit By-Reference",
+			"description" : "MUST be present and contain one or more entries",
+			"items": {
+				"$id": "/properties/byReferenceFiles/items",
+				"type": "object",
+				"properties": {
+					"@id": {
+						"$id": "/properties/byReferenceFiles/items/properties/@id",
+						"type": "string",
+						"title": "The URL of the file to be retrieved and deposited",
+						"description" : "MUST be present",
+						"examples": [
+							"http://www.otherorg.ac.uk/by-reference/file.zip"
+						]
+					},
+					"contentType": {
+						"$id": "/properties/byReferenceFiles/items/properties/contentType",
+						"type": "string",
+						"title": "The Content-Type of the file to be retrieved and deposited",
+						"description" : "MUST be present",
+						"examples": [
+							"application/zip"
+						]
+					},
+					"contentLength": {
+						"$id": "/properties/byReferenceFiles/items/properties/contentLength",
+						"type": "integer",
+						"title": "Content-Length as it would have been supplied if this were a regular file deposit.",
+						"description" : "SHOULD be present",
+						"examples": [
+							123456
+						]
+					},
+					"contentDisposition": {
+						"$id": "/properties/byReferenceFiles/items/properties/contentDisposition",
+						"type": "string",
+						"title": "Content-Disposition as it would have been supplied if this were a regular file deposit.",
+						"description" : "MUST be present",
+						"examples": [
+							"attachment; filename=file.zip"
+						]
+					},
+					"packaging": {
+						"$id": "/properties/byReferenceFiles/items/properties/packaging",
+						"type": "string",
+						"title": "The packaging format of the file, or the Binary file identifier",
+						"description" : "SHOULD be present.  If this is not provided, the server MUST assume this is the Binary format: http://purl.org/net/sword/3.0/package/Binary",
+						"default": "http://purl.org/net/sword/3.0/package/Binary",
+						"examples": [
+							"http://purl.org/net/sword/packaging/SimpleZip"
+						]
+					},
+					"digest": {
+						"$id": "/properties/byReferenceFiles/items/properties/digest",
+						"type": "string",
+						"title": "Digest as it would have been supplied if this were a regular file deposit.",
+						"description": "MUST be present",
+						"examples": [
+							"SHA256=...."
+						]
+					},
+					"ttl": {
+						"$id": "/properties/byReferenceFiles/items/properties/ttl",
+						"type": "string",
+						"title": "A timestamp which indicates when the file will no longer be available (Time To Live)",
+						"description": "If no date is provided, the server MAY assume the file will be available indefinitely.",
+						"examples": [
+							"2018-04-16T00:00:00Z"
+						]
+					},
+					"dereference": {
+						"$id": "/properties/byReferenceFiles/items/properties/dereference",
+						"type": "boolean",
+						"title": "Should the server dereference the file (i.e. download it and store it locally) or should it simply maintain a link to the external resource.",
+						"description" : "MUST be present.  Note that servers MAY choose to do both, irrespective of the value here, though if `false`, the server should make the external link available to users accessing the resource.",
+						"examples": [
+							true
+						]
+					}
+				},
+				"required" : ["@id", "contentType", "contentDisposition", "digest", "dereference"]
+			}
+		}
+	},
+
+	"required" : ["@context", "@type", "byReferenceFiles"]
+}

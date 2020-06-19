@@ -1,0 +1,20 @@
+{
+    "original_deposit" : {
+      "@id" : "http://www.myorg.ac.uk/sword3/object1/package.zip",
+      "rel" : ["http://purl.org/net/sword/3.0/terms/originalDeposit"],
+      "contentType" : "application/zip",
+      "packaging" : "http://purl.org/net/sword/3.0/package/SimpleZip",
+      "depositedOn" : "[timestamp]",
+      "depositedBy" : "[user identifier]",
+      "depositedOnBehalfOf" : "[user identifier]",
+      "byReference" : "http://www.otherorg.ac.uk/by-reference/file.zip",
+      "status" : "http://purl.org/net/sword/3.0/filestate/ingested",
+      "log" : "[any information associated with the deposit that the client should know]"
+    },
+    "packaged_content" : {
+      "@id" : "http://www.myorg.ac.uk/sword3/object1/package.1.zip",
+      "rel" : ["http://purl.org/net/sword/terms/packagedContent"],
+      "contentType" : "application/zip",
+      "packaging" : "http://purl.org/net/sword/3.0/package/SimpleZip"
+    }
+}

@@ -1,0 +1,1013 @@
+openapi: 3.0.0
+info:
+  version: 3.0.0
+  title: SWORDv3 Protocol Operations
+paths:
+  /Service-URL:
+    get:
+      summary: Retrieve the Service Document
+      operationId: getService
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Service Document
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    post:
+      summary: Make a new Object
+      operationId: doDeposit
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: Content-Length
+          schema:
+            type: integer
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+        - in: header
+          name: Digest
+          schema:
+            type: string
+        - in: header
+          name: In-Progress
+          schema:
+            type: string
+        - in: header
+          name: Metadata-Format
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+        - in: header
+          name: Packaging
+          schema:
+            type: string
+        - in: header
+          name: Slug
+          schema:
+            type: string
+      requestBody:
+        description: "Content used to create new Object.  This can be one of: Metadata, By-Reference, Metadata+By-Reference, Binary File, Packaged Content, Empty Body"
+        content:
+          application/json:
+            schema:
+              type: object
+          "*/*":
+            schema:
+              type: string
+              format: binary
+      responses:
+        '201':
+          description: Resource created, responds with Status Document
+          headers:
+            Location:
+              description: Object-URL
+              schema:
+                type: string
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+        '202':
+          description: Resource accepted for processing, responds with Status Document
+          headers:
+            Location:
+              description: Object-URL
+              schema:
+                type: string
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+
+  /Object-URL:
+    get:
+      summary: Retrieve the Status information for the Object
+      operationId: getObject
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status Document
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    post:
+      summary: Append data to an Object
+      operationId: appendObject
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: Content-Length
+          schema:
+            type: integer
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+        - in: header
+          name: Digest
+          schema:
+            type: string
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+        - in: header
+          name: In-Progress
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+        - in: header
+          name: Packaging
+          schema:
+            type: string
+        - in: header
+          name: Metadata-Format
+          schema:
+            type: string
+      requestBody:
+        description: "Content to be appended to the Object.  This can be one of: Metadata, By-Reference, Metadata+By-Reference, Binary File, Packaged Content, Empty Body"
+        content:
+          application/json:
+            schema:
+              type: object
+          "*/*":
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Content appended, responds with Status Document
+          headers:
+            Location:
+              description: The File-URL
+              schema:
+                type: string
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+        '202':
+          description: Content accepted for append, responds with Status Document
+          headers:
+            Location:
+              description: The File-URL
+              schema:
+                type: string
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    put:
+      summary: Replace the Object
+      operationId: replaceObject
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: Content-Length
+          schema:
+            type: integer
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+        - in: header
+          name: Digest
+          schema:
+            type: string
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+        - in: header
+          name: In-Progress
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+        - in: header
+          name: Packaging
+          schema:
+            type: string
+        - in: header
+          name: Metadata-Format
+          schema:
+            type: string
+      requestBody:
+        description: "Content to replace the Object.  This can be one of: Metadata, By-Reference, Metadata+By-Reference, Binary File, Packaged Content, Empty Body"
+        content:
+          application/json:
+            schema:
+              type: object
+          "*/*":
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Replace carried out, responds with Status Document
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+        '202':
+          description: Replace accepted for action, responds with Status Document
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    delete:
+      summary: Delete the Object
+      operationId: deleteObject
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Object Deleted
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+  /Metadata-URL:
+    get:
+      summary: Retrieve the Metadata
+      operationId: getMetadata
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Metadata Document
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    put:
+      summary: Replace the Metadata
+      operationId: replaceMetadata
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: Content-Length
+          schema:
+            type: integer
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+        - in: header
+          name: Digest
+          schema:
+            type: string
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+        - in: header
+          name: Metadata-Format
+          schema:
+            type: string
+      requestBody:
+        description: "Content to replace the Metadata.  This must be a Metadata Document."
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '204':
+          description: Metadata Replaced, no response body
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+  /FileSet-URL:
+    put:
+      summary: Replace the FileSet
+      operationId: replaceFileSet
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: Content-Length
+          schema:
+            type: integer
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+        - in: header
+          name: Digest
+          schema:
+            type: string
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+        - in: header
+          name: Packaging
+          schema:
+            type: string
+      requestBody:
+        description: "Content to replace the FileSet.  This can be one of: By-Reference, Binary File, Empty Body"
+        content:
+          application/json:
+            schema:
+              type: object
+          "*/*":
+            schema:
+              type: string
+              format: binary
+      responses:
+        '204':
+          description: FileSet Replaced, no response body
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+        '202':
+          description: FileSet replacement accepted for processing, no response body
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    delete:
+      summary: Delete the FileSet
+      operationId: deleteFileSet
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '204':
+          description: FileSet Deleted
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+  /File-URL:
+    get:
+      summary: Retrieve an individual File
+      operationId: getMetadata
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Binary File
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+          content:
+            "*/*":
+              schema:
+                type: string
+                format: binary
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    put:
+      summary: Replace an individual File
+      operationId: replaceFile
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: Content-Length
+          schema:
+            type: integer
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+        - in: header
+          name: Digest
+          schema:
+            type: string
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      requestBody:
+        description: "Content to replace the File.  This can be one of: By-Reference, Binary File, Empty Body"
+        content:
+          application/json:
+            schema:
+              type: object
+          "*/*":
+            schema:
+              type: string
+              format: binary
+      responses:
+        '204':
+          description: Binary File replaced, no response body
+          headers:
+            ETag:
+              description: version identifier
+              schema:
+                type: string
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    delete:
+      summary: Delete an individual File
+      operationId: deleteFile
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: If-Match
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Binary File Deleted
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+  /Staging-URL:
+    post:
+      summary: Create a Temporary-URL for Segmented File Upload
+      operationId: createTemporary
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Temporary-URL created
+          headers:
+            Location:
+              description: The Temporary-URL to which Segmented File Upload requests can be sent
+              schema:
+                type: string
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+  /Temporary-URL:
+    get:
+      summary: Retrieve Information on a Segmented File Upload
+      operationId: getTemporary
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Segmented File Upload Document
+          content:
+            application/json:
+              schema:
+                type: object
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    post:
+      summary: Upload a File Segment
+      operationId: uploadFileSegment
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+        - in: header
+          name: Content-Length
+          schema:
+            type: integer
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+        - in: header
+          name: Digest
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      requestBody:
+        description: "Segment to be added to the Resource."
+        content:
+          "*/*":
+            schema:
+              type: string
+              format: binary
+      responses:
+        '204':
+          description: Segment Received
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '412':
+          $ref: '#/components/responses/PreconditionFailed'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+    delete:
+      summary: Abort a Segmented File Upload
+      operationId: abortSegmentedFile
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+        - in: header
+          name: On-Behalf-Of
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Temporary File Deleted
+        '400' :
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '301':
+          $ref: '#/components/responses/MovedPermanently'
+        '307':
+          $ref: '#/components/responses/TemporaryRedirect'
+        '308':
+          $ref: '#/components/responses/PermanentRedirect'
+components:
+  responses:
+    MovedPermanently:
+      description: "**301 (Moved Permanently)** - The URL you requested has changed, re-send this request and all future requests to the new URL"
+      headers:
+        Location:
+          description: The new location of the Object
+          schema:
+            type: string
+    TemporaryRedirect:
+      description: "**307 (Temporary Redirect)** - The URL you requested has temporarily changed, re-send this request to the new URL"
+      headers:
+        Location:
+          description: The new location of the Object
+          schema:
+            type: string
+    PermanentRedirect:
+      description: "**308 (Permanent Redirect)** - The URL you requested has changed, re-send this request and all future requests to the new URL"
+      headers:
+        Location:
+          description: The new location of the Object
+          schema:
+            type: string
+    BadRequest:
+      description: "**400 (BadRequest)** - The server could not understand your request.  Either your headers or content body are wrong or malformed."
+    Unauthorized:
+      description: "**401 (Unauthorized)** - You have not provided authentication information, please do so"
+    Forbidden:
+      description: "**403 (Forbidden)** - You are not authorised to access this resource"
+    NotFound:
+      description: "**404 (Not Found)** - There is no resource available at the URL you requested"
+    MethodNotAllowed:
+      description: "**405 (Method Not Allowed)** - The HTTP method you requested on the resource is not permitted/available in this context"
+    PreconditionFailed:
+      description: "**412 (Precondition Failed)** - There is a problem implementing the request as-is.  This can happen for the following reasons: your checksums may not match, you may have requested mediated deposit when the server does not support that, your headers may not be consistent with each other, your If-Match headers may not mat the current ETag, or your Segmented Upload Initialisation request may not be within parameters acceptable to the server."
+    PayloadTooLarge:
+      description: "**413 (Payload Too Large)** - Your request body exceeds the size allowed by the server"
+    UnsupportedMediaType:
+      description: "**415 (Unsupported Media Type)** - The metadata format is not the same as that identified in Metadata-Format and/or it is not supported by the server, or the packaging format is not the same as that identified in Packaging and/or it is not supported by the server"

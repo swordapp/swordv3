@@ -1,0 +1,59 @@
+{
+  "init" : {
+    "@id" : "http://www.myorg.ac.uk/sword3/object1/reference.zip",
+    "rel" : [
+      "http://purl.org/net/sword/3.0/terms/byReferenceDeposit",
+      "http://purl.org/net/sword/3.0/terms/originalDeposit",
+      "http://purl.org/net/sword/3.0/terms/fileSetFile"
+    ],
+    "byReference" : "http://www.otherorg.ac.uk/by-reference/file2.zip",
+    "eTag" : "1",
+    "status" : "http://purl.org/net/sword/3.0/filestate/pending"
+  },
+
+  "downloading" : {
+    "@id" : "http://www.myorg.ac.uk/sword3/object1/reference.zip",
+    "rel" : [
+      "http://purl.org/net/sword/3.0/terms/byReferenceDeposit",
+      "http://purl.org/net/sword/3.0/terms/originalDeposit",
+      "http://purl.org/net/sword/3.0/terms/fileSetFile"
+    ],
+    "byReference" : "http://www.otherorg.ac.uk/by-reference/file2.zip",
+    "eTag" : "1",
+    "status" : "http://purl.org/net/sword/3.0/filestate/downloading"
+  },
+
+  "unpacking" : {
+    "@id": "http://www.myorg.ac.uk/sword3/object1/reference.zip",
+    "rel": [
+      "http://purl.org/net/sword/3.0/terms/originalDeposit",
+      "http://purl.org/net/sword/3.0/terms/fileSetFile"
+    ],
+    "byReference": "http://www.otherorg.ac.uk/by-reference/file2.zip",
+    "eTag": "2",
+    "status": "http://purl.org/net/sword/3.0/filestate/unpacking"
+  },
+
+  "ingested" : {
+    "@id": "http://www.myorg.ac.uk/sword3/object1/reference.zip",
+    "rel": [
+      "http://purl.org/net/sword/3.0/terms/originalDeposit",
+      "http://purl.org/net/sword/3.0/terms/fileSetFile"
+    ],
+    "byReference": "http://www.otherorg.ac.uk/by-reference/file2.zip",
+    "eTag": "2",
+    "status": "http://purl.org/net/sword/3.0/filestate/ingested"
+  },
+
+  "error" : {
+    "@id": "http://www.myorg.ac.uk/sword3/object1/reference.zip",
+    "rel": [
+      "http://purl.org/net/sword/3.0/terms/originalDeposit",
+      "http://purl.org/net/sword/3.0/terms/fileSetFile"
+    ],
+    "byReference": "http://www.otherorg.ac.uk/by-reference/file2.zip",
+    "eTag": "2",
+    "status": "http://purl.org/net/sword/3.0/filestate/error",
+    "log" : "There was an error ingesting your file"
+  }
+}

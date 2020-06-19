@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SWORD 3.0 Specification</title>
+
+    <link rel="stylesheet" href="assets/css/swordv3.css">
+</head>
+<body>
+
+
+
+    <h1 class="main_title">SWORD 3.0 Specification</h1>
+
+    <div class="nav">
+        <div class="toc">
+            <ul>
+<li><a href="#1">1. Credits</a></li>
+<li><a href="#2">2. Introduction</a></li>
+<li><a href="#3">3. Notational Conventions</a></li>
+<li><a href="#4">4. Documents</a><ul>
+<li><a href="#4.1">4.1. JSON-LD Context</a></li>
+<li><a href="#4.2">4.2. Service Document</a></li>
+<li><a href="#4.3">4.3. Metadata Document</a></li>
+<li><a href="#4.4">4.4. By-Reference Document</a></li>
+<li><a href="#4.5">4.5. Metadata + By-Reference Document</a></li>
+<li><a href="#4.6">4.6. Status Document</a><ul>
+<li><a href="#4.6.1">4.6.1. Available <code>rel</code> types and their meanings</a></li>
+<li><a href="#4.6.2">4.6.2. Required SWORD State Information</a></li>
+<li><a href="#4.6.3">4.6.3. Ingest Statuses for Individual Files</a></li>
+</ul>
+</li>
+<li><a href="#4.7">4.7. Segmented File Upload Document</a></li>
+<li><a href="#4.8">4.8. Error Document</a><ul>
+<li><a href="#4.8.1">4.8.1. Error Types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+        </div>
+    </div>
+
+    <div class="spec">
+
+        <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
+<p><strong>Last modified</strong>: 2020-06-19 13:13</p>
+        <h1><a name="1"></a>1. Credits</h1>
+<p><strong>Technical Lead</strong>: Richard Jones, Cottage Labs</p>
+<p><strong>Community Lead</strong>: Neil Jefferies, University of Oxford</p>
+<p><strong>Funder Liaison</strong>: Dom Fripp, Jisc</p>
+<p><strong>Technical Advisory Group</strong>:
+Adam Rehin, Adrian Stevenson, Alan Stiles, Catherine Jones, Claire Knowles, David Moles, David Wilcox, Eoghan &Oacute; Carrag&aacute;in, Erick Peirson, 
+Gertjan Filarski, Goosyara Kovbasniy, Graham Triggs, Hideaki Takeda, Jan van Mansum, Jauco Noordzij, Jochen Schirrwagen, John Chodacki,
+Justin Simpson, Lars Holm Nielsen, Marisa Strong, Martin Wrigley, Masaharu Hayashi, Masud Khokhar, Mike Jackson,
+Morane Gruenpeter, Neil Chue Hong, Paul Walk, Peter Sefton, Ralf Claussnitzer, Ricardo Otelo Santos Saraiva Cruz, Richard Rodgers, 
+Scott Wilson, Shannon Searle, Stephanie Taylor, Stuart Lewis, Tomasz Parkola, Vitali Peil</p>
+<h1><a name="2"></a>2. Introduction</h1>
+<p>SWORD 3.0 is a protocol enabling clients and servers to communicate around complex digital objects, especially with regard to supporting the
+deposit of these objects into a service like a digital repository.  Complex digital objects consist of both Metadata and File content, 
+where the Files may be in a variety of formats, there may be many files, and some may be very large.  The protocol defines semantics for
+creating, appending, replacing, deleting, and retrieving information about these complex resources.  It also enables servers to communicate
+regarding the status of treatment of deposited content, such as exposing ingest workflow information.</p>
+<p>The first major version of SWORD [<a href="#sword_1.3">SWORD 1.3</a>] built upon the Resouce creation aspects of AtomPub [<a href="#atompub">AtomPub</a>] to enable 
+fire-and-forget package deposit onto a server.</p>
+<p>This approach, where the depositor has no further interaction with the server is of significant value in certain use cases, but there are 
+others where this is insufficient. Consider, for example, that the depositor wishes to construct a digital artifact file by file over a 
+period of time before deciding that it is time to archive it. In these cases, a higher level of interactivity between the participating 
+systems is required, and this is the role that SWORD 2.0 [<a href="#sword_2.0">SWORD 2.0</a>] was subsequently developed to fulfil.</p>
+<p>As the use cases for SWORD have developed further, it became clear that the increasing size of files repositories were being asked to deal
+with was an issue.  As a result of this, and the fact that the technological approach for SWORD 2.0 was starting to show its age, a new
+version, SWORD 3.0, has been developed.  This is a radical departure from SWORD 2.0, eliminating ties with AtomPub, and moving to a much
+stricter REST+JSON approach, utilising JSON-LD for alignment with Linked Data.  Its key differences to SWORD 2.0 from a functional
+perspective are:</p>
+<ul>
+<li>Support for By-Reference file deposit</li>
+<li>Support for Segmented file deposit</li>
+<li>More advanced native packaging and metadata formats</li>
+</ul>
+<h1><a name="3"></a>3. Notational Conventions</h1>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this 
+document are to be interpreted as described in [<a href="#rfc2119">RFC2119</a>].</p>
+        <h1><a name="4"></a>4. Documents</h1>
+<h2><a name="4.1"></a>4.1. JSON-LD Context</h2>
+<p>SWORD defines the semantics of its documents using JSON-LD [<a href="#json-ld">JSON-LD</a>].  You can see the full JSON-LD Context 
+<a href="/swordv3.jsonld">here</a></p>
+<h2><a name="4.2"></a>4.2. Service Document</h2>
+<p>The Service Document defines the capabilities and operational parameters of the server as a whole, or of a particular Service-URL.</p>
+<p>The Service Document consists of a set of properties at the root, and a list of "services".  Each service may define a Service-URL 
+and/or additional properties and further nested "services".  For the purposes of normalising the data held in the Service Document (for 
+brevity of the serialised document), the Service Document MAY specify at the root properties which MUST be taken to hold true for all 
+nested "services" (at any level below) unless that lower service definition overrides the properties.  A service which sits beneath the root of 
+the Service Document and above another Service, MAY also redefine properties, and those overrides MUST be considered to cascade down to 
+Services beneath that one.</p>
+<p>A Service Document can be retrieved either for the root of the service, or from any Service within the hierarchy of Services available. 
+If the root Service Document is requested, the full list of Services, including all their children, MUST be provided.  If the URL of a 
+Service is requested, it MUST only provide information about itself and its children.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/service-document.schema.json">here</a>.</p>
+<p>An example of the Service Document:</p>
+<pre><code class="json">{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@id&quot; : &quot;http://example.com/service-document&quot;,
+  &quot;@type&quot; : &quot;ServiceDocument&quot;,
+
+  &quot;dc:title&quot; : &quot;Site Name&quot;,
+  &quot;dcterms:abstract&quot; : &quot;Site Description&quot;,
+
+  &quot;root&quot; : &quot;http://example.com/service-document&quot;,
+  &quot;acceptDeposits&quot;: true,
+
+  &quot;version&quot;: &quot;http://purl.org/net/sword/3.0&quot;,
+  &quot;maxUploadSize&quot; : 16777216000,
+  &quot;maxByReferenceSize&quot; : 30000000000000000,
+  &quot;maxSegmentSize&quot; : 16777216000,
+  &quot;minSegmentSize&quot; : 1,
+  &quot;maxAssembledSize&quot; : 30000000000000,
+  &quot;maxSegments&quot; : 1000,
+
+  &quot;accept&quot; : [&quot;*/*&quot;],
+  &quot;acceptArchiveFormat&quot; : [&quot;application/zip&quot;],
+  &quot;acceptPackaging&quot; : [&quot;*&quot;],
+  &quot;acceptMetadata&quot; : [&quot;http://purl.org/net/sword/3.0/types/Metadata&quot;],
+
+  &quot;collectionPolicy&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/collectionpolicy&quot;,
+    &quot;description&quot; : &quot;....&quot;
+  },
+  &quot;treatment&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/treatment&quot;,
+    &quot;description&quot; : &quot;...&quot;
+  },
+
+  &quot;staging&quot; : &quot;http://example.com/staging&quot;,
+  &quot;stagingMaxIdle&quot; : 3600,
+
+  &quot;byReferenceDeposit&quot; : true,
+  &quot;onBehalfOf&quot; : true,
+
+  &quot;digest&quot; : [&quot;SHA-256&quot;, &quot;SHA&quot;, &quot;MD5&quot;],
+  &quot;authentication&quot;: [&quot;Basic&quot;, &quot;OAuth&quot;, &quot;Digest&quot;, &quot;APIKey&quot;],
+
+  &quot;services&quot; : [
+    {
+      &quot;@id&quot;: &quot;http://swordapp.org/deposit/43&quot;,
+
+      &quot;dc:title&quot; : &quot;Deposit Service Name&quot;,
+      &quot;dcterms:abstract&quot; : &quot;Deposit Service Description&quot;,
+
+      &quot;root&quot; : &quot;http://example.com/service-document&quot;,
+      &quot;parent&quot; : &quot;http://example.com/service-document&quot;,
+      &quot;acceptDeposits&quot;: true,
+
+      &quot;services&quot; : []
+    }
+  ]
+}
+</code></pre>
+
+<p>The fields available are defined as follows:</p>
+<p><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@context</td>
+<td>string</td>
+<td>The JSON-LD Context for this document<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@id</td>
+<td>string</td>
+<td>The URL of the service document you are looking at<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@type</td>
+<td>string</td>
+<td>JSON-LD identifier for the document type<br><br>This field is used to define the type of the document, and in this case should always be 'ServiceDocument'.  MUST be present.</td>
+</tr>
+<tr>
+<td>accept</td>
+<td>array</td>
+<td>List of Content Types which are acceptable to the server.<br><br>MUST be present.  '<em>/</em>' for any content type, or a list of acceptable content types</td>
+</tr>
+<tr>
+<td>acceptArchiveFormat</td>
+<td>array</td>
+<td>List of Archive Formats that the server can unpack.  If the server sends a package using a different format, the server MAY treat it as a Binary File<br><br>SHOULD be present.  '<em>' for any archive format (not recommended), or a list of acceptable formats.  If this is omitted, the client MUST assume the server only supports application/zip</td>
+</tr>
+<tr>
+<td>acceptDeposits</td>
+<td>boolean</td>
+<td>Does the Service accept deposits?<br><br>SHOULD be present.  If omitted, the client MUST assume that the service does not accept deposits.</td>
+</tr>
+<tr>
+<td>acceptMetadata</td>
+<td>array</td>
+<td>List of Metadata Formats which are acceptable to the server.<br><br>SHOULD be present.  '</em>' for any metadata format, or a list of acceptable metadata formats.  Acceptable metadata formats SHOULD be an IRI for a known format, or any other identifying string if no IRI exists.  If this is omitted, the client MUST assume the server only supports the standard SWORD metadata format: http://purl.org/net/sword/3.0/types/Metadata</td>
+</tr>
+<tr>
+<td>acceptPackaging</td>
+<td>array</td>
+<td>List of Packaging Formats which are acceptable to the server.<br><br>SHOULD be present.  '*' for any packaging format, or a list of acceptable packaging formats.  Acceptable packaging formats SHOULD be an IRI for a known format, or any other identifying string if no IRI exists.  If this is omitted, the client MUST assume the server only supports the 3 required SWORD packaging formats (see the section Packaging Formats)</td>
+</tr>
+<tr>
+<td>authentication</td>
+<td>array</td>
+<td>List of authentication schemes supported by the server.<br><br>SHOULD be present.  If not provided the client MUST assume the server does not support authentication.</td>
+</tr>
+<tr>
+<td>byReferenceDeposit</td>
+<td>boolean</td>
+<td>Does the server support By-Reference deposit?<br><br>SHOULD be present.   If omitted, the client MUST assume the server does not support By-Reference deposit.</td>
+</tr>
+<tr>
+<td>collectionPolicy</td>
+<td>object</td>
+<td>URL and description of the server’s collection policy.<br><br>MAY be present.</td>
+</tr>
+<tr>
+<td>collectionPolicy.@id</td>
+<td>string</td>
+<td>Collection Policy URL</td>
+</tr>
+<tr>
+<td>collectionPolicy.description</td>
+<td>string</td>
+<td>Collection Policy Description</td>
+</tr>
+<tr>
+<td>dc:title</td>
+<td>string</td>
+<td>The title or name of the Service<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>dcterms:abstract</td>
+<td>string</td>
+<td>A description of the service<br><br>MAY be present.</td>
+</tr>
+<tr>
+<td>digest</td>
+<td>array</td>
+<td>The list of digest formats that the server will accept.<br><br>MUST be present, and MUST include SHA-256, MAY include any others.</td>
+</tr>
+<tr>
+<td>maxAssembledSize</td>
+<td>integer</td>
+<td>Maximum size in bytes as an integer for the total size of an assembled segmented upload<br><br>SHOULD be present.  If omitted and segmented upload is supported, the client MUST assume the server will accept a file of any size.</td>
+</tr>
+<tr>
+<td>maxByReferenceSize</td>
+<td>integer</td>
+<td>Maximum size in bytes as an integer for files uploaded by reference.<br><br>SHOULD be present.  If omitted, the client MUST assume the server will accept a file of any size.</td>
+</tr>
+<tr>
+<td>maxSegmentSize</td>
+<td>integer</td>
+<td>Maximum size in bytes as an integer for an individual segment in a segmented upload<br><br>MAY be present.  If omitted and segmented upload is supported, the client MUST assume the maximum segment size is the same as maxUploadSize.</td>
+</tr>
+<tr>
+<td>maxSegments</td>
+<td>integer</td>
+<td>Maximum number of segments that the server will accept for a single segmented upload, if segmented upload is supported.<br><br>SHOULD be present.  If omitted, the client MUST assume the server will accept any number of segments.</td>
+</tr>
+<tr>
+<td>maxUploadSize</td>
+<td>integer</td>
+<td>Maximum size in bytes as an integer for files being uploaded.<br><br>SHOULD be present.  If omitted, the client MUST assume the server will accept an upload of any size.</td>
+</tr>
+<tr>
+<td>minSegmentSize</td>
+<td>integer</td>
+<td>Minimum size in bytes as an integer for an individual segment in a segmented upload<br><br>MAY be present.  If omitted and segmented upload is supported, the client MUST assume the manimum segment size 1 byte.</td>
+</tr>
+<tr>
+<td>onBehalfOf</td>
+<td>boolean</td>
+<td>Does the server support deposit on behalf of other users (mediation)<br><br>SHOULD be present.  If omitted, the client MUST assume the server does not support On-Behalf-Of deposit.</td>
+</tr>
+<tr>
+<td>root</td>
+<td>string</td>
+<td>The URL for the root Service Document.<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>services</td>
+<td>array</td>
+<td>List of Services contained within the parent service<br><br>MAY be present.</td>
+</tr>
+<tr>
+<td>staging</td>
+<td>string</td>
+<td>The URL where clients may stage content prior to deposit, in particular for segmented upload<br><br>MAY be present.  If omitted, the client MUST assume the server does not support Segmented Upload.</td>
+</tr>
+<tr>
+<td>stagingMaxIdle</td>
+<td>integer</td>
+<td>What is the minimum time a server will hold on to an incomplete Segmented File Upload since it last received any content before deleting it.<br><br>SHOULD be present.  If omitted, the client MUST assume that the server will hold on to the incomplete file indefinitely.  Servers MAY delete the unfinished upload at any time after the minimum time stated here has elapsed.</td>
+</tr>
+<tr>
+<td>treatment</td>
+<td>object</td>
+<td>URL and description of the treatment content can expect during deposit.<br><br>MAY be present.</td>
+</tr>
+<tr>
+<td>treatment.@id</td>
+<td>string</td>
+<td>Treatment URL</td>
+</tr>
+<tr>
+<td>treatment.description</td>
+<td>string</td>
+<td>Treatment Description</td>
+</tr>
+<tr>
+<td>version</td>
+<td>string</td>
+<td>The version of the SWORD protocol this server supports<br><br>MUST be present.</td>
+</tr>
+</tbody>
+</table></p>
+<h2><a name="4.3"></a>4.3. Metadata Document</h2>
+<p>The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms [<a href="#dcmi">DCMI</a>].  This 
+Metadata document can be sent when creating an Object initially, when appending to the metadata, or in replacing the metadata or indeed the 
+Object as a whole.</p>
+<p>The format of the document is simple and extensible (see the { section_link('Metadata Formats') } section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
+and servers MUST support this metadata format.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/metadata.schema.json">here</a>.</p>
+<p>An example of the Metadata Document:</p>
+<pre><code class="json">{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@id&quot; : &quot;http://example.com/object/1/metadata&quot;,
+  &quot;@type&quot; : &quot;Metadata&quot;,
+
+  &quot;dc:title&quot; : &quot;The title&quot;,
+  &quot;dcterms:abstract&quot; : &quot;This is my abstract&quot;,
+  &quot;dc:contributor&quot; : &quot;A.N. Other&quot;
+}
+</code></pre>
+
+<p>The fields available are defined as follows:</p>
+<p><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@context</td>
+<td>string</td>
+<td>The JSON-LD Context for this document<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@id</td>
+<td>string</td>
+<td>The URL of the Metadata Document you are looking at<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@type</td>
+<td>string</td>
+<td>JSON-LD identifier for the document type<br><br>This field is used to define the type of the document, and in this case should always be 'Metadata'.  MUST be present.</td>
+</tr>
+<tr>
+<td>^dc:.+$</td>
+<td>string</td>
+<td>Properties from the DC namespace<br><br>MAY be present.</td>
+</tr>
+<tr>
+<td>^dcterms:.+$</td>
+<td>string</td>
+<td>Properties from the DCTERMS namespace<br><br>MAY be present.</td>
+</tr>
+</tbody>
+</table></p>
+<p>When sending this document, the client MUST provide a <code>Content-Disposition</code> header of the form:</p>
+<pre><code>Content-Disposition: attachment; metadata=true
+</code></pre>
+
+<p>Additionally, when sending this document the client SHOULD provide the <code>Metadata-Format</code> header with the identifier 
+for the format: http://purl.org/net/sword/3.0/types/Metadata</p>
+<pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
+</code></pre>
+
+<p>If the client omits the <code>Metadata-Format</code> header, the server MUST assume that it is the above format.</p>
+<h2><a name="4.4"></a>4.4. By-Reference Document</h2>
+<p>The By-Reference document allows the client to send a list of one or more files that the server will fetch asynchronously.  The 
+By-Reference document can be sent when creating an Object initially, or when appending to or replacing the FileSet in the Object, or 
+replacing the Object as a whole.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/by-reference.schema.json">here</a>.</p>
+<p>An example of the By-Reference Document:</p>
+<pre><code class="json">{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@type&quot; : &quot;ByReference&quot;,
+
+  &quot;byReferenceFiles&quot; : [
+    {
+      &quot;@id&quot; : &quot;http://www.otherorg.ac.uk/by-reference/file.zip&quot;,
+      &quot;contentType&quot; : &quot;application/zip&quot;,
+      &quot;contentLength&quot; : 123456,
+      &quot;contentDisposition&quot; : &quot;attachment; filename=file.zip&quot;,
+      &quot;packaging&quot; : &quot;http://purl.org/net/sword/packaging/SimpleZip&quot;,
+      &quot;digest&quot; : &quot;SHA256=....&quot;,
+      &quot;ttl&quot; : &quot;2018-04-16T00:00:00Z&quot;,
+      &quot;dereference&quot; : true
+    }
+  ]
+}
+</code></pre>
+
+<p>The fields available are defined as follows:</p>
+<p><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@context</td>
+<td>string</td>
+<td>The JSON-LD Context for this document<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@type</td>
+<td>string</td>
+<td>JSON-LD identifier for the document type<br><br>This field is used to define the type of the document, and in this case should always be 'ByReference'.  MUST be present.</td>
+</tr>
+<tr>
+<td>byReferenceFiles</td>
+<td>array</td>
+<td>List of files to deposit By-Reference<br><br>MUST be present and contain one or more entries</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].@id</td>
+<td>string</td>
+<td>The URL of the file to be retrieved and deposited<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].contentDisposition</td>
+<td>string</td>
+<td>Content-Disposition as it would have been supplied if this were a regular file deposit.<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].contentLength</td>
+<td>integer</td>
+<td>Content-Length as it would have been supplied if this were a regular file deposit.<br><br>SHOULD be present</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].contentType</td>
+<td>string</td>
+<td>The Content-Type of the file to be retrieved and deposited<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].dereference</td>
+<td>boolean</td>
+<td>Should the server dereference the file (i.e. download it and store it locally) or should it simply maintain a link to the external resource.<br><br>MUST be present.  Note that servers MAY choose to do both, irrespective of the value here, though if <code>false</code>, the server should make the external link available to users accessing the resource.</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].digest</td>
+<td>string</td>
+<td>Digest as it would have been supplied if this were a regular file deposit.<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].packaging</td>
+<td>string</td>
+<td>The packaging format of the file, or the Binary file identifier<br><br>SHOULD be present.  If this is not provided, the server MUST assume this is the Binary format: http://purl.org/net/sword/3.0/package/Binary</td>
+</tr>
+<tr>
+<td>byReferenceFiles[].ttl</td>
+<td>string</td>
+<td>A timestamp which indicates when the file will no longer be available (Time To Live)<br><br>If no date is provided, the server MAY assume the file will be available indefinitely.</td>
+</tr>
+</tbody>
+</table></p>
+<p>When sending this document, the client MUST provide a <code>Content-Disposition</code> header of the form:</p>
+<pre><code>Content-Disposition: attachment; by-reference=true
+</code></pre>
+
+<h2><a name="4.5"></a>4.5. Metadata + By-Reference Document</h2>
+<p>In some cases it is convenient to be able to send both Metadata and By-Reference files in a single request.  This is possible because both 
+Metadata and By-Reference documents are simply JSON documents; contrast this with sending Metadata and Binary Files, where a package 
+is required.</p>
+<p>To do this, the client may include the Metadata and By-Reference documents embedded in a single JSON document, structured as shown below. 
+The entire Metadata document (including its JSON-LD <code>@context</code>) is embedded in a field entitled <code>metadata</code>, and the entire By-Reference 
+document (again, with its JSON-LD <code>@context</code>) is embedded in a field entitled <code>by-reference</code>.</p>
+<p>When a document of this form is sent, the client MUST set the <code>Content-Disposition</code> header appropriately, to alert the server of its 
+required behaviour.</p>
+<p>An example of the Metadata + By-Reference Document:</p>
+<pre><code class="json">{
+  &quot;metadata&quot; : {
+    &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+    &quot;@type&quot; : &quot;Metadata&quot;,
+
+    &quot;dcterms:abstract&quot; : &quot;....&quot;,
+    &quot;dc:contributor&quot; : &quot;...&quot;,
+    &quot;etc...&quot; : &quot;....&quot;
+  },
+
+  &quot;by-reference&quot; : {
+    &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+    &quot;@type&quot; : &quot;ByReference&quot;,
+
+    &quot;byReferenceFiles&quot; : []
+  }
+}
+</code></pre>
+
+<p>When sending this document, the client MUST provide a <code>Content-Disposition</code> header of the form:</p>
+<pre><code>Content-Disposition: attachment; metadata=true; by-reference=true
+</code></pre>
+
+<p>Additionally, when sending this document the client SHOULD provide the <code>Metadata-Format</code> header with the identifier for the format: 
+http://purl.org/net/sword/3.0/types/Metadata</p>
+<pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
+</code></pre>
+
+<p>If the client omits the <code>Metadata-Format</code> header, the server MUST assume that it is the above format.</p>
+<h2><a name="4.6"></a>4.6. Status Document</h2>
+<p>The status document is provided in response to a deposit operation on a Service-URL, and can be retrieved at any subsequent point by a
+GET on the Object-URL, and is returned each time the client takes action on the Object-URL.  It tells the client detailed information about 
+the content and current state of the item.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/status.schema.json">here</a>.</p>
+<p>An example of the Status Document:</p>
+<pre><code class="json">{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@id&quot; : &quot;http://example.com/object/1&quot;,
+  &quot;@type&quot; : &quot;Status&quot;,
+  &quot;eTag&quot; : &quot;...&quot;,
+
+  &quot;metadata&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/metadata&quot;,
+    &quot;eTag&quot; : &quot;...&quot;
+  },
+  &quot;fileSet&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/fileset&quot;,
+    &quot;eTag&quot; : &quot;...&quot;
+  },
+
+  &quot;service&quot; : &quot;http://swordapp.org/deposit/43&quot;,
+
+  &quot;state&quot; : [
+    {
+      &quot;@id&quot; : &quot;http://purl.org/net/sword/3.0/state/inProgress&quot;,
+      &quot;description&quot; : &quot;the item is currently inProgress&quot;
+    }
+  ],
+
+  &quot;actions&quot; : {
+    &quot;getMetadata&quot; : true,
+    &quot;getFiles&quot; : true,
+    &quot;appendMetadata&quot; : true,
+    &quot;appendFiles&quot; : true,
+    &quot;replaceMetadata&quot; : true,
+    &quot;replaceFiles&quot; : true,
+    &quot;deleteMetadata&quot; : true,
+    &quot;deleteFiles&quot; : true,
+    &quot;deleteObject&quot; : true
+  },
+
+  &quot;lastAction&quot; : {
+    &quot;timestamp&quot; : &quot;[xsd:dateTime]&quot;,
+    &quot;log&quot; : &quot;description of the event that occurred, with any verbose information&quot;,
+    &quot;treatment&quot; : {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/treatment&quot;,
+      &quot;description&quot; : &quot;treatment description&quot;
+    }
+  },
+
+  &quot;links&quot; : [
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/col1/mydeposit.html&quot;,
+      &quot;rel&quot; : [&quot;alternate&quot;],
+      &quot;contentType&quot; : &quot;text/html&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/package.zip&quot;,
+      &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/originalDeposit&quot;],
+      &quot;contentType&quot; : &quot;application/zip&quot;,
+      &quot;packaging&quot; : &quot;http://purl.org/net/sword/3.0/package/SimpleZip&quot;,
+      &quot;depositedOn&quot; : &quot;[timestamp]&quot;,
+      &quot;depositedBy&quot; : &quot;[user identifier]&quot;,
+      &quot;depositedOnBehalfOf&quot; : &quot;[user identifier]&quot;,
+      &quot;byReference&quot; : &quot;http://www.otherorg.ac.uk/by-reference/file.zip&quot;,
+      &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/ingested&quot;,
+      &quot;log&quot; : &quot;[any information associated with the deposit that the client should know]&quot;
+    },
+      {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/file1.pdf&quot;,
+      &quot;rel&quot; : [
+        &quot;http://purl.org/net/sword/3.0/terms/fileSetFile&quot;,
+        &quot;http://purl.org/net/sword/3.0/terms/derivedResource&quot;
+      ],
+      &quot;contentType&quot; : &quot;application/pdf&quot;,
+      &quot;derivedFrom&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/package.zip&quot;,
+      &quot;dcterms:relation&quot; : &quot;http://www.myorg.ac.uk/repo/123456789/file1.pdf&quot;,
+      &quot;dcterms:replaces&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/versions/file1.1.pdf&quot;,
+      &quot;eTag&quot; : &quot;...&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/package.1.zip&quot;,
+      &quot;rel&quot; : [&quot;http://purl.org/net/sword/terms/packagedContent&quot;],
+      &quot;contentType&quot; : &quot;application/zip&quot;,
+      &quot;packaging&quot; : &quot;http://purl.org/net/sword/3.0/package/SimpleZip&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.xml&quot;,
+      &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;],
+      &quot;contentType&quot; : &quot;text/json&quot;,
+      &quot;metadataFormat&quot; : &quot;http://purl.org/net/sword/3.0/types/Metadata&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/versions/file1.1.pdf&quot;,
+      &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/derivedResource&quot;],
+      &quot;contentType&quot; : &quot;application/pdf&quot;,
+      &quot;dcterms:isReplacedBy&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/file1.pdf&quot;,
+      &quot;versionReplacedOn&quot; : &quot;[xsd:dateTime]&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/reference.zip&quot;,
+      &quot;rel&quot; : [
+        &quot;http://purl.org/net/sword/3.0/terms/byReferenceDeposit&quot;,
+        &quot;http://purl.org/net/sword/3.0/terms/originalDeposit&quot;,
+        &quot;http://purl.org/net/sword/3.0/terms/fileSetFile&quot;
+      ],
+      &quot;byReference&quot; : &quot;http://www.otherorg.ac.uk/by-reference/file2.zip&quot;,
+      &quot;log&quot; : &quot;Any information on the download, especially if it failed&quot;,
+      &quot;eTag&quot; : &quot;...&quot;,
+      &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/ingested&quot;
+    }
+  ],
+
+  &quot;forwarding&quot; : [
+    {
+      &quot;@id&quot; : &quot;http://www.otherorg.ac.uk/sword3/object12&quot;,
+
+      &quot;links&quot; : [
+        {
+          &quot;@id&quot; : &quot;http://www.otherorg.ac.uk/col2/yourdeposit.html&quot;,
+          &quot;rel&quot; : [&quot;alternate&quot;],
+          &quot;contentType&quot; : &quot;text/html&quot;
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<p>The fields available are defined as follows:</p>
+<p><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@context</td>
+<td>string</td>
+<td>The JSON-LD Context for this document<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@id</td>
+<td>string</td>
+<td>The Object-URL for this document<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>@type</td>
+<td>string</td>
+<td>JSON-LD identifier for the document type<br><br>This field is used to define the type of the document, and in this case should always be 'Status'.  MUST be present.</td>
+</tr>
+<tr>
+<td>actions</td>
+<td>object</td>
+<td>Container for the list of actions that are available against the object for the client.<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>actions.appendFiles</td>
+<td>boolean</td>
+<td>Whether the client can issue a request to append one or more files (individually or via a package) to the item<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>actions.appendMetadata</td>
+<td>boolean</td>
+<td>Whether the client can issue a request to append the metadata of the item<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>actions.deleteFiles</td>
+<td>boolean</td>
+<td>Whether the client can issue a request to delete files in the item.  This may be a single file or all files.<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>actions.deleteMetadata</td>
+<td>boolean</td>
+<td>Whether the client can issue a request to delete all the item metadata.<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>actions.deleteObject</td>
+<td>boolean</td>
+<td>Whether the client can issue a request to delete the entire object.<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>actions.getFiles</td>
+<td>boolean</td>
+<td>Whether the client can issue a request to retrieve any/all files in the item (both Binary Files and Packaged Content)<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>actions.getMetadata</td>
+<td>boolean</td>
+<td>Whether the client can issue a request to retrieve the item metadata<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>actions.replaceFiles</td>
+<td>boolean</td>
+<td>Whether the client can issue a request to replace files in an item.  This may be a single file or all of the files.<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>actions.replaceMetadata</td>
+<td>boolean</td>
+<td>Whether the client can issue a request to replace the item metadata.<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>eTag</td>
+<td>string</td>
+<td>The current ETag for the Object<br><br>MUST be present if the repository enforces concurrency control</td>
+</tr>
+<tr>
+<td>fileSet</td>
+<td>object</td>
+<td>Information about the identifier/version of the Object's FileSet<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>fileSet.@id</td>
+<td>string</td>
+<td>The FileSet-URL for this Object<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>fileSet.eTag</td>
+<td>string</td>
+<td>The Etag for the FileSet<br><br>MUST be present if the server supports concurrency control</td>
+</tr>
+<tr>
+<td>forwarding</td>
+<td>array</td>
+<td>List of other locations where the object is available.<br><br>MAY be present</td>
+</tr>
+<tr>
+<td>forwarding[].@id</td>
+<td>string</td>
+<td>The SWORD identifier for the Object in the other system<br><br>MAY be present</td>
+</tr>
+<tr>
+<td>forwarding[].links</td>
+<td>array</td>
+<td>List of links to the Object as it appears in the other system<br><br>MAY be present</td>
+</tr>
+<tr>
+<td>forwarding[].links[].@id</td>
+<td>string</td>
+<td>The URL of a representation of the Object in the other system<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>forwarding[].links[].contentType</td>
+<td>string</td>
+<td>The Content Type of the resource<br><br>MAY be present</td>
+</tr>
+<tr>
+<td>forwarding[].links[].rel</td>
+<td>array</td>
+<td>The relationship to the Object that this URL has<br><br>MAY be present</td>
+</tr>
+<tr>
+<td>lastAction</td>
+<td>object</td>
+<td>Container for information about the last action taken on the object by a client (not necessarily the current client).<br><br>SHOULD be present, if appropriate</td>
+</tr>
+<tr>
+<td>lastAction.log</td>
+<td>string</td>
+<td>Detailed log information about the last action<br><br>MAY be present</td>
+</tr>
+<tr>
+<td>lastAction.timestamp</td>
+<td>string</td>
+<td>When the last action was taken by the client<br><br>SHOULD be present</td>
+</tr>
+<tr>
+<td>lastAction.treatment</td>
+<td>object</td>
+<td>Container for information about the treatment the item received in the last action<br><br>MAY be present</td>
+</tr>
+<tr>
+<td>lastAction.treatment.@id</td>
+<td>string</td>
+<td>URL for information about the treatment the item received<br><br>MAY be present</td>
+</tr>
+<tr>
+<td>lastAction.treatment.description</td>
+<td>string</td>
+<td>Description of the treatment the item received<br><br>MAY be present</td>
+</tr>
+<tr>
+<td>links</td>
+<td>array</td>
+<td>List of link objects referring to the various files, both content and metadata, available on the object<br><br>MUST be present if there is one or more links available to the client</td>
+</tr>
+<tr>
+<td>links[].@id</td>
+<td>string</td>
+<td>The URL of the resource<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>links[].byReference</td>
+<td>string</td>
+<td>The external URL of the location a By-Reference deposit was retrieved from<br><br>SHOULD be present if this is an Original Deposit that was deposited By-Reference, or is an active By-Reference deposit</td>
+</tr>
+<tr>
+<td>links[].contentType</td>
+<td>string</td>
+<td>Content type of the resource<br><br>SHOULD be present</td>
+</tr>
+<tr>
+<td>links[].dcterms:isReplacedBy</td>
+<td>string</td>
+<td>URL to a newer version of the file in the same Object, if this is present as a resource<br><br>SHOULD be present, if newer version is present</td>
+</tr>
+<tr>
+<td>links[].dcterms:relation</td>
+<td>string</td>
+<td>URL to a non-sword access point to the file<br><br>MAY be present.  For example, the URL from which an end-user would download the file via the website.  This related URL does not need to support any of the SWORD protocol operations, and indeed may even be on a server or application which has no sword support.  Primary use case is to redirect the user to the web front end for the repository.</td>
+</tr>
+<tr>
+<td>links[].dcterms:replaces</td>
+<td>string</td>
+<td>URL to an older version of the file in the same Object, if this is also present as a resource.<br><br>SHOULD be present, if an older version of the file is present</td>
+</tr>
+<tr>
+<td>links[].depositedBy</td>
+<td>string</td>
+<td>Identifier for the user that deposited the item<br><br>SHOULD be present if this is an Original Deposit</td>
+</tr>
+<tr>
+<td>links[].depositedOn</td>
+<td>string</td>
+<td>Timestamp of when the deposit happened<br><br>SHOULD be present if this is an Original Deposit</td>
+</tr>
+<tr>
+<td>links[].depositedOnBehalfOf</td>
+<td>string</td>
+<td>Identifier for the user that the item was deposited on behalf of.<br><br>SHOULD be present if this is an Original Deposit that was done On-Behalf-Of another user</td>
+</tr>
+<tr>
+<td>links[].derivedFrom</td>
+<td>string</td>
+<td>Reference to URL of resource from which the current resource was derived, for example, if extracted from a package that was deposited.<br><br>SHOULD be present, if the resource is derived from another resource</td>
+</tr>
+<tr>
+<td>links[].eTag</td>
+<td>string</td>
+<td>The eTag of the resource<br><br>MUST be present if the server supports concurrency control and the resource is available to the client to modify</td>
+</tr>
+<tr>
+<td>links[].log</td>
+<td>string</td>
+<td>Any information associated with the deposit that the client should know.<br><br>MAY be present</td>
+</tr>
+<tr>
+<td>links[].packaging</td>
+<td>string</td>
+<td>The package format identifier if the resource is a package.<br><br>SHOULD, if the resource is a package</td>
+</tr>
+<tr>
+<td>links[].rel</td>
+<td>array</td>
+<td>The relationship between the resource and the object.<br><br>MUST be present. Note that multiple relationships are supported.</td>
+</tr>
+<tr>
+<td>links[].status</td>
+<td>string</td>
+<td>The status of the resource, with regard to ingest.<br><br>SHOULD be present.  For example, packaged resources which are still being unpacked and ingested may announce their status here.  Likewise, by-reference deposits may do the same.  MUST be one of the allowed status URIs.  Any associated information to go along with the status, especially if the status is an error, SHOULD be in link[].log.  If no value is provided, the client MUST assume that the item is in the status: http://purl.org/net/sword/3.0/filestate/ingested</td>
+</tr>
+<tr>
+<td>links[].versionReplacedOn</td>
+<td>string</td>
+<td>Date that the current resource was replaced by a newer resource<br><br>SHOULD be present if dcterms:isReplacedBy is present</td>
+</tr>
+<tr>
+<td>metadata</td>
+<td>object</td>
+<td>Information about the identifier/version of the Object's Metadata<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>metadata.@id</td>
+<td>string</td>
+<td>The Metadata-URL for this Object<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>metadata.eTag</td>
+<td>string</td>
+<td>The ETag for the Metadata<br><br>MUST be present if the server supports concurrency control</td>
+</tr>
+<tr>
+<td>service</td>
+<td>string</td>
+<td>The URL for the service to which this item was deposited (the Service-URL)<br><br>MUST be present.  This is the URL from which the client can retrieve information about the settings for the server that are relevant to this item (e.g. max upload sizes, etc)</td>
+</tr>
+<tr>
+<td>state</td>
+<td>array</td>
+<td>List of states that the item is in on the server.<br><br>At least one state MUST be present, using the SWORD state vocabulary.  Other states using server-specific vocabularies may also be used alongside.</td>
+</tr>
+<tr>
+<td>state[].@id</td>
+<td>string</td>
+<td>Identifier for the state.<br><br>MUST be present.  At least one such identifier MUST be from the SWORD state vocabulary.</td>
+</tr>
+<tr>
+<td>state[].description</td>
+<td>string</td>
+<td>Human readable description of the state<br><br>MAY be present</td>
+</tr>
+</tbody>
+</table></p>
+<h3><a name="4.6.1"></a>4.6.1. Available <code>rel</code> types and their meanings</h3>
+<h4>alternate</h4>
+<p>An alternate, non-SWORD URL which will allow the user to access the same object.  For example, this could be the URL of the landing page in the repository for the item.</p>
+<h4>http://purl.org/net/sword/3.0/terms/originalDeposit</h4>
+<p>The resource (file or package) was explicitly deposited via some deposit operation.</p>
+<p>The relevant properties of the link section for any resource with this rel are</p>
+<ul>
+<li>packaging</li>
+<li>depositedOn</li>
+<li>depositedOnBehalfOf</li>
+<li>status</li>
+<li>log</li>
+<li>dcterms:relation</li>
+<li>dcterms:replaces</li>
+<li>dcterms:isReplacedBy</li>
+<li>versionReplaced</li>
+<li>eTag</li>
+<li>byReference</li>
+</ul>
+<h4>http://purl.org/net/sword/3.0/terms/derivedResource</h4>
+<p>A file which was unpacked or otherwise derived from another deposited resource, and which itself was not explicitly deposited through some deposit operation.  The main usage would be to identify files which were extracted from a deposited zip file.</p>
+<p>The relevant properties of the link section for any resource with this rel are</p>
+<ul>
+<li>derivedFrom</li>
+<li>dcterms:relation</li>
+<li>dcterms:replaces</li>
+<li>dcterms:isReplacedBy</li>
+<li>versionReplaced</li>
+<li>eTag</li>
+</ul>
+<h4>http://purl.org/net/sword/terms/packagedContent</h4>
+<p>A resource which makes this object available packaged in the specified package format on HTTP GET.  This is not a resource which has been deposited or derived (though it may be very similar to an originally deposited package), it is one which the server makes available as a service to the client.  Packages may be pre-built or assembled on the fly - that responsibility rests with the server.</p>
+<p>The relevant properties of the link section for any resource with this rel are</p>
+<ul>
+<li>packaging</li>
+</ul>
+<h4>http://purl.org/net/sword/3.0/terms/formattedMetadata</h4>
+<p>A resource which makes this object’s metadata available, serialised in the specified metadata format on HTTP GET.  This is not a resource which has been deposited or derived (though it may be very similar to the originally deposited metadata), it is one which the server makes available as a service to the client.  Metadata documents may be pre-built or assembled on the fly - that responsibility rests with the server.</p>
+<p>The relevant properties of the link section for any resource with this rel are</p>
+<ul>
+<li>metadataFormat</li>
+</ul>
+<h4>http://purl.org/net/sword/3.0/terms/byReferenceDeposit</h4>
+<p>A file which is currently being downloaded from an external reference.  Often will also have the rel for originalDeposit, and once all segments have been uploaded the byReferenceDeposit rel can be removed.</p>
+<p>The relevant properties of the link section for any resource with this rel are</p>
+<ul>
+<li>byReference</li>
+<li>status</li>
+</ul>
+<h4>http://purl.org/net/sword/3.0/terms/fileSetFile</h4>
+<p>A File which can be considered by the client to be part of the FileSet.  Files in this state are available for modification via the SWORD protocol, and should be considered to form the actual "content" of the Object.</p>
+<h3><a name="4.6.2"></a>4.6.2. Required SWORD State Information</h3>
+<p><code>state/@id</code> MUST contain one of:</p>
+<dl><dt><a name="http://purl.org/net/sword/3.0/state/accepted"></a>http://purl.org/net/sword/3.0/state/accepted</dt><dd>for records accepted for processing but not yet created</dd><dt><a name="http://purl.org/net/sword/3.0/state/inprogress"></a>http://purl.org/net/sword/3.0/state/inProgress</dt><dd>for records that have been deposited, but for which the deposit has not yet completed</dd><dt><a name="http://purl.org/net/sword/3.0/state/inworkflow"></a>http://purl.org/net/sword/3.0/state/inWorkflow</dt><dd>for records that are in the server’s ingest workflow</dd><dt><a name="http://purl.org/net/sword/3.0/state/ingested"></a>http://purl.org/net/sword/3.0/state/ingested</dt><dd>for records that are in the server’s archive state, whatever that might mean (e.g. published to the web)</dd><dt><a name="http://purl.org/net/sword/3.0/state/rejected"></a>http://purl.org/net/sword/3.0/state/rejected</dt><dd>for records that have been rejected from the server’s workflow</dd><dt><a name="http://purl.org/net/sword/3.0/state/deleted"></a>http://purl.org/net/sword/3.0/state/deleted</dt><dd>for tombstone records</dd></dl>
+
+<p>The state field is a list, so it may also contain other states that are server-specific in addition to the SWORD values.</p>
+<h3><a name="4.6.3"></a>4.6.3. Ingest Statuses for Individual Files</h3>
+<p>Some files, when deposited, may be processed asynchronously to the client’s request.  For example, large files that require unpacking, 
+by-reference deposits, etc.  In these cases, the client will not receive feedback on the state or success of their 
+deposit in the request/response exchange.  Instead, the client may monitor the file(s) via the Status document, and for each appropriate 
+file (Original Deposits), a “status” field will provide information on the current status of processing for that file.  </p>
+<p>The following statuses are permitted, servers SHOULD provide one of these by each relevant file:</p>
+<dl><dt><a name="http://purl.org/net/sword/3.0/filestate/pending"></a>http://purl.org/net/sword/3.0/filestate/pending</dt><dd>the server has not yet started to process this file. It may be in a queue, or it may still be in the process of deposit via a Segmented Upload.</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/downloading"></a>http://purl.org/net/sword/3.0/filestate/downloading</dt><dd>the server has started to download your By-Reference file, and is not yet complete</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/unpacking"></a>http://purl.org/net/sword/3.0/filestate/unpacking</dt><dd>the server has started unpacking your Packaged Content, and is not yet finished</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/error"></a>http://purl.org/net/sword/3.0/filestate/error</dt><dd>there was an error either downloading or unpacking your file; information should be available in the “log” field to aid the client in understanding what went wrong.</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/ingested"></a>http://purl.org/net/sword/3.0/filestate/ingested</dt><dd>the file has been successfully ingested</dd></dl>
+
+<h2><a name="4.7"></a>4.7. Segmented File Upload Document</h2>
+<p>A client may request information on an ongoing Segmented File Upload at any point via a GET to the Temporary-URL.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/segmented-file-upload.schema.json">here</a>.</p>
+<p>An example of the Segmented File Upload Document:</p>
+<pre><code class="json">{
+    &quot;@context&quot;: &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+    &quot;@id&quot;: &quot;http://example.com/temporary/1&quot;,
+    &quot;@type&quot;: &quot;Temporary&quot;,
+
+    &quot;segments&quot;: {
+        &quot;received&quot;: [
+            1,
+            2,
+            4
+        ],
+        &quot;expecting&quot;: [
+            3,
+            5
+        ],
+        &quot;size&quot;: 10000000,
+        &quot;segment_size&quot;: 2000000
+    }
+}
+</code></pre>
+
+<p>The fields available are defined as follows:</p>
+<p><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@context</td>
+<td>string</td>
+<td>The JSON-LD Context for this document<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>@id</td>
+<td>string</td>
+<td>The Temporary-URL for this document<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>@type</td>
+<td>string</td>
+<td>JSON-LD identifier for the document type<br><br>This field is used to define the type of the document, and in this case should always be 'Temporary'.  MUST be present.</td>
+</tr>
+<tr>
+<td>segments</td>
+<td>object</td>
+<td>Container for information on file segments<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>segments.expecting</td>
+<td>array</td>
+<td>This list of integers identifying the segments which are expected and that have not yet been deposited<br><br>MUST be present if there are any segments remaining to be uploaded</td>
+</tr>
+<tr>
+<td>segments.received</td>
+<td>array</td>
+<td>The list of integers identifying the segments that have been successfully uploaded so far.<br><br>MUST be present if one or more segments have been uploaded</td>
+</tr>
+<tr>
+<td>segments.segment_size</td>
+<td>integer</td>
+<td>The expected size in bytes of the segments (except the final one) that will be uploaded.<br><br>MUST be present.</td>
+</tr>
+<tr>
+<td>segments.size</td>
+<td>integer</td>
+<td>The expected size in bytes of the final resulting assembled file.<br><br>MUST be present.</td>
+</tr>
+</tbody>
+</table></p>
+<h2><a name="4.8"></a>4.8. Error Document</h2>
+<p>An error document is returned at any point that a synchronous operation fails.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/error.schema.json">here</a>.</p>
+<p>An example of the Error Document:</p>
+<pre><code class="json">{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@type&quot; : &quot;BadRequest&quot;,
+
+  &quot;timestamp&quot; : &quot;[xsd:dateTime]&quot;,
+  &quot;error&quot; : &quot;error summary&quot;,
+  &quot;log&quot; : &quot;text log of any debug information for the client&quot;
+}
+</code></pre>
+
+<p>The fields available are defined as follows:</p>
+<p><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@context</td>
+<td>string</td>
+<td>The JSON-LD Context for this document<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>@type</td>
+<td>string</td>
+<td>JSON-LD identifier for the document type<br><br>This field is used to define the type of the document, and in this case should be one of the allowed Error Doucment types.  MUST be present.</td>
+</tr>
+<tr>
+<td>error</td>
+<td>string</td>
+<td>A short summary/title for the error<br><br>MUST be present</td>
+</tr>
+<tr>
+<td>log</td>
+<td>string</td>
+<td>Some detail as to the error, with any information that might help resolve it.<br><br>SHOULD be present</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>string</td>
+<td>When the error occurred.<br><br>MUST be present</td>
+</tr>
+</tbody>
+</table></p>
+<h3><a name="4.8.1"></a>4.8.1. Error Types</h3>
+<p>The following are the error types that are available (to place in <code>@type</code>), their associated HTTP Status Code, and the legitimate reasons
+for returning that error:</p>
+<table>
+<thead>
+<tr>
+<th>Error Type</th>
+<th>Error Code</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AuthenticationFailed</td>
+<td>403</td>
+<td>The request supplied invalid credentials, or no credentials, when the server was expecting to authenticate the request.</td>
+</tr>
+<tr>
+<td>BadRequest</td>
+<td>400</td>
+<td>The request did not meet the standard specified by the SWORD protocol. This error can be used when no other error is appropriate</td>
+</tr>
+<tr>
+<td>ByReferenceFileSizeExceeded</td>
+<td>400</td>
+<td>The client supplied a By-Reference deposit file, which specified a file size which exceeded the server's limit</td>
+</tr>
+<tr>
+<td>ByReferenceNotAllowed</td>
+<td>412</td>
+<td>The client attempted to carry out a By-Reference deposit on a server which does not support it</td>
+</tr>
+<tr>
+<td>ContentMalformed</td>
+<td>400</td>
+<td>The body content of the request was malformed in some way, such that the server cannot read it correctly.</td>
+</tr>
+<tr>
+<td>ContentTypeNotAcceptable</td>
+<td>415</td>
+<td>The <code>Content-Type</code> header specifies a content type of the request which is in a format that the server cannot accept.</td>
+</tr>
+<tr>
+<td>DigestMismatch</td>
+<td>412</td>
+<td>One or more of the Digests that the server checked did not match the deposited content</td>
+</tr>
+<tr>
+<td>ETagNotMatched</td>
+<td>412</td>
+<td>The client supplied an <code>If-Match</code> header which did not match the current <code>ETag</code> for the resource being updated.</td>
+</tr>
+<tr>
+<td>ETagRequired</td>
+<td>412</td>
+<td>The client did not supply an <code>If-Match</code> header, when one was required by the server</td>
+</tr>
+<tr>
+<td>FormatHeaderMismatch</td>
+<td>415</td>
+<td>The <code>Metadata-Format</code> or <code>Packaging</code> header does not match what the server found when looking at the Metadata or Packaged Content supplied in a request.</td>
+</tr>
+<tr>
+<td>InvalidSegmentSize</td>
+<td>400</td>
+<td>The client sent a segment that was not the final segment, and was not the size that it indicated segments would be</td>
+</tr>
+<tr>
+<td>MaxAssembledSizeExceeded</td>
+<td>400</td>
+<td>During a segmented upload initialisation, the client specified a total file size which is larger than the maximum assembled file size supported by the server</td>
+</tr>
+<tr>
+<td>MaxSegmentSizeExceeded</td>
+<td>413</td>
+<td>The request supplied body content during a segmented upload which is larger than that supported by the server</td>
+</tr>
+<tr>
+<td>MaxUploadSizeExceeded</td>
+<td>413</td>
+<td>The request supplied body content which is larger than that supported by the server.</td>
+</tr>
+<tr>
+<td>MetadataFormatNotAcceptable</td>
+<td>415</td>
+<td>The <code>Metadata-Format</code> header specifies a metadata format for the request which is in a format that the server cannot accept</td>
+</tr>
+<tr>
+<td>MethodNotAllowed</td>
+<td>405</td>
+<td>The request is for a method on a resource that is not permitted. This may be permanent, temporary, and may depend on the client’s credentials</td>
+</tr>
+<tr>
+<td>MinSegmentSizeNotMet</td>
+<td>413</td>
+<td>The request supplied body content during a segmented upload which is smaller than the minimum segment size allowed</td>
+</tr>
+<tr>
+<td>OnBehalfOfNotAllowed</td>
+<td>412</td>
+<td>The request contained an <code>On-Behalf-Of</code> header, although the server indicates that it does not support this.</td>
+</tr>
+<tr>
+<td>PackagingFormatNotAcceptable</td>
+<td>415</td>
+<td>The <code>Packaging</code> header specifies a packaging format for the request which is in a format that the server cannot accept</td>
+</tr>
+<tr>
+<td>SegmentedUploadNotAllowed</td>
+<td>412</td>
+<td>The client attempted to carry out a Segmented Upload on a server which does not support it</td>
+</tr>
+<tr>
+<td>SegmentedUploadTimedOut</td>
+<td>405</td>
+<td>The client's segmented upload URL has timed out.  Servers MAY respond to this with a 404 and no explanation also.</td>
+</tr>
+<tr>
+<td>SegmentLimitExceeded</td>
+<td>400</td>
+<td>During a segmented upload initialisation, the client specified a total number of intended segments which is larger than the limit specified by the server</td>
+</tr>
+<tr>
+<td>UnexpectedSegment</td>
+<td>400</td>
+<td>The client sent a segment that the server was not expecting; in particular the server may have recieved all the segments it was expecting, and this is an extra one</td>
+</tr>
+<tr>
+<td>ValidationFailed</td>
+<td>400</td>
+<td>The server could not validate the structure of the incoming content against its expected schema.  This may include the JSON schema of the SWORD documents, the metadata held within those documents, or the expected structure of packaged content.</td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+
+
+
+</body>
+</html>

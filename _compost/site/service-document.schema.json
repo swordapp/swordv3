@@ -1,0 +1,306 @@
+{
+	"$id" : "http://purl.org/net/sword/3.0/types/ServiceDocument",
+
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title" : "Service Document",
+	"description" : "The Service Document defines the capabilities and operational parameters of the server as a whole, or of a particular Service-URL.",
+	"type" : "object",
+
+	"properties": {
+		"@context": {
+			"$id": "/properties/@context",
+			"type": "string",
+			"title": "The JSON-LD Context for this document",
+			"description" : "MUST be present.",
+			"examples": [
+				"https://swordapp.github.io/swordv3/swordv3.jsonld"
+			]
+		},
+		"@id": {
+			"$id": "/properties/@id",
+			"type": "string",
+			"title": "The URL of the service document you are looking at",
+			"description" : "MUST be present.",
+			"examples": [
+				"http://example.com/service-document"
+			]
+		},
+		"@type": {
+			"$id": "/properties/@type",
+			"type": "string",
+			"title": "JSON-LD identifier for the document type",
+			"description" : "This field is used to define the type of the document, and in this case should always be 'ServiceDocument'.  MUST be present."
+		},
+		"dc:title": {
+			"$id": "/properties/dc:title",
+			"type": "string",
+			"title": "The title or name of the Service",
+			"description" : "MUST be present.",
+			"examples": [
+				"Site Name"
+			]
+		},
+		"dcterms:abstract": {
+			"$id": "/properties/dcterms:abstract",
+			"type": "string",
+			"title": "A description of the service",
+			"description" : "MAY be present.",
+			"examples": [
+				"Site Description"
+			]
+		},
+		"root": {
+			"$id": "/properties/root",
+			"type": "string",
+			"title": "The URL for the root Service Document.",
+			"description" : "MUST be present.",
+			"examples": [
+				"http://example.com/service-document"
+			]
+		},
+		"acceptDeposits": {
+			"$id": "/properties/acceptDeposits",
+			"type": "boolean",
+			"title": "Does the Service accept deposits?",
+			"description" : "SHOULD be present.  If omitted, the client MUST assume that the service does not accept deposits.",
+			"default": false
+		},
+		"version": {
+			"$id": "/properties/version",
+			"type": "string",
+			"title": "The version of the SWORD protocol this server supports",
+			"description" : "MUST be present.",
+			"examples": [
+				"http://purl.org/net/sword/3.0"
+			]
+		},
+		"maxUploadSize": {
+			"$id": "/properties/maxUploadSize",
+			"type": "integer",
+			"title": "Maximum size in bytes as an integer for files being uploaded.",
+			"description" : "SHOULD be present.  If omitted, the client MUST assume the server will accept an upload of any size.",
+			"examples": [
+				16777216000
+			]
+		},
+		"maxByReferenceSize": {
+			"$id": "/properties/maxByReferenceSize",
+			"type": "integer",
+			"title": "Maximum size in bytes as an integer for files uploaded by reference.",
+			"description" : "SHOULD be present.  If omitted, the client MUST assume the server will accept a file of any size.",
+			"default": 0,
+			"examples": [
+				30000000000000000
+			]
+		},
+		"maxSegmentSize" : {
+			"$id": "/properties/maxSegmentSize",
+			"type": "integer",
+			"title": "Maximum size in bytes as an integer for an individual segment in a segmented upload",
+			"description" : "MAY be present.  If omitted and segmented upload is supported, the client MUST assume the maximum segment size is the same as maxUploadSize.",
+			"default": 0,
+			"examples": [
+				16777216000
+			]
+		},
+		"minSegmentSize" : {
+			"$id": "/properties/minSegmentSize",
+			"type": "integer",
+			"title": "Minimum size in bytes as an integer for an individual segment in a segmented upload",
+			"description" : "MAY be present.  If omitted and segmented upload is supported, the client MUST assume the manimum segment size 1 byte.",
+			"default": 1,
+			"examples": [
+				16777216000
+			]
+		},
+		"maxAssembledSize": {
+			"$id": "/properties/maxAssembledSize",
+			"type": "integer",
+			"title": "Maximum size in bytes as an integer for the total size of an assembled segmented upload",
+			"description" : "SHOULD be present.  If omitted and segmented upload is supported, the client MUST assume the server will accept a file of any size.",
+			"examples": [
+				30000000000000000
+			]
+		},
+		"maxSegments": {
+			"$id": "/properties/maxSegments",
+			"type": "integer",
+			"title": "Maximum number of segments that the server will accept for a single segmented upload, if segmented upload is supported.",
+			"description" : "SHOULD be present.  If omitted, the client MUST assume the server will accept any number of segments.",
+			"default": 0,
+			"examples": [
+				1000
+			]
+		},
+		"accept": {
+			"$id": "/properties/accept",
+			"type": "array",
+			"title" : "List of Content Types which are acceptable to the server.",
+			"description" : "MUST be present.  '\\*/\\*' for any content type, or a list of acceptable content types",
+			"items": {
+				"$id": "/properties/accept/items",
+				"type": "string",
+				"title": "Content Type",
+				"default": "",
+				"examples": [
+					"*/*"
+				]
+			}
+		},
+		"acceptArchiveFormat": {
+			"$id": "/properties/acceptArchiveFormat",
+			"type": "array",
+			"title" : "List of Archive Formats that the server can unpack.  If the server sends a package using a different format, the server MAY treat it as a Binary File",
+			"description" : "SHOULD be present.  '*' for any archive format (not recommended), or a list of acceptable formats.  If this is omitted, the client MUST assume the server only supports application/zip",
+			"items": {
+				"$id": "/properties/acceptPackaging/items",
+				"type": "string",
+				"title": "Archive Format",
+				"examples": [
+					"*"
+				]
+			}
+		},
+		"acceptPackaging": {
+			"$id": "/properties/acceptPackaging",
+			"type": "array",
+			"title" : "List of Packaging Formats which are acceptable to the server.",
+			"description" : "SHOULD be present.  '*' for any packaging format, or a list of acceptable packaging formats.  Acceptable packaging formats SHOULD be an IRI for a known format, or any other identifying string if no IRI exists.  If this is omitted, the client MUST assume the server only supports the 3 required SWORD packaging formats (see the section Packaging Formats)",
+			"items": {
+				"$id": "/properties/acceptPackaging/items",
+				"type": "string",
+				"title": "Packaging Format",
+				"examples": [
+					"*"
+				]
+			}
+		},
+		"acceptMetadata": {
+			"$id": "/properties/acceptMetadata",
+			"type": "array",
+			"title" : "List of Metadata Formats which are acceptable to the server.",
+			"description" : "SHOULD be present.  '*' for any metadata format, or a list of acceptable metadata formats.  Acceptable metadata formats SHOULD be an IRI for a known format, or any other identifying string if no IRI exists.  If this is omitted, the client MUST assume the server only supports the standard SWORD metadata format: http://purl.org/net/sword/3.0/types/Metadata",
+			"items": {
+				"$id": "/properties/acceptMetadata/items",
+				"type": "string",
+				"title": "Metadata Format",
+				"examples": [
+					"*"
+				]
+			}
+		},
+		"collectionPolicy": {
+			"$id": "/properties/collectionPolicy",
+			"type": "object",
+			"title" : "URL and description of the server’s collection policy.",
+			"description" : "MAY be present.",
+			"properties": {
+				"@id": {
+					"$id": "/properties/collectionPolicy/properties/@id",
+					"type": "string",
+					"title": "Collection Policy URL",
+					"examples": [
+						"http://www.myorg.ac.uk/collectionpolicy"
+					]
+				},
+				"description": {
+					"$id": "/properties/collectionPolicy/properties/description",
+					"type": "string",
+					"title": "Collection Policy Description"
+				}
+			}
+		},
+		"treatment": {
+			"$id": "/properties/treatment",
+			"type": "object",
+			"title" : "URL and description of the treatment content can expect during deposit.",
+			"description" : "MAY be present.",
+			"properties": {
+				"@id": {
+					"$id": "/properties/treatment/properties/@id",
+					"type": "string",
+					"title": "Treatment URL",
+					"examples": [
+						"http://www.myorg.ac.uk/treatment"
+					]
+				},
+				"description": {
+					"$id": "/properties/treatment/properties/description",
+					"type": "string",
+					"title": "Treatment Description"
+				}
+			}
+		},
+		"byReferenceDeposit": {
+			"$id": "/properties/byReferenceDeposit",
+			"type": "boolean",
+			"title": "Does the server support By-Reference deposit?",
+			"description" : "SHOULD be present.   If omitted, the client MUST assume the server does not support By-Reference deposit.",
+			"default": false
+		},
+		"staging": {
+			"$id": "/properties/staging",
+			"type": "string",
+			"title": "The URL where clients may stage content prior to deposit, in particular for segmented upload",
+			"description" : "MAY be present.  If omitted, the client MUST assume the server does not support Segmented Upload.",
+			"default": false
+		},
+		"stagingMaxIdle": {
+			"$id": "/properties/unfinishedSegmentRetention",
+			"type": "integer",
+			"title": "What is the minimum time a server will hold on to an incomplete Segmented File Upload since it last received any content before deleting it.",
+			"description" : "SHOULD be present.  If omitted, the client MUST assume that the server will hold on to the incomplete file indefinitely.  Servers MAY delete the unfinished upload at any time after the minimum time stated here has elapsed.",
+			"examples": [
+				3600
+			]
+		},
+		"onBehalfOf": {
+			"$id": "/properties/onBehalfOf",
+			"type": "boolean",
+			"title": "Does the server support deposit on behalf of other users (mediation)",
+			"description" : "SHOULD be present.  If omitted, the client MUST assume the server does not support On-Behalf-Of deposit.",
+			"default": false
+		},
+		"digest": {
+			"$id": "/properties/digest",
+			"type": "array",
+			"title" : "The list of digest formats that the server will accept.",
+			"description" : "MUST be present, and MUST include SHA-256, MAY include any others.",
+			"items": {
+				"$id": "/properties/digest/items",
+				"type": "string",
+				"title": "Digest Format",
+				"examples": [
+					"SHA-256",
+					"SHA",
+					"MD5"
+				]
+			}
+		},
+		"authentication": {
+			"$id": "/properties/authentication",
+			"type": "array",
+			"title" : "List of authentication schemes supported by the server.",
+			"description" : "SHOULD be present.  If not provided the client MUST assume the server does not support authentication.",
+			"items": {
+				"$id": "/properties/authentication/items",
+				"type": "string",
+				"title": "Authentication Scheme",
+				"examples": [
+					"Basic"
+				]
+			}
+		},
+		"services": {
+			"$id": "/properties/services",
+			"type": "array",
+			"title" : "List of Services contained within the parent service",
+			"description" : "MAY be present.",
+			"items" : {
+				"$ref" : "#"
+			}
+		}
+	},
+
+	"required" : ["@context", "@id", "@type", "dc:title", "root", "version", "accept", "digest"]
+}
