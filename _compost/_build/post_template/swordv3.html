@@ -49,6 +49,17 @@
 <li><a href="#5.9">5.9. Errors</a></li>
 </ul>
 </li>
+<li><a href="#6">6. Metadata Deposit</a><ul>
+<li><a href="#6.1">6.1. Announcing Support for Metadata Formats</a></li>
+<li><a href="#6.2">6.2. Indicating Metadata Format to the Server</a></li>
+</ul>
+</li>
+<li><a href="#7">7. Metadata Formats</a><ul>
+<li><a href="#7.1">7.1. Default Format</a></li>
+<li><a href="#7.2">7.2. Depositing Other Formats</a></li>
+<li><a href="#7.3">7.3. Representing Other Formats in the Service Document</a></li>
+</ul>
+</li>
 </ul>
         </div>
     </div>
@@ -56,7 +67,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-02 10:50</p>
+<p><strong>Last modified</strong>: 2020-07-02 15:09</p>
         <h1><a name="1"></a>1. Credits</h1>
 <p><strong>Technical Lead</strong>: Richard Jones, Cottage Labs</p>
 <p><strong>Community Lead</strong>: Neil Jefferies, University of Oxford</p>
@@ -340,7 +351,7 @@ Service is requested, it MUST only provide information about itself and its chil
 <p>The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms <p>[<a href="#dcmi">DCMI</a>]</p>.  This 
 Metadata document can be sent when creating an Object initially, when appending to the metadata, or in replacing the metadata or indeed the 
 Object as a whole.</p>
-<p>The format of the document is simple and extensible (see the {% mdinline %}{% autoescape off %}{{ section_link("Metadata Formats") }}{% endautoescape %}{% endmdinline %} section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
+<p>The format of the document is simple and extensible (see the <a href="#7">Metadata Formats</a> section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
 and servers MUST support this metadata format.</p>
 <p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/metadata.schema.json">here</a>.</p>
 <p>An example of the Metadata Document:</p>
@@ -609,7 +620,7 @@ the content and current state of the item.</p>
       &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/ingested&quot;,
       &quot;log&quot; : &quot;[any information associated with the deposit that the client should know]&quot;
     },
-      {
+    {
       &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/file1.pdf&quot;,
       &quot;rel&quot; : [
         &quot;http://purl.org/net/sword/3.0/terms/fileSetFile&quot;,
@@ -628,10 +639,10 @@ the content and current state of the item.</p>
       &quot;packaging&quot; : &quot;http://purl.org/net/sword/3.0/package/SimpleZip&quot;
     },
     {
-      &quot;@id&quot; : &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.xml&quot;,
+      &quot;@id&quot; : &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
       &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;],
-      &quot;contentType&quot; : &quot;text/json&quot;,
-      &quot;metadataFormat&quot; : &quot;http://purl.org/net/sword/3.0/types/Metadata&quot;
+      &quot;contentType&quot; : &quot;application/xml&quot;,
+      &quot;metadataFormat&quot; : &quot;http://www.loc.gov/mods/v3&quot;
     },
     {
       &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/versions/file1.1.pdf&quot;,
@@ -1299,8 +1310,8 @@ requesting a specific deposit operation.  The server MUST include a <code>stagin
 the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented File Upload, before 
 assuming that the client will not complete it, with the <code>stagingMaxIdle</code> field:</p>
 <pre><code class="json">{
-  &quot;stagingMaxIdle&quot;: 3600,
-  &quot;staging&quot;: &quot;http://example.com/staging&quot;
+  &quot;staging&quot;: &quot;http://example.com/staging&quot;,
+  &quot;stagingMaxIdle&quot;: 3600
 }
 </code></pre>
 
@@ -1480,6 +1491,115 @@ the protocol):</p>
 </ul>
 <p>If any other errors occur asynchronously, such as in reassembling or unpacking the resulting file, servers MUST provide an error <code>status</code> 
 field and suitable <code>log</code> information in the link record in the Status document.</p>
+        <h1><a name="6"></a>6. Metadata Deposit</h1>
+<p>SWORD allows the client to deposit arbitrary metadata onto the server through agnostic support for metadata formats.  A metadata format is
+any document which expresses metadata in a given serialisation.  SWORD has a default format
+which MUST be supported by the server, which consists of the set of DCMI Terms <p>[<a href="#dcmi">DCMI</a>]</p> expressed as JSON (see <a href="#4.3">Metadata Document</a>).</p>
+<p>In general, the form of metadata consists of several aspects:</p>
+<ol>
+<li>
+<p>The serialisation, such as to JSON or XML</p>
+</li>
+<li>
+<p>The vocabulary of the metadata, such as Dublin Core, or MODS (sometimes the vocabulary and the serialisation will be conflated here)</p>
+</li>
+<li>
+<p>The profile of the metadata, such as the RIOXX profile for DC (+extensions)</p>
+</li>
+</ol>
+<p>Any format (combining the 3 aspects above) may be represented by an IRI in the protocol, or an opaque string if no IRI exists or can be minted.</p>
+<p>SWORD does not require that the server be able to disseminate any metadata in a format other than the default format.  Metadata in the 
+default format can be obtained from {% mdinline %}{% autoescape off %}{{ section_link("GET Metadata-URL") }}{% endautoescape %}{% endmdinline %}.  If the server chooses to make other metadata formats
+available, this SHOULD be listed in the <code>links</code> section of the <a href="#4.6">Status Document</a>.  See 
+<a href="#7.3">Representing Other Formats in the Service Document</a> for details.</p>
+<h2><a name="6.1"></a>6.1. Announcing Support for Metadata Formats</h2>
+<p>The server can list Metadata formats that it will accept in the <code>acceptMetadata</code> field of the <a href="#4.2">Service Document</a>.</p>
+<p>If no <code>acceptMetadata</code> field is present, the client MUST assume the server only supports the default SWORD metadata format 
+(http://purl.org/net/sword/3.0/types/Metadata).</p>
+<pre><code class="json">{
+  &quot;acceptMetadata&quot;: [
+    &quot;http://purl.org/net/sword/3.0/types/Metadata&quot;
+  ]
+}
+</code></pre>
+
+<h2><a name="6.2"></a>6.2. Indicating Metadata Format to the Server</h2>
+<p>During deposit, the client SHOULD specify a <code>Metadata-Format</code> header which contains the identifier for the format.  For example, if 
+supplying the default SWORD metadata format:</p>
+<pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
+</code></pre>
+
+<p>If this header is not present the server MUST assume it has the above value.</p>
+        <h1><a name="7"></a>7. Metadata Formats</h1>
+<h2><a name="7.1"></a>7.1. Default Format</h2>
+<p>In order to provide a baseline of interoperability, SWORD provides a default metadata format which MUST be supported by the server.  This 
+document has the following aspects (as per <a href="#6">Metadata Deposit</a>):</p>
+<ol>
+<li>
+<p>It is serialised as JSON and with a JSON-LD <code>@context</code></p>
+</li>
+<li>
+<p>It contains <code>dc</code> and <code>dcterms</code> vocabulary elements, and any other arbitrary elements added by the client</p>
+</li>
+<li>
+<p>It does not pre-suppose any particular profile of usage of these vocabulary elements.</p>
+</li>
+</ol>
+<p>Clients MAY choose to extend this document with their own metadata fields, though the server MAY NOT understand them, and MAY ignore them.</p>
+<p>When using this Metadata Format, the client should identify it in the Metadata-Format header with the following IRI:</p>
+<pre><code>http://purl.org/net/sword/3.0/types/Metadata
+</code></pre>
+
+<h2><a name="7.2"></a>7.2. Depositing Other Formats</h2>
+<p>In addition to the standard SWORD metadata format described above, SWORD can support the deposit of arbitrary metadata schemas and 
+serialisations.  </p>
+<p>Clients who wish to ensure that their servers support all the metadata they send them should consider minting a new identifier for their 
+format, and looking for servers to declare explicit support for it.</p>
+<p>Clients should not expect that servers will keep their metadata in the format it is provided.  Servers can and will store the metadata
+in their internal formats as needed.</p>
+<p>The following is a minimal example of the deposit of a MODS XML metadata file while creating a new Object:</p>
+<pre><code>POST Service-URL
+Content-Type: application/xml
+Content-Disposition: attachment; metadata=true
+Digest: SHA-256=74b2851bd2760785b0987ba219debea69c228353f7ccc67a2bdcd9819f97fc71
+Metadata-Format: http://www.loc.gov/mods/v3
+
+&lt;mods xmlns:mods=&quot;http://www.loc.gov/mods/v3&quot;&gt;
+  &lt;originInfo&gt;
+    &lt;place&gt;
+      &lt;placeTerm type=&quot;code&quot; authority=&quot;marccountry&quot;&gt;nyu&lt;/placeTerm&gt;
+      &lt;placeTerm type=&quot;text&quot;&gt;Ithaca, NY&lt;/placeTerm&gt;
+    &lt;/place&gt;
+    &lt;publisher&gt;Cornell University Press&lt;/publisher&gt;
+    &lt;copyrightDate&gt;1999&lt;/copyrightDate&gt;
+  &lt;/originInfo&gt;
+&lt;/mods&gt;
+</code></pre>
+
+<p>If the server supports the MODS Metadata-Format, identified with the IRI <code>http://www.loc.gov/mods/v3</code> then it will be able to create a new 
+Object from this XML document, and populate the Metadata from the data therein.</p>
+<h2><a name="7.3"></a>7.3. Representing Other Formats in the Service Document</h2>
+<p>A server is not required to retain or be able to disseminate the metadata delivered to it by the client in the format it is provided.  Alternative
+metadata formats to the default format MAY be accepted (as defined by the <code>acceptMetadata</code> field in the <a href="#4.6">Status Document</a>),
+but the server is not required to be able to serve that metadata format as well.</p>
+<p>If the server chooses to expose metadata in alternative formats to the default, it may do so by providing them
+as links in the <code>links</code> section of the <a href="#4.6">Status Document</a>.  To do this:</p>
+<ul>
+<li>Provide a link to the serialised metadata</li>
+<li>Specify a <code>rel</code> type of <code>http://purl.org/net/sword/3.0/terms/formattedMetadata</code></li>
+<li>Specify the <code>contentType</code> as needed</li>
+<li>Specify the <code>metadataFormat</code> as the format identifier for the metadata schema.</li>
+</ul>
+<p>For example, to reflect the metadata from the previous section back to the client:</p>
+<pre><code class="json">{
+  &quot;rel&quot;: [
+    &quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;
+  ],
+  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
+  &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;,
+  &quot;contentType&quot;: &quot;application/xml&quot;
+}
+</code></pre>
 
     </div>
 

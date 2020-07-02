@@ -62,7 +62,7 @@
       "status" : "http://purl.org/net/sword/3.0/filestate/ingested",
       "log" : "[any information associated with the deposit that the client should know]"
     },
-	  {
+    {
       "@id" : "http://www.myorg.ac.uk/sword3/object1/file1.pdf",
       "rel" : [
         "http://purl.org/net/sword/3.0/terms/fileSetFile",
@@ -81,10 +81,10 @@
       "packaging" : "http://purl.org/net/sword/3.0/package/SimpleZip"
     },
     {
-      "@id" : "http://www.swordserver.ac.uk/col1/mydeposit/metadata.xml",
+      "@id" : "http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml",
       "rel" : ["http://purl.org/net/sword/3.0/terms/formattedMetadata"],
-      "contentType" : "text/json",
-      "metadataFormat" : "http://purl.org/net/sword/3.0/types/Metadata"
+      "contentType" : "application/xml",
+      "metadataFormat" : "http://www.loc.gov/mods/v3"
     },
     {
       "@id" : "http://www.myorg.ac.uk/sword3/object1/versions/file1.1.pdf",
