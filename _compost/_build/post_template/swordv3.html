@@ -37,6 +37,18 @@
 </li>
 </ul>
 </li>
+<li><a href="#5">5. Segmented File Upload</a><ul>
+<li><a href="#5.1">5.1. Announcing Support for Segmented File Upload</a></li>
+<li><a href="#5.2">5.2. Outline of Process for Segmented File Upload</a></li>
+<li><a href="#5.3">5.3. Segmented Upload Initialisation</a></li>
+<li><a href="#5.4">5.4. Uploading File Segments</a></li>
+<li><a href="#5.5">5.5. Retrieving Information about a Segmented File Upload</a></li>
+<li><a href="#5.6">5.6. Aborting an Upload</a></li>
+<li><a href="#5.7">5.7. Incomplete Upload Retention</a></li>
+<li><a href="#5.8">5.8. Completed Upload Retention</a></li>
+<li><a href="#5.9">5.9. Errors</a></li>
+</ul>
+</li>
 </ul>
         </div>
     </div>
@@ -44,7 +56,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-06-19 13:13</p>
+<p><strong>Last modified</strong>: 2020-07-02 10:50</p>
         <h1><a name="1"></a>1. Credits</h1>
 <p><strong>Technical Lead</strong>: Richard Jones, Cottage Labs</p>
 <p><strong>Community Lead</strong>: Neil Jefferies, University of Oxford</p>
@@ -61,12 +73,12 @@ deposit of these objects into a service like a digital repository.  Complex digi
 where the Files may be in a variety of formats, there may be many files, and some may be very large.  The protocol defines semantics for
 creating, appending, replacing, deleting, and retrieving information about these complex resources.  It also enables servers to communicate
 regarding the status of treatment of deposited content, such as exposing ingest workflow information.</p>
-<p>The first major version of SWORD [<a href="#sword_1.3">SWORD 1.3</a>] built upon the Resouce creation aspects of AtomPub [<a href="#atompub">AtomPub</a>] to enable 
+<p>The first major version of SWORD <p>[<a href="#sword_1.3">SWORD 1.3</a>]</p> built upon the Resouce creation aspects of AtomPub <p>[<a href="#atompub">AtomPub</a>]</p> to enable 
 fire-and-forget package deposit onto a server.</p>
 <p>This approach, where the depositor has no further interaction with the server is of significant value in certain use cases, but there are 
 others where this is insufficient. Consider, for example, that the depositor wishes to construct a digital artifact file by file over a 
 period of time before deciding that it is time to archive it. In these cases, a higher level of interactivity between the participating 
-systems is required, and this is the role that SWORD 2.0 [<a href="#sword_2.0">SWORD 2.0</a>] was subsequently developed to fulfil.</p>
+systems is required, and this is the role that SWORD 2.0 <p>[<a href="#sword_2.0">SWORD 2.0</a>]</p> was subsequently developed to fulfil.</p>
 <p>As the use cases for SWORD have developed further, it became clear that the increasing size of files repositories were being asked to deal
 with was an issue.  As a result of this, and the fact that the technological approach for SWORD 2.0 was starting to show its age, a new
 version, SWORD 3.0, has been developed.  This is a radical departure from SWORD 2.0, eliminating ties with AtomPub, and moving to a much
@@ -79,10 +91,10 @@ perspective are:</p>
 </ul>
 <h1><a name="3"></a>3. Notational Conventions</h1>
 <p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this 
-document are to be interpreted as described in [<a href="#rfc2119">RFC2119</a>].</p>
+document are to be interpreted as described in <p>[<a href="#rfc2119">RFC2119</a>]</p>.</p>
         <h1><a name="4"></a>4. Documents</h1>
 <h2><a name="4.1"></a>4.1. JSON-LD Context</h2>
-<p>SWORD defines the semantics of its documents using JSON-LD [<a href="#json-ld">JSON-LD</a>].  You can see the full JSON-LD Context 
+<p>SWORD defines the semantics of its documents using JSON-LD <p>[<a href="#json-ld">JSON-LD</a>]</p>.  You can see the full JSON-LD Context 
 <a href="/swordv3.jsonld">here</a></p>
 <h2><a name="4.2"></a>4.2. Service Document</h2>
 <p>The Service Document defines the capabilities and operational parameters of the server as a whole, or of a particular Service-URL.</p>
@@ -95,7 +107,7 @@ Services beneath that one.</p>
 <p>A Service Document can be retrieved either for the root of the service, or from any Service within the hierarchy of Services available. 
 If the root Service Document is requested, the full list of Services, including all their children, MUST be provided.  If the URL of a 
 Service is requested, it MUST only provide information about itself and its children.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/service-document.schema.json">here</a>.</p>
+<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/service-document.schema.json">here</a>.</p>
 <p>An example of the Service Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -325,12 +337,12 @@ Service is requested, it MUST only provide information about itself and its chil
 </tbody>
 </table></p>
 <h2><a name="4.3"></a>4.3. Metadata Document</h2>
-<p>The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms [<a href="#dcmi">DCMI</a>].  This 
+<p>The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms <p>[<a href="#dcmi">DCMI</a>]</p>.  This 
 Metadata document can be sent when creating an Object initially, when appending to the metadata, or in replacing the metadata or indeed the 
 Object as a whole.</p>
-<p>The format of the document is simple and extensible (see the { section_link('Metadata Formats') } section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
+<p>The format of the document is simple and extensible (see the {% mdinline %}{% autoescape off %}{{ section_link("Metadata Formats") }}{% endautoescape %}{% endmdinline %} section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
 and servers MUST support this metadata format.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/metadata.schema.json">here</a>.</p>
+<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/metadata.schema.json">here</a>.</p>
 <p>An example of the Metadata Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -395,7 +407,7 @@ for the format: http://purl.org/net/sword/3.0/types/Metadata</p>
 <p>The By-Reference document allows the client to send a list of one or more files that the server will fetch asynchronously.  The 
 By-Reference document can be sent when creating an Object initially, or when appending to or replacing the FileSet in the Object, or 
 replacing the Object as a whole.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/by-reference.schema.json">here</a>.</p>
+<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/by-reference.schema.json">here</a>.</p>
 <p>An example of the By-Reference Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -531,7 +543,7 @@ http://purl.org/net/sword/3.0/types/Metadata</p>
 <p>The status document is provided in response to a deposit operation on a Service-URL, and can be retrieved at any subsequent point by a
 GET on the Object-URL, and is returned each time the client takes action on the Object-URL.  It tells the client detailed information about 
 the content and current state of the item.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/status.schema.json">here</a>.</p>
+<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/status.schema.json">here</a>.</p>
 <p>An example of the Status Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -936,8 +948,8 @@ the content and current state of the item.</p>
 </tbody>
 </table></p>
 <h3><a name="4.6.1"></a>4.6.1. Available <code>rel</code> types and their meanings</h3>
-<h4>alternate</h4>
-<p>An alternate, non-SWORD URL which will allow the user to access the same object.  For example, this could be the URL of the landing page in the repository for the item.</p>
+<p><h4>alternate</p></h4>
+<p><p>An alternate, non-SWORD URL which will allow the user to access the same object.  For example, this could be the URL of the landing page in the repository for the item.</p>
 <h4>http://purl.org/net/sword/3.0/terms/originalDeposit</h4>
 <p>The resource (file or package) was explicitly deposited via some deposit operation.</p>
 <p>The relevant properties of the link section for any resource with this rel are</p>
@@ -986,6 +998,7 @@ the content and current state of the item.</p>
 </ul>
 <h4>http://purl.org/net/sword/3.0/terms/fileSetFile</h4>
 <p>A File which can be considered by the client to be part of the FileSet.  Files in this state are available for modification via the SWORD protocol, and should be considered to form the actual "content" of the Object.</p>
+<p></p></p>
 <h3><a name="4.6.2"></a>4.6.2. Required SWORD State Information</h3>
 <p><code>state/@id</code> MUST contain one of:</p>
 <dl><dt><a name="http://purl.org/net/sword/3.0/state/accepted"></a>http://purl.org/net/sword/3.0/state/accepted</dt><dd>for records accepted for processing but not yet created</dd><dt><a name="http://purl.org/net/sword/3.0/state/inprogress"></a>http://purl.org/net/sword/3.0/state/inProgress</dt><dd>for records that have been deposited, but for which the deposit has not yet completed</dd><dt><a name="http://purl.org/net/sword/3.0/state/inworkflow"></a>http://purl.org/net/sword/3.0/state/inWorkflow</dt><dd>for records that are in the server’s ingest workflow</dd><dt><a name="http://purl.org/net/sword/3.0/state/ingested"></a>http://purl.org/net/sword/3.0/state/ingested</dt><dd>for records that are in the server’s archive state, whatever that might mean (e.g. published to the web)</dd><dt><a name="http://purl.org/net/sword/3.0/state/rejected"></a>http://purl.org/net/sword/3.0/state/rejected</dt><dd>for records that have been rejected from the server’s workflow</dd><dt><a name="http://purl.org/net/sword/3.0/state/deleted"></a>http://purl.org/net/sword/3.0/state/deleted</dt><dd>for tombstone records</dd></dl>
@@ -1001,7 +1014,7 @@ file (Original Deposits), a “status” field will provide information on the c
 
 <h2><a name="4.7"></a>4.7. Segmented File Upload Document</h2>
 <p>A client may request information on an ongoing Segmented File Upload at any point via a GET to the Temporary-URL.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/segmented-file-upload.schema.json">here</a>.</p>
+<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/segmented-file-upload.schema.json">here</a>.</p>
 <p>An example of the Segmented File Upload Document:</p>
 <pre><code class="json">{
     &quot;@context&quot;: &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -1078,7 +1091,7 @@ file (Original Deposits), a “status” field will provide information on the c
 </table></p>
 <h2><a name="4.8"></a>4.8. Error Document</h2>
 <p>An error document is returned at any point that a synchronous operation fails.</p>
-<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/error.schema.json">here</a>.</p>
+<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/error.schema.json">here</a>.</p>
 <p>An example of the Error Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -1131,7 +1144,7 @@ file (Original Deposits), a “status” field will provide information on the c
 <h3><a name="4.8.1"></a>4.8.1. Error Types</h3>
 <p>The following are the error types that are available (to place in <code>@type</code>), their associated HTTP Status Code, and the legitimate reasons
 for returning that error:</p>
-<table>
+<p><table>
 <thead>
 <tr>
 <th>Error Type</th>
@@ -1191,6 +1204,11 @@ for returning that error:</p>
 <td>The <code>Metadata-Format</code> or <code>Packaging</code> header does not match what the server found when looking at the Metadata or Packaged Content supplied in a request.</td>
 </tr>
 <tr>
+<td>Gone</td>
+<td>410</td>
+<td>The resource used to exist at the given URL, but has been removed.</td>
+</tr>
+<tr>
 <td>InvalidSegmentSize</td>
 <td>400</td>
 <td>The client sent a segment that was not the final segment, and was not the size that it indicated segments would be</td>
@@ -1224,6 +1242,11 @@ for returning that error:</p>
 <td>MinSegmentSizeNotMet</td>
 <td>413</td>
 <td>The request supplied body content during a segmented upload which is smaller than the minimum segment size allowed</td>
+</tr>
+<tr>
+<td>NotFound</td>
+<td>404</td>
+<td>The resource could not be found</td>
 </tr>
 <tr>
 <td>OnBehalfOfNotAllowed</td>
@@ -1261,7 +1284,202 @@ for returning that error:</p>
 <td>The server could not validate the structure of the incoming content against its expected schema.  This may include the JSON schema of the SWORD documents, the metadata held within those documents, or the expected structure of packaged content.</td>
 </tr>
 </tbody>
-</table>
+</table></p>
+        <h1><a name="5"></a>5. Segmented File Upload</h1>
+<p>If a client has a very large file that it wishes to transfer to the server by value, then in may be beneficial to do this in several small 
+operations, rather than as a single large operation.  Large uploads are at higher risk of failure, depending on a variety of factors, and 
+there is no guarantee that a SWORD server will be able to resume a partial upload.</p>
+<p>In order to transfer a large file, the client can break it down into a number of equally sized segments of binary data (the final segment 
+may be a different size to the rest).  It can then initialise a Segmented File Upload with the server, and then transfer the segments.  The 
+server will reconstitute these segments into a single file, and then the client may deposit this file by-reference.</p>
+<p>Segments can be uploaded in any order, and can be uploaded one at a time or in parallel.</p>
+<h2><a name="5.1"></a>5.1. Announcing Support for Segmented File Upload</h2>
+<p>Servers MAY support Segmented File Upload.  To do so, it must provide a staging area where file segments can be uploaded prior to the client
+requesting a specific deposit operation.  The server MUST include a <code>staging</code> field in the <a href="#4.2">Service Document</a> with a URL for where
+the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented File Upload, before 
+assuming that the client will not complete it, with the <code>stagingMaxIdle</code> field:</p>
+<pre><code class="json">{
+  &quot;stagingMaxIdle&quot;: 3600,
+  &quot;staging&quot;: &quot;http://example.com/staging&quot;
+}
+</code></pre>
+
+<h2><a name="5.2"></a>5.2. Outline of Process for Segmented File Upload</h2>
+<ol>
+<li>
+<p>Obtain the Staging-URL<sup>[<a href="#staging-url">def</a>]</sup> from the Service from which to request an Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup></p>
+<p>If the client is creating a new Object, the Staging-URL can be found in the <code>staging</code> field in the <a href="#4.2">Service Document</a>.  If an Object
+already exists, the client should find the Service-URL from the <code>service</code> field in the <a href="#4.2">Service Document</a>, then GET this URL
+to obtain the appropriate <a href="#4.2">Service Document</a>, and subsequently get the Staging-URL from the <code>staging</code> field.</p>
+</li>
+<li>
+<p>Request a Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup> from the Service, via a <a href="#5.3">Segmented Upload Initialisation</a> request.</p>
+<p>Send a POST request to the Staging-URL, as per {% mdinline %}{% autoescape off %}{{ section_link("POST Staging-URL") }}{% endautoescape %}{% endmdinline %}, with the appropriate <code>Content-Disposition</code> (see below).  The
+server will respond with a Temporary-URL in the <code>Location</code> header.</p>
+</li>
+<li>
+<p>Upload all the file segments to the Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup></p>
+<p>Send one or more POST requests to the Temporary-URL as per {% mdinline %}{% autoescape off %}{{ section_link("POST Temporary-URL") }}{% endautoescape %}{% endmdinline %}, with the appropriate <code>Content-Disposition</code> (see 
+below), until all file segments have been uploaded.</p>
+</li>
+<li>
+<p>Carry out the desired deposit operation as a By-Reference deposit, using the Temporary-URL as the by-reference file.</p>
+<p>Refer to the section {% mdinline %}{% autoescape off %}{{ section_link("By-Reference Deposit") }}{% endautoescape %}{% endmdinline %} for more information on this approach.  Deposits of content hosted at Temporary-URLs SHOULD NOT
+contain the <code>ttl</code> or <code>dereference</code> fields in the By-Reference Document, and if they are included, the server MUST ignore them.</p>
+</li>
+</ol>
+<h2><a name="5.3"></a>5.3. Segmented Upload Initialisation</h2>
+<p>Before sending any segments to the server, the client must initialise the process.  This is done by sending a POST request to the
+Staging-URL as per {% mdinline %}{% autoescape off %}{{ section_link("POST Staging-URL") }}{% endautoescape %}{% endmdinline %}.</p>
+<p>The requirements of the protocol for a Segment Upload Initialisation are:</p>
+<p><p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Staging-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If all preconditions are met, MUST create a resource to which the client can upload file segments</li>
+<li>MUST reject the request if the conditions of the upload are not acceptable</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+<li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
+</ul>
+<p></p></p>
+<p>See the section {% mdinline %}{% autoescape off %}{{ section_link("Content Disposition") }}{% endautoescape %}{% endmdinline %} for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
+supplied <code>Content-Disposition</code> would be:</p>
+<pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
+</code></pre>
+
+<p>The server MAY choose to reject the Segmented Upload Initialisation request at this stage, for a variety of reasons - for example, it may 
+have a limit on the total number of segments it will accept, or the total size may exceed a maximum file size for assembled files.  In 
+these cases, the server MUST respond with one of the appropriate <a href="#4.8.1">Error Types</a>.</p>
+<p>If the request is successful, the server will respond with a Temporary-URL in the <code>Location</code> header, and the segments themselves can be
+uploaded to that URL.</p>
+<h2><a name="5.4"></a>5.4. Uploading File Segments</h2>
+<p>Segments may be uploaded in any order and may also be parallelised.  Segments MUST all be the same size, with the exception of the final 
+segment with MUST be the same size or smaller than the other segments.  Segments size MUST be smaller than the <code>maxSegmentSize</code> if specified
+and if not then smaller than <code>maxUploadSize</code> specified in the <a href="#4.2">Service Document</a>. Segments MUST be larger than the <code>minSegmentSize</code>
+also specified in the <a href="#4.2">Service Document</a>.</p>
+<p>The requirements of the protocol for File Segment Upload are:</p>
+<p><p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Temporary-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>MUST reject the request if the segment is incorrect or unexpected: for example, all segments were already received, or the segment is a different size than expected.</li>
+<li>If all preconditions are met, MUST accept the file segment, and record the receipt of it</li>
+<li>MUST be prepared to accept file segments in any order, and in parallel</li>
+<li>MUST be able to store the incoming file segments as they arrive, and then reconstitute them into a single file when all segments have been received.</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST respond with a <code>204</code> or a suitable error</li>
+</ul>
+<p></p></p>
+<p>See the section {% mdinline %}{% autoescape off %}{{ section_link("Content Disposition") }}{% endautoescape %}{% endmdinline %} for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
+supplied <code>Content-Disposition</code> would be:</p>
+<pre><code>Content-Disposition: segment; segment_number=[n]
+</code></pre>
+
+<p>The <code>Content-Type</code> header MUST just be <code>application/octet-stream</code>.</p>
+<p>The <code>Digest</code> header MUST contain the Digest for the File Segment itself, so the server can confirm successful transfer of the segment.</p>
+<h2><a name="5.5"></a>5.5. Retrieving Information about a Segmented File Upload</h2>
+<p>At any point after creating a Temporary-URL, the client may request information on the state of their Segmented File Upload.  This can
+be done via a GET to the Temporary-URL.</p>
+<p>This will return you a document as described in <a href="#4.7">Segmented File Upload Document</a>.</p>
+<p>The requirements for this operation are:</p>
+<p><p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET Temporary-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST respond with a <code>200</code> or a suitable error</li>
+<li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
+</ul>
+<p></p></p>
+<p><strong>NOTE</strong> that you cannot retrieve an actual copy of the full or partially uploaded Segmented File Upload from the Temporary-URL at any point.</p>
+<h2><a name="5.6"></a>5.6. Aborting an Upload</h2>
+<p>If, part way through a segmented upload (even after completion) the client wishes to abort, it can send an DELETE request to the 
+Temporary-URL, with the following requirements:</p>
+<p><p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
+</ul>
+<p></p></p>
+<p>If a client submits the Temporary-URL as a By-Reference deposit to the server after completing the upload, the client SHOULD NOT delete
+the Temporary-URL themselves, the server SHOULD take responsibility for this.  If the client deletes the resource before the By-Reference
+deposit has completed, the server SHOULD record an error against the ingest.</p>
+<h2><a name="5.7"></a>5.7. Incomplete Upload Retention</h2>
+<p>Servers SHOULD delete incomplete Segmented File Uploads after a specified amount of time (in the Service Document), if they are not 
+finalised with all segments.</p>
+<h2><a name="5.8"></a>5.8. Completed Upload Retention</h2>
+<p>Servers SHOULD delete completed Segmented File Uploads after a specified amount of time (in the Service Document).  Servers MUST be able to
+tell when they have been given one of their own Temporary-URLs as a By-Reference deposit, and not delete that resource until after it has
+been ingested.</p>
+<h2><a name="5.9"></a>5.9. Errors</h2>
+<p>Servers MUST respond with Error documents under the following circumstances (in addition to the standard errors that may arise through using
+the protocol):</p>
+<ul>
+<li>An initialisation request is sent which specifies a total size larger than that allowed by the server (MaxAssembledSizeExceeded)</li>
+<li>An initialisation request is sent which specifies a segment size larger than that allowed by the server (MaxUploadSizeExceeded)</li>
+<li>An initialisation request is sent which specifies a segment size smaller than that allowed by the server (InvalidSegmentSize)</li>
+<li>An initialisation request is sent which specifies a segment count larger than that allowed by the server (SegmentLimitExceeded)</li>
+<li>An upload request is sent after the total_size has been reached (MethodNotAllowed)</li>
+<li>An upload request is sent after the segment_count has been reached (MethodNotAllowed)</li>
+<li>A segment is received which is not the final segment and is not the same as the expected file size (InvalidSegmentSize)</li>
+<li>A segment is received which is the final segment which is larger than the other segment sizes (InvalidSegmentSize)</li>
+<li>A segment is received which is larger than that allowed by the server (InvalidSegmentSize)</li>
+<li>A segment is received which is smaller than that allowed by the server (InvalidSegmentSize)</li>
+<li>A segment number is received which is not in the allowed range (SegmentLimitExceeded)</li>
+</ul>
+<p>The server MAY respond with an Error document under the following circumstances:</p>
+<ul>
+<li>The Temporary-URL has timed out, and the server will no longer receive updates to it (SegmentedUploadTimedOut)</li>
+</ul>
+<p>If any other errors occur asynchronously, such as in reassembling or unpacking the resulting file, servers MUST provide an error <code>status</code> 
+field and suitable <code>log</code> information in the link record in the Status document.</p>
 
     </div>
 
