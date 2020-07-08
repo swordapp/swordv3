@@ -1,0 +1,22 @@
+{% extends "spec.html" %}
+
+{% block title %}SWORD 3.0 Protocol Behaviours{% endblock %}
+
+{% block content %}
+
+    <h1 class="main_title">SWORD 3.0 Protocol Behaviours</h1>
+
+    <div class="nav">
+        <div class="toc">
+            {{ toc("b") }}
+        </div>
+    </div>
+
+    <div class="spec">
+
+        {% include "fragments/version.md" %}
+        {% include "fragments/behaviours.md" %}
+
+    </div>
+
+{% endblock %}

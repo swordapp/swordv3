@@ -18,46 +18,51 @@
 <li><a href="#1">1. Credits</a></li>
 <li><a href="#2">2. Introduction</a></li>
 <li><a href="#3">3. Notational Conventions</a></li>
-<li><a href="#4">4. Documents</a><ul>
-<li><a href="#4.1">4.1. JSON-LD Context</a></li>
-<li><a href="#4.2">4.2. Service Document</a></li>
-<li><a href="#4.3">4.3. Metadata Document</a></li>
-<li><a href="#4.4">4.4. By-Reference Document</a></li>
-<li><a href="#4.5">4.5. Metadata + By-Reference Document</a></li>
-<li><a href="#4.6">4.6. Status Document</a><ul>
-<li><a href="#4.6.1">4.6.1. Available <code>rel</code> types and their meanings</a></li>
-<li><a href="#4.6.2">4.6.2. Required SWORD State Information</a></li>
-<li><a href="#4.6.3">4.6.3. Ingest Statuses for Individual Files</a></li>
+<li><a href="#4">4. Protocol Requirements</a><ul>
+<li><a href="#4.1">4.1. Requirement Hierarchies</a></li>
+<li><a href="#4.2">4.2. Requirement Groups</a></li>
 </ul>
 </li>
-<li><a href="#4.7">4.7. Segmented File Upload Document</a></li>
-<li><a href="#4.8">4.8. Error Document</a><ul>
-<li><a href="#4.8.1">4.8.1. Error Types</a></li>
+<li><a href="#5">5. Documents</a><ul>
+<li><a href="#5.1">5.1. JSON-LD Context</a></li>
+<li><a href="#5.2">5.2. Service Document</a></li>
+<li><a href="#5.3">5.3. Metadata Document</a></li>
+<li><a href="#5.4">5.4. By-Reference Document</a></li>
+<li><a href="#5.5">5.5. Metadata + By-Reference Document</a></li>
+<li><a href="#5.6">5.6. Status Document</a><ul>
+<li><a href="#5.6.1">5.6.1. Available <code>rel</code> types and their meanings</a></li>
+<li><a href="#5.6.2">5.6.2. Required SWORD State Information</a></li>
+<li><a href="#5.6.3">5.6.3. Ingest Statuses for Individual Files</a></li>
+</ul>
+</li>
+<li><a href="#5.7">5.7. Segmented File Upload Document</a></li>
+<li><a href="#5.8">5.8. Error Document</a><ul>
+<li><a href="#5.8.1">5.8.1. Error Types</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#5">5. Segmented File Upload</a><ul>
-<li><a href="#5.1">5.1. Announcing Support for Segmented File Upload</a></li>
-<li><a href="#5.2">5.2. Outline of Process for Segmented File Upload</a></li>
-<li><a href="#5.3">5.3. Segmented Upload Initialisation</a></li>
-<li><a href="#5.4">5.4. Uploading File Segments</a></li>
-<li><a href="#5.5">5.5. Retrieving Information about a Segmented File Upload</a></li>
-<li><a href="#5.6">5.6. Aborting an Upload</a></li>
-<li><a href="#5.7">5.7. Incomplete Upload Retention</a></li>
-<li><a href="#5.8">5.8. Completed Upload Retention</a></li>
-<li><a href="#5.9">5.9. Errors</a></li>
+<li><a href="#6">6. Segmented File Upload</a><ul>
+<li><a href="#6.1">6.1. Announcing Support for Segmented File Upload</a></li>
+<li><a href="#6.2">6.2. Outline of Process for Segmented File Upload</a></li>
+<li><a href="#6.3">6.3. Segmented Upload Initialisation</a></li>
+<li><a href="#6.4">6.4. Uploading File Segments</a></li>
+<li><a href="#6.5">6.5. Retrieving Information about a Segmented File Upload</a></li>
+<li><a href="#6.6">6.6. Aborting an Upload</a></li>
+<li><a href="#6.7">6.7. Incomplete Upload Retention</a></li>
+<li><a href="#6.8">6.8. Completed Upload Retention</a></li>
+<li><a href="#6.9">6.9. Errors</a></li>
 </ul>
 </li>
-<li><a href="#6">6. Metadata Deposit</a><ul>
-<li><a href="#6.1">6.1. Announcing Support for Metadata Formats</a></li>
-<li><a href="#6.2">6.2. Indicating Metadata Format to the Server</a></li>
+<li><a href="#7">7. Metadata Deposit</a><ul>
+<li><a href="#7.1">7.1. Announcing Support for Metadata Formats</a></li>
+<li><a href="#7.2">7.2. Indicating Metadata Format to the Server</a></li>
 </ul>
 </li>
-<li><a href="#7">7. Metadata Formats</a><ul>
-<li><a href="#7.1">7.1. Default Format</a></li>
-<li><a href="#7.2">7.2. Depositing Other Formats</a></li>
-<li><a href="#7.3">7.3. Representing Other Formats in the Service Document</a></li>
+<li><a href="#8">8. Metadata Formats</a><ul>
+<li><a href="#8.1">8.1. Default Format</a></li>
+<li><a href="#8.2">8.2. Depositing Other Formats</a></li>
+<li><a href="#8.3">8.3. Representing Other Formats in the Service Document</a></li>
 </ul>
 </li>
 </ul>
@@ -67,7 +72,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-02 15:09</p>
+<p><strong>Last modified</strong>: 2020-07-08 19:38</p>
         <h1><a name="1"></a>1. Credits</h1>
 <p><strong>Technical Lead</strong>: Richard Jones, Cottage Labs</p>
 <p><strong>Community Lead</strong>: Neil Jefferies, University of Oxford</p>
@@ -84,12 +89,12 @@ deposit of these objects into a service like a digital repository.  Complex digi
 where the Files may be in a variety of formats, there may be many files, and some may be very large.  The protocol defines semantics for
 creating, appending, replacing, deleting, and retrieving information about these complex resources.  It also enables servers to communicate
 regarding the status of treatment of deposited content, such as exposing ingest workflow information.</p>
-<p>The first major version of SWORD <p>[<a href="#sword_1.3">SWORD 1.3</a>]</p> built upon the Resouce creation aspects of AtomPub <p>[<a href="#atompub">AtomPub</a>]</p> to enable 
+<p>The first major version of SWORD [<a href="#sword_1.3">SWORD 1.3</a>] built upon the Resouce creation aspects of AtomPub [<a href="#atompub">AtomPub</a>] to enable 
 fire-and-forget package deposit onto a server.</p>
 <p>This approach, where the depositor has no further interaction with the server is of significant value in certain use cases, but there are 
 others where this is insufficient. Consider, for example, that the depositor wishes to construct a digital artifact file by file over a 
 period of time before deciding that it is time to archive it. In these cases, a higher level of interactivity between the participating 
-systems is required, and this is the role that SWORD 2.0 <p>[<a href="#sword_2.0">SWORD 2.0</a>]</p> was subsequently developed to fulfil.</p>
+systems is required, and this is the role that SWORD 2.0 [<a href="#sword_2.0">SWORD 2.0</a>] was subsequently developed to fulfil.</p>
 <p>As the use cases for SWORD have developed further, it became clear that the increasing size of files repositories were being asked to deal
 with was an issue.  As a result of this, and the fact that the technological approach for SWORD 2.0 was starting to show its age, a new
 version, SWORD 3.0, has been developed.  This is a radical departure from SWORD 2.0, eliminating ties with AtomPub, and moving to a much
@@ -102,12 +107,808 @@ perspective are:</p>
 </ul>
 <h1><a name="3"></a>3. Notational Conventions</h1>
 <p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this 
-document are to be interpreted as described in <p>[<a href="#rfc2119">RFC2119</a>]</p>.</p>
-        <h1><a name="4"></a>4. Documents</h1>
-<h2><a name="4.1"></a>4.1. JSON-LD Context</h2>
-<p>SWORD defines the semantics of its documents using JSON-LD <p>[<a href="#json-ld">JSON-LD</a>]</p>.  You can see the full JSON-LD Context 
+document are to be interpreted as described in [<a href="#rfc2119">RFC2119</a>].</p>
+        <h1><a name="4"></a>4. Protocol Requirements</h1>
+<p>This section describes the requirements of every kind of operation that you can do with SWORDv3.  Each section in 
+<a href="#4.2">Requirement Groups</a> identifies which Request Conditions have what requirements.  To determine
+the requirements for a specific request, identify each block below which is relevant to your request, and this will
+provide the overall protocol requirements for that operation.</p>
+<p>Converting the below into a set of requirements for a specific request is time consuming, so this has been done for
+you in the <strong><a href="/swordv3-behaviours.html">SWORDv3 Behaviours Document</a></strong>. If you are implementing a SWORD client
+or server it is <strong>STRONGLY RECOMMENDED</strong> that you work from that document rather than the normalised requirements below.</p>
+<p>There are 3 key aspects of the Request Conditions where requirements can be applied, and these are:</p>
+<ol>
+<li><strong>Request</strong>: The operation that you are performing on the resources</li>
+<li><strong>Content</strong>: The body content of the request, such as Metadata, By-Reference, Metadata+ByReference, Binary File, Packaged Content, Empty Body</li>
+<li><strong>Resource</strong>: Service-URL<sup>[<a href="#service-url">def</a>]</sup>, Object-URL<sup>[<a href="#object-url">def</a>]</sup>, Metadata-URL<sup>[<a href="#metadata-url">def</a>]</sup>, FileSet-URL<sup>[<a href="#fileset-url">def</a>]</sup>, File-URL<sup>[<a href="#file-url">def</a>]</sup>, Staging-URL<sup>[<a href="#staging-url">def</a>]</sup>, Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup></li>
+</ol>
+<p>When combined for a specific request, these aspects tell you the exact requirements.  For example: Creating (<strong>Request</strong>) a new Object by request to the Service-URL (<strong>Resource</strong>) 
+with Packaged Content (<strong>Content</strong>)</p>
+<p>Each of these aspects of the Request Conditions are presented below according to a hierarchy. For a specific aspect,
+you must import the requirements for it and all its parents in the hierarchy, to obtain all the requierements for the
+request.</p>
+<p>For each Request Condition, up to 4 kinds of requirement are present:</p>
+<ol>
+<li><strong>Protocol Operation</strong>: which of the protocol operations MUST be used for this request</li>
+<li><strong>Request Requirements</strong>: constraints applied to the client request</li>
+<li><strong>Server Requirements</strong>: constraints applied to how the server handles the request</li>
+<li><strong>Response Requirements</strong>: constraints applied to how the server responds to the request</li>
+</ol>
+<p>See the document <a href="/swordv3-behaviours.html">SWORDv3 Behaviours</a> to see each of the behaviours SWORDv3 is 
+capable of with its requirements fully expanded.</p>
+<h2><a name="4.1"></a>4.1. Requirement Hierarchies</h2>
+<p>The hierarchy for the Request is:</p>
+<ul>
+<li>All<ul>
+<li>Retrieve</li>
+<li>Modify<ul>
+<li>Update<ul>
+<li>Replace</li>
+<li>Append</li>
+</ul>
+</li>
+<li>Create</li>
+</ul>
+</li>
+<li>Delete</li>
+<li>Complete</li>
+</ul>
+</li>
+</ul>
+<p>The hierarchy for the Content is:</p>
+<ul>
+<li>All<ul>
+<li>Body<ul>
+<li>Binary<ul>
+<li>Packaged Content</li>
+<li>Binary File</li>
+<li>File Segment</li>
+</ul>
+</li>
+<li>JSON<ul>
+<li>MD+BR</li>
+<li>Metadata</li>
+<li>By-Reference</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Empty Body</li>
+</ul>
+</li>
+</ul>
+<p>The hierarchy for the Resource is:</p>
+<ul>
+<li>All<ul>
+<li>Deposit<ul>
+<li>Service-URL</li>
+<li>Object-URL</li>
+<li>Components<ul>
+<li>File-URL</li>
+<li>Metadata-URL</li>
+<li>FileSet-URL</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Staging<ul>
+<li>Staging-URL</li>
+<li>Temporary-URL</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>So, for example, when considering an Request Condition such as "Creating Objects with Packaged Content", this would be take requirements as follows:</p>
+<ul>
+<li>For the Request, as a Create, it takes requirements from <strong>Create</strong>, <strong>Modify</strong> and <strong>All</strong></li>
+<li>For the Content, as Packaged Content, it takes requirements from <strong>Packaged Content</strong>, <strong>Binary</strong>, <strong>Body</strong> and <strong>All</strong></li>
+<li>For the Resource, as an operation on the Service-URL, it takes requirements from <strong>Service-URL</strong>, <strong>Deposit</strong> and <strong>All</strong></li>
+</ul>
+<h2><a name="4.2"></a>4.2. Requirement Groups</h2>
+<div class="requirement-groups">
+
+<p><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: All</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Retrieve</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Service-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET Service-URL</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST only list Service-URLs in the Service Document for which a deposit request would be permitted</li>
+<li>MUST respond with a valid Service Document or a suitable error response</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Retrieve</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET Object-URL</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Retrieve</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Components</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Retrieve</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Metadata-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET Metadata-URL</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a valid Metadata document (see definition below) or a suitable error response</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Retrieve</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: File-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET File-URL</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Deposit</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: Body</li>
+<li><strong>Resource</strong>: Deposit</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: Body</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: Metadata</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>SHOULD provide the <code>Metadata-Format</code> header</li>
+<li>MUST provide only the Metadata document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: By-Reference</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the By-Reference document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: By-Reference</li>
+<li><strong>Resource</strong>: File-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST only include a single By-Reference File in the By-Reference document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If more than one By-Reference File is present, MUST reject the request.</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code></li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: MD+BR</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>SHOULD provide the <code>Metadata-Format</code> header</li>
+<li>MUST provide the Metadata+By Reference document</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
+<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: Binary</li>
+<li><strong>Resource</strong>: Deposit</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the request MUST attach the supplied file to the Object as an <code>originalDeposit</code></li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: Binary File</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
+<li>MUST provide Binary File body content</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>The server SHOULD NOT attempt to unpack the file</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: Packaged Content</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the <code>Packaging</code> header</li>
+<li>MUST provide Packaged Content in the request body</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>The server MAY attempt to unpack the file, and create <code>derivedResource</code>s from it.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: Empty Body</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Create</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Service-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Service-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY provide the <code>Slug</code> header</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If accepting the request MUST create a new Object</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
+<li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Create</li>
+<li><strong>Content</strong>: Body</li>
+<li><strong>Resource</strong>: Service-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY provide the <code>In-Progress</code> header</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+<li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Create</li>
+<li><strong>Content</strong>: Metadata</li>
+<li><strong>Resource</strong>: Service-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the request MUST populate the Object with the supplied Metadata</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Create</li>
+<li><strong>Content</strong>: By-Reference</li>
+<li><strong>Resource</strong>: Service-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the request MUST attach the By-Reference files to the Object.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Create</li>
+<li><strong>Content</strong>: MD+BR</li>
+<li><strong>Resource</strong>: Service-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the request MUST populate the Object with the supplied Metadata, and attach the By-Reference files to it.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Create</li>
+<li><strong>Content</strong>: Empty Body</li>
+<li><strong>Resource</strong>: Staging-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Staging-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If all preconditions are met, MUST create a resource to which the client can upload file segments</li>
+<li>MUST reject the request if the conditions of the upload are not acceptable</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
+<li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Update</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Deposit</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Update</li>
+<li><strong>Content</strong>: Body</li>
+<li><strong>Resource</strong>: Deposit</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Update</li>
+<li><strong>Content</strong>: Body</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY provide the <code>In-Progress</code> header</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Append</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Object-URL</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Append</li>
+<li><strong>Content</strong>: Binary</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>Location</code> header, containing the File-URL of the Original Deposit File</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Append</li>
+<li><strong>Content</strong>: Metadata</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the new Metadata MUST add the Metadata to the item, and only treat this as an extension to existing Metadata.  The server MUST NOT overwrite or otherwise remove existing Metadata.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>PUT Object-URL</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: Binary</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the new File, MUST remove all existing Files from the Object and replace with the new File.  The new File should be marked as an <code>originalDeposit</code>.  The server MUST also remove all Metadata, so the Metadata Resource contains no fields.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: Metadata</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the new Metadata, MUST remove all existing Files from the Object, and MUST replace the existing Metadata with the new.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: By-Reference</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the new By-Reference files, MUST remove all existing Files from the Object and replace with the By-Reference files.  The server MUST remove the existing Files immediately, even before the By-Reference files have dereferenced.  The new files MUST be marked as <code>originalDeposit</code>s.  The server MUST also remove all Metadata, so the Metadata Resource contains no fields.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: MD+BR</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the new Metadata and By-Reference files, MUST remove all existing Files from the Object and replace with the By-Reference files.  The server MUST remove the existing Files immediately, even before the By-Reference files have dereferenced.  The server MUST also replace all existing Metadata with the new Metadata.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: Metadata</li>
+<li><strong>Resource</strong>: Metadata-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the new Metadata MUST entirely replace the existing Metadata with the new.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: By-Reference</li>
+<li><strong>Resource</strong>: FileSet-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the new By-Reference Files, MUST replace the existing FileSet with the new files.  The server MUST remove all the old files immediately, even before the new By-Reference files have been dereferenced.  The new Files MUST be marked as <code>originalDeposit</code>s</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: Binary File</li>
+<li><strong>Resource</strong>: FileSet-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the new File, MUST replace the existing FileSet with a single new File.  The File MUST be marked as an <code>originalDeposit</code></li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: By-Reference</li>
+<li><strong>Resource</strong>: File-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the new By-Reference File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new file MUST be marked as an <code>originalDeposit</code></li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: Binary File</li>
+<li><strong>Resource</strong>: File-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the new File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new File MUST be marked as an <code>originalDeposit</code></li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Update</li>
+<li><strong>Content</strong>: Body</li>
+<li><strong>Resource</strong>: Components</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Append</li>
+<li><strong>Content</strong>: By-Reference</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the request, MUST attach all the By-Reference files to the Object as <code>originalDeposit</code>s</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Append</li>
+<li><strong>Content</strong>: MD+BR</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If accepting the request, MUST attach all the By-Reference files to the Object as <code>originalDeposit</code>s, and MUST add the Metadata to the item, and only treat this as an extension to existing Metadata.  The server MUST NOT overwrite or otherwise remove existing Metadata.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Metadata-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>PUT Metadata-URL</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: FileSet-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>PUT FileSet-URL</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Replace</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: File-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>PUT File-URL</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Delete</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Delete</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>DELETE Object-URL</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Delete</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: FileSet-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>DELETE FileSet-URL</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Delete</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: File-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>DELETE File-URL</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Delete</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Metadata-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>DELETE Metadata-URL</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Complete</li>
+<li><strong>Content</strong>: Empty Body</li>
+<li><strong>Resource</strong>: Object-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Object-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the header <code>In-Progress: false</code></li>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>MAY inject the content into any ingest workflows</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>204</code> or a suitable error</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Append</li>
+<li><strong>Content</strong>: Body</li>
+<li><strong>Resource</strong>: Temporary-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Temporary-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>MUST reject the request if the segment is incorrect or unexpected: for example, all segments were already received, or the segment is a different size than expected.</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>204</code> or a suitable error</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Append</li>
+<li><strong>Content</strong>: File Segment</li>
+<li><strong>Resource</strong>: Temporary-URL</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If all preconditions are met, MUST accept the file segment, and record the receipt of it</li>
+<li>MUST be prepared to accept file segments in any order, and in parallel</li>
+<li>MUST be able to store the incoming file segments as they arrive, and then reconstitute them into a single file when all segments have been received.</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Retrieve</li>
+<li><strong>Content</strong>: Empty Body</li>
+<li><strong>Resource</strong>: Temporary-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>GET Temporary-URL</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>MUST respond with a <code>200</code> or a suitable error</li>
+<li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
+</ul>
+<hr>
+
+</div>
+        <h1><a name="5"></a>5. Documents</h1>
+<h2><a name="5.1"></a>5.1. JSON-LD Context</h2>
+<p>SWORD defines the semantics of its documents using JSON-LD [<a href="#json-ld">JSON-LD</a>].  You can see the full JSON-LD Context 
 <a href="/swordv3.jsonld">here</a></p>
-<h2><a name="4.2"></a>4.2. Service Document</h2>
+<h2><a name="5.2"></a>5.2. Service Document</h2>
 <p>The Service Document defines the capabilities and operational parameters of the server as a whole, or of a particular Service-URL.</p>
 <p>The Service Document consists of a set of properties at the root, and a list of "services".  Each service may define a Service-URL 
 and/or additional properties and further nested "services".  For the purposes of normalising the data held in the Service Document (for 
@@ -118,7 +919,7 @@ Services beneath that one.</p>
 <p>A Service Document can be retrieved either for the root of the service, or from any Service within the hierarchy of Services available. 
 If the root Service Document is requested, the full list of Services, including all their children, MUST be provided.  If the URL of a 
 Service is requested, it MUST only provide information about itself and its children.</p>
-<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/service-document.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/service-document.schema.json">here</a>.</p>
 <p>An example of the Service Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -347,13 +1148,13 @@ Service is requested, it MUST only provide information about itself and its chil
 </tr>
 </tbody>
 </table></p>
-<h2><a name="4.3"></a>4.3. Metadata Document</h2>
-<p>The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms <p>[<a href="#dcmi">DCMI</a>]</p>.  This 
+<h2><a name="5.3"></a>5.3. Metadata Document</h2>
+<p>The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms [<a href="#dcmi">DCMI</a>].  This 
 Metadata document can be sent when creating an Object initially, when appending to the metadata, or in replacing the metadata or indeed the 
 Object as a whole.</p>
-<p>The format of the document is simple and extensible (see the <a href="#7">Metadata Formats</a> section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
+<p>The format of the document is simple and extensible (see the <a href="#8">Metadata Formats</a> section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
 and servers MUST support this metadata format.</p>
-<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/metadata.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/metadata.schema.json">here</a>.</p>
 <p>An example of the Metadata Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -414,11 +1215,11 @@ for the format: http://purl.org/net/sword/3.0/types/Metadata</p>
 </code></pre>
 
 <p>If the client omits the <code>Metadata-Format</code> header, the server MUST assume that it is the above format.</p>
-<h2><a name="4.4"></a>4.4. By-Reference Document</h2>
+<h2><a name="5.4"></a>5.4. By-Reference Document</h2>
 <p>The By-Reference document allows the client to send a list of one or more files that the server will fetch asynchronously.  The 
 By-Reference document can be sent when creating an Object initially, or when appending to or replacing the FileSet in the Object, or 
 replacing the Object as a whole.</p>
-<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/by-reference.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/by-reference.schema.json">here</a>.</p>
 <p>An example of the By-Reference Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -511,7 +1312,7 @@ replacing the Object as a whole.</p>
 <pre><code>Content-Disposition: attachment; by-reference=true
 </code></pre>
 
-<h2><a name="4.5"></a>4.5. Metadata + By-Reference Document</h2>
+<h2><a name="5.5"></a>5.5. Metadata + By-Reference Document</h2>
 <p>In some cases it is convenient to be able to send both Metadata and By-Reference files in a single request.  This is possible because both 
 Metadata and By-Reference documents are simply JSON documents; contrast this with sending Metadata and Binary Files, where a package 
 is required.</p>
@@ -550,11 +1351,11 @@ http://purl.org/net/sword/3.0/types/Metadata</p>
 </code></pre>
 
 <p>If the client omits the <code>Metadata-Format</code> header, the server MUST assume that it is the above format.</p>
-<h2><a name="4.6"></a>4.6. Status Document</h2>
+<h2><a name="5.6"></a>5.6. Status Document</h2>
 <p>The status document is provided in response to a deposit operation on a Service-URL, and can be retrieved at any subsequent point by a
 GET on the Object-URL, and is returned each time the client takes action on the Object-URL.  It tells the client detailed information about 
 the content and current state of the item.</p>
-<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/status.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/status.schema.json">here</a>.</p>
 <p>An example of the Status Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -958,7 +1759,7 @@ the content and current state of the item.</p>
 </tr>
 </tbody>
 </table></p>
-<h3><a name="4.6.1"></a>4.6.1. Available <code>rel</code> types and their meanings</h3>
+<h3><a name="5.6.1"></a>5.6.1. Available <code>rel</code> types and their meanings</h3>
 <p><h4>alternate</p></h4>
 <p><p>An alternate, non-SWORD URL which will allow the user to access the same object.  For example, this could be the URL of the landing page in the repository for the item.</p>
 <h4>http://purl.org/net/sword/3.0/terms/originalDeposit</h4>
@@ -1010,12 +1811,12 @@ the content and current state of the item.</p>
 <h4>http://purl.org/net/sword/3.0/terms/fileSetFile</h4>
 <p>A File which can be considered by the client to be part of the FileSet.  Files in this state are available for modification via the SWORD protocol, and should be considered to form the actual "content" of the Object.</p>
 <p></p></p>
-<h3><a name="4.6.2"></a>4.6.2. Required SWORD State Information</h3>
+<h3><a name="5.6.2"></a>5.6.2. Required SWORD State Information</h3>
 <p><code>state/@id</code> MUST contain one of:</p>
 <dl><dt><a name="http://purl.org/net/sword/3.0/state/accepted"></a>http://purl.org/net/sword/3.0/state/accepted</dt><dd>for records accepted for processing but not yet created</dd><dt><a name="http://purl.org/net/sword/3.0/state/inprogress"></a>http://purl.org/net/sword/3.0/state/inProgress</dt><dd>for records that have been deposited, but for which the deposit has not yet completed</dd><dt><a name="http://purl.org/net/sword/3.0/state/inworkflow"></a>http://purl.org/net/sword/3.0/state/inWorkflow</dt><dd>for records that are in the server’s ingest workflow</dd><dt><a name="http://purl.org/net/sword/3.0/state/ingested"></a>http://purl.org/net/sword/3.0/state/ingested</dt><dd>for records that are in the server’s archive state, whatever that might mean (e.g. published to the web)</dd><dt><a name="http://purl.org/net/sword/3.0/state/rejected"></a>http://purl.org/net/sword/3.0/state/rejected</dt><dd>for records that have been rejected from the server’s workflow</dd><dt><a name="http://purl.org/net/sword/3.0/state/deleted"></a>http://purl.org/net/sword/3.0/state/deleted</dt><dd>for tombstone records</dd></dl>
 
 <p>The state field is a list, so it may also contain other states that are server-specific in addition to the SWORD values.</p>
-<h3><a name="4.6.3"></a>4.6.3. Ingest Statuses for Individual Files</h3>
+<h3><a name="5.6.3"></a>5.6.3. Ingest Statuses for Individual Files</h3>
 <p>Some files, when deposited, may be processed asynchronously to the client’s request.  For example, large files that require unpacking, 
 by-reference deposits, etc.  In these cases, the client will not receive feedback on the state or success of their 
 deposit in the request/response exchange.  Instead, the client may monitor the file(s) via the Status document, and for each appropriate 
@@ -1023,9 +1824,9 @@ file (Original Deposits), a “status” field will provide information on the c
 <p>The following statuses are permitted, servers SHOULD provide one of these by each relevant file:</p>
 <dl><dt><a name="http://purl.org/net/sword/3.0/filestate/pending"></a>http://purl.org/net/sword/3.0/filestate/pending</dt><dd>the server has not yet started to process this file. It may be in a queue, or it may still be in the process of deposit via a Segmented Upload.</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/downloading"></a>http://purl.org/net/sword/3.0/filestate/downloading</dt><dd>the server has started to download your By-Reference file, and is not yet complete</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/unpacking"></a>http://purl.org/net/sword/3.0/filestate/unpacking</dt><dd>the server has started unpacking your Packaged Content, and is not yet finished</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/error"></a>http://purl.org/net/sword/3.0/filestate/error</dt><dd>there was an error either downloading or unpacking your file; information should be available in the “log” field to aid the client in understanding what went wrong.</dd><dt><a name="http://purl.org/net/sword/3.0/filestate/ingested"></a>http://purl.org/net/sword/3.0/filestate/ingested</dt><dd>the file has been successfully ingested</dd></dl>
 
-<h2><a name="4.7"></a>4.7. Segmented File Upload Document</h2>
+<h2><a name="5.7"></a>5.7. Segmented File Upload Document</h2>
 <p>A client may request information on an ongoing Segmented File Upload at any point via a GET to the Temporary-URL.</p>
-<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/segmented-file-upload.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/segmented-file-upload.schema.json">here</a>.</p>
 <p>An example of the Segmented File Upload Document:</p>
 <pre><code class="json">{
     &quot;@context&quot;: &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -1100,9 +1901,9 @@ file (Original Deposits), a “status” field will provide information on the c
 </tr>
 </tbody>
 </table></p>
-<h2><a name="4.8"></a>4.8. Error Document</h2>
+<h2><a name="5.8"></a>5.8. Error Document</h2>
 <p>An error document is returned at any point that a synchronous operation fails.</p>
-<p>The full JSON Schema <p>[<a href="#json-schema">JSON-SCHEMA</a>]</p> can be downloaded <a href="/error.schema.json">here</a>.</p>
+<p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/error.schema.json">here</a>.</p>
 <p>An example of the Error Document:</p>
 <pre><code class="json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -1152,7 +1953,7 @@ file (Original Deposits), a “status” field will provide information on the c
 </tr>
 </tbody>
 </table></p>
-<h3><a name="4.8.1"></a>4.8.1. Error Types</h3>
+<h3><a name="5.8.1"></a>5.8.1. Error Types</h3>
 <p>The following are the error types that are available (to place in <code>@type</code>), their associated HTTP Status Code, and the legitimate reasons
 for returning that error:</p>
 <p><table>
@@ -1296,7 +2097,7 @@ for returning that error:</p>
 </tr>
 </tbody>
 </table></p>
-        <h1><a name="5"></a>5. Segmented File Upload</h1>
+        <h1><a name="6"></a>6. Segmented File Upload</h1>
 <p>If a client has a very large file that it wishes to transfer to the server by value, then in may be beneficial to do this in several small 
 operations, rather than as a single large operation.  Large uploads are at higher risk of failure, depending on a variety of factors, and 
 there is no guarantee that a SWORD server will be able to resume a partial upload.</p>
@@ -1304,44 +2105,44 @@ there is no guarantee that a SWORD server will be able to resume a partial uploa
 may be a different size to the rest).  It can then initialise a Segmented File Upload with the server, and then transfer the segments.  The 
 server will reconstitute these segments into a single file, and then the client may deposit this file by-reference.</p>
 <p>Segments can be uploaded in any order, and can be uploaded one at a time or in parallel.</p>
-<h2><a name="5.1"></a>5.1. Announcing Support for Segmented File Upload</h2>
+<h2><a name="6.1"></a>6.1. Announcing Support for Segmented File Upload</h2>
 <p>Servers MAY support Segmented File Upload.  To do so, it must provide a staging area where file segments can be uploaded prior to the client
-requesting a specific deposit operation.  The server MUST include a <code>staging</code> field in the <a href="#4.2">Service Document</a> with a URL for where
+requesting a specific deposit operation.  The server MUST include a <code>staging</code> field in the <a href="#5.2">Service Document</a> with a URL for where
 the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented File Upload, before 
 assuming that the client will not complete it, with the <code>stagingMaxIdle</code> field:</p>
 <pre><code class="json">{
-  &quot;staging&quot;: &quot;http://example.com/staging&quot;,
-  &quot;stagingMaxIdle&quot;: 3600
+  &quot;stagingMaxIdle&quot;: 3600,
+  &quot;staging&quot;: &quot;http://example.com/staging&quot;
 }
 </code></pre>
 
-<h2><a name="5.2"></a>5.2. Outline of Process for Segmented File Upload</h2>
+<h2><a name="6.2"></a>6.2. Outline of Process for Segmented File Upload</h2>
 <ol>
 <li>
 <p>Obtain the Staging-URL<sup>[<a href="#staging-url">def</a>]</sup> from the Service from which to request an Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup></p>
-<p>If the client is creating a new Object, the Staging-URL can be found in the <code>staging</code> field in the <a href="#4.2">Service Document</a>.  If an Object
-already exists, the client should find the Service-URL from the <code>service</code> field in the <a href="#4.2">Service Document</a>, then GET this URL
-to obtain the appropriate <a href="#4.2">Service Document</a>, and subsequently get the Staging-URL from the <code>staging</code> field.</p>
+<p>If the client is creating a new Object, the Staging-URL can be found in the <code>staging</code> field in the <a href="#5.2">Service Document</a>.  If an Object
+already exists, the client should find the Service-URL from the <code>service</code> field in the <a href="#5.2">Service Document</a>, then GET this URL
+to obtain the appropriate <a href="#5.2">Service Document</a>, and subsequently get the Staging-URL from the <code>staging</code> field.</p>
 </li>
 <li>
-<p>Request a Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup> from the Service, via a <a href="#5.3">Segmented Upload Initialisation</a> request.</p>
-<p>Send a POST request to the Staging-URL, as per {% mdinline %}{% autoescape off %}{{ section_link("POST Staging-URL") }}{% endautoescape %}{% endmdinline %}, with the appropriate <code>Content-Disposition</code> (see below).  The
+<p>Request a Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup> from the Service, via a <a href="#6.3">Segmented Upload Initialisation</a> request.</p>
+<p>Send a POST request to the Staging-URL, as per {% mdinline %}{% autoescape off %}{{ section_link("POST Staging-URL", "main") }}{% endautoescape %}{% endmdinline %}, with the appropriate <code>Content-Disposition</code> (see below).  The
 server will respond with a Temporary-URL in the <code>Location</code> header.</p>
 </li>
 <li>
 <p>Upload all the file segments to the Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup></p>
-<p>Send one or more POST requests to the Temporary-URL as per {% mdinline %}{% autoescape off %}{{ section_link("POST Temporary-URL") }}{% endautoescape %}{% endmdinline %}, with the appropriate <code>Content-Disposition</code> (see 
+<p>Send one or more POST requests to the Temporary-URL as per {% mdinline %}{% autoescape off %}{{ section_link("POST Temporary-URL", "main") }}{% endautoescape %}{% endmdinline %}, with the appropriate <code>Content-Disposition</code> (see 
 below), until all file segments have been uploaded.</p>
 </li>
 <li>
 <p>Carry out the desired deposit operation as a By-Reference deposit, using the Temporary-URL as the by-reference file.</p>
-<p>Refer to the section {% mdinline %}{% autoescape off %}{{ section_link("By-Reference Deposit") }}{% endautoescape %}{% endmdinline %} for more information on this approach.  Deposits of content hosted at Temporary-URLs SHOULD NOT
+<p>Refer to the section {% mdinline %}{% autoescape off %}{{ section_link("By-Reference Deposit", "main") }}{% endautoescape %}{% endmdinline %} for more information on this approach.  Deposits of content hosted at Temporary-URLs SHOULD NOT
 contain the <code>ttl</code> or <code>dereference</code> fields in the By-Reference Document, and if they are included, the server MUST ignore them.</p>
 </li>
 </ol>
-<h2><a name="5.3"></a>5.3. Segmented Upload Initialisation</h2>
+<h2><a name="6.3"></a>6.3. Segmented Upload Initialisation</h2>
 <p>Before sending any segments to the server, the client must initialise the process.  This is done by sending a POST request to the
-Staging-URL as per {% mdinline %}{% autoescape off %}{{ section_link("POST Staging-URL") }}{% endautoescape %}{% endmdinline %}.</p>
+Staging-URL as per {% mdinline %}{% autoescape off %}{{ section_link("POST Staging-URL", "main") }}{% endautoescape %}{% endmdinline %}.</p>
 <p>The requirements of the protocol for a Segment Upload Initialisation are:</p>
 <p><p><strong>Protocol Operation</strong></p>
 <ul>
@@ -1367,21 +2168,21 @@ Staging-URL as per {% mdinline %}{% autoescape off %}{{ section_link("POST Stagi
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
 <p></p></p>
-<p>See the section {% mdinline %}{% autoescape off %}{{ section_link("Content Disposition") }}{% endautoescape %}{% endmdinline %} for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
+<p>See the section {% mdinline %}{% autoescape off %}{{ section_link("Content Disposition", "main") }}{% endautoescape %}{% endmdinline %} for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
 supplied <code>Content-Disposition</code> would be:</p>
 <pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
 </code></pre>
 
 <p>The server MAY choose to reject the Segmented Upload Initialisation request at this stage, for a variety of reasons - for example, it may 
 have a limit on the total number of segments it will accept, or the total size may exceed a maximum file size for assembled files.  In 
-these cases, the server MUST respond with one of the appropriate <a href="#4.8.1">Error Types</a>.</p>
+these cases, the server MUST respond with one of the appropriate <a href="#5.8.1">Error Types</a>.</p>
 <p>If the request is successful, the server will respond with a Temporary-URL in the <code>Location</code> header, and the segments themselves can be
 uploaded to that URL.</p>
-<h2><a name="5.4"></a>5.4. Uploading File Segments</h2>
+<h2><a name="6.4"></a>6.4. Uploading File Segments</h2>
 <p>Segments may be uploaded in any order and may also be parallelised.  Segments MUST all be the same size, with the exception of the final 
 segment with MUST be the same size or smaller than the other segments.  Segments size MUST be smaller than the <code>maxSegmentSize</code> if specified
-and if not then smaller than <code>maxUploadSize</code> specified in the <a href="#4.2">Service Document</a>. Segments MUST be larger than the <code>minSegmentSize</code>
-also specified in the <a href="#4.2">Service Document</a>.</p>
+and if not then smaller than <code>maxUploadSize</code> specified in the <a href="#5.2">Service Document</a>. Segments MUST be larger than the <code>minSegmentSize</code>
+also specified in the <a href="#5.2">Service Document</a>.</p>
 <p>The requirements of the protocol for File Segment Upload are:</p>
 <p><p><strong>Protocol Operation</strong></p>
 <ul>
@@ -1410,17 +2211,17 @@ also specified in the <a href="#4.2">Service Document</a>.</p>
 <li>MUST respond with a <code>204</code> or a suitable error</li>
 </ul>
 <p></p></p>
-<p>See the section {% mdinline %}{% autoescape off %}{{ section_link("Content Disposition") }}{% endautoescape %}{% endmdinline %} for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
+<p>See the section {% mdinline %}{% autoescape off %}{{ section_link("Content Disposition", "main") }}{% endautoescape %}{% endmdinline %} for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
 supplied <code>Content-Disposition</code> would be:</p>
 <pre><code>Content-Disposition: segment; segment_number=[n]
 </code></pre>
 
 <p>The <code>Content-Type</code> header MUST just be <code>application/octet-stream</code>.</p>
 <p>The <code>Digest</code> header MUST contain the Digest for the File Segment itself, so the server can confirm successful transfer of the segment.</p>
-<h2><a name="5.5"></a>5.5. Retrieving Information about a Segmented File Upload</h2>
+<h2><a name="6.5"></a>6.5. Retrieving Information about a Segmented File Upload</h2>
 <p>At any point after creating a Temporary-URL, the client may request information on the state of their Segmented File Upload.  This can
 be done via a GET to the Temporary-URL.</p>
-<p>This will return you a document as described in <a href="#4.7">Segmented File Upload Document</a>.</p>
+<p>This will return you a document as described in <a href="#5.7">Segmented File Upload Document</a>.</p>
 <p>The requirements for this operation are:</p>
 <p><p><strong>Protocol Operation</strong></p>
 <ul>
@@ -1442,7 +2243,7 @@ be done via a GET to the Temporary-URL.</p>
 </ul>
 <p></p></p>
 <p><strong>NOTE</strong> that you cannot retrieve an actual copy of the full or partially uploaded Segmented File Upload from the Temporary-URL at any point.</p>
-<h2><a name="5.6"></a>5.6. Aborting an Upload</h2>
+<h2><a name="6.6"></a>6.6. Aborting an Upload</h2>
 <p>If, part way through a segmented upload (even after completion) the client wishes to abort, it can send an DELETE request to the 
 Temporary-URL, with the following requirements:</p>
 <p><p><strong>Request Requirements</strong></p>
@@ -1462,14 +2263,14 @@ Temporary-URL, with the following requirements:</p>
 <p>If a client submits the Temporary-URL as a By-Reference deposit to the server after completing the upload, the client SHOULD NOT delete
 the Temporary-URL themselves, the server SHOULD take responsibility for this.  If the client deletes the resource before the By-Reference
 deposit has completed, the server SHOULD record an error against the ingest.</p>
-<h2><a name="5.7"></a>5.7. Incomplete Upload Retention</h2>
+<h2><a name="6.7"></a>6.7. Incomplete Upload Retention</h2>
 <p>Servers SHOULD delete incomplete Segmented File Uploads after a specified amount of time (in the Service Document), if they are not 
 finalised with all segments.</p>
-<h2><a name="5.8"></a>5.8. Completed Upload Retention</h2>
+<h2><a name="6.8"></a>6.8. Completed Upload Retention</h2>
 <p>Servers SHOULD delete completed Segmented File Uploads after a specified amount of time (in the Service Document).  Servers MUST be able to
 tell when they have been given one of their own Temporary-URLs as a By-Reference deposit, and not delete that resource until after it has
 been ingested.</p>
-<h2><a name="5.9"></a>5.9. Errors</h2>
+<h2><a name="6.9"></a>6.9. Errors</h2>
 <p>Servers MUST respond with Error documents under the following circumstances (in addition to the standard errors that may arise through using
 the protocol):</p>
 <ul>
@@ -1491,10 +2292,10 @@ the protocol):</p>
 </ul>
 <p>If any other errors occur asynchronously, such as in reassembling or unpacking the resulting file, servers MUST provide an error <code>status</code> 
 field and suitable <code>log</code> information in the link record in the Status document.</p>
-        <h1><a name="6"></a>6. Metadata Deposit</h1>
+        <h1><a name="7"></a>7. Metadata Deposit</h1>
 <p>SWORD allows the client to deposit arbitrary metadata onto the server through agnostic support for metadata formats.  A metadata format is
 any document which expresses metadata in a given serialisation.  SWORD has a default format
-which MUST be supported by the server, which consists of the set of DCMI Terms <p>[<a href="#dcmi">DCMI</a>]</p> expressed as JSON (see <a href="#4.3">Metadata Document</a>).</p>
+which MUST be supported by the server, which consists of the set of DCMI Terms [<a href="#dcmi">DCMI</a>] expressed as JSON (see <a href="#5.3">Metadata Document</a>).</p>
 <p>In general, the form of metadata consists of several aspects:</p>
 <ol>
 <li>
@@ -1509,11 +2310,11 @@ which MUST be supported by the server, which consists of the set of DCMI Terms <
 </ol>
 <p>Any format (combining the 3 aspects above) may be represented by an IRI in the protocol, or an opaque string if no IRI exists or can be minted.</p>
 <p>SWORD does not require that the server be able to disseminate any metadata in a format other than the default format.  Metadata in the 
-default format can be obtained from {% mdinline %}{% autoescape off %}{{ section_link("GET Metadata-URL") }}{% endautoescape %}{% endmdinline %}.  If the server chooses to make other metadata formats
-available, this SHOULD be listed in the <code>links</code> section of the <a href="#4.6">Status Document</a>.  See 
-<a href="#7.3">Representing Other Formats in the Service Document</a> for details.</p>
-<h2><a name="6.1"></a>6.1. Announcing Support for Metadata Formats</h2>
-<p>The server can list Metadata formats that it will accept in the <code>acceptMetadata</code> field of the <a href="#4.2">Service Document</a>.</p>
+default format can be obtained from {% mdinline %}{% autoescape off %}{{ section_link("GET Metadata-URL", "main") }}{% endautoescape %}{% endmdinline %}.  If the server chooses to make other metadata formats
+available, this SHOULD be listed in the <code>links</code> section of the <a href="#5.6">Status Document</a>.  See 
+<a href="#8.3">Representing Other Formats in the Service Document</a> for details.</p>
+<h2><a name="7.1"></a>7.1. Announcing Support for Metadata Formats</h2>
+<p>The server can list Metadata formats that it will accept in the <code>acceptMetadata</code> field of the <a href="#5.2">Service Document</a>.</p>
 <p>If no <code>acceptMetadata</code> field is present, the client MUST assume the server only supports the default SWORD metadata format 
 (http://purl.org/net/sword/3.0/types/Metadata).</p>
 <pre><code class="json">{
@@ -1523,17 +2324,17 @@ available, this SHOULD be listed in the <code>links</code> section of the <a hre
 }
 </code></pre>
 
-<h2><a name="6.2"></a>6.2. Indicating Metadata Format to the Server</h2>
+<h2><a name="7.2"></a>7.2. Indicating Metadata Format to the Server</h2>
 <p>During deposit, the client SHOULD specify a <code>Metadata-Format</code> header which contains the identifier for the format.  For example, if 
 supplying the default SWORD metadata format:</p>
 <pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 </code></pre>
 
 <p>If this header is not present the server MUST assume it has the above value.</p>
-        <h1><a name="7"></a>7. Metadata Formats</h1>
-<h2><a name="7.1"></a>7.1. Default Format</h2>
+        <h1><a name="8"></a>8. Metadata Formats</h1>
+<h2><a name="8.1"></a>8.1. Default Format</h2>
 <p>In order to provide a baseline of interoperability, SWORD provides a default metadata format which MUST be supported by the server.  This 
-document has the following aspects (as per <a href="#6">Metadata Deposit</a>):</p>
+document has the following aspects (as per <a href="#7">Metadata Deposit</a>):</p>
 <ol>
 <li>
 <p>It is serialised as JSON and with a JSON-LD <code>@context</code></p>
@@ -1550,7 +2351,7 @@ document has the following aspects (as per <a href="#6">Metadata Deposit</a>):</
 <pre><code>http://purl.org/net/sword/3.0/types/Metadata
 </code></pre>
 
-<h2><a name="7.2"></a>7.2. Depositing Other Formats</h2>
+<h2><a name="8.2"></a>8.2. Depositing Other Formats</h2>
 <p>In addition to the standard SWORD metadata format described above, SWORD can support the deposit of arbitrary metadata schemas and 
 serialisations.  </p>
 <p>Clients who wish to ensure that their servers support all the metadata they send them should consider minting a new identifier for their 
@@ -1578,12 +2379,12 @@ Metadata-Format: http://www.loc.gov/mods/v3
 
 <p>If the server supports the MODS Metadata-Format, identified with the IRI <code>http://www.loc.gov/mods/v3</code> then it will be able to create a new 
 Object from this XML document, and populate the Metadata from the data therein.</p>
-<h2><a name="7.3"></a>7.3. Representing Other Formats in the Service Document</h2>
+<h2><a name="8.3"></a>8.3. Representing Other Formats in the Service Document</h2>
 <p>A server is not required to retain or be able to disseminate the metadata delivered to it by the client in the format it is provided.  Alternative
-metadata formats to the default format MAY be accepted (as defined by the <code>acceptMetadata</code> field in the <a href="#4.6">Status Document</a>),
+metadata formats to the default format MAY be accepted (as defined by the <code>acceptMetadata</code> field in the <a href="#5.6">Status Document</a>),
 but the server is not required to be able to serve that metadata format as well.</p>
 <p>If the server chooses to expose metadata in alternative formats to the default, it may do so by providing them
-as links in the <code>links</code> section of the <a href="#4.6">Status Document</a>.  To do this:</p>
+as links in the <code>links</code> section of the <a href="#5.6">Status Document</a>.  To do this:</p>
 <ul>
 <li>Provide a link to the serialised metadata</li>
 <li>Specify a <code>rel</code> type of <code>http://purl.org/net/sword/3.0/terms/formattedMetadata</code></li>
@@ -1592,12 +2393,12 @@ as links in the <code>links</code> section of the <a href="#4.6">Status Document
 </ul>
 <p>For example, to reflect the metadata from the previous section back to the client:</p>
 <pre><code class="json">{
+  &quot;contentType&quot;: &quot;application/xml&quot;,
   &quot;rel&quot;: [
     &quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;
   ],
   &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
-  &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;,
-  &quot;contentType&quot;: &quot;application/xml&quot;
+  &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;
 }
 </code></pre>
 
