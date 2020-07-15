@@ -1,0 +1,188 @@
+# Note that this document is a draft of a document that was not promoted to the specification, and is left here for reference only
+{
+	"$id": "http://purl.org/net/sword/3.0/types/LastAction",
+	"type": "object",
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"properties": {
+		"@context": {
+			"$id": "/properties/@context",
+			"type": "string",
+			"title": "The JSON-LD Context for this document",
+			"description": "MUST be present.",
+			"examples": [
+				"https://swordapp.github.io/swordv3/swordv3.jsonld"
+			]
+		},
+		"@id": {
+			"$id": "/properties/@id",
+			"type": "string",
+			"title": "The Object-URL for the related Object",
+			"description": "MUST be present",
+			"examples": [
+				"http://example.com/object/1"
+			]
+		},
+		"@type": {
+			"$id": "/properties/@type",
+			"type": "string",
+			"title": "JSON-LD identifier for the document type",
+			"description": "This field is used to define the type of the document, and in this case should always be 'LastAction'.  MUST be present.",
+			"examples": [
+				"LastAction"
+			]
+		},
+		"timestamp": {
+			"$id": "/properties/lastAction/properties/timestamp",
+			"type": "string",
+			"format": "date-time",
+			"title": "When the last action was taken by the client",
+			"description": "SHOULD be present"
+		},
+		"log": {
+			"$id": "/properties/lastAction/properties/log",
+			"type": "string",
+			"title": "Detailed log information about the last action",
+			"description": "MAY be present",
+			"examples": [
+				"description of the event that occurred, with any verbose information"
+			]
+		},
+		"links": {
+			"$id": "/properties/links",
+			"type": "array",
+			"title": "List of link objects referring to the various files that were affected by the last operation",
+			"description": "MUST be present if there is one or more links available to the client",
+			"items": {
+				"$id": "/properties/links/items",
+				"type": "object",
+
+				"properties": {
+					"@id": {
+						"$id": "/properties/links/items/properties/@id",
+						"type": "string",
+						"title": "The URL of the resource",
+						"description": "MUST be present",
+						"examples": [
+							"http://www.myorg.ac.uk/col1/mydeposit.html"
+						]
+					},
+					"rel": {
+						"$id": "/properties/links/items/properties/rel",
+						"type": "array",
+						"title": "The relationship between the resource and the object.",
+						"description": "MUST be present. Note that multiple relationships are supported.",
+						"items": {
+							"$id": "/properties/links/items/properties/rel/items",
+							"type": "string",
+							"title": "The relationship type type",
+							"default": "",
+							"examples": [
+								"alternate"
+							]
+						}
+					},
+					"contentType": {
+						"$id": "/properties/links/items/properties/contentType",
+						"type": "string",
+						"title": "Content type of the resource",
+						"description": "SHOULD be present",
+						"examples": [
+							"text/html"
+						]
+					},
+					"packaging": {
+						"$id": "/properties/links/items/properties/packaging",
+						"type": "string",
+						"title": "The package format identifier if the resource is a package.",
+						"description": "SHOULD, if the resource is a package",
+						"examples": [
+							"http://purl.org/net/sword/3.0/package/SimpleZip"
+						]
+					},
+					"depositedOn": {
+						"$id": "/properties/links/items/properties/depositedOn",
+						"type": "string",
+						"format": "date-time",
+						"title": "Timestamp of when the deposit happened",
+						"description": "SHOULD be present if this is an Original Deposit"
+					},
+					"depositedBy": {
+						"$id": "/properties/links/items/properties/depositedBy",
+						"type": "string",
+						"title": "Identifier for the user that deposited the item",
+						"description": "SHOULD be present if this is an Original Deposit"
+					},
+					"depositedOnBehalfOf": {
+						"$id": "/properties/links/items/properties/depositedOnBehalfOf",
+						"type": "string",
+						"title": "Identifier for the user that the item was deposited on behalf of.",
+						"description": "SHOULD be present if this is an Original Deposit that was done On-Behalf-Of another user"
+					},
+					"byReference": {
+						"$id": "/properties/links/items/properties/byReference",
+						"type": "string",
+						"title": "The external URL of the location a By-Reference deposit was retrieved from",
+						"description": "SHOULD be present if this is an Original Deposit that was deposited By-Reference, or is an active By-Reference deposit",
+						"examples": [
+							"http://www.otherorg.ac.uk/by-reference/file.zip"
+						]
+					},
+					"status": {
+						"$id": "/properties/links/items/properties/status",
+						"type": "string",
+						"title": "The status of the resource, with regard to ingest.",
+						"description": "SHOULD be present.  For example, packaged resources which are still being unpacked and ingested may announce their status here.  Likewise, by-reference deposits may do the same.  MUST be one of the allowed status URIs.  Any associated information to go along with the status, especially if the status is an error, SHOULD be in link[].log.  If no value is provided, the client MUST assume that the item is in the status: http://purl.org/net/sword/3.0/filestate/ingested",
+						"examples": [
+							"http://purl.org/net/sword/3.0/filestate/ingested"
+						]
+					},
+					"log": {
+						"$id": "/properties/links/items/properties/log",
+						"type": "string",
+						"title": "Any information associated with the deposit that the client should know.",
+						"description": "MAY be present",
+						"examples": [
+							"[any information associated with the deposit that the client should know]"
+						]
+					},
+					"derivedFrom": {
+						"$id": "/properties/links/items/properties/derivedFrom",
+						"type": "string",
+						"title": "Reference to URL of resource from which the current resource was derived, for example, if extracted from a package that was deposited.",
+						"description": "SHOULD be present, if the resource is derived from another resource",
+						"examples": [
+							"http://www.myorg.ac.uk/sword3/object1/package.zip"
+						]
+					},
+					"dcterms:relation": {
+						"$id": "/properties/links/items/properties/dcterms:relation",
+						"type": "string",
+						"title": "URL to a non-sword access point to the file",
+						"description": "MAY be present.  For example, the URL from which an end-user would download the file via the website.  This related URL does not need to support any of the SWORD protocol operations, and indeed may even be on a server or application which has no sword support.  Primary use case is to redirect the user to the web front end for the repository.",
+						"examples": [
+							"http://www.myorg.ac.uk/repo/123456789/file1.pdf"
+						]
+					},
+					"dcterms:replaces": {
+						"$id": "/properties/links/items/properties/dcterms:replaces",
+						"type": "string",
+						"title": "URL to an older version of the file in the same Object, if this is also present as a resource.",
+						"description": "SHOULD be present, if an older version of the file is present",
+						"examples": [
+							"http://www.myorg.ac.uk/sword3/object1/versions/file1.1.pdf"
+						]
+					},
+					"eTag": {
+						"$id": "/properties/links/items/properties/eTag",
+						"type": "string",
+						"title": "The eTag of the resource",
+						"description": "MUST be present if the server supports concurrency control and the resource is available to the client to modify"
+					}
+				},
+				"required" : ["@id", "rel"]
+			}
+		}
+	},
+
+	"required" : ["@context", "@id", "@type", "timestamp"]
+}

@@ -216,56 +216,6 @@
 
 			"required" : ["getMetadata", "getFiles", "appendMetadata", "appendFiles", "replaceMetadata", "replaceFiles", "deleteMetadata", "deleteFiles", "deleteObject"]
 		},
-		"lastAction": {
-			"$id": "/properties/lastAction",
-			"type": "object",
-			"title": "Container for information about the last action taken on the object by a client (not necessarily the current client).",
-			"description": "SHOULD be present, if appropriate",
-			"properties": {
-				"timestamp": {
-					"$id": "/properties/lastAction/properties/timestamp",
-					"type": "string",
-					"format": "date-time",
-					"title": "When the last action was taken by the client",
-					"description": "SHOULD be present"
-				},
-				"log": {
-					"$id": "/properties/lastAction/properties/log",
-					"type": "string",
-					"title": "Detailed log information about the last action",
-					"description": "MAY be present",
-					"examples": [
-						"description of the event that occurred, with any verbose information"
-					]
-				},
-				"treatment": {
-					"$id": "/properties/lastAction/properties/treatment",
-					"type": "object",
-					"title": "Container for information about the treatment the item received in the last action",
-					"description": "MAY be present",
-					"properties": {
-						"@id": {
-							"$id": "/properties/lastAction/properties/treatment/properties/@id",
-							"type": "string",
-							"title": "URL for information about the treatment the item received",
-							"description": "MAY be present",
-							"examples": [
-								"http://www.myorg.ac.uk/treatment"
-							]
-						},
-						"description": {
-							"$id": "/properties/lastAction/properties/treatment/properties/description",
-							"type": "string",
-							"title": "Description of the treatment the item received",
-							"description": "MAY be present",
-							"examples": [
-								"treatment description"
-							]
-						}
-					}
-				}
-			}
-		},
 		"links": {
 			"$id": "/properties/links",
 			"type": "array",

@@ -70,7 +70,6 @@
 		"parent" : {"@type" : "@id" },
 		"root" : {"@type" : "@id" },
 		"staging" : { "@type" : "@id" },
-		"treatment" : { },
 		"stagingMaxIdle" : { "@type" : "xsd:integer" },
 		"version" : { "@type" : "@id" },
 

@@ -1,0 +1,28 @@
+# Note that this document is a draft of a document that was not promoted to the specification, and is left here for reference only
+{
+	"@context" : "https://swordapp.github.io/swordv3/swordv3.jsonld",
+
+  	"@id" : "http://example.com/object/1",
+  	"@type" : "LastAction",
+
+    "timestamp" : "[xsd:dateTime]",
+    "log" : "description of the event that occurred, with any verbose information",
+	"links" : [
+		{
+			"@id" : "http://www.myorg.ac.uk/sword3/object/1/package.1.zip",
+			"byReference" : "http://www.otherorg.ac.uk/by-reference/package.1.zip",
+			"contentType" : "application/zip",
+			"derivedFrom" : "... e.g. if the resource was extracted from a package, identifier of that package here ...",
+			"dcterms:relation" : "http://www.myorg.ac.uk/repo/123456789/package.1.zip",
+			"dcterms:replaces" : "http://www.myorg.ac.uk/sword3/object/1/versions/package.0.pdf",
+			"depositedBy" : "[user identifier]",
+			"depositedOn" : "[timestamp]",
+			"depositedOnBehalfOf" : "[user identifier]",
+			"eTag" : "...",
+			"log" : "[any information associated with the deposit that the client should know]",
+			"packaging" : "http://purl.org/net/sword/3.0/package/SimpleZip",
+			"rel" : ["http://purl.org/net/sword/3.0/terms/originalDeposit"],
+			"status" : "http://purl.org/net/sword/3.0/filestate/ingested"
+		}
+	]
+}

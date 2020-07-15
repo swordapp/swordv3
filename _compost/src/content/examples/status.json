@@ -35,15 +35,6 @@
     "deleteObject" : true
   },
 
-  "lastAction" : {
-    "timestamp" : "[xsd:dateTime]",
-    "log" : "description of the event that occurred, with any verbose information",
-    "treatment" : {
-      "@id" : "http://www.myorg.ac.uk/treatment",
-      "description" : "treatment description"
-    }
-  },
-
   "links" : [
     {
       "@id" : "http://www.myorg.ac.uk/col1/mydeposit.html",

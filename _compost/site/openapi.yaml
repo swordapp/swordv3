@@ -247,7 +247,7 @@ paths:
           description: Content appended, responds with Status Document
           headers:
             Location:
-              description: The File-URL
+              description: The File-URL of the Original Deposit File if present
               schema:
                 type: string
             ETag:
@@ -262,7 +262,7 @@ paths:
           description: Content accepted for append, responds with Status Document
           headers:
             Location:
-              description: The File-URL
+              description: The File-URL of the Original Deposit File if present
               schema:
                 type: string
             ETag:

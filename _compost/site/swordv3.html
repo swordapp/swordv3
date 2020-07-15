@@ -98,6 +98,13 @@
 <li><a href="#11.3">11.3. SWORDBagIt</a></li>
 </ul>
 </li>
+<li><a href="#12">12. Auto-Discovery</a><ul>
+<li><a href="#12.1">12.1. For Services</a></li>
+<li><a href="#12.2">12.2. For Objects</a></li>
+<li><a href="#12.3">12.3. Well-Known URI</a></li>
+</ul>
+</li>
+<li><a href="#13">13. References</a></li>
 </ul>
         </div>
     </div>
@@ -105,7 +112,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-15 12:57</p>
+<p><strong>Last modified</strong>: 2020-07-15 16:05</p>
         <p>See also: <a href="/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
 protocol operations.</p>
 <h1><a name="1"></a>1. Credits</h1>
@@ -243,11 +250,11 @@ are listed for each section, please refer to the section above for details on th
 <tbody>
 <tr>
 <td>201</td>
-<td>Resource created, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - Object-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Resource created, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - Object-URL</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>202</td>
-<td>Resource accepted for processing, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - Object-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Resource accepted for processing, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - Object-URL</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>400</td>
@@ -359,11 +366,11 @@ are listed for each section, please refer to the section above for details on th
 <tbody>
 <tr>
 <td>200</td>
-<td>Content appended, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - The File-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Content appended, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - The File-URL of the Original Deposit File if present</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>202</td>
-<td>Content accepted for append, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - The File-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Content accepted for append, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - The File-URL of the Original Deposit File if present</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>400</td>
@@ -1193,17 +1200,17 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Request is:</p>
 <ul>
 <li>All<ul>
+<li>Modify<ul>
+<li>Create</li>
+<li>Update<ul>
+<li>Replace</li>
+<li>Append</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>Delete</li>
 <li>Retrieve</li>
-<li>Modify<ul>
-<li>Update<ul>
-<li>Append</li>
-<li>Replace</li>
-</ul>
-</li>
-<li>Create</li>
-</ul>
-</li>
 <li>Complete</li>
 </ul>
 </li>
@@ -1211,22 +1218,22 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Content is:</p>
 <ul>
 <li>All<ul>
-<li>Empty Body</li>
 <li>Body<ul>
 <li>Binary<ul>
+<li>File Segment</li>
 <li>Packaged Content</li>
 <li>Binary File</li>
-<li>File Segment</li>
 </ul>
 </li>
 <li>JSON<ul>
+<li>By-Reference</li>
 <li>Metadata</li>
 <li>MD+BR</li>
-<li>By-Reference</li>
 </ul>
 </li>
 </ul>
 </li>
+<li>Empty Body</li>
 </ul>
 </li>
 </ul>
@@ -1239,14 +1246,14 @@ capable of with its requirements fully expanded.</p>
 </ul>
 </li>
 <li>Deposit<ul>
-<li>Object-URL</li>
+<li>Service-URL</li>
 <li>Components<ul>
-<li>File-URL</li>
 <li>Metadata-URL</li>
 <li>FileSet-URL</li>
+<li>File-URL</li>
 </ul>
 </li>
-<li>Service-URL</li>
+<li>Object-URL</li>
 </ul>
 </li>
 </ul>
@@ -2436,15 +2443,6 @@ the content and current state of the item.</p>
     &quot;deleteObject&quot; : true
   },
 
-  &quot;lastAction&quot; : {
-    &quot;timestamp&quot; : &quot;[xsd:dateTime]&quot;,
-    &quot;log&quot; : &quot;description of the event that occurred, with any verbose information&quot;,
-    &quot;treatment&quot; : {
-      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/treatment&quot;,
-      &quot;description&quot; : &quot;treatment description&quot;
-    }
-  },
-
   &quot;links&quot; : [
     {
       &quot;@id&quot; : &quot;http://www.myorg.ac.uk/col1/mydeposit.html&quot;,
@@ -2648,36 +2646,6 @@ the content and current state of the item.</p>
 <td>forwarding[].links[].rel</td>
 <td>array</td>
 <td>The relationship to the Object that this URL has<br><br>MAY be present</td>
-</tr>
-<tr>
-<td>lastAction</td>
-<td>object</td>
-<td>Container for information about the last action taken on the object by a client (not necessarily the current client).<br><br>SHOULD be present, if appropriate</td>
-</tr>
-<tr>
-<td>lastAction.log</td>
-<td>string</td>
-<td>Detailed log information about the last action<br><br>MAY be present</td>
-</tr>
-<tr>
-<td>lastAction.timestamp</td>
-<td>string</td>
-<td>When the last action was taken by the client<br><br>SHOULD be present</td>
-</tr>
-<tr>
-<td>lastAction.treatment</td>
-<td>object</td>
-<td>Container for information about the treatment the item received in the last action<br><br>MAY be present</td>
-</tr>
-<tr>
-<td>lastAction.treatment.@id</td>
-<td>string</td>
-<td>URL for information about the treatment the item received<br><br>MAY be present</td>
-</tr>
-<tr>
-<td>lastAction.treatment.description</td>
-<td>string</td>
-<td>Description of the treatment the item received<br><br>MAY be present</td>
 </tr>
 <tr>
 <td>links</td>
@@ -3168,31 +3136,31 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <p>The hierarchy for the Upload Type is:</p>
 <ul>
 <li>All<ul>
+<li>Direct Deposit</li>
 <li>Segmented Upload Initialisation</li>
 <li>File Segment Upload</li>
-<li>Direct Deposit</li>
 </ul>
 </li>
 </ul>
 <p>The hierarchy for the Content is:</p>
 <ul>
 <li>All<ul>
-<li>Empty Body</li>
 <li>Body<ul>
 <li>Binary<ul>
+<li>File Segment</li>
 <li>Packaged Content</li>
 <li>Binary File</li>
-<li>File Segment</li>
 </ul>
 </li>
 <li>JSON<ul>
+<li>By-Reference</li>
 <li>Metadata</li>
 <li>MD+BR</li>
-<li>By-Reference</li>
 </ul>
 </li>
 </ul>
 </li>
+<li>Empty Body</li>
 </ul>
 </li>
 </ul>
@@ -3608,12 +3576,12 @@ as links in the <code>links</code> section of the <a href="#6.6">Status Document
 </ul>
 <p>For example, to reflect the metadata from the previous section back to the client:</p>
 <pre><code class="json">{
-  &quot;contentType&quot;: &quot;application/xml&quot;,
+  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
   &quot;rel&quot;: [
     &quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;
   ],
-  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
-  &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;
+  &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;,
+  &quot;contentType&quot;: &quot;application/xml&quot;
 }
 </code></pre>
         <h1><a name="11"></a>11. Packaging Formats</h1>
@@ -3657,6 +3625,39 @@ well as the <code>bagit.txt</code> file and a <code>bag-info.txt</code> file.  N
 <p>The server SHOULD unpack this file, and action at least the Metadata.  The contents of the data directory MAY be unpackaged into 
 <code>derivedResource</code>s if the server desires.  It is RECOMMENDED that the contents of the data directory be a flat file structure, to aid 
 mutual comprehension by servers/clients.</p>
+        <h1><a name="12"></a>12. Auto-Discovery</h1>
+<p>In order to assist potential clients discover a server’s capabilities, SWORD RECOMMENDS the following auto-discovery features to be 
+embedded in any web interfaces associated with the service provider.</p>
+<h2><a name="12.1"></a>12.1. For Services</h2>
+<p>Embed an html link with a rel value of <code>http://purl.org/net/sword/3.0/discovery/Service</code> in any page which represents
+a deposit Service.</p>
+<pre><code>&lt;html:link rel=&quot;http://purl.org/net/sword/3.0/discovery/Service&quot; href=&quot;[Service-URL]&quot;/&gt;
+</code></pre>
+
+<h2><a name="12.2"></a>12.2. For Objects</h2>
+<p>Embed an html link with a rel value of <code>http://purl.org/net/sword/3.0/discovery/Object</code> in any page which represents a deposited resource.</p>
+<pre><code>&lt;html:link rel=&quot;http://purl.org/net/sword/3.0/discovery/Object&quot; href=&quot;[Object-URL]&quot;/&gt;
+</code></pre>
+
+<h2><a name="12.3"></a>12.3. Well-Known URI</h2>
+<p>For any server which wishes to expose its main or root Service-URL via Well-Known URIs [<a href="#rfc8615">RFC8615</a>], provide a
+redirect (307) from <code>./well-known/swordv3</code> (PROVISIONAL) to your root Service-URL.</p>
+        <h1><a name="13"></a>13. References</h1>
+<p><p><a name="atompub"><strong>AtomPub</strong> Gregario, J. and B. de hOra, "The Atom Publishing Protocol", RFC 5023, October 2007. <a href="http://www.ietf.org/rfc/rfc5023.txt">http://www.ietf.org/rfc/rfc5023.txt</a> </p>
+<p><a name="dcmi"><strong>DCMI</strong> DCMI Metadata Terms, 2012-06-14 <a href="http://dublincore.org/documents/dcmi-terms/">http://dublincore.org/documents/dcmi-terms/</a> </p>
+<p><a name="iana_auth"><strong>IANA Auth</strong> Hypertext Transfer Protocol (HTTP) Authentication Scheme Registry <a href="https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml">https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml</a> </p>
+<p><a name="iana_digest"><strong>IANA Digest</strong> Hypertext Transfer Protocol (HTTP) Digest Algorithm Values <a href="https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml">https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml</a> </p>
+<p><a name="json-ld"><strong>JSON-LD</strong> JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018 <a href="https://json-ld.org/spec/latest/json-ld/">https://json-ld.org/spec/latest/json-ld/</a> </p>
+<p><a name="json-schema"><strong>JSON-SCHEMA</strong> JSON Schema: A Media Type for Describing JSON Documents <a href="http://json-schema.org/latest/json-schema-core.html">http://json-schema.org/latest/json-schema-core.html</a> </p>
+<p><a name="openapi"><strong>OpenAPI</strong> OpenAPI Specification, Version 3.0.0 <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md">https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md</a> </p>
+<p><a name="rfc2119"><strong>RFC2119</strong> Bradner, S. "Key words for use in RFCs to Indicate Requirement Levels", March 1997. <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> </p>
+<p><a name="rfc3230"><strong>RFC3230</strong> J. Mogul et al "Instance Digests in HTTP" <a href="https://www.ietf.org/rfc/rfc3230.txt">https://www.ietf.org/rfc/rfc3230.txt</a> </p>
+<p><a name="rfc5987"><strong>RFC5987</strong> J. Reschke. "Character Set and Language Encoding for Hypertext Transfer Protocol (HTTP) Header Field Parameters" <a href="https://tools.ietf.org/html/rfc5987">https://tools.ietf.org/html/rfc5987</a> </p>
+<p><a name="rfc6266"><strong>RFC6266</strong> J. Reschke. "Use of the Content-Disposition Header Field in the Hypertext Transfer Protocol (HTTP)", 2011 <a href="https://tools.ietf.org/html/rfc6266">https://tools.ietf.org/html/rfc6266</a> </p>
+<p><a name="rfc7232"><strong>RFC7232</strong> R. Fielding and J. Reschke, "Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests", June 2014 <a href="https://tools.ietf.org/html/rfc7232">https://tools.ietf.org/html/rfc7232</a> </p>
+<p><a name="rfc8615"><strong>RFC8615</strong> M Nottingham. "Well-Known Uniform Resource Identifiers (URIs)", 2019 <a href="https://tools.ietf.org/html/rfc8615">https://tools.ietf.org/html/rfc8615</a> </p>
+<p><a name="sword_1.3"><strong>SWORD 1.3</strong> Downing, J. "SWORD AtomPub Profile version 1.3", 2008. <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">http://www.swordapp.org/docs/sword-profile-1.3.html</a> </p>
+<p><a name="sword_2.0"><strong>SWORD 2.0</strong> Jones, R. and Lewis, S. "SWORD 2.0 Profile", 2011 <a href="http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html">http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html</a></p></p>
 
     </div>
 
