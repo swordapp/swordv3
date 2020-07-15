@@ -104,7 +104,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-15 08:15</p>
+<p><strong>Last modified</strong>: 2020-07-15 08:27</p>
         <h1><a name="1"></a>1. Credits</h1>
 <p><strong>Technical Lead</strong>: Richard Jones, Cottage Labs</p>
 <p><strong>Community Lead</strong>: Neil Jefferies, University of Oxford</p>
@@ -674,6 +674,10 @@ are listed for each section, please refer to the section above for details on th
 <td>413</td>
 <td></td>
 </tr>
+<tr>
+<td>415</td>
+<td></td>
+</tr>
 </tbody>
 </table></div>
 
@@ -825,6 +829,10 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 <tr>
 <td>413</td>
+<td></td>
+</tr>
+<tr>
+<td>415</td>
 <td></td>
 </tr>
 </tbody>
@@ -1088,7 +1096,6 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Request is:</p>
 <ul>
 <li>All<ul>
-<li>Complete</li>
 <li>Delete</li>
 <li>Modify<ul>
 <li>Create</li>
@@ -1100,6 +1107,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 </li>
 <li>Retrieve</li>
+<li>Complete</li>
 </ul>
 </li>
 </ul>
@@ -1108,16 +1116,16 @@ capable of with its requirements fully expanded.</p>
 <li>All<ul>
 <li>Empty Body</li>
 <li>Body<ul>
-<li>Binary<ul>
-<li>Packaged Content</li>
-<li>File Segment</li>
-<li>Binary File</li>
-</ul>
-</li>
 <li>JSON<ul>
+<li>MD+BR</li>
 <li>Metadata</li>
 <li>By-Reference</li>
-<li>MD+BR</li>
+</ul>
+</li>
+<li>Binary<ul>
+<li>Binary File</li>
+<li>Packaged Content</li>
+<li>File Segment</li>
 </ul>
 </li>
 </ul>
@@ -1130,18 +1138,18 @@ capable of with its requirements fully expanded.</p>
 <li>All<ul>
 <li>Deposit<ul>
 <li>Object-URL</li>
-<li>Service-URL</li>
 <li>Components<ul>
 <li>File-URL</li>
-<li>Metadata-URL</li>
 <li>FileSet-URL</li>
+<li>Metadata-URL</li>
 </ul>
 </li>
+<li>Service-URL</li>
 </ul>
 </li>
 <li>Staging<ul>
-<li>Staging-URL</li>
 <li>Temporary-URL</li>
+<li>Staging-URL</li>
 </ul>
 </li>
 </ul>
@@ -3063,9 +3071,9 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <p>The hierarchy for the Upload Type is:</p>
 <ul>
 <li>All<ul>
-<li>File Segment Upload</li>
-<li>Segmented Upload Initialisation</li>
 <li>Direct Deposit</li>
+<li>Segmented Upload Initialisation</li>
+<li>File Segment Upload</li>
 </ul>
 </li>
 </ul>
@@ -3074,16 +3082,16 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <li>All<ul>
 <li>Empty Body</li>
 <li>Body<ul>
-<li>Binary<ul>
-<li>Packaged Content</li>
-<li>File Segment</li>
-<li>Binary File</li>
-</ul>
-</li>
 <li>JSON<ul>
+<li>MD+BR</li>
 <li>Metadata</li>
 <li>By-Reference</li>
-<li>MD+BR</li>
+</ul>
+</li>
+<li>Binary<ul>
+<li>Binary File</li>
+<li>Packaged Content</li>
+<li>File Segment</li>
 </ul>
 </li>
 </ul>
@@ -3503,12 +3511,12 @@ as links in the <code>links</code> section of the <a href="#6.6">Status Document
 </ul>
 <p>For example, to reflect the metadata from the previous section back to the client:</p>
 <pre><code class="json">{
-  &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;,
+  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
   &quot;contentType&quot;: &quot;application/xml&quot;,
   &quot;rel&quot;: [
     &quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;
   ],
-  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;
+  &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;
 }
 </code></pre>
         <h1><a name="11"></a>11. Packaging Formats</h1>
