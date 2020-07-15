@@ -30,15 +30,16 @@
 <li><a href="#4.3.6">4.3.6. DELETE Object-URL</a></li>
 <li><a href="#4.3.7">4.3.7. GET Metadata-URL</a></li>
 <li><a href="#4.3.8">4.3.8. PUT Metadata-URL</a></li>
-<li><a href="#4.3.9">4.3.9. PUT FileSet-URL</a></li>
-<li><a href="#4.3.10">4.3.10. DELETE FileSet-URL</a></li>
-<li><a href="#4.3.11">4.3.11. GET File-URL</a></li>
-<li><a href="#4.3.12">4.3.12. PUT File-URL</a></li>
-<li><a href="#4.3.13">4.3.13. DELETE File-URL</a></li>
-<li><a href="#4.3.14">4.3.14. POST Staging-URL</a></li>
-<li><a href="#4.3.15">4.3.15. GET Temporary-URL</a></li>
-<li><a href="#4.3.16">4.3.16. POST Temporary-URL</a></li>
-<li><a href="#4.3.17">4.3.17. DELETE Temporary-URL</a></li>
+<li><a href="#4.3.9">4.3.9. DELETE Metadata-URL</a></li>
+<li><a href="#4.3.10">4.3.10. PUT FileSet-URL</a></li>
+<li><a href="#4.3.11">4.3.11. DELETE FileSet-URL</a></li>
+<li><a href="#4.3.12">4.3.12. GET File-URL</a></li>
+<li><a href="#4.3.13">4.3.13. PUT File-URL</a></li>
+<li><a href="#4.3.14">4.3.14. DELETE File-URL</a></li>
+<li><a href="#4.3.15">4.3.15. POST Staging-URL</a></li>
+<li><a href="#4.3.16">4.3.16. GET Temporary-URL</a></li>
+<li><a href="#4.3.17">4.3.17. POST Temporary-URL</a></li>
+<li><a href="#4.3.18">4.3.18. DELETE Temporary-URL</a></li>
 </ul>
 </li>
 </ul>
@@ -104,11 +105,14 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-15 08:27</p>
-        <h1><a name="1"></a>1. Credits</h1>
+<p><strong>Last modified</strong>: 2020-07-15 12:57</p>
+        <p>See also: <a href="/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
+protocol operations.</p>
+<h1><a name="1"></a>1. Credits</h1>
 <p><strong>Technical Lead</strong>: Richard Jones, Cottage Labs</p>
 <p><strong>Community Lead</strong>: Neil Jefferies, University of Oxford</p>
-<p><strong>Funder Liaison</strong>: Dom Fripp, Jisc</p>
+<p><strong>Funded By</strong>: NII, Jisc, EBSCO</p>
+<p><strong>Funder Liaisons</strong>: Masaharu Hayashi, NII; Dom Fripp, Jisc; Christopher Spalding, EBSCO</p>
 <p><strong>Technical Advisory Group</strong>:
 Adam Rehin, Adrian Stevenson, Alan Stiles, Catherine Jones, Claire Knowles, David Moles, David Wilcox, Eoghan &Oacute; Carrag&aacute;in, Erick Peirson, 
 Gertjan Filarski, Goosyara Kovbasniy, Graham Triggs, Hideaki Takeda, Jan van Mansum, Jauco Noordzij, Jochen Schirrwagen, John Chodacki,
@@ -155,6 +159,7 @@ server with details as to the root cause of the error.</p>
 <li><strong>403 (Forbidden)</strong> - You are not authorised to access this resource</li>
 <li><strong>404 (Not Found)</strong> - There is no resource available at the URL you requested</li>
 <li><strong>405 (Method Not Allowed)</strong> - The HTTP method you requested on the resource is not permitted/available in this context</li>
+<li><strong>410 (Gone)</strong> - The resource existed in the past but is no longer present at the URL you requested</li>
 <li><strong>412 (Precondition Failed)</strong> - There is a problem implementing the request as-is.  This can happen for the following reasons: your checksums may not match, you may have requested mediated deposit when the server does not support that, your headers may not be consistent with each other, your If-Match headers may not mat the current ETag, or your Segmented Upload Initialisation request may not be within parameters acceptable to the server.</li>
 <li><strong>413 (Payload Too Large)</strong> - Your request body exceeds the size allowed by the server</li>
 <li><strong>415 (Unsupported Media Type)</strong> - The metadata format is not the same as that identified in Metadata-Format and/or it is not supported by the server, or the packaging format is not the same as that identified in Packaging and/or it is not supported by the server</li>
@@ -201,6 +206,10 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 <tr>
 <td>404</td>
+<td></td>
+</tr>
+<tr>
+<td>410</td>
 <td></td>
 </tr>
 </tbody>
@@ -309,6 +318,10 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 <tr>
 <td>404</td>
+<td></td>
+</tr>
+<tr>
+<td>410</td>
 <td></td>
 </tr>
 <tr>
@@ -474,6 +487,10 @@ are listed for each section, please refer to the section above for details on th
 </thead>
 <tbody>
 <tr>
+<td>202</td>
+<td>Delete request accepted for processing<br><br><strong>Body</strong><ul><li>None</li></ul></td>
+</tr>
+<tr>
 <td>204</td>
 <td>Object Deleted<br><br><strong>Body</strong><ul><li>None</li></ul></td>
 </tr>
@@ -542,6 +559,10 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 <tr>
 <td>405</td>
+<td></td>
+</tr>
+<tr>
+<td>410</td>
 <td></td>
 </tr>
 <tr>
@@ -614,7 +635,59 @@ are listed for each section, please refer to the section above for details on th
 </tbody>
 </table></div>
 
-<h3><a name="4.3.9"></a>4.3.9. PUT FileSet-URL</h3>
+<h3><a name="4.3.9"></a>4.3.9. DELETE Metadata-URL</h3>
+<div class="openapi"><p>Delete the metadata of an Object</p>
+<p><strong>Headers</strong></p>
+<ul>
+<li>Authorization</li>
+<li>If-Match</li>
+<li>On-Behalf-Of</li>
+</ul>
+<p><strong>Responses</strong></p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>202</td>
+<td>Delete request accepted for processing<br><br><strong>Body</strong><ul><li>None</li></ul></td>
+</tr>
+<tr>
+<td>204</td>
+<td>Metadata Deleted<br><br><strong>Body</strong><ul><li>None</li></ul></td>
+</tr>
+<tr>
+<td>400</td>
+<td></td>
+</tr>
+<tr>
+<td>401</td>
+<td></td>
+</tr>
+<tr>
+<td>403</td>
+<td></td>
+</tr>
+<tr>
+<td>404</td>
+<td></td>
+</tr>
+<tr>
+<td>405</td>
+<td></td>
+</tr>
+<tr>
+<td>412</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+
+<h3><a name="4.3.10"></a>4.3.10. PUT FileSet-URL</h3>
 <div class="openapi"><p>Replace the FileSet</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -681,7 +754,7 @@ are listed for each section, please refer to the section above for details on th
 </tbody>
 </table></div>
 
-<h3><a name="4.3.10"></a>4.3.10. DELETE FileSet-URL</h3>
+<h3><a name="4.3.11"></a>4.3.11. DELETE FileSet-URL</h3>
 <div class="openapi"><p>Delete the FileSet</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -698,6 +771,10 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>202</td>
+<td>Delete request accepted for processing<br><br><strong>Body</strong><ul><li>None</li></ul></td>
+</tr>
 <tr>
 <td>204</td>
 <td>FileSet Deleted<br><br><strong>Body</strong><ul><li>None</li></ul></td>
@@ -729,7 +806,7 @@ are listed for each section, please refer to the section above for details on th
 </tbody>
 </table></div>
 
-<h3><a name="4.3.11"></a>4.3.11. GET File-URL</h3>
+<h3><a name="4.3.12"></a>4.3.12. GET File-URL</h3>
 <div class="openapi"><p>Retrieve an individual File</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -770,13 +847,17 @@ are listed for each section, please refer to the section above for details on th
 <td></td>
 </tr>
 <tr>
+<td>410</td>
+<td></td>
+</tr>
+<tr>
 <td>412</td>
 <td></td>
 </tr>
 </tbody>
 </table></div>
 
-<h3><a name="4.3.12"></a>4.3.12. PUT File-URL</h3>
+<h3><a name="4.3.13"></a>4.3.13. PUT File-URL</h3>
 <div class="openapi"><p>Replace an individual File</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -824,6 +905,10 @@ are listed for each section, please refer to the section above for details on th
 <td></td>
 </tr>
 <tr>
+<td>410</td>
+<td></td>
+</tr>
+<tr>
 <td>412</td>
 <td></td>
 </tr>
@@ -838,7 +923,7 @@ are listed for each section, please refer to the section above for details on th
 </tbody>
 </table></div>
 
-<h3><a name="4.3.13"></a>4.3.13. DELETE File-URL</h3>
+<h3><a name="4.3.14"></a>4.3.14. DELETE File-URL</h3>
 <div class="openapi"><p>Delete an individual File</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -855,6 +940,10 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>202</td>
+<td>Delete request accepted for processing<br><br><strong>Body</strong><ul><li>None</li></ul></td>
+</tr>
 <tr>
 <td>204</td>
 <td>Binary File Deleted<br><br><strong>Body</strong><ul><li>None</li></ul></td>
@@ -886,7 +975,7 @@ are listed for each section, please refer to the section above for details on th
 </tbody>
 </table></div>
 
-<h3><a name="4.3.14"></a>4.3.14. POST Staging-URL</h3>
+<h3><a name="4.3.15"></a>4.3.15. POST Staging-URL</h3>
 <div class="openapi"><p>Create a Temporary-URL for Segmented File Upload</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -934,7 +1023,7 @@ are listed for each section, please refer to the section above for details on th
 </tbody>
 </table></div>
 
-<h3><a name="4.3.15"></a>4.3.15. GET Temporary-URL</h3>
+<h3><a name="4.3.16"></a>4.3.16. GET Temporary-URL</h3>
 <div class="openapi"><p>Retrieve Information on a Segmented File Upload</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -970,10 +1059,14 @@ are listed for each section, please refer to the section above for details on th
 <td>404</td>
 <td></td>
 </tr>
+<tr>
+<td>410</td>
+<td></td>
+</tr>
 </tbody>
 </table></div>
 
-<h3><a name="4.3.16"></a>4.3.16. POST Temporary-URL</h3>
+<h3><a name="4.3.17"></a>4.3.17. POST Temporary-URL</h3>
 <div class="openapi"><p>Upload a File Segment</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -1026,7 +1119,7 @@ are listed for each section, please refer to the section above for details on th
 </tbody>
 </table></div>
 
-<h3><a name="4.3.17"></a>4.3.17. DELETE Temporary-URL</h3>
+<h3><a name="4.3.18"></a>4.3.18. DELETE Temporary-URL</h3>
 <div class="openapi"><p>Abort a Segmented File Upload</p>
 <p><strong>Headers</strong></p>
 <ul>
@@ -1042,6 +1135,10 @@ are listed for each section, please refer to the section above for details on th
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>202</td>
+<td>Delete request accepted for processing<br><br><strong>Body</strong><ul><li>None</li></ul></td>
+</tr>
 <tr>
 <td>204</td>
 <td>Temporary File Deleted<br><br><strong>Body</strong><ul><li>None</li></ul></td>
@@ -1097,16 +1194,16 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>All<ul>
 <li>Delete</li>
-<li>Modify<ul>
-<li>Create</li>
-<li>Update<ul>
-<li>Replace</li>
-<li>Append</li>
-</ul>
-</li>
-</ul>
-</li>
 <li>Retrieve</li>
+<li>Modify<ul>
+<li>Update<ul>
+<li>Append</li>
+<li>Replace</li>
+</ul>
+</li>
+<li>Create</li>
+</ul>
+</li>
 <li>Complete</li>
 </ul>
 </li>
@@ -1116,16 +1213,16 @@ capable of with its requirements fully expanded.</p>
 <li>All<ul>
 <li>Empty Body</li>
 <li>Body<ul>
-<li>JSON<ul>
-<li>MD+BR</li>
-<li>Metadata</li>
-<li>By-Reference</li>
+<li>Binary<ul>
+<li>Packaged Content</li>
+<li>Binary File</li>
+<li>File Segment</li>
 </ul>
 </li>
-<li>Binary<ul>
-<li>Binary File</li>
-<li>Packaged Content</li>
-<li>File Segment</li>
+<li>JSON<ul>
+<li>Metadata</li>
+<li>MD+BR</li>
+<li>By-Reference</li>
 </ul>
 </li>
 </ul>
@@ -1136,20 +1233,20 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Resource is:</p>
 <ul>
 <li>All<ul>
+<li>Staging<ul>
+<li>Temporary-URL</li>
+<li>Staging-URL</li>
+</ul>
+</li>
 <li>Deposit<ul>
 <li>Object-URL</li>
 <li>Components<ul>
 <li>File-URL</li>
-<li>FileSet-URL</li>
 <li>Metadata-URL</li>
+<li>FileSet-URL</li>
 </ul>
 </li>
 <li>Service-URL</li>
-</ul>
-</li>
-<li>Staging<ul>
-<li>Temporary-URL</li>
-<li>Staging-URL</li>
 </ul>
 </li>
 </ul>
@@ -1734,7 +1831,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
+<li>MUST respond with a <code>204</code> if the delete is successful, <code>202</code> if the delete is queued for processing, or raise an error</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -3071,9 +3168,9 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <p>The hierarchy for the Upload Type is:</p>
 <ul>
 <li>All<ul>
-<li>Direct Deposit</li>
 <li>Segmented Upload Initialisation</li>
 <li>File Segment Upload</li>
+<li>Direct Deposit</li>
 </ul>
 </li>
 </ul>
@@ -3082,16 +3179,16 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <li>All<ul>
 <li>Empty Body</li>
 <li>Body<ul>
-<li>JSON<ul>
-<li>MD+BR</li>
-<li>Metadata</li>
-<li>By-Reference</li>
+<li>Binary<ul>
+<li>Packaged Content</li>
+<li>Binary File</li>
+<li>File Segment</li>
 </ul>
 </li>
-<li>Binary<ul>
-<li>Binary File</li>
-<li>Packaged Content</li>
-<li>File Segment</li>
+<li>JSON<ul>
+<li>Metadata</li>
+<li>MD+BR</li>
+<li>By-Reference</li>
 </ul>
 </li>
 </ul>
@@ -3229,8 +3326,8 @@ requesting a specific deposit operation.  The server MUST include a <code>stagin
 the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented File Upload, before 
 assuming that the client will not complete it, with the <code>stagingMaxIdle</code> field:</p>
 <pre><code class="json">{
-  &quot;stagingMaxIdle&quot;: 3600,
-  &quot;staging&quot;: &quot;http://example.com/staging&quot;
+  &quot;staging&quot;: &quot;http://example.com/staging&quot;,
+  &quot;stagingMaxIdle&quot;: 3600
 }
 </code></pre>
 
@@ -3244,12 +3341,12 @@ to obtain the appropriate <a href="#6.2">Service Document</a>, and subsequently 
 </li>
 <li>
 <p>Request a Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup> from the Service, via a <a href="#8.3">Segmented Upload Initialisation</a> request.</p>
-<p>Send a POST request to the Staging-URL, as per <a href="#4.3.14">POST Staging-URL</a>, with the appropriate <code>Content-Disposition</code> (see below).  The
+<p>Send a POST request to the Staging-URL, as per <a href="#4.3.15">POST Staging-URL</a>, with the appropriate <code>Content-Disposition</code> (see below).  The
 server will respond with a Temporary-URL in the <code>Location</code> header.</p>
 </li>
 <li>
 <p>Upload all the file segments to the Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup></p>
-<p>Send one or more POST requests to the Temporary-URL as per <a href="#4.3.16">POST Temporary-URL</a>, with the appropriate <code>Content-Disposition</code> (see 
+<p>Send one or more POST requests to the Temporary-URL as per <a href="#4.3.17">POST Temporary-URL</a>, with the appropriate <code>Content-Disposition</code> (see 
 below), until all file segments have been uploaded.</p>
 </li>
 <li>
@@ -3260,7 +3357,7 @@ contain the <code>ttl</code> or <code>dereference</code> fields in the By-Refere
 </ol>
 <h2><a name="8.3"></a>8.3. Segmented Upload Initialisation</h2>
 <p>Before sending any segments to the server, the client must initialise the process.  This is done by sending a POST request to the
-Staging-URL as per <a href="#4.3.14">POST Staging-URL</a>.</p>
+Staging-URL as per <a href="#4.3.15">POST Staging-URL</a>.</p>
 <p>The requirements of the protocol for a Segment Upload Initialisation are:</p>
 <p><p><strong>Protocol Operation</strong></p>
 <ul>
@@ -3375,7 +3472,7 @@ Temporary-URL, with the following requirements:</p>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>If authentication fails, MUST respond with a <code>403</code></li>
-<li>MUST respond with a <code>204</code> if the delete is successful, or raise an error</li>
+<li>MUST respond with a <code>204</code> if the delete is successful, <code>202</code> if the delete is queued for processing, or raise an error</li>
 </ul>
 <p></p></p>
 <p>If a client submits the Temporary-URL as a By-Reference deposit to the server after completing the upload, the client SHOULD NOT delete
@@ -3511,11 +3608,11 @@ as links in the <code>links</code> section of the <a href="#6.6">Status Document
 </ul>
 <p>For example, to reflect the metadata from the previous section back to the client:</p>
 <pre><code class="json">{
-  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
   &quot;contentType&quot;: &quot;application/xml&quot;,
   &quot;rel&quot;: [
     &quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;
   ],
+  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
   &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;
 }
 </code></pre>

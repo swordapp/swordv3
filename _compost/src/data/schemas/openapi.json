@@ -53,6 +53,9 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "410": {
+            "$ref": "#/components/responses/Gone"
           }
         }
       },
@@ -291,6 +294,9 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "410": {
+            "$ref": "#/components/responses/Gone"
           },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
@@ -662,6 +668,9 @@
           }
         ],
         "responses": {
+          "202": {
+            "description": "Delete request accepted for processing"
+          },
           "204": {
             "description": "Object Deleted"
           },
@@ -757,6 +766,9 @@
           },
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "410": {
+            "$ref": "#/components/responses/Gone"
           },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
@@ -878,6 +890,68 @@
           },
           "415": {
             "$ref": "#/components/responses/UnsupportedMediaType"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete the metadata of an Object",
+        "operationId": "deleteMetadata",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "On-Behalf-Of",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Delete request accepted for processing"
+          },
+          "204": {
+            "description": "Metadata Deleted"
+          },
+          "301": {
+            "$ref": "#/components/responses/MovedPermanently"
+          },
+          "307": {
+            "$ref": "#/components/responses/TemporaryRedirect"
+          },
+          "308": {
+            "$ref": "#/components/responses/PermanentRedirect"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "412": {
+            "$ref": "#/components/responses/PreconditionFailed"
           }
         }
       }
@@ -1045,6 +1119,9 @@
           }
         ],
         "responses": {
+          "202": {
+            "description": "Delete request accepted for processing"
+          },
           "204": {
             "description": "FileSet Deleted"
           },
@@ -1141,6 +1218,9 @@
           },
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "410": {
+            "$ref": "#/components/responses/Gone"
           },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
@@ -1253,6 +1333,9 @@
           "405": {
             "$ref": "#/components/responses/MethodNotAllowed"
           },
+          "410": {
+            "$ref": "#/components/responses/Gone"
+          },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
           },
@@ -1291,6 +1374,9 @@
           }
         ],
         "responses": {
+          "202": {
+            "description": "Delete request accepted for processing"
+          },
           "204": {
             "description": "Binary File Deleted"
           },
@@ -1444,6 +1530,9 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "410": {
+            "$ref": "#/components/responses/Gone"
           }
         }
       },
@@ -1558,6 +1647,9 @@
           }
         ],
         "responses": {
+          "202": {
+            "description": "Delete request accepted for processing"
+          },
           "204": {
             "description": "Temporary File Deleted"
           },
@@ -1635,6 +1727,9 @@
       },
       "MethodNotAllowed": {
         "description": "**405 (Method Not Allowed)** - The HTTP method you requested on the resource is not permitted/available in this context"
+      },
+      "Gone": {
+        "description": "**410 (Gone)** - The resource existed in the past but is no longer present at the URL you requested"
       },
       "PreconditionFailed": {
         "description": "**412 (Precondition Failed)** - There is a problem implementing the request as-is.  This can happen for the following reasons: your checksums may not match, you may have requested mediated deposit when the server does not support that, your headers may not be consistent with each other, your If-Match headers may not mat the current ETag, or your Segmented Upload Initialisation request may not be within parameters acceptable to the server."

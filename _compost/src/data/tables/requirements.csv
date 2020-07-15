@@ -62,7 +62,7 @@ Append,Binary,Object-URL,,,,
 Replace,*,Metadata-URL,,,,PUT Metadata-URL
 Replace,*,FileSet-URL,,,,PUT FileSet-URL
 Replace,*,File-URL,,,,PUT File-URL
-Delete,*,*,,,"MUST respond with a `204` if the delete is successful, or raise an error",
+Delete,*,*,,,"MUST respond with a `204` if the delete is successful, `202` if the delete is queued for processing, or raise an error",
 Delete,*,Object-URL,,,,DELETE Object-URL
 Delete,*,FileSet-URL,,,,DELETE FileSet-URL
 Delete,*,File-URL,,,,DELETE File-URL

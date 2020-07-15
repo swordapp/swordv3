@@ -1,10 +1,16 @@
+See also: [SWORD 3.0 Behaviours]({{ url_for("swordv3-behaviours.html") }}) which provides a denormalised view of the specification's
+protocol operations.
+
+
 # {{ header("Credits") }}
 
 **Technical Lead**: Richard Jones, Cottage Labs
 
 **Community Lead**: Neil Jefferies, University of Oxford
 
-**Funder Liaison**: Dom Fripp, Jisc
+**Funded By**: NII, Jisc, EBSCO
+
+**Funder Liaisons**: Masaharu Hayashi, NII; Dom Fripp, Jisc; Christopher Spalding, EBSCO
 
 **Technical Advisory Group**:
 Adam Rehin, Adrian Stevenson, Alan Stiles, Catherine Jones, Claire Knowles, David Moles, David Wilcox, Eoghan &Oacute; Carrag&aacute;in, Erick Peirson, 

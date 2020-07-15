@@ -530,6 +530,9 @@ The `Content-Disposition` in this case would be:
 Replace in its entirety the FileSet of the Object (i.e. not the Metadata), with a single Binary File.  All previously existing files will
 be removed, and the new one will replace them.  The server may or may not keep old versions of the content available, at its discretion.
 
+Note that we can only send a single Binary File to replace the FileSet, we cannot send a package, as a package implies the
+presence of metadata which the FileSet-URL is not suitable to handle.
+
 {{ requirements(
     reqs="tables/requirements",
     hierarchy="tables/reqs_hierarchy",
