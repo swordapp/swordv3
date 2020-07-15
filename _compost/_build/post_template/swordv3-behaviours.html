@@ -17,12 +17,13 @@
             <ul>
 <li><a href="#1">1. Retrieve the Service Document</a></li>
 <li><a href="#2">2. Creating New Objects</a><ul>
-<li><a href="#2.1">2.1. Creating Objects with only Metadata</a></li>
-<li><a href="#2.2">2.2. Creating Objects with only By-Reference Files</a></li>
-<li><a href="#2.3">2.3. Creating Objects with both Metadata and By-Reference Files</a></li>
-<li><a href="#2.4">2.4. Creating Objects with Binary Files</a></li>
-<li><a href="#2.5">2.5. Creating Objects with Packaged Content</a></li>
-<li><a href="#2.6">2.6. Creating Objects with Segmented File Upload</a></li>
+<li><a href="#2.1">2.1. Creating Objects with no content</a></li>
+<li><a href="#2.2">2.2. Creating Objects with only Metadata</a></li>
+<li><a href="#2.3">2.3. Creating Objects with only By-Reference Files</a></li>
+<li><a href="#2.4">2.4. Creating Objects with both Metadata and By-Reference Files</a></li>
+<li><a href="#2.5">2.5. Creating Objects with Binary Files</a></li>
+<li><a href="#2.6">2.6. Creating Objects with Packaged Content</a></li>
+<li><a href="#2.7">2.7. Creating Objects with Segmented File Upload</a></li>
 </ul>
 </li>
 <li><a href="#3">3. Retrieving all or part of Objects</a><ul>
@@ -81,7 +82,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-08 20:03</p>
+<p><strong>Last modified</strong>: 2020-07-15 08:15</p>
         <h1><a name="1"></a>1. Retrieve the Service Document</h1>
 <p>Request from the server a list of the Service-URLs that the client can deposit to.  A Service-URL allows the server to support multiple
 different deposit conditions - each URL may have its own set of rules/workflows behind it; for example, Service-URLs may be
@@ -110,7 +111,41 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 </ul>
 <p></p></p>
 <h1><a name="2"></a>2. Creating New Objects</h1>
-<h2><a name="2.1"></a>2.1. Creating Objects with only Metadata</h2>
+<h2><a name="2.1"></a>2.1. Creating Objects with no content</h2>
+<p>Create a new Object on the server with no metadata or binary content.  That is, create a container into which you
+can subsequently send data.  It is RECOMMENDED that when using this route you specify <code>In-Progress: true</code>. </p>
+<p><p><strong>Protocol Operation</strong></p>
+<ul>
+<li>POST Service-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
+<li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
+<li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
+<li>MUST NOT include any body content</li>
+<li>MAY provide the <code>Slug</code> header</li>
+<li>MAY provide the <code>In-Progress</code> header</li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
+<li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If accepting the request MUST create a new Object</li>
+<li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
+<li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
+</ul>
+<p><strong>Response Requirements</strong></p>
+<ul>
+<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
+<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
+<li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
+</ul>
+<p></p></p>
+<h2><a name="2.2"></a>2.2. Creating Objects with only Metadata</h2>
 <p>Create a new Object on the server, sending only Metadata content (i.e. no Binary File content, and no By-Reference Files).</p>
 <p><p><strong>Protocol Operation</strong></p>
 <ul>
@@ -135,10 +170,10 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If accepting the request MUST create a new Object</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
 <li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
 <li>If accepting the request MUST populate the Object with the supplied Metadata</li>
-<li>If accepting the request MUST create a new Object</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
@@ -155,7 +190,7 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <pre><code>Content-Disposition: attachment; metadata=true
 </code></pre>
 
-<h2><a name="2.2"></a>2.2. Creating Objects with only By-Reference Files</h2>
+<h2><a name="2.3"></a>2.3. Creating Objects with only By-Reference Files</h2>
 <p>Create a new Object on the server, sending on By-Reference Files (i.e. no Binary Files and no Metadata)</p>
 <p><p><strong>Protocol Operation</strong></p>
 <ul>
@@ -179,10 +214,10 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If accepting the request MUST create a new Object</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
 <li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
 <li>If accepting the request MUST attach the By-Reference files to the Object.</li>
-<li>If accepting the request MUST create a new Object</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
@@ -199,7 +234,7 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <pre><code>Content-Disposition: attachment; by-reference=true
 </code></pre>
 
-<h2><a name="2.3"></a>2.3. Creating Objects with both Metadata and By-Reference Files</h2>
+<h2><a name="2.4"></a>2.4. Creating Objects with both Metadata and By-Reference Files</h2>
 <p>Create a new Object on the server, sending both Metadata content and By-Reference Files (i.e. no Binary File content)</p>
 <p><p><strong>Protocol Operation</strong></p>
 <ul>
@@ -225,10 +260,10 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If accepting the request MUST create a new Object</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
 <li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
 <li>If accepting the request MUST populate the Object with the supplied Metadata, and attach the By-Reference files to it.</li>
-<li>If accepting the request MUST create a new Object</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
@@ -245,7 +280,7 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 <pre><code>Content-Disposition: attachment; metadata=true; by-reference=true
 </code></pre>
 
-<h2><a name="2.4"></a>2.4. Creating Objects with Binary Files</h2>
+<h2><a name="2.5"></a>2.5. Creating Objects with Binary Files</h2>
 <p>Create a new Object on the server, sending a single Binary File.  The Binary File is an opaque bitstream which the server should not
 attempt to unpack.</p>
 <p><p><strong>Protocol Operation</strong></p>
@@ -272,9 +307,9 @@ attempt to unpack.</p>
 <li>If accepting the request MUST attach the supplied file to the Object as an <code>originalDeposit</code></li>
 <li>The server SHOULD NOT attempt to unpack the file</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If accepting the request MUST create a new Object</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
 <li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
-<li>If accepting the request MUST create a new Object</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
@@ -291,7 +326,7 @@ attempt to unpack.</p>
 <pre><code>Content-Disposition: attachment; filename=[filename]
 </code></pre>
 
-<h2><a name="2.5"></a>2.5. Creating Objects with Packaged Content</h2>
+<h2><a name="2.6"></a>2.6. Creating Objects with Packaged Content</h2>
 <p>Create a new Object on the server, sending a single Binary File.  The Binary File itself is specified as Packaged Content, which the server
 may understand how to unpack.</p>
 <p><p><strong>Protocol Operation</strong></p>
@@ -318,9 +353,9 @@ may understand how to unpack.</p>
 <li>If accepting the request MUST attach the supplied file to the Object as an <code>originalDeposit</code></li>
 <li>The server MAY attempt to unpack the file, and create <code>derivedResource</code>s from it.</li>
 <li>If a <code>Slug</code> header is provided, MAY use this as the identifier for the newly created Object.</li>
+<li>If accepting the request MUST create a new Object</li>
 <li>If no <code>In-Progress</code> header is provided, MUST assume that it is <code>false</code></li>
 <li>If <code>In-Progress</code> is <code>false</code>, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.</li>
-<li>If accepting the request MUST create a new Object</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
@@ -337,7 +372,7 @@ may understand how to unpack.</p>
 <pre><code>Content-Disposition: attachment; filename=[filename]
 </code></pre>
 
-<h2><a name="2.6"></a>2.6. Creating Objects with Segmented File Upload</h2>
+<h2><a name="2.7"></a>2.7. Creating Objects with Segmented File Upload</h2>
 <p>First create a Temporary-URL to which to upload the file segments:</p>
 <p><p><strong>Protocol Operation</strong></p>
 <ul>
@@ -368,7 +403,7 @@ may understand how to unpack.</p>
 </code></pre>
 
 <p>Then upload all the file segments as per <a href="#7.2">Upload a File Segment</a>.</p>
-<p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#2.2">Creating Objects with only By-Reference Files</a></p>
+<p>Then carry out a By-Reference deposit using the Temporary-URL as per <a href="#2.3">Creating Objects with only By-Reference Files</a></p>
 <h1><a name="3"></a>3. Retrieving all or part of Objects</h1>
 <h2><a name="3.1"></a>3.1. Retrieving an Object's Status</h2>
 <p>For an Object where you have an Object-URL, you may request information about the current state of that resource, and receive the Status

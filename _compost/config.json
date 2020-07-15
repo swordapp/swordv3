@@ -16,10 +16,11 @@
         { "source" : "data/schemas/error.schema.json", "target" : "error.schema.json" },
         { "source" : "data/schemas/metadata.schema.json", "target" : "metadata.schema.json" },
         { "source" : "data/schemas/openapi.json", "target" : "openapi.json" },
-        { "source" : "data/schemas/openapi.yaml", "target" : "openapi.yaml" },
+        { "source" : "data/schemas/openapi_.yaml", "target" : "openapi.yaml" },
         { "source" : "data/schemas/segmented-file-upload.schema.json", "target" : "segmented-file-upload.schema.json" },
         { "source" : "data/schemas/service-document.schema.json", "target" : "service-document.schema.json" },
         { "source" : "data/schemas/status.schema.json", "target" : "status.schema.json" },
-        { "source" : "data/schemas/swordv3.jsonld", "target" : "swordv3.jsonld" }
+        { "source" : "data/schemas/swordv3.jsonld", "target" : "swordv3.jsonld" },
+        { "source" : "data/schemas/SWORDBagIt.json", "target" :  "SWORDBagIt.json"}
     ]
 }

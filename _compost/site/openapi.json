@@ -458,6 +458,9 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
           "412": {
             "$ref": "#/components/responses/PreconditionFailed"
           },
@@ -1075,7 +1078,7 @@
     "/File-URL": {
       "get": {
         "summary": "Retrieve an individual File",
-        "operationId": "getMetadata",
+        "operationId": "getFile",
         "parameters": [
           {
             "in": "header",

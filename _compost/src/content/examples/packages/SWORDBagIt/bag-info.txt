@@ -1,1 +1,2 @@
 Bagging-Date: 2020-01-02
+BagIt-Profile-Identifier: http://purl.org/net/sword/3.0/package/SWORDBagIt

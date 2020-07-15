@@ -40,13 +40,13 @@
 			"$id": "/properties/metadata",
 			"type": "object",
 			"title": "Information about the identifier/version of the Object's Metadata",
-			"description": "MUST be present.",
+			"description": "MUST be present if the server permits any operations on metadata.",
 			"properties": {
 				"@id": {
 					"$id": "/properties/metadata/properties/@id",
 					"type": "string",
 					"title": "The Metadata-URL for this Object",
-					"description": "MUST be present",
+					"description": "MUST be present if the server permits any operations on metadata",
 					"examples": [
 						"http://www.myorg.ac.uk/sword3/object1/metadata"
 					]
@@ -55,7 +55,7 @@
 					"$id": "/properties/metadata/properties/eTag",
 					"type": "string",
 					"title": "The ETag for the Metadata",
-					"description": "MUST be present if the server supports concurrency control"
+					"description": "MUST be present if the server supports concurrency control and the Metadata-URL is present"
 				}
 			},
 			"required" : ["@id"]

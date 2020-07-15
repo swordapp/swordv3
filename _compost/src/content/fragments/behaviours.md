@@ -20,6 +20,19 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 
 # {{ header("Creating New Objects", toc="b") }}
 
+## {{ header("Creating Objects with no content", 2, toc="b") }}
+
+Create a new Object on the server with no metadata or binary content.  That is, create a container into which you
+can subsequently send data.  It is RECOMMENDED that when using this route you specify `In-Progress: true`. 
+
+{{ requirements(
+    reqs="tables/requirements",
+    hierarchy="tables/reqs_hierarchy",
+    groups=["Request", "Content", "Resource"],
+    match=["Create", "Empty Body", "Service-URL"],
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+}}
+
 ## {{ header("Creating Objects with only Metadata", 2, toc="b") }}
 
 Create a new Object on the server, sending only Metadata content (i.e. no Binary File content, and no By-Reference Files).

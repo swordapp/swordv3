@@ -99,13 +99,16 @@ Content-Disposition: attachment; by-reference=true
 
 ## {{ header("Metadata + By-Reference Document", 2) }}
 
-In some cases it is convenient to be able to send both Metadata and By-Reference files in a single request.  This is possible because both 
-Metadata and By-Reference documents are simply JSON documents; contrast this with sending Metadata and Binary Files, where a package 
-is required.
+In the event that the client wishes to send both Metadata and By-Reference content to the server, this is possible in
+the event that the Metadata format is expressed as JSON, such as the default SWORD metadata format.
+
+If the client wishes to send a metadata format that is not or cannot be expressed as JSON, this operation is not available,
+it is provided only as a convenience.  In that case, a separate {{ section_link("Metadata Deposit") }} and {{ section_link("By-Reference Deposit") }}
+should be carried out.
 
 To do this, the client may include the Metadata and By-Reference documents embedded in a single JSON document, structured as shown below. 
-The entire Metadata document (including its JSON-LD `@context`) is embedded in a field entitled `metadata`, and the entire By-Reference 
-document (again, with its JSON-LD `@context`) is embedded in a field entitled `by-reference`.
+The entire Metadata document (including its JSON-LD `@context` when using the default format) is embedded in a field 
+entitled `metadata`, and the entire By-Reference document (again, with its JSON-LD `@context`) is embedded in a field entitled `by-reference`.
 
 When a document of this form is sent, the client MUST set the `Content-Disposition` header appropriately, to alert the server of its 
 required behaviour.
@@ -123,13 +126,12 @@ Content-Disposition: attachment; metadata=true; by-reference=true
 ```
 
 Additionally, when sending this document the client SHOULD provide the `Metadata-Format` header with the identifier for the format: 
-http://purl.org/net/sword/3.0/types/Metadata
 
 ```
 Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 ```
 
-If the client omits the `Metadata-Format` header, the server MUST assume that it is the above format.
+If the client omits the `Metadata-Format` header, the server MUST assume that it is the default format: http://purl.org/net/sword/3.0/types/Metadata
 
 
 ## {{ header("Status Document", 2) }}
