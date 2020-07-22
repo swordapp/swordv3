@@ -119,7 +119,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-22 08:56</p>
+<p><strong>Last modified</strong>: 2020-07-22 09:01</p>
         <p>See also: <a href="/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
 protocol operations.</p>
 <h1><a name="1"></a>1. Credits</h1>
@@ -257,11 +257,11 @@ are listed for each section, please refer to the section above for details on th
 <tbody>
 <tr>
 <td>201</td>
-<td>Resource created, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - Object-URL</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Resource created, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - Object-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>202</td>
-<td>Resource accepted for processing, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - Object-URL</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Resource accepted for processing, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - Object-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>400</td>
@@ -373,11 +373,11 @@ are listed for each section, please refer to the section above for details on th
 <tbody>
 <tr>
 <td>200</td>
-<td>Content appended, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - The File-URL of the Original Deposit File if present</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Content appended, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - The File-URL of the Original Deposit File if present</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>202</td>
-<td>Content accepted for append, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - The File-URL of the Original Deposit File if present</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Content accepted for append, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - The File-URL of the Original Deposit File if present</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>400</td>
@@ -1206,18 +1206,18 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Request is:</p>
 <ul>
 <li>All<ul>
-<li>Delete</li>
+<li>Complete</li>
 <li>Retrieve</li>
 <li>Modify<ul>
-<li>Update<ul>
-<li>Append</li>
-<li>Replace</li>
-</ul>
-</li>
 <li>Create</li>
+<li>Update<ul>
+<li>Replace</li>
+<li>Append</li>
 </ul>
 </li>
-<li>Complete</li>
+</ul>
+</li>
+<li>Delete</li>
 </ul>
 </li>
 </ul>
@@ -1226,16 +1226,16 @@ capable of with its requirements fully expanded.</p>
 <li>All<ul>
 <li>Empty Body</li>
 <li>Body<ul>
-<li>Binary<ul>
-<li>Binary File</li>
-<li>Packaged Content</li>
-<li>File Segment</li>
-</ul>
-</li>
 <li>JSON<ul>
 <li>Metadata</li>
 <li>By-Reference</li>
 <li>MD+BR</li>
+</ul>
+</li>
+<li>Binary<ul>
+<li>Binary File</li>
+<li>Packaged Content</li>
+<li>File Segment</li>
 </ul>
 </li>
 </ul>
@@ -1246,20 +1246,20 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Resource is:</p>
 <ul>
 <li>All<ul>
-<li>Staging<ul>
-<li>Temporary-URL</li>
-<li>Staging-URL</li>
-</ul>
-</li>
 <li>Deposit<ul>
-<li>Object-URL</li>
 <li>Components<ul>
 <li>FileSet-URL</li>
-<li>Metadata-URL</li>
 <li>File-URL</li>
+<li>Metadata-URL</li>
 </ul>
 </li>
 <li>Service-URL</li>
+<li>Object-URL</li>
+</ul>
+</li>
+<li>Staging<ul>
+<li>Staging-URL</li>
+<li>Temporary-URL</li>
 </ul>
 </li>
 </ul>
@@ -1890,6 +1890,16 @@ capable of with its requirements fully expanded.</p>
 <p><strong>Protocol Operation</strong></p>
 <ul>
 <li>DELETE Metadata-URL</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Delete</li>
+<li><strong>Content</strong>: All</li>
+<li><strong>Resource</strong>: Temporary-URL</li>
+</ul>
+<p><strong>Protocol Operation</strong></p>
+<ul>
+<li>DELETE Temporary-URL</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -3193,9 +3203,9 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <p>The hierarchy for the Upload Type is:</p>
 <ul>
 <li>All<ul>
-<li>File Segment Upload</li>
-<li>Direct Deposit</li>
 <li>Segmented Upload Initialisation</li>
+<li>Direct Deposit</li>
+<li>File Segment Upload</li>
 </ul>
 </li>
 </ul>
@@ -3204,16 +3214,16 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <li>All<ul>
 <li>Empty Body</li>
 <li>Body<ul>
-<li>Binary<ul>
-<li>Binary File</li>
-<li>Packaged Content</li>
-<li>File Segment</li>
-</ul>
-</li>
 <li>JSON<ul>
 <li>Metadata</li>
 <li>By-Reference</li>
 <li>MD+BR</li>
+</ul>
+</li>
+<li>Binary<ul>
+<li>Binary File</li>
+<li>Packaged Content</li>
+<li>File Segment</li>
 </ul>
 </li>
 </ul>
@@ -3489,7 +3499,11 @@ be done via a GET to the Temporary-URL.</p>
 <h2><a name="9.6"></a>9.6. Aborting an Upload</h2>
 <p>If, part way through a segmented upload (even after completion) the client wishes to abort, it can send an DELETE request to the 
 Temporary-URL, with the following requirements:</p>
-<p><p><strong>Request Requirements</strong></p>
+<p><p><strong>Protocol Operation</strong></p>
+<ul>
+<li>DELETE Temporary-URL</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 </ul>
@@ -3637,8 +3651,8 @@ as links in the <code>links</code> section of the <a href="#6.6">Status Document
 </ul>
 <p>For example, to reflect the metadata from the previous section back to the client:</p>
 <pre><code class="json">{
-  &quot;contentType&quot;: &quot;application/xml&quot;,
   &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;,
+  &quot;contentType&quot;: &quot;application/xml&quot;,
   &quot;rel&quot;: [
     &quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;
   ],

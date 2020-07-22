@@ -68,6 +68,7 @@ Delete,*,Object-URL,,,,DELETE Object-URL
 Delete,*,FileSet-URL,,,,DELETE FileSet-URL
 Delete,*,File-URL,,,,DELETE File-URL
 Delete,*,Metadata-URL,,,,DELETE Metadata-URL
+Delete,*,Temporary-URL,,,,DELETE Temporary-URL
 Complete,Empty Body,Object-URL,MUST provide the header `In-Progress: false`,MAY inject the content into any ingest workflows,MUST respond with a `204` or a suitable error,POST Object-URL
 Complete,Empty Body,Object-URL,MAY provide the `Content-Length` header with value `0`,,,
 Complete,Empty Body,Object-URL,MUST NOT include any body content,,,
