@@ -172,6 +172,10 @@ Servers SHOULD delete completed Segmented File Uploads after a specified amount 
 tell when they have been given one of their own Temporary-URLs as a By-Reference deposit, and not delete that resource until after it has
 been ingested.
 
+If a Temporary-URL is used in a By-Reference deposit, this should reset the idle counter on the server for that file, and the server SHOULD NOT
+delete the file until after the idle period has expired. This allows clients to be able to reference the file in multiple deposits
+should that be necessary.
+
 
 ## {{ header("Errors", 2) }}
 
