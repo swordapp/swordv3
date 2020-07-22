@@ -1065,7 +1065,7 @@ components:
     Unauthorized:
       description: "**401 (Unauthorized)** - You have not provided authentication information, please do so"
     Forbidden:
-      description: "**403 (Forbidden)** - You are not authorised to access this resource"
+      description: "**403 (Forbidden)** - You are not authorised to access this resource, or the operation you requested is not possible in this context"
     NotFound:
       description: "**404 (Not Found)** - There is no resource available at the URL you requested"
     MethodNotAllowed:

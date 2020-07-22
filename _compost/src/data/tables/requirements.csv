@@ -1,5 +1,6 @@
 Request,Content,Resource,Request Requirements,Server Requirements,Response Requirements,Protocol Operation
-*,*,*,MAY specify `Authorization` and `On-Behalf-Of` headers (i.e. if authenticating this request),"If `Authorization` (and optionally `On-Behalf-Of`) headers are provided, MUST authenticate the request","If authentication fails, MUST respond with a `403`",
+*,*,*,MAY specify `Authorization` and `On-Behalf-Of` headers (i.e. if authenticating this request),"If `Authorization` (and optionally `On-Behalf-Of`) headers are provided, MUST authenticate the request","If no authentication credentials were supplied, but were expected, MUST respond with a `401` (AuthenticationRequired)",
+*,*,*,,,"If authentication fails with supplied credentials, MUST respond with a `403` (AuthenticationFailed)",
 Retrieve,*,Service-URL,,,"If `Authorization` (and optionally `On-Behalf-Of`) headers are provided, MUST only list Service-URLs in the Service Document for which a deposit request would be permitted",GET Service-URL
 Retrieve,*,Service-URL,,,MUST respond with a valid Service Document or a suitable error response,
 Retrieve,*,Object-URL,,,MUST respond with a valid Status document or a suitable error response,GET Object-URL

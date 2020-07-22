@@ -82,7 +82,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-15 16:05</p>
+<p><strong>Last modified</strong>: 2020-07-22 08:20</p>
         <h1><a name="1"></a>1. Retrieve the Service Document</h1>
 <p>Request from the server a list of the Service-URLs that the client can deposit to.  A Service-URL allows the server to support multiple
 different deposit conditions - each URL may have its own set of rules/workflows behind it; for example, Service-URLs may be
@@ -105,7 +105,8 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST only list Service-URLs in the Service Document for which a deposit request would be permitted</li>
 <li>MUST respond with a valid Service Document or a suitable error response</li>
 </ul>
@@ -137,7 +138,8 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
@@ -177,7 +179,8 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
@@ -221,7 +224,8 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
@@ -267,7 +271,8 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
@@ -313,7 +318,8 @@ attempt to unpack.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
@@ -359,7 +365,8 @@ may understand how to unpack.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
@@ -393,7 +400,8 @@ may understand how to unpack.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
@@ -422,7 +430,8 @@ document in response.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
@@ -447,7 +456,8 @@ by the appropriate URL.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a valid Metadata document (see definition below) or a suitable error response</li>
 </ul>
@@ -473,7 +483,8 @@ actual individual files that make up the object, or:</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response</li>
 </ul>
@@ -516,7 +527,8 @@ extend existing metadata, such that any new metadata fields are added to the Obj
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -557,7 +569,8 @@ extend existing metadata, such that any new metadata fields are added to the Obj
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -600,7 +613,8 @@ extend existing metadata, such that any new metadata fields are added to the Obj
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -643,7 +657,8 @@ without the server unpacking it as it would Packaged Content.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -688,7 +703,8 @@ actionable metadata.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -723,7 +739,8 @@ actionable metadata.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
@@ -766,7 +783,8 @@ actionable metadata.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -806,7 +824,8 @@ actionable metadata.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -847,7 +866,8 @@ version of the file available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code></li>
@@ -881,7 +901,8 @@ version of the file available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
@@ -920,7 +941,8 @@ new ones will replace them.  The server may or may not keep old versions of the 
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -963,7 +985,8 @@ presence of metadata which the FileSet-URL is not suitable to handle.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -998,7 +1021,8 @@ content available, at its discretion.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
@@ -1040,7 +1064,8 @@ not keep old versions of the content available, at its discretion.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -1082,7 +1107,8 @@ The server may or may not keep old versions of the content available, at its dis
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -1126,7 +1152,8 @@ By-Reference upload.  The server may or may not keep old versions of the content
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -1171,7 +1198,8 @@ the content available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -1216,7 +1244,8 @@ available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
@@ -1252,7 +1281,8 @@ the content available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
@@ -1282,7 +1312,8 @@ the content available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>204</code> if the delete is successful, <code>202</code> if the delete is queued for processing, or raise an error</li>
 </ul>
 <p></p></p>
@@ -1302,7 +1333,8 @@ the content available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>204</code> if the delete is successful, <code>202</code> if the delete is queued for processing, or raise an error</li>
 </ul>
 <p></p></p>
@@ -1323,7 +1355,8 @@ available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>204</code> if the delete is successful, <code>202</code> if the delete is queued for processing, or raise an error</li>
 </ul>
 <p></p></p>
@@ -1343,7 +1376,8 @@ available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>204</code> if the delete is successful, <code>202</code> if the delete is queued for processing, or raise an error</li>
 </ul>
 <p></p></p>
@@ -1368,7 +1402,8 @@ available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
@@ -1401,7 +1436,8 @@ available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>204</code> or a suitable error</li>
 </ul>
 <p></p></p>
@@ -1420,7 +1456,8 @@ available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>204</code> if the delete is successful, <code>202</code> if the delete is queued for processing, or raise an error</li>
 </ul>
 <p></p></p>
@@ -1439,7 +1476,8 @@ available.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>200</code> or a suitable error</li>
 <li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
 </ul>
@@ -1465,7 +1503,8 @@ server that you have completed your additions or modifications to the Object, so
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If authentication fails, MUST respond with a <code>403</code></li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>204</code> or a suitable error</li>
 </ul>
 <p></p></p>
