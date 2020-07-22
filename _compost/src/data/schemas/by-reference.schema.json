@@ -89,8 +89,8 @@
 					"ttl": {
 						"$id": "/properties/byReferenceFiles/items/properties/ttl",
 						"type": "string",
-						"title": "A timestamp which indicates when the file will no longer be available (Time To Live)",
-						"description": "If no date is provided, the server MAY assume the file will be available indefinitely.",
+						"title": "A timestamp which indicates when the file will no longer be available (Time To Live).",
+						"description": "MUST be formatted as UTC big-endian date as per {{ ref('NOTE-datetime') }}. If no date is provided, the server MAY assume the file will be available indefinitely.",
 						"examples": [
 							"2018-04-16T00:00:00Z"
 						]

@@ -273,7 +273,7 @@
 						"type": "string",
 						"format": "date-time",
 						"title": "Timestamp of when the deposit happened",
-						"description": "SHOULD be present if this is an Original Deposit"
+						"description": "SHOULD be present if this is an Original Deposit. If present, MUST be formatted as UTC big-endian date as per {{ ref('NOTE-datetime') }}."
 					},
 					"depositedBy": {
 						"$id": "/properties/links/items/properties/depositedBy",

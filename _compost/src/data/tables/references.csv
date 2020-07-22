@@ -5,6 +5,7 @@ IANA Auth,Hypertext Transfer Protocol (HTTP) Authentication Scheme Registry,http
 IANA Digest,Hypertext Transfer Protocol (HTTP) Digest Algorithm Values,https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml
 JSON-LD,"JSON-LD 1.1, A JSON-based Serialization for Linked Data, 28 March 2018",https://json-ld.org/spec/latest/json-ld/
 JSON-SCHEMA,JSON Schema: A Media Type for Describing JSON Documents,http://json-schema.org/latest/json-schema-core.html
+NOTE-datetime,"Wolf, M. and Wicksteed, C. ""Date and Time Formats"", 1997",https://www.w3.org/TR/NOTE-datetime
 OpenAPI,"OpenAPI Specification, Version 3.0.0",https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
 RFC2119,"Bradner, S. ""Key words for use in RFCs to Indicate Requirement Levels"", March 1997.",http://www.ietf.org/rfc/rfc2119.txt
 RFC3230,"J. Mogul et al ""Instance Digests in HTTP""",https://www.ietf.org/rfc/rfc3230.txt

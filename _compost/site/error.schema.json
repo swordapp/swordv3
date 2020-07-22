@@ -28,7 +28,7 @@
 			"$id": "/properties/timestamp",
 			"type": "string",
 			"format" : "date-time",
-			"title": "When the error occurred.",
+			"title": "When the error occurred. MUST be formatted as UTC big-endian date as per {{ ref('NOTE-datetime') }}.",
 			"description" : "MUST be present"
 		},
 		"error": {
