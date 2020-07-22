@@ -967,10 +967,6 @@ paths:
           schema:
             type: integer
         - in: header
-          name: Content-Type
-          schema:
-            type: string
-        - in: header
           name: Digest
           schema:
             type: string

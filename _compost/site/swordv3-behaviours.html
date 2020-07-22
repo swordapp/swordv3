@@ -82,7 +82,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-22 08:40</p>
+<p><strong>Last modified</strong>: 2020-07-22 08:56</p>
         <h1><a name="1"></a>1. Retrieve the Service Document</h1>
 <p>Request from the server a list of the Service-URLs that the client can deposit to.  A Service-URL allows the server to support multiple
 different deposit conditions - each URL may have its own set of rules/workflows behind it; for example, Service-URLs may be
@@ -157,8 +157,9 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide only the Metadata document</li>
 <li>MAY provide the <code>Slug</code> header</li>
@@ -203,8 +204,9 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MUST provide the By-Reference document</li>
 <li>MAY provide the <code>Slug</code> header</li>
 <li>MAY provide the <code>In-Progress</code> header</li>
@@ -248,8 +250,9 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide the Metadata+By Reference document</li>
 <li>MAY provide the <code>Slug</code> header</li>
@@ -296,8 +299,9 @@ attempt to unpack.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 <li>MUST provide Binary File body content</li>
 <li>MAY provide the <code>Slug</code> header</li>
@@ -343,8 +347,9 @@ may understand how to unpack.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MUST provide the <code>Packaging</code> header</li>
 <li>MUST provide Packaged Content in the request body</li>
 <li>MAY provide the <code>Slug</code> header</li>
@@ -507,8 +512,9 @@ extend existing metadata, such that any new metadata fields are added to the Obj
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide only the Metadata document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -550,8 +556,9 @@ extend existing metadata, such that any new metadata fields are added to the Obj
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MUST provide the By-Reference document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
 <li>MAY provide the <code>In-Progress</code> header</li>
@@ -592,8 +599,9 @@ extend existing metadata, such that any new metadata fields are added to the Obj
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide the Metadata+By Reference document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -637,8 +645,9 @@ without the server unpacking it as it would Packaged Content.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 <li>MUST provide Binary File body content</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -683,8 +692,9 @@ actionable metadata.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MUST provide the <code>Packaging</code> header</li>
 <li>MUST provide Packaged Content in the request body</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -765,8 +775,9 @@ actionable metadata.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide only the Metadata document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -805,8 +816,9 @@ actionable metadata.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 <li>MUST provide Binary File body content</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -847,8 +859,9 @@ version of the file available.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MUST provide the By-Reference document</li>
 <li>MUST only include a single By-Reference File in the By-Reference document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -924,8 +937,9 @@ new ones will replace them.  The server may or may not keep old versions of the 
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MUST provide the By-Reference document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
 </ul>
@@ -966,8 +980,9 @@ presence of metadata which the FileSet-URL is not suitable to handle.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 <li>MUST provide Binary File body content</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -1044,8 +1059,9 @@ not keep old versions of the content available, at its discretion.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide only the Metadata document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -1088,8 +1104,9 @@ The server may or may not keep old versions of the content available, at its dis
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MUST provide the By-Reference document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
 <li>MAY provide the <code>In-Progress</code> header</li>
@@ -1131,8 +1148,9 @@ By-Reference upload.  The server may or may not keep old versions of the content
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
 <li>MUST provide the Metadata+By Reference document</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -1177,8 +1195,9 @@ the content available.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
 <li>MUST provide Binary File body content</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -1223,8 +1242,9 @@ available.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
+<li>MUST provide the <code>Content-Type</code> header</li>
 <li>MUST provide the <code>Packaging</code> header</li>
 <li>MUST provide Packaged Content in the request body</li>
 <li>MUST include the <code>If-Match</code> header, if the server implements concurrency control</li>
@@ -1421,7 +1441,7 @@ available.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
 </ul>
 <p><strong>Server Requirements</strong></p>

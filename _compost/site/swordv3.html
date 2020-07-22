@@ -119,7 +119,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-22 08:40</p>
+<p><strong>Last modified</strong>: 2020-07-22 08:56</p>
         <p>See also: <a href="/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
 protocol operations.</p>
 <h1><a name="1"></a>1. Credits</h1>
@@ -1087,7 +1087,6 @@ are listed for each section, please refer to the section above for details on th
 <li>Authorization</li>
 <li>Content-Disposition</li>
 <li>Content-Length</li>
-<li>Content-Type</li>
 <li>Digest</li>
 <li>On-Behalf-Of</li>
 </ul>
@@ -1207,40 +1206,40 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Request is:</p>
 <ul>
 <li>All<ul>
-<li>Complete</li>
+<li>Delete</li>
 <li>Retrieve</li>
 <li>Modify<ul>
-<li>Create</li>
 <li>Update<ul>
-<li>Replace</li>
 <li>Append</li>
+<li>Replace</li>
 </ul>
 </li>
+<li>Create</li>
 </ul>
 </li>
-<li>Delete</li>
+<li>Complete</li>
 </ul>
 </li>
 </ul>
 <p>The hierarchy for the Content is:</p>
 <ul>
 <li>All<ul>
+<li>Empty Body</li>
 <li>Body<ul>
+<li>Binary<ul>
+<li>Binary File</li>
+<li>Packaged Content</li>
+<li>File Segment</li>
+</ul>
+</li>
 <li>JSON<ul>
-<li>By-Reference</li>
 <li>Metadata</li>
+<li>By-Reference</li>
 <li>MD+BR</li>
 </ul>
 </li>
-<li>Binary<ul>
-<li>Packaged Content</li>
-<li>File Segment</li>
-<li>Binary File</li>
 </ul>
 </li>
-</ul>
-</li>
-<li>Empty Body</li>
 </ul>
 </li>
 </ul>
@@ -1248,16 +1247,16 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>All<ul>
 <li>Staging<ul>
-<li>Staging-URL</li>
 <li>Temporary-URL</li>
+<li>Staging-URL</li>
 </ul>
 </li>
 <li>Deposit<ul>
 <li>Object-URL</li>
 <li>Components<ul>
-<li>File-URL</li>
-<li>Metadata-URL</li>
 <li>FileSet-URL</li>
+<li>Metadata-URL</li>
+<li>File-URL</li>
 </ul>
 </li>
 <li>Service-URL</li>
@@ -1388,6 +1387,10 @@ capable of with its requirements fully expanded.</p>
 <li><strong>Content</strong>: Body</li>
 <li><strong>Resource</strong>: Deposit</li>
 </ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the <code>Content-Type</code> header</li>
+</ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error</li>
@@ -1404,7 +1407,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Request Requirements</strong></p>
 <ul>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
 </ul>
 <p><strong>Server Requirements</strong></p>
@@ -3191,30 +3194,30 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <ul>
 <li>All<ul>
 <li>File Segment Upload</li>
-<li>Segmented Upload Initialisation</li>
 <li>Direct Deposit</li>
+<li>Segmented Upload Initialisation</li>
 </ul>
 </li>
 </ul>
 <p>The hierarchy for the Content is:</p>
 <ul>
 <li>All<ul>
+<li>Empty Body</li>
 <li>Body<ul>
+<li>Binary<ul>
+<li>Binary File</li>
+<li>Packaged Content</li>
+<li>File Segment</li>
+</ul>
+</li>
 <li>JSON<ul>
-<li>By-Reference</li>
 <li>Metadata</li>
+<li>By-Reference</li>
 <li>MD+BR</li>
 </ul>
 </li>
-<li>Binary<ul>
-<li>Packaged Content</li>
-<li>File Segment</li>
-<li>Binary File</li>
 </ul>
 </li>
-</ul>
-</li>
-<li>Empty Body</li>
 </ul>
 </li>
 </ul>
@@ -3430,7 +3433,7 @@ also specified in the <a href="#6.2">Service Document</a>.</p>
 <ul>
 <li>MAY specify <code>Authorization</code> and <code>On-Behalf-Of</code> headers (i.e. if authenticating this request)</li>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
-<li>MUST provide the <code>Content-Type</code> and <code>Digest</code> headers</li>
+<li>MUST provide the <code>Digest</code> header</li>
 <li>SHOULD provide the <code>Content-Length</code></li>
 </ul>
 <p><strong>Server Requirements</strong></p>
@@ -3636,10 +3639,10 @@ as links in the <code>links</code> section of the <a href="#6.6">Status Document
 <pre><code class="json">{
   &quot;contentType&quot;: &quot;application/xml&quot;,
   &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;,
-  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
   &quot;rel&quot;: [
     &quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;
-  ]
+  ],
+  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;
 }
 </code></pre>
         <h1><a name="12"></a>12. Packaging Formats</h1>
