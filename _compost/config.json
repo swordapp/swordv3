@@ -8,6 +8,11 @@
         "url_for" : {
             "include_base_url" : false,
             "include_file_suffix" : true
+        },
+        "anchor_link" : {
+            "function" : "compost.utils.anchor_link",
+            "anchor_prefix" : "error_",
+            "target_document" : "swordv3.html"
         }
     },
 

@@ -62,10 +62,7 @@
 </ul>
 </li>
 <li><a href="#6.7">6.7. Segmented File Upload Document</a></li>
-<li><a href="#6.8">6.8. Error Document</a><ul>
-<li><a href="#6.8.1">6.8.1. Error Types</a></li>
-</ul>
-</li>
+<li><a href="#6.8">6.8. Error Document</a></li>
 </ul>
 </li>
 <li><a href="#7">7. Authentication and Authorisation</a><ul>
@@ -75,43 +72,44 @@
 <li><a href="#7.4">7.4. Recording Depositing Users</a></li>
 </ul>
 </li>
-<li><a href="#8">8. Content Disposition</a></li>
-<li><a href="#9">9. Segmented File Upload</a><ul>
-<li><a href="#9.1">9.1. Announcing Support for Segmented File Upload</a></li>
-<li><a href="#9.2">9.2. Outline of Process for Segmented File Upload</a></li>
-<li><a href="#9.3">9.3. Segmented Upload Initialisation</a></li>
-<li><a href="#9.4">9.4. Uploading File Segments</a></li>
-<li><a href="#9.5">9.5. Retrieving Information about a Segmented File Upload</a></li>
-<li><a href="#9.6">9.6. Aborting an Upload</a></li>
-<li><a href="#9.7">9.7. Incomplete Upload Retention</a></li>
-<li><a href="#9.8">9.8. Completed Upload Retention</a></li>
-<li><a href="#9.9">9.9. Errors</a></li>
+<li><a href="#8">8. Error Types</a></li>
+<li><a href="#9">9. Content Disposition</a></li>
+<li><a href="#10">10. Segmented File Upload</a><ul>
+<li><a href="#10.1">10.1. Announcing Support for Segmented File Upload</a></li>
+<li><a href="#10.2">10.2. Outline of Process for Segmented File Upload</a></li>
+<li><a href="#10.3">10.3. Segmented Upload Initialisation</a></li>
+<li><a href="#10.4">10.4. Uploading File Segments</a></li>
+<li><a href="#10.5">10.5. Retrieving Information about a Segmented File Upload</a></li>
+<li><a href="#10.6">10.6. Aborting an Upload</a></li>
+<li><a href="#10.7">10.7. Incomplete Upload Retention</a></li>
+<li><a href="#10.8">10.8. Completed Upload Retention</a></li>
+<li><a href="#10.9">10.9. Errors</a></li>
 </ul>
 </li>
-<li><a href="#10">10. Metadata Deposit</a><ul>
-<li><a href="#10.1">10.1. Announcing Support for Metadata Formats</a></li>
-<li><a href="#10.2">10.2. Indicating Metadata Format to the Server</a></li>
+<li><a href="#11">11. Metadata Deposit</a><ul>
+<li><a href="#11.1">11.1. Announcing Support for Metadata Formats</a></li>
+<li><a href="#11.2">11.2. Indicating Metadata Format to the Server</a></li>
 </ul>
 </li>
-<li><a href="#11">11. Metadata Formats</a><ul>
-<li><a href="#11.1">11.1. Default Format</a></li>
-<li><a href="#11.2">11.2. Depositing Other Formats</a></li>
-<li><a href="#11.3">11.3. Representing Other Formats in the Service Document</a></li>
+<li><a href="#12">12. Metadata Formats</a><ul>
+<li><a href="#12.1">12.1. Default Format</a></li>
+<li><a href="#12.2">12.2. Depositing Other Formats</a></li>
+<li><a href="#12.3">12.3. Representing Other Formats in the Service Document</a></li>
 </ul>
 </li>
-<li><a href="#12">12. Packaging Formats</a><ul>
-<li><a href="#12.1">12.1. Binary</a></li>
-<li><a href="#12.2">12.2. SimpleZip</a></li>
-<li><a href="#12.3">12.3. SWORDBagIt</a></li>
+<li><a href="#13">13. Packaging Formats</a><ul>
+<li><a href="#13.1">13.1. Binary</a></li>
+<li><a href="#13.2">13.2. SimpleZip</a></li>
+<li><a href="#13.3">13.3. SWORDBagIt</a></li>
 </ul>
 </li>
-<li><a href="#13">13. Auto-Discovery</a><ul>
-<li><a href="#13.1">13.1. For Services</a></li>
-<li><a href="#13.2">13.2. For Objects</a></li>
-<li><a href="#13.3">13.3. Well-Known URI</a></li>
+<li><a href="#14">14. Auto-Discovery</a><ul>
+<li><a href="#14.1">14.1. For Services</a></li>
+<li><a href="#14.2">14.2. For Objects</a></li>
+<li><a href="#14.3">14.3. Well-Known URI</a></li>
 </ul>
 </li>
-<li><a href="#14">14. References</a></li>
+<li><a href="#15">15. References</a></li>
 </ul>
         </div>
     </div>
@@ -119,7 +117,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-22 09:01</p>
+<p><strong>Last modified</strong>: 2020-07-22 15:26</p>
         <p>See also: <a href="/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
 protocol operations.</p>
 <h1><a name="1"></a>1. Credits</h1>
@@ -168,15 +166,15 @@ and <a href="/openapi.yaml">YAML</a>.</p>
 <p>The following error responses are possible against some or all of the HTTP Requests.  In each case an Error Document MUST be returned by the 
 server with details as to the root cause of the error.</p>
 <ul>
-<li><strong>400 (BadRequest)</strong> - The server could not understand your request.  Either your headers or content body are wrong or malformed.</li>
-<li><strong>401 (Unauthorized)</strong> - You have not provided authentication information, please do so</li>
-<li><strong>403 (Forbidden)</strong> - You are not authorised to access this resource, or the operation you requested is not possible in this context</li>
+<li><strong>400 (BadRequest)</strong> - The server could not understand your request.  Either your headers or content body are wrong or malformed. (see Error Types: <a href="#error_badrequest">BadRequest</a>, <a href="#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>, <a href="#error_contentmalformed">ContentMalformed</a>, <a href="#error_invalidsegmentsize">InvalidSegmentSize</a>, <a href="#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>, <a href="#error_segmentlimitexceeded">SegmentLimitExceeded</a>, <a href="#error_unexpectedsegment">UnexpectedSegment</a>)</li>
+<li><strong>401 (Unauthorized)</strong> - You have not provided authentication information, please do so (see Error Types: <a href="#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li><strong>403 (Forbidden)</strong> - You are not authorised to access this resource, or the operation you requested is not possible in this context (see Error Types: <a href="#error_authenticationfailed">AuthenticationFailed</a>, <a href="#error_forbidden">Forbidden</a>)</li>
 <li><strong>404 (Not Found)</strong> - There is no resource available at the URL you requested</li>
-<li><strong>405 (Method Not Allowed)</strong> - The HTTP method you requested on the resource is not permitted/available in this context</li>
+<li><strong>405 (Method Not Allowed)</strong> - The HTTP method you requested on the resource is not permitted/available in this context (see Error Types: <a href="#error_methodnotallowed">MethodNotAllowed</a>, <a href="#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>)</li>
 <li><strong>410 (Gone)</strong> - The resource existed in the past but is no longer present at the URL you requested</li>
-<li><strong>412 (Precondition Failed)</strong> - There is a problem implementing the request as-is.  This can happen for the following reasons: your checksums may not match, you may have requested mediated deposit when the server does not support that, your headers may not be consistent with each other, your If-Match headers may not mat the current ETag, or your Segmented Upload Initialisation request may not be within parameters acceptable to the server.</li>
-<li><strong>413 (Payload Too Large)</strong> - Your request body exceeds the size allowed by the server</li>
-<li><strong>415 (Unsupported Media Type)</strong> - The metadata format is not the same as that identified in Metadata-Format and/or it is not supported by the server, or the packaging format is not the same as that identified in Packaging and/or it is not supported by the server</li>
+<li><strong>412 (Precondition Failed)</strong> - There is a problem implementing the request as-is.  This can happen for the following reasons: your checksums may not match, you may have requested mediated deposit when the server does not support that, your headers may not be consistent with each other, your If-Match headers may not mat the current ETag, or your Segmented Upload Initialisation request may not be within parameters acceptable to the server. (see Error Types: <a href="#error_byreferencenotallowed">ByReferenceNotAllowed</a>, <a href="#error_digestmismatch">DigestMismatch</a>, <a href="#error_etagnotmatched">ETagNotMatched</a>, <a href="#error_etagrequired">ETagRequired</a>, <a href="#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li><strong>413 (Payload Too Large)</strong> - Your request body exceeds the size allowed by the server (see Error Types: <a href="#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li><strong>415 (Unsupported Media Type)</strong> - The metadata format is not the same as that identified in Metadata-Format and/or it is not supported by the server, or the packaging format is not the same as that identified in Packaging and/or it is not supported by the server (see Error Types: <a href="#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>, <a href="#error_formatheadermismatch">FormatHeaderMismatch</a>, <a href="#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>, <a href="#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
 </ul>
 <h2><a name="4.2"></a>4.2. Redirects</h2>
 <p>Some requests may result in redirect codes being sent to the client; the server MAY respond to any request with a suitable redirect.  These 
@@ -257,11 +255,11 @@ are listed for each section, please refer to the section above for details on th
 <tbody>
 <tr>
 <td>201</td>
-<td>Resource created, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - Object-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Resource created, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - Object-URL</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>202</td>
-<td>Resource accepted for processing, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - Object-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Resource accepted for processing, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - Object-URL</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>400</td>
@@ -373,11 +371,11 @@ are listed for each section, please refer to the section above for details on th
 <tbody>
 <tr>
 <td>200</td>
-<td>Content appended, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - The File-URL of the Original Deposit File if present</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Content appended, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - The File-URL of the Original Deposit File if present</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>202</td>
-<td>Content accepted for append, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - The File-URL of the Original Deposit File if present</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Content accepted for append, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - The File-URL of the Original Deposit File if present</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>400</td>
@@ -1206,18 +1204,18 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Request is:</p>
 <ul>
 <li>All<ul>
-<li>Complete</li>
-<li>Retrieve</li>
 <li>Modify<ul>
-<li>Create</li>
 <li>Update<ul>
-<li>Replace</li>
 <li>Append</li>
+<li>Replace</li>
 </ul>
 </li>
+<li>Create</li>
 </ul>
 </li>
 <li>Delete</li>
+<li>Complete</li>
+<li>Retrieve</li>
 </ul>
 </li>
 </ul>
@@ -1226,16 +1224,16 @@ capable of with its requirements fully expanded.</p>
 <li>All<ul>
 <li>Empty Body</li>
 <li>Body<ul>
+<li>Binary<ul>
+<li>File Segment</li>
+<li>Packaged Content</li>
+<li>Binary File</li>
+</ul>
+</li>
 <li>JSON<ul>
 <li>Metadata</li>
 <li>By-Reference</li>
 <li>MD+BR</li>
-</ul>
-</li>
-<li>Binary<ul>
-<li>Binary File</li>
-<li>Packaged Content</li>
-<li>File Segment</li>
 </ul>
 </li>
 </ul>
@@ -1246,20 +1244,20 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Resource is:</p>
 <ul>
 <li>All<ul>
+<li>Staging<ul>
+<li>Temporary-URL</li>
+<li>Staging-URL</li>
+</ul>
+</li>
 <li>Deposit<ul>
 <li>Components<ul>
-<li>FileSet-URL</li>
 <li>File-URL</li>
+<li>FileSet-URL</li>
 <li>Metadata-URL</li>
 </ul>
 </li>
-<li>Service-URL</li>
 <li>Object-URL</li>
-</ul>
-</li>
-<li>Staging<ul>
-<li>Staging-URL</li>
-<li>Temporary-URL</li>
+<li>Service-URL</li>
 </ul>
 </li>
 </ul>
@@ -1288,10 +1286,12 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST authenticate the request</li>
 </ul>
-<p><strong>Response Requirements</strong></p>
+<p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1385,6 +1385,27 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: Body</li>
+<li><strong>Resource</strong>: All</li>
+</ul>
+<p><strong>Request Requirements</strong></p>
+<ul>
+<li>MUST provide the <code>Digest</code> header</li>
+<li>SHOULD provide the <code>Content-Length</code></li>
+</ul>
+<p><strong>Server Requirements</strong></p>
+<ul>
+<li>MUST verify that the content matches the <code>Digest</code> header</li>
+<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+</ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: Body</li>
 <li><strong>Resource</strong>: Deposit</li>
 </ul>
 <p><strong>Request Requirements</strong></p>
@@ -1399,21 +1420,10 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<p><strong>Error Responses</strong></p>
 <ul>
-<li><strong>Request</strong>: Modify</li>
-<li><strong>Content</strong>: Body</li>
-<li><strong>Resource</strong>: All</li>
-</ul>
-<p><strong>Request Requirements</strong></p>
-<ul>
-<li>MUST provide the <code>Digest</code> header</li>
-<li>SHOULD provide the <code>Content-Length</code></li>
-</ul>
-<p><strong>Server Requirements</strong></p>
-<ul>
-<li>MUST verify that the content matches the <code>Digest</code> header</li>
-<li>MUST verify that the supplied content matches the <code>Content-Length</code> if this is provided</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1430,6 +1440,20 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 </ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: Metadata</li>
+<li><strong>Resource</strong>: Deposit</li>
+</ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+</ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
@@ -1443,6 +1467,11 @@ capable of with its requirements fully expanded.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+</ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1458,9 +1487,9 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If more than one By-Reference File is present, MUST reject the request.</li>
 </ul>
-<p><strong>Response Requirements</strong></p>
+<p><strong>Error Responses</strong></p>
 <ul>
-<li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code></li>
+<li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_badrequest">BadRequest</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1477,6 +1506,22 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
 <li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+</ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: MD+BR</li>
+<li><strong>Resource</strong>: Deposit</li>
+</ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1517,6 +1562,20 @@ capable of with its requirements fully expanded.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>The server MAY attempt to unpack the file, and create <code>derivedResource</code>s from it.</li>
+</ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If the server does not accept packages in the format identified in the <code>Packaging</code> header, MUST respond with a <code>415</code> (<a href="/swordv3.html#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
+</ul>
+<p><hr><strong>Request Conditions</strong>:</p>
+<ul>
+<li><strong>Request</strong>: Modify</li>
+<li><strong>Content</strong>: Packaged Content</li>
+<li><strong>Resource</strong>: Deposit</li>
+</ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If the <code>Packaging</code> header does not match the format found in the body content, SHOULD return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response.</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1608,6 +1667,12 @@ capable of with its requirements fully expanded.</p>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
+<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
+</ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Update</li>
@@ -1622,15 +1687,20 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST reject the request if the <code>If-Match</code> header does not match the current <code>ETag</code> of the resource</li>
 </ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+</ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Update</li>
 <li><strong>Content</strong>: Body</li>
-<li><strong>Resource</strong>: Deposit</li>
+<li><strong>Resource</strong>: Components</li>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
+<li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1650,6 +1720,7 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST respond with a valid Status document or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
+<li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1780,16 +1851,6 @@ capable of with its requirements fully expanded.</p>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If accepting the new File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new File MUST be marked as an <code>originalDeposit</code></li>
-</ul>
-<p><hr><strong>Request Conditions</strong>:</p>
-<ul>
-<li><strong>Request</strong>: Update</li>
-<li><strong>Content</strong>: Body</li>
-<li><strong>Resource</strong>: Components</li>
-</ul>
-<p><strong>Response Requirements</strong></p>
-<ul>
-<li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1943,6 +2004,10 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST respond with a <code>204</code> or a suitable error</li>
 </ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If the provided segment is not the final segment and is not the size that the client had indicated on initialisation, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+</ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Append</li>
@@ -1954,6 +2019,11 @@ capable of with its requirements fully expanded.</p>
 <li>If all preconditions are met, MUST accept the file segment, and record the receipt of it</li>
 <li>MUST be prepared to accept file segments in any order, and in parallel</li>
 <li>MUST be able to store the incoming file segments as they arrive, and then reconstitute them into a single file when all segments have been received.</li>
+</ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If the Temporary-URL has expired, SHOULD return <code>410</code> (<a href="/swordv3.html#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>).  Servers may also return <code>404</code> and no further explanation.</li>
+<li>If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return <code>400</code> (<a href="/swordv3.html#error_unexpectedsegment">UnexpectedSegment</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -2221,7 +2291,7 @@ Service is requested, it MUST only provide information about itself and its chil
 <p>The default SWORD Metadata document allows the deposit of a standard, basic metadata document constructed using the DCMI terms [<a href="#dcmi">DCMI</a>].  This 
 Metadata document can be sent when creating an Object initially, when appending to the metadata, or in replacing the metadata or indeed the 
 Object as a whole.</p>
-<p>The format of the document is simple and extensible (see the <a href="#11">Metadata Formats</a> section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
+<p>The format of the document is simple and extensible (see the <a href="#12">Metadata Formats</a> section).  The <code>dc</code> and <code>dcterms</code> vocabularies are supported, 
 and servers MUST support this metadata format.</p>
 <p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/metadata.schema.json">here</a>.</p>
 <p>An example of the Metadata Document:</p>
@@ -2385,7 +2455,7 @@ replacing the Object as a whole.</p>
 <p>In the event that the client wishes to send both Metadata and By-Reference content to the server, this is possible in
 the event that the Metadata format is expressed as JSON, such as the default SWORD metadata format.</p>
 <p>If the client wishes to send a metadata format that is not or cannot be expressed as JSON, this operation is not available,
-it is provided only as a convenience.  In that case, a separate <a href="#10">Metadata Deposit</a> and {% mdinline %}{% autoescape off %}{{ section_link("By-Reference Deposit", "main") }}{% endautoescape %}{% endmdinline %}
+it is provided only as a convenience.  In that case, a separate <a href="#11">Metadata Deposit</a> and {% mdinline %}{% autoescape off %}{{ section_link("By-Reference Deposit", "main") }}{% endautoescape %}{% endmdinline %}
 should be carried out.</p>
 <p>To do this, the client may include the Metadata and By-Reference documents embedded in a single JSON document, structured as shown below. 
 The entire Metadata document (including its JSON-LD <code>@context</code> when using the default format) is embedded in a field 
@@ -2984,140 +3054,7 @@ file (Original Deposits), a “status” field will provide information on the c
 </tr>
 </tbody>
 </table></p>
-<h3><a name="6.8.1"></a>6.8.1. Error Types</h3>
-<p>The following are the error types that are available (to place in <code>@type</code>), their associated HTTP Status Code, and the legitimate reasons
-for returning that error:</p>
-<p><table>
-<thead>
-<tr>
-<th>Error Type</th>
-<th>Error Code</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AuthenticationFailed</td>
-<td>403</td>
-<td>The request supplied invalid credentials</td>
-</tr>
-<tr>
-<td>AuthenticationRequired</td>
-<td>401</td>
-<td>The request supplied no credentials, when the server was expecting to authenticate the request.</td>
-</tr>
-<tr>
-<td>BadRequest</td>
-<td>400</td>
-<td>The request did not meet the standard specified by the SWORD protocol. This error can be used when no other error is appropriate</td>
-</tr>
-<tr>
-<td>ByReferenceFileSizeExceeded</td>
-<td>400</td>
-<td>The client supplied a By-Reference deposit file, which specified a file size which exceeded the server's limit</td>
-</tr>
-<tr>
-<td>ByReferenceNotAllowed</td>
-<td>412</td>
-<td>The client attempted to carry out a By-Reference deposit on a server which does not support it</td>
-</tr>
-<tr>
-<td>ContentMalformed</td>
-<td>400</td>
-<td>The body content of the request was malformed in some way, such that the server cannot read it correctly.</td>
-</tr>
-<tr>
-<td>ContentTypeNotAcceptable</td>
-<td>415</td>
-<td>The <code>Content-Type</code> header specifies a content type of the request which is in a format that the server cannot accept.</td>
-</tr>
-<tr>
-<td>DigestMismatch</td>
-<td>412</td>
-<td>One or more of the Digests that the server checked did not match the deposited content</td>
-</tr>
-<tr>
-<td>ETagNotMatched</td>
-<td>412</td>
-<td>The client supplied an <code>If-Match</code> header which did not match the current <code>ETag</code> for the resource being updated.</td>
-</tr>
-<tr>
-<td>ETagRequired</td>
-<td>412</td>
-<td>The client did not supply an <code>If-Match</code> header, when one was required by the server</td>
-</tr>
-<tr>
-<td>Forbidden</td>
-<td>403</td>
-<td>The client requested an operation that is not permitted by the server in this context.</td>
-</tr>
-<tr>
-<td>FormatHeaderMismatch</td>
-<td>415</td>
-<td>The <code>Metadata-Format</code> or <code>Packaging</code> header does not match what the server found when looking at the Metadata or Packaged Content supplied in a request.</td>
-</tr>
-<tr>
-<td>InvalidSegmentSize</td>
-<td>400</td>
-<td>The client sent a segment that was not the final segment, and was not the size that it indicated segments would be</td>
-</tr>
-<tr>
-<td>MaxAssembledSizeExceeded</td>
-<td>400</td>
-<td>During a segmented upload initialisation, the client specified a total file size which is larger than the maximum assembled file size supported by the server</td>
-</tr>
-<tr>
-<td>MaxUploadSizeExceeded</td>
-<td>413</td>
-<td>The request supplied body content which is larger than that supported by the server.</td>
-</tr>
-<tr>
-<td>MetadataFormatNotAcceptable</td>
-<td>415</td>
-<td>The <code>Metadata-Format</code> header specifies a metadata format for the request which is in a format that the server cannot accept</td>
-</tr>
-<tr>
-<td>MethodNotAllowed</td>
-<td>405</td>
-<td>The request is for a method on a resource that is not permitted. This may be permanent, temporary, and may depend on the client’s credentials</td>
-</tr>
-<tr>
-<td>OnBehalfOfNotAllowed</td>
-<td>412</td>
-<td>The request contained an <code>On-Behalf-Of</code> header, although the server indicates that it does not support this.</td>
-</tr>
-<tr>
-<td>PackagingFormatNotAcceptable</td>
-<td>415</td>
-<td>The <code>Packaging</code> header specifies a packaging format for the request which is in a format that the server cannot accept</td>
-</tr>
-<tr>
-<td>SegmentedUploadNotAllowed</td>
-<td>412</td>
-<td>The client attempted to carry out a Segmented Upload on a server which does not support it</td>
-</tr>
-<tr>
-<td>SegmentedUploadTimedOut</td>
-<td>405</td>
-<td>The client's segmented upload URL has timed out.  Servers MAY respond to this with a 404 and no explanation also.</td>
-</tr>
-<tr>
-<td>SegmentLimitExceeded</td>
-<td>400</td>
-<td>During a segmented upload initialisation, the client specified a total number of intended segments which is larger than the limit specified by the server</td>
-</tr>
-<tr>
-<td>UnexpectedSegment</td>
-<td>400</td>
-<td>The client sent a segment that the server was not expecting; in particular the server may have recieved all the segments it was expecting, and this is an extra one</td>
-</tr>
-<tr>
-<td>ValidationFailed</td>
-<td>400</td>
-<td>The server could not validate the structure of the incoming content against its expected schema.  This may include the JSON schema of the SWORD documents, the metadata held within those documents, or the expected structure of packaged content.</td>
-</tr>
-</tbody>
-</table></p>
+<p>See <a href="#8">Error Types</a> for details of what errors can be reported in the <code>@type</code> field.</p>
         <h1><a name="7"></a>7. Authentication and Authorisation</h1>
 <p>It is strongly RECOMMENDED that SWORD servers support authentication and authorisation for requests.</p>
 <p>SWORD servers are not restricted in the forms of authentication that they employ, and there is no minimum requirement or default supported 
@@ -3174,7 +3111,154 @@ then a <code>403</code> (AuthenticationFailed) response MUST be returned.</p>
 header SHOULD be used for the value of the <code>depositedOnBehalfOf</code> property of the Original Deposit in the Status document.</p>
 <p>Note that recording a user's identity in this way does not have to contain enough information for the client to directly identify the
 user, and implementers should take note of privacy legislation when choosing what information to expose in these fields.</p>
-        <h1><a name="8"></a>8. Content Disposition</h1>
+        <h1><a name="8"></a>8. Error Types</h1>
+<p>The following are the error types that are available (to place in <code>@type</code> in the <a href="#6.8">Error Document</a>), 
+their associated HTTP Status Code, and the legitimate reasons for returning that error:</p>
+<p><table>
+<thead>
+<tr>
+<th>Error Type</th>
+<th>Error Code</th>
+<th>HTTP Name</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a name="error_authenticationfailed">AuthenticationFailed</a></td>
+<td>403</td>
+<td>Forbidden</td>
+<td>The request supplied invalid credentials</td>
+</tr>
+<tr>
+<td><a name="error_authenticationrequired">AuthenticationRequired</a></td>
+<td>401</td>
+<td>Unauthorized</td>
+<td>The request supplied no credentials, when the server was expecting to authenticate the request.</td>
+</tr>
+<tr>
+<td><a name="error_badrequest">BadRequest</a></td>
+<td>400</td>
+<td>BadRequest</td>
+<td>The request did not meet the standard specified by the SWORD protocol. This error can be used when no other error is appropriate</td>
+</tr>
+<tr>
+<td><a name="error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a></td>
+<td>400</td>
+<td>BadRequest</td>
+<td>The client supplied a By-Reference deposit file, which specified a file size which exceeded the server's limit</td>
+</tr>
+<tr>
+<td><a name="error_byreferencenotallowed">ByReferenceNotAllowed</a></td>
+<td>412</td>
+<td>PreconditionFailed</td>
+<td>The client attempted to carry out a By-Reference deposit on a server which does not support it</td>
+</tr>
+<tr>
+<td><a name="error_contentmalformed">ContentMalformed</a></td>
+<td>400</td>
+<td>BadRequest</td>
+<td>The body content of the request was malformed in some way, such that the server cannot read it correctly.</td>
+</tr>
+<tr>
+<td><a name="error_contenttypenotacceptable">ContentTypeNotAcceptable</a></td>
+<td>415</td>
+<td>UnsupportedMediaType</td>
+<td>The <code>Content-Type</code> header specifies a content type of the request which is in a format that the server cannot accept.</td>
+</tr>
+<tr>
+<td><a name="error_digestmismatch">DigestMismatch</a></td>
+<td>412</td>
+<td>PreconditionFailed</td>
+<td>One or more of the Digests that the server checked did not match the deposited content</td>
+</tr>
+<tr>
+<td><a name="error_etagnotmatched">ETagNotMatched</a></td>
+<td>412</td>
+<td>PreconditionFailed</td>
+<td>The client supplied an <code>If-Match</code> header which did not match the current <code>ETag</code> for the resource being updated.</td>
+</tr>
+<tr>
+<td><a name="error_etagrequired">ETagRequired</a></td>
+<td>412</td>
+<td>PreconditionFailed</td>
+<td>The client did not supply an <code>If-Match</code> header, when one was required by the server</td>
+</tr>
+<tr>
+<td><a name="error_forbidden">Forbidden</a></td>
+<td>403</td>
+<td>Forbidden</td>
+<td>The client requested an operation that is not permitted by the server in this context.</td>
+</tr>
+<tr>
+<td><a name="error_formatheadermismatch">FormatHeaderMismatch</a></td>
+<td>415</td>
+<td>UnsupportedMediaType</td>
+<td>The <code>Metadata-Format</code> or <code>Packaging</code> header does not match what the server found when looking at the Metadata or Packaged Content supplied in a request.</td>
+</tr>
+<tr>
+<td><a name="error_invalidsegmentsize">InvalidSegmentSize</a></td>
+<td>400</td>
+<td>BadRequest</td>
+<td>The client sent a segment that was not the final segment, and was not the size that it indicated segments would be, or during segmented upload initialisation, the client specified a segment size which was not between <code>minSegmentSize</code> and <code>maxSegmentSize</code>.</td>
+</tr>
+<tr>
+<td><a name="error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a></td>
+<td>400</td>
+<td>BadRequest</td>
+<td>During a segmented upload initialisation, the client specified a total file size which is larger than the maximum assembled file size supported by the server</td>
+</tr>
+<tr>
+<td><a name="error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a></td>
+<td>413</td>
+<td>PayloadTooLarge</td>
+<td>The request supplied body content which is larger than that supported by the server.</td>
+</tr>
+<tr>
+<td><a name="error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a></td>
+<td>415</td>
+<td>UnsupportedMediaType</td>
+<td>The <code>Metadata-Format</code> header specifies a metadata format for the request which is in a format that the server cannot accept</td>
+</tr>
+<tr>
+<td><a name="error_methodnotallowed">MethodNotAllowed</a></td>
+<td>405</td>
+<td>MethodNotAllowed</td>
+<td>The request is for a method on a resource that is not permitted. This may be permanent, temporary, and may depend on the client’s credentials</td>
+</tr>
+<tr>
+<td><a name="error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a></td>
+<td>412</td>
+<td>PreconditionFailed</td>
+<td>The request contained an <code>On-Behalf-Of</code> header, although the server indicates that it does not support this.</td>
+</tr>
+<tr>
+<td><a name="error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a></td>
+<td>415</td>
+<td>UnsupportedMediaType</td>
+<td>The <code>Packaging</code> header specifies a packaging format for the request which is in a format that the server cannot accept</td>
+</tr>
+<tr>
+<td><a name="error_segmenteduploadtimedout">SegmentedUploadTimedOut</a></td>
+<td>410</td>
+<td>MethodNotAllowed</td>
+<td>The client's segmented upload URL has timed out.  Servers MAY respond to this with a 404 and no explanation also.</td>
+</tr>
+<tr>
+<td><a name="error_segmentlimitexceeded">SegmentLimitExceeded</a></td>
+<td>400</td>
+<td>BadRequest</td>
+<td>During a segmented upload initialisation, the client specified a total number of intended segments which is larger than the limit specified by the server</td>
+</tr>
+<tr>
+<td><a name="error_unexpectedsegment">UnexpectedSegment</a></td>
+<td>400</td>
+<td>BadRequest</td>
+<td>The client sent a segment that the server was not expecting; in particular the server may have recieved all the segments it was expecting, and this is an extra one</td>
+</tr>
+</tbody>
+</table></p>
+        <h1><a name="9"></a>9. Content Disposition</h1>
 <p>SWORD uses the <code>Content-Disposition</code> header in client requests to indicate to the server information about the payload being delivered. 
 Traditionally <code>Content-Disposition</code> is an HTTP response header, but it makes sense in the PUSH context of SWORD to use this as a request 
 header.  We follow [<a href="#rfc6266">RFC6266</a>] for its usage.</p>
@@ -3203,8 +3287,8 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <p>The hierarchy for the Upload Type is:</p>
 <ul>
 <li>All<ul>
-<li>Segmented Upload Initialisation</li>
 <li>Direct Deposit</li>
+<li>Segmented Upload Initialisation</li>
 <li>File Segment Upload</li>
 </ul>
 </li>
@@ -3214,16 +3298,16 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <li>All<ul>
 <li>Empty Body</li>
 <li>Body<ul>
+<li>Binary<ul>
+<li>File Segment</li>
+<li>Packaged Content</li>
+<li>Binary File</li>
+</ul>
+</li>
 <li>JSON<ul>
 <li>Metadata</li>
 <li>By-Reference</li>
 <li>MD+BR</li>
-</ul>
-</li>
-<li>Binary<ul>
-<li>Binary File</li>
-<li>Packaged Content</li>
-<li>File Segment</li>
 </ul>
 </li>
 </ul>
@@ -3347,7 +3431,7 @@ requirements:</p>
 <p><strong>A File Segment Upload</strong></p>
 <pre><code>Content-Disposition: segment; segment_number=[n]
 </code></pre>
-        <h1><a name="9"></a>9. Segmented File Upload</h1>
+        <h1><a name="10"></a>10. Segmented File Upload</h1>
 <p>If a client has a very large file that it wishes to transfer to the server by value, then in may be beneficial to do this in several small 
 operations, rather than as a single large operation.  Large uploads are at higher risk of failure, depending on a variety of factors, and 
 there is no guarantee that a SWORD server will be able to resume a partial upload.</p>
@@ -3355,18 +3439,23 @@ there is no guarantee that a SWORD server will be able to resume a partial uploa
 may be a different size to the rest).  It can then initialise a Segmented File Upload with the server, and then transfer the segments.  The 
 server will reconstitute these segments into a single file, and then the client may deposit this file by-reference.</p>
 <p>Segments can be uploaded in any order, and can be uploaded one at a time or in parallel.</p>
-<h2><a name="9.1"></a>9.1. Announcing Support for Segmented File Upload</h2>
+<h2><a name="10.1"></a>10.1. Announcing Support for Segmented File Upload</h2>
 <p>Servers MAY support Segmented File Upload.  To do so, it must provide a staging area where file segments can be uploaded prior to the client
 requesting a specific deposit operation.  The server MUST include a <code>staging</code> field in the <a href="#6.2">Service Document</a> with a URL for where
 the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented File Upload, before 
-assuming that the client will not complete it, with the <code>stagingMaxIdle</code> field:</p>
+assuming that the client will not complete it, with the <code>stagingMaxIdle</code> field.  In addition, the server SHOULD specify the size
+parameters of the segments using <code>maxSegmentSize</code>, <code>minSegmentSize</code>, <code>maxAssembledSize</code> and <code>maxSegments</code>:</p>
 <pre><code class="json">{
-  &quot;stagingMaxIdle&quot;: 3600,
-  &quot;staging&quot;: &quot;http://example.com/staging&quot;
+  &quot;maxAssembledSize&quot;: 30000000000000,
+  &quot;maxSegmentSize&quot;: 16777216000,
+  &quot;maxSegments&quot;: 1000,
+  &quot;minSegmentSize&quot;: 1,
+  &quot;staging&quot;: &quot;http://example.com/staging&quot;,
+  &quot;stagingMaxIdle&quot;: 3600
 }
 </code></pre>
 
-<h2><a name="9.2"></a>9.2. Outline of Process for Segmented File Upload</h2>
+<h2><a name="10.2"></a>10.2. Outline of Process for Segmented File Upload</h2>
 <ol>
 <li>
 <p>Obtain the Staging-URL<sup>[<a href="#staging-url">def</a>]</sup> from the Service from which to request an Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup></p>
@@ -3375,7 +3464,7 @@ already exists, the client should find the Service-URL from the <code>service</c
 to obtain the appropriate <a href="#6.2">Service Document</a>, and subsequently get the Staging-URL from the <code>staging</code> field.</p>
 </li>
 <li>
-<p>Request a Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup> from the Service, via a <a href="#9.3">Segmented Upload Initialisation</a> request.</p>
+<p>Request a Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup> from the Service, via a <a href="#10.3">Segmented Upload Initialisation</a> request.</p>
 <p>Send a POST request to the Staging-URL, as per <a href="#4.3.15">POST Staging-URL</a>, with the appropriate <code>Content-Disposition</code> (see below).  The
 server will respond with a Temporary-URL in the <code>Location</code> header.</p>
 </li>
@@ -3390,7 +3479,7 @@ below), until all file segments have been uploaded.</p>
 contain the <code>ttl</code> or <code>dereference</code> fields in the By-Reference Document, and if they are included, the server MUST ignore them.</p>
 </li>
 </ol>
-<h2><a name="9.3"></a>9.3. Segmented Upload Initialisation</h2>
+<h2><a name="10.3"></a>10.3. Segmented Upload Initialisation</h2>
 <p>Before sending any segments to the server, the client must initialise the process.  This is done by sending a POST request to the
 Staging-URL as per <a href="#4.3.15">POST Staging-URL</a>.</p>
 <p>The requirements of the protocol for a Segment Upload Initialisation are:</p>
@@ -3413,23 +3502,21 @@ Staging-URL as per <a href="#4.3.15">POST Staging-URL</a>.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
 <p></p></p>
-<p>See the section <a href="#8">Content Disposition</a> for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
+<p>See the section <a href="#9">Content Disposition</a> for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
 supplied <code>Content-Disposition</code> would be:</p>
 <pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
 </code></pre>
 
 <p>The server MAY choose to reject the Segmented Upload Initialisation request at this stage, for a variety of reasons - for example, it may 
 have a limit on the total number of segments it will accept, or the total size may exceed a maximum file size for assembled files.  In 
-these cases, the server MUST respond with one of the appropriate <a href="#6.8.1">Error Types</a>.</p>
+these cases, the server MUST respond with one of the appropriate <a href="#8">Error Types</a>.</p>
 <p>If the request is successful, the server will respond with a Temporary-URL in the <code>Location</code> header, and the segments themselves can be
 uploaded to that URL.</p>
-<h2><a name="9.4"></a>9.4. Uploading File Segments</h2>
+<h2><a name="10.4"></a>10.4. Uploading File Segments</h2>
 <p>Segments may be uploaded in any order and may also be parallelised.  Segments MUST all be the same size, with the exception of the final 
 segment with MUST be the same size or smaller than the other segments.  Segments size MUST be smaller than the <code>maxSegmentSize</code> if specified
 and if not then smaller than <code>maxUploadSize</code> specified in the <a href="#6.2">Service Document</a>. Segments MUST be larger than the <code>minSegmentSize</code>
@@ -3458,19 +3545,29 @@ also specified in the <a href="#6.2">Service Document</a>.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>204</code> or a suitable error</li>
 </ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the provided segment is not the final segment and is not the size that the client had indicated on initialisation, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the Temporary-URL has expired, SHOULD return <code>410</code> (<a href="/swordv3.html#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>).  Servers may also return <code>404</code> and no further explanation.</li>
+<li>If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return <code>400</code> (<a href="/swordv3.html#error_unexpectedsegment">UnexpectedSegment</a>)</li>
+</ul>
 <p></p></p>
-<p>See the section <a href="#8">Content Disposition</a> for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
+<p>See the section <a href="#9">Content Disposition</a> for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
 supplied <code>Content-Disposition</code> would be:</p>
 <pre><code>Content-Disposition: segment; segment_number=[n]
 </code></pre>
 
 <p>The <code>Content-Type</code> header MUST just be <code>application/octet-stream</code>.</p>
 <p>The <code>Digest</code> header MUST contain the Digest for the File Segment itself, so the server can confirm successful transfer of the segment.</p>
-<h2><a name="9.5"></a>9.5. Retrieving Information about a Segmented File Upload</h2>
+<h2><a name="10.5"></a>10.5. Retrieving Information about a Segmented File Upload</h2>
 <p>At any point after creating a Temporary-URL, the client may request information on the state of their Segmented File Upload.  This can
 be done via a GET to the Temporary-URL.</p>
 <p>This will return you a document as described in <a href="#6.7">Segmented File Upload Document</a>.</p>
@@ -3489,14 +3586,19 @@ be done via a GET to the Temporary-URL.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>200</code> or a suitable error</li>
 <li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
 </ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+</ul>
 <p></p></p>
 <p><strong>NOTE</strong> that you cannot retrieve an actual copy of the full or partially uploaded Segmented File Upload from the Temporary-URL at any point.</p>
-<h2><a name="9.6"></a>9.6. Aborting an Upload</h2>
+<h2><a name="10.6"></a>10.6. Aborting an Upload</h2>
 <p>If, part way through a segmented upload (even after completion) the client wishes to abort, it can send an DELETE request to the 
 Temporary-URL, with the following requirements:</p>
 <p><p><strong>Protocol Operation</strong></p>
@@ -3513,22 +3615,27 @@ Temporary-URL, with the following requirements:</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (AuthenticationRequired)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (AuthenticationFailed)</li>
 <li>MUST respond with a <code>204</code> if the delete is successful, <code>202</code> if the delete is queued for processing, or raise an error</li>
+</ul>
+<p><strong>Error Responses</strong></p>
+<ul>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <p>If a client submits the Temporary-URL as a By-Reference deposit to the server after completing the upload, the client SHOULD NOT delete
 the Temporary-URL themselves, the server SHOULD take responsibility for this.  If the client deletes the resource before the By-Reference
 deposit has completed, the server SHOULD record an error against the ingest.</p>
-<h2><a name="9.7"></a>9.7. Incomplete Upload Retention</h2>
+<h2><a name="10.7"></a>10.7. Incomplete Upload Retention</h2>
 <p>Servers SHOULD delete incomplete Segmented File Uploads after a specified amount of time (in the Service Document), if they are not 
 finalised with all segments.</p>
-<h2><a name="9.8"></a>9.8. Completed Upload Retention</h2>
+<h2><a name="10.8"></a>10.8. Completed Upload Retention</h2>
 <p>Servers SHOULD delete completed Segmented File Uploads after a specified amount of time (in the Service Document).  Servers MUST be able to
 tell when they have been given one of their own Temporary-URLs as a By-Reference deposit, and not delete that resource until after it has
 been ingested.</p>
-<h2><a name="9.9"></a>9.9. Errors</h2>
+<h2><a name="10.9"></a>10.9. Errors</h2>
 <p>Servers MUST respond with Error documents under the following circumstances (in addition to the standard errors that may arise through using
 the protocol):</p>
 <ul>
@@ -3550,7 +3657,7 @@ the protocol):</p>
 </ul>
 <p>If any other errors occur asynchronously, such as in reassembling or unpacking the resulting file, servers MUST provide an error <code>status</code> 
 field and suitable <code>log</code> information in the link record in the Status document.</p>
-        <h1><a name="10"></a>10. Metadata Deposit</h1>
+        <h1><a name="11"></a>11. Metadata Deposit</h1>
 <p>SWORD allows the client to deposit arbitrary metadata onto the server through agnostic support for metadata formats.  A metadata format is
 any document which expresses metadata in a given serialisation.  SWORD has a default format
 which MUST be supported by the server, which consists of the set of DCMI Terms [<a href="#dcmi">DCMI</a>] expressed as JSON (see <a href="#6.3">Metadata Document</a>).</p>
@@ -3570,8 +3677,8 @@ which MUST be supported by the server, which consists of the set of DCMI Terms [
 <p>SWORD does not require that the server be able to disseminate any metadata in a format other than the default format.  Metadata in the 
 default format can be obtained from <a href="#4.3.7">GET Metadata-URL</a>.  If the server chooses to make other metadata formats
 available, this SHOULD be listed in the <code>links</code> section of the <a href="#6.6">Status Document</a>.  See 
-<a href="#11.3">Representing Other Formats in the Service Document</a> for details.</p>
-<h2><a name="10.1"></a>10.1. Announcing Support for Metadata Formats</h2>
+<a href="#12.3">Representing Other Formats in the Service Document</a> for details.</p>
+<h2><a name="11.1"></a>11.1. Announcing Support for Metadata Formats</h2>
 <p>The server can list Metadata formats that it will accept in the <code>acceptMetadata</code> field of the <a href="#6.2">Service Document</a>.</p>
 <p>If no <code>acceptMetadata</code> field is present, the client MUST assume the server only supports the default SWORD metadata format 
 (http://purl.org/net/sword/3.0/types/Metadata).</p>
@@ -3582,17 +3689,17 @@ available, this SHOULD be listed in the <code>links</code> section of the <a hre
 }
 </code></pre>
 
-<h2><a name="10.2"></a>10.2. Indicating Metadata Format to the Server</h2>
+<h2><a name="11.2"></a>11.2. Indicating Metadata Format to the Server</h2>
 <p>During deposit, the client SHOULD specify a <code>Metadata-Format</code> header which contains the identifier for the format.  For example, if 
 supplying the default SWORD metadata format:</p>
 <pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 </code></pre>
 
 <p>If this header is not present the server MUST assume it has the above value.</p>
-        <h1><a name="11"></a>11. Metadata Formats</h1>
-<h2><a name="11.1"></a>11.1. Default Format</h2>
+        <h1><a name="12"></a>12. Metadata Formats</h1>
+<h2><a name="12.1"></a>12.1. Default Format</h2>
 <p>In order to provide a baseline of interoperability, SWORD provides a default metadata format which MUST be supported by the server.  This 
-document has the following aspects (as per <a href="#10">Metadata Deposit</a>):</p>
+document has the following aspects (as per <a href="#11">Metadata Deposit</a>):</p>
 <ol>
 <li>
 <p>It is serialised as JSON and with a JSON-LD <code>@context</code></p>
@@ -3609,7 +3716,7 @@ document has the following aspects (as per <a href="#10">Metadata Deposit</a>):<
 <pre><code>http://purl.org/net/sword/3.0/types/Metadata
 </code></pre>
 
-<h2><a name="11.2"></a>11.2. Depositing Other Formats</h2>
+<h2><a name="12.2"></a>12.2. Depositing Other Formats</h2>
 <p>In addition to the standard SWORD metadata format described above, SWORD can support the deposit of arbitrary metadata schemas and 
 serialisations.  </p>
 <p>Clients who wish to ensure that their servers support all the metadata they send them should consider minting a new identifier for their 
@@ -3637,7 +3744,7 @@ Metadata-Format: http://www.loc.gov/mods/v3
 
 <p>If the server supports the MODS Metadata-Format, identified with the IRI <code>http://www.loc.gov/mods/v3</code> then it will be able to create a new 
 Object from this XML document, and populate the Metadata from the data therein.</p>
-<h2><a name="11.3"></a>11.3. Representing Other Formats in the Service Document</h2>
+<h2><a name="12.3"></a>12.3. Representing Other Formats in the Service Document</h2>
 <p>A server is not required to retain or be able to disseminate the metadata delivered to it by the client in the format it is provided.  Alternative
 metadata formats to the default format MAY be accepted (as defined by the <code>acceptMetadata</code> field in the <a href="#6.6">Status Document</a>),
 but the server is not required to be able to serve that metadata format as well.</p>
@@ -3651,29 +3758,29 @@ as links in the <code>links</code> section of the <a href="#6.6">Status Document
 </ul>
 <p>For example, to reflect the metadata from the previous section back to the client:</p>
 <pre><code class="json">{
-  &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;,
+  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
   &quot;contentType&quot;: &quot;application/xml&quot;,
+  &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;,
   &quot;rel&quot;: [
     &quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;
-  ],
-  &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;
+  ]
 }
 </code></pre>
-        <h1><a name="12"></a>12. Packaging Formats</h1>
+        <h1><a name="13"></a>13. Packaging Formats</h1>
 <p>There are 3 packaging formats the all SWORD implementations MUST support.</p>
-<h2><a name="12.1"></a>12.1. Binary</h2>
+<h2><a name="13.1"></a>13.1. Binary</h2>
 <p>URI: http://purl.org/net/sword/3.0/package/Binary</p>
 <p>This format indicates that the package should be interpreted as an opaque blob, and the server SHOULD NOT attempt to extract any content 
 from it.  This is typically for use when depositing single files, which do not need unpacking of any kind.</p>
 <p>Servers MAY choose, nonetheless, to extract content from Binary packages, if they have the capabilities, such as metadata from images, 
 structural information from text documents, etc.</p>
-<h2><a name="12.2"></a>12.2. SimpleZip</h2>
+<h2><a name="13.2"></a>13.2. SimpleZip</h2>
 <p>URI: http://purl.org/net/sword/3.0/package/SimpleZip</p>
 <p>This format indicates that the package is a compressed set of one or more files in an arbitrary directory structure.  The nature of the 
 compression and the structure of the compressed content is not specified.</p>
 <p>Servers MAY choose to extract the content from SimpleZip packages, and present the individual file components as <code>derivedResource</code>s, if 
 desired.</p>
-<h2><a name="12.3"></a>12.3. SWORDBagIt</h2>
+<h2><a name="13.3"></a>13.3. SWORDBagIt</h2>
 <p>URI: http://purl.org/net/sword/3.0/package/SWORDBagIt</p>
 <p>This format is a profile of the BagIt directory structure, which has in turn been serialised (which may include compression).  The nature 
 of the serialisation/compression is not specified, though if the client wishes the server to extract the content, it SHOULD use one of
@@ -3700,24 +3807,24 @@ well as the <code>bagit.txt</code> file and a <code>bag-info.txt</code> file.  N
 <p>The server SHOULD unpack this file, and action at least the Metadata.  The contents of the data directory MAY be unpackaged into 
 <code>derivedResource</code>s if the server desires.  It is RECOMMENDED that the contents of the data directory be a flat file structure, to aid 
 mutual comprehension by servers/clients.</p>
-        <h1><a name="13"></a>13. Auto-Discovery</h1>
+        <h1><a name="14"></a>14. Auto-Discovery</h1>
 <p>In order to assist potential clients discover a server’s capabilities, SWORD RECOMMENDS the following auto-discovery features to be 
 embedded in any web interfaces associated with the service provider.</p>
-<h2><a name="13.1"></a>13.1. For Services</h2>
+<h2><a name="14.1"></a>14.1. For Services</h2>
 <p>Embed an html link with a rel value of <code>http://purl.org/net/sword/3.0/discovery/Service</code> in any page which represents
 a deposit Service.</p>
 <pre><code>&lt;html:link rel=&quot;http://purl.org/net/sword/3.0/discovery/Service&quot; href=&quot;[Service-URL]&quot;/&gt;
 </code></pre>
 
-<h2><a name="13.2"></a>13.2. For Objects</h2>
+<h2><a name="14.2"></a>14.2. For Objects</h2>
 <p>Embed an html link with a rel value of <code>http://purl.org/net/sword/3.0/discovery/Object</code> in any page which represents a deposited resource.</p>
 <pre><code>&lt;html:link rel=&quot;http://purl.org/net/sword/3.0/discovery/Object&quot; href=&quot;[Object-URL]&quot;/&gt;
 </code></pre>
 
-<h2><a name="13.3"></a>13.3. Well-Known URI</h2>
+<h2><a name="14.3"></a>14.3. Well-Known URI</h2>
 <p>For any server which wishes to expose its main or root Service-URL via Well-Known URIs [<a href="#rfc8615">RFC8615</a>], provide a
 redirect (307) from <code>./well-known/swordv3</code> (PROVISIONAL) to your root Service-URL.</p>
-        <h1><a name="14"></a>14. References</h1>
+        <h1><a name="15"></a>15. References</h1>
 <p><p><a name="atompub"><strong>AtomPub</strong> Gregario, J. and B. de hOra, "The Atom Publishing Protocol", RFC 5023, October 2007. <a href="http://www.ietf.org/rfc/rfc5023.txt">http://www.ietf.org/rfc/rfc5023.txt</a> </p>
 <p><a name="dcmi"><strong>DCMI</strong> DCMI Metadata Terms, 2012-06-14 <a href="http://dublincore.org/documents/dcmi-terms/">http://dublincore.org/documents/dcmi-terms/</a> </p>
 <p><a name="iana_auth"><strong>IANA Auth</strong> Hypertext Transfer Protocol (HTTP) Authentication Scheme Registry <a href="https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml">https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml</a> </p>

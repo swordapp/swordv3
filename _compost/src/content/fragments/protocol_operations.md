@@ -16,7 +16,14 @@ server with details as to the root cause of the error.
 openapi_list_descriptions(
     "schemas/openapi",
     field="components.responses",
-    keys=["BadRequest", "Unauthorized", "Forbidden", "NotFound", "MethodNotAllowed", "Gone", "PreconditionFailed", "PayloadTooLarge", "UnsupportedMediaType"]
+    keys=["BadRequest", "Unauthorized", "Forbidden", "NotFound", "MethodNotAllowed", "Gone", "PreconditionFailed", "PayloadTooLarge", "UnsupportedMediaType"],
+    expand_source="tables/error-types",
+    expand_on="HTTP Name",
+    expand_field="Error Type",
+    expand_prefix=" (see Error Types: ",
+    expand_suffix=")",
+    expand_anchor=True,
+    expand_anchor_prefix="error_"
     )
 }}
 

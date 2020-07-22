@@ -73,7 +73,7 @@ So, for example, when considering an Request Condition such as "Creating Objects
 requirements_table_2(
     source="tables/requirements",
     vectors=["Request", "Content", "Resource"],
-    reqs=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    reqs=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 </div>

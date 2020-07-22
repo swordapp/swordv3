@@ -233,10 +233,4 @@ The fields available are defined as follows:
 
 {{ json_schema_definitions("schemas/error.schema") }}
 
-
-### {{ header("Error Types", 3) }}
-
-The following are the error types that are available (to place in `@type`), their associated HTTP Status Code, and the legitimate reasons
-for returning that error:
-
-{{ table("tables/error-types") }}
+See {{ section_link("Error Types") }} for details of what errors can be reported in the `@type` field.

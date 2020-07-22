@@ -14,7 +14,7 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Retrieve", "Empty Body", "Service-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 
@@ -30,7 +30,7 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "Empty Body", "Service-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 ## {{ header("Creating Objects with only Metadata", 2, toc="b") }}
@@ -42,7 +42,7 @@ Create a new Object on the server, sending only Metadata content (i.e. no Binary
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "Metadata", "Service-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -65,7 +65,7 @@ Create a new Object on the server, sending on By-Reference Files (i.e. no Binary
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "By-Reference", "Service-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -88,7 +88,7 @@ Create a new Object on the server, sending both Metadata content and By-Referenc
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "MD+BR", "Service-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -112,7 +112,7 @@ attempt to unpack.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "Binary File", "Service-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -136,7 +136,7 @@ may understand how to unpack.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "Packaged Content", "Service-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -159,7 +159,7 @@ First create a Temporary-URL to which to upload the file segments:
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "Empty Body", "Staging-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -189,7 +189,7 @@ document in response.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Retrieve", "Empty Body", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 
@@ -206,7 +206,7 @@ by the appropriate URL.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Retrieve", "Empty Body", "Metadata-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 
@@ -223,7 +223,7 @@ actual individual files that make up the object, or:
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Retrieve", "Empty Body", "File-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 
@@ -250,7 +250,7 @@ extend existing metadata, such that any new metadata fields are added to the Obj
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Append", "Metadata", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -273,7 +273,7 @@ Append new files to an Object by sending one or more By-Reference files.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Append", "By-Reference", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -296,7 +296,7 @@ Append new files and append/overlay Metadata at the same time.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Append", "MD+BR", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -320,7 +320,7 @@ without the server unpacking it as it would Packaged Content.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Append", "Binary File", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -345,7 +345,7 @@ actionable metadata.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Append", "Packaged Content", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -370,7 +370,7 @@ First create a Temporary-URL to which to upload the file segments:
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "Empty Body", "Staging-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -407,7 +407,7 @@ Replace in its entirety the Metadata associated with an Object.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Replace", "Metadata", "Metadata-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -430,7 +430,7 @@ Replace an existing file in the Object with a new file.  The server may keep the
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Replace", "Binary File", "File-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -455,7 +455,7 @@ version of the file available.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Replace", "By-Reference", "File-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -481,7 +481,7 @@ First create a Temporary-URL to which to upload the file segments:
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "Empty Body", "Staging-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -510,7 +510,7 @@ new ones will replace them.  The server may or may not keep old versions of the 
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Replace", "By-Reference", "FileSet-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -538,7 +538,7 @@ presence of metadata which the FileSet-URL is not suitable to handle.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Replace", "Binary File", "FileSet-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -566,7 +566,7 @@ First create a Temporary-URL to which to upload the file segments:
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "Empty Body", "Staging-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -595,7 +595,7 @@ not keep old versions of the content available, at its discretion.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Replace", "Metadata", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -619,7 +619,7 @@ The server may or may not keep old versions of the content available, at its dis
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Replace", "By-Reference", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -643,7 +643,7 @@ By-Reference upload.  The server may or may not keep old versions of the content
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Replace", "MD+BR", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -668,7 +668,7 @@ the content available.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Replace", "Binary File", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -693,7 +693,7 @@ available.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Replace", "Packaged Content", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -721,7 +721,7 @@ First create a Temporary-URL to which to upload the file segments:
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "Empty Body", "Staging-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -756,7 +756,7 @@ Delete all the metadata fields from the Object.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Delete", "Empty Body", "Metadata-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 ## {{ header("Deleting a single Binary File from an Object", 2, toc="b") }}
@@ -768,7 +768,7 @@ Delete a single File from the Object.  The server may keep old versions of the f
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Delete", "Empty Body", "File-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 ## {{ header("Deleting all the Files from an Object", 2, toc="b") }}
@@ -781,7 +781,7 @@ available.
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Delete", "Empty Body", "FileSet-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 ## {{ header("Deleting the entire Object", 2, toc="b") }}
@@ -793,7 +793,7 @@ Delete the Object in its entirety from the server, along with all Metadata and F
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Delete", "Empty Body", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 
@@ -806,7 +806,7 @@ Delete the Object in its entirety from the server, along with all Metadata and F
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Create", "Empty Body", "Staging-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -827,7 +827,7 @@ The `Content-Disposition` in this case would be:
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Append", "File Segment", "Temporary-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 The `Content-Disposition` in this case would be:
@@ -849,7 +849,7 @@ The `Content-Disposition` in this case would be:
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Delete", "Empty Body", "Temporary-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 ## {{ header("Retrieve information about a Segmented File Upload", 2, toc="b") }}
@@ -859,7 +859,7 @@ The `Content-Disposition` in this case would be:
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Retrieve", "Empty Body", "Temporary-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 # {{ header("Completing Previously In-Progress Deposits", toc="b") }}
@@ -872,7 +872,7 @@ server that you have completed your additions or modifications to the Object, so
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Complete", "Empty Body", "Object-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 No `Content-Disposition` header is required in this request.

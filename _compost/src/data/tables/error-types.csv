@@ -1,25 +1,23 @@
-Error Type,Error Code,Reason
-AuthenticationFailed,403,The request supplied invalid credentials
-AuthenticationRequired,401,"The request supplied no credentials, when the server was expecting to authenticate the request."
-BadRequest,400,The request did not meet the standard specified by the SWORD protocol. This error can be used when no other error is appropriate
-ByReferenceFileSizeExceeded,400,"The client supplied a By-Reference deposit file, which specified a file size which exceeded the server's limit"
-ByReferenceNotAllowed,412,The client attempted to carry out a By-Reference deposit on a server which does not support it
-ContentMalformed,400,"The body content of the request was malformed in some way, such that the server cannot read it correctly."
-ContentTypeNotAcceptable,415,The `Content-Type` header specifies a content type of the request which is in a format that the server cannot accept.
-DigestMismatch,412,One or more of the Digests that the server checked did not match the deposited content
-ETagNotMatched,412,The client supplied an `If-Match` header which did not match the current `ETag` for the resource being updated.
-ETagRequired,412,"The client did not supply an `If-Match` header, when one was required by the server"
-Forbidden,403,The client requested an operation that is not permitted by the server in this context.
-FormatHeaderMismatch,415,The `Metadata-Format` or `Packaging` header does not match what the server found when looking at the Metadata or Packaged Content supplied in a request.
-InvalidSegmentSize,400,"The client sent a segment that was not the final segment, and was not the size that it indicated segments would be"
-MaxAssembledSizeExceeded,400,"During a segmented upload initialisation, the client specified a total file size which is larger than the maximum assembled file size supported by the server"
-MaxUploadSizeExceeded,413,The request supplied body content which is larger than that supported by the server.
-MetadataFormatNotAcceptable,415,The `Metadata-Format` header specifies a metadata format for the request which is in a format that the server cannot accept
-MethodNotAllowed,405,"The request is for a method on a resource that is not permitted. This may be permanent, temporary, and may depend on the client’s credentials"
-OnBehalfOfNotAllowed,412,"The request contained an `On-Behalf-Of` header, although the server indicates that it does not support this."
-PackagingFormatNotAcceptable,415,The `Packaging` header specifies a packaging format for the request which is in a format that the server cannot accept
-SegmentedUploadNotAllowed,412,The client attempted to carry out a Segmented Upload on a server which does not support it
-SegmentedUploadTimedOut,405,The client's segmented upload URL has timed out.  Servers MAY respond to this with a 404 and no explanation also.
-SegmentLimitExceeded,400,"During a segmented upload initialisation, the client specified a total number of intended segments which is larger than the limit specified by the server"
-UnexpectedSegment,400,"The client sent a segment that the server was not expecting; in particular the server may have recieved all the segments it was expecting, and this is an extra one"
-ValidationFailed,400,"The server could not validate the structure of the incoming content against its expected schema.  This may include the JSON schema of the SWORD documents, the metadata held within those documents, or the expected structure of packaged content."
+Error Type,Error Code,HTTP Name,Reason
+AuthenticationFailed,403,Forbidden,The request supplied invalid credentials
+AuthenticationRequired,401,Unauthorized,"The request supplied no credentials, when the server was expecting to authenticate the request."
+BadRequest,400,BadRequest,The request did not meet the standard specified by the SWORD protocol. This error can be used when no other error is appropriate
+ByReferenceFileSizeExceeded,400,BadRequest,"The client supplied a By-Reference deposit file, which specified a file size which exceeded the server's limit"
+ByReferenceNotAllowed,412,PreconditionFailed,The client attempted to carry out a By-Reference deposit on a server which does not support it
+ContentMalformed,400,BadRequest,"The body content of the request was malformed in some way, such that the server cannot read it correctly."
+ContentTypeNotAcceptable,415,UnsupportedMediaType,The `Content-Type` header specifies a content type of the request which is in a format that the server cannot accept.
+DigestMismatch,412,PreconditionFailed,One or more of the Digests that the server checked did not match the deposited content
+ETagNotMatched,412,PreconditionFailed,The client supplied an `If-Match` header which did not match the current `ETag` for the resource being updated.
+ETagRequired,412,PreconditionFailed,"The client did not supply an `If-Match` header, when one was required by the server"
+Forbidden,403,Forbidden,The client requested an operation that is not permitted by the server in this context.
+FormatHeaderMismatch,415,UnsupportedMediaType,The `Metadata-Format` or `Packaging` header does not match what the server found when looking at the Metadata or Packaged Content supplied in a request.
+InvalidSegmentSize,400,BadRequest,"The client sent a segment that was not the final segment, and was not the size that it indicated segments would be, or during segmented upload initialisation, the client specified a segment size which was not between `minSegmentSize` and `maxSegmentSize`."
+MaxAssembledSizeExceeded,400,BadRequest,"During a segmented upload initialisation, the client specified a total file size which is larger than the maximum assembled file size supported by the server"
+MaxUploadSizeExceeded,413,PayloadTooLarge,The request supplied body content which is larger than that supported by the server.
+MetadataFormatNotAcceptable,415,UnsupportedMediaType,The `Metadata-Format` header specifies a metadata format for the request which is in a format that the server cannot accept
+MethodNotAllowed,405,MethodNotAllowed,"The request is for a method on a resource that is not permitted. This may be permanent, temporary, and may depend on the client’s credentials"
+OnBehalfOfNotAllowed,412,PreconditionFailed,"The request contained an `On-Behalf-Of` header, although the server indicates that it does not support this."
+PackagingFormatNotAcceptable,415,UnsupportedMediaType,The `Packaging` header specifies a packaging format for the request which is in a format that the server cannot accept
+SegmentedUploadTimedOut,410,MethodNotAllowed,The client's segmented upload URL has timed out.  Servers MAY respond to this with a 404 and no explanation also.
+SegmentLimitExceeded,400,BadRequest,"During a segmented upload initialisation, the client specified a total number of intended segments which is larger than the limit specified by the server"
+UnexpectedSegment,400,BadRequest,"The client sent a segment that the server was not expecting; in particular the server may have recieved all the segments it was expecting, and this is an extra one"

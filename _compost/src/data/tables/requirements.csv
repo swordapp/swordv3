@@ -1,80 +1,89 @@
-Request,Content,Resource,Request Requirements,Server Requirements,Response Requirements,Protocol Operation
-*,*,*,MAY specify `Authorization` and `On-Behalf-Of` headers (i.e. if authenticating this request),"If `Authorization` (and optionally `On-Behalf-Of`) headers are provided, MUST authenticate the request","If no authentication credentials were supplied, but were expected, MUST respond with a `401` (AuthenticationRequired)",
-*,*,*,,,"If authentication fails with supplied credentials, MUST respond with a `403` (AuthenticationFailed)",
-Retrieve,*,Service-URL,,,"If `Authorization` (and optionally `On-Behalf-Of`) headers are provided, MUST only list Service-URLs in the Service Document for which a deposit request would be permitted",GET Service-URL
-Retrieve,*,Service-URL,,,MUST respond with a valid Service Document or a suitable error response,
-Retrieve,*,Object-URL,,,MUST respond with a valid Status document or a suitable error response,GET Object-URL
-Retrieve,*,Object-URL,,,MUST include `ETag` header if implementing concurrency control,
-Retrieve,*,Components,,,MUST include `ETag` header if implementing concurrency control,
-Retrieve,*,Metadata-URL,,,MUST respond with a valid Metadata document (see definition below) or a suitable error response,GET Metadata-URL
-Retrieve,*,File-URL,,,"MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response",GET File-URL
-Modify,*,*,"MUST provide the `Content-Disposition` header, with the appropriate value for the request",,,
-Modify,*,Deposit,,,MUST include `ETag` header if implementing concurrency control,
-Modify,Body,Deposit,,,MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable),
-Modify,Body,*,MUST provide the `Digest` header,MUST verify that the content matches the `Digest` header,,
-Modify,Body,*,SHOULD provide the `Content-Length`,MUST verify that the supplied content matches the `Content-Length` if this is provided,,
-Modify,Body,Deposit,MUST provide the `Content-Type` header,"If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error",,
-Modify,Metadata,*,SHOULD provide the `Metadata-Format` header,"If no `Metadata-Format` header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata",,
-Modify,Metadata,*,MUST provide only the Metadata document,,,
-Modify,By-Reference,*,MUST provide the By-Reference document,"If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request",,
-Modify,By-Reference,File-URL,MUST only include a single By-Reference File in the By-Reference document,"If more than one By-Reference File is present, MUST reject the request.","If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a `400`",
-Modify,MD+BR,*,SHOULD provide the `Metadata-Format` header,"If no `Metadata-Format` header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata",,
-Modify,MD+BR,*,MUST provide the Metadata+By Reference document,"If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request",,
-Modify,Binary,Deposit,,If accepting the request MUST attach the supplied file to the Object as an `originalDeposit`,,
-Modify,Binary File,*,"MAY provide the `Packaging` header, and if so MUST be the Binary format identifier",The server SHOULD NOT attempt to unpack the file,,
-Modify,Binary File,*,MUST provide Binary File body content,,,
-Modify,Packaged Content,*,MUST provide the `Packaging` header,"The server MAY attempt to unpack the file, and create `derivedResource`s from it.",,
-Modify,Packaged Content,*,MUST provide Packaged Content in the request body,,,
-Modify,Empty Body,*,MAY provide the `Content-Length` header with value `0`,,,
-Modify,Empty Body,*,MUST NOT include any body content,,,
-Create,*,Service-URL,MAY provide the `Slug` header,"If a `Slug` header is provided, MAY use this as the identifier for the newly created Object.","MUST respond with a `Location` header, containing the Object-URL",POST Service-URL
-Create,*,Service-URL,,,MUST respond with a valid Status document or a suitable error response,
-Create,*,Service-URL,,,Status document MUST be available on GET to the Object-URL in the `Location` header immediately (irrespective of whether this is a `201` or `202` response),
-Create,*,Service-URL,,,"MUST respond with a `201` if the item was created immediately, a `202` if the item was queued for import, or raise an error.",
-Create,*,Service-URL,,If accepting the request MUST create a new Object,,
-Create,*,Service-URL,MAY provide the `In-Progress` header,"If no `In-Progress` header is provided, MUST assume that it is `false`",,
-Create,*,Service-URL,,"If `In-Progress` is `false`, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.",,
-Create,Metadata,Service-URL,,If accepting the request MUST populate the Object with the supplied Metadata,,
-Create,By-Reference,Service-URL,,If accepting the request MUST attach the By-Reference files to the Object.,,
-Create,MD+BR,Service-URL,,"If accepting the request MUST populate the Object with the supplied Metadata, and attach the By-Reference files to it.",,
-Create,Empty Body,Staging-URL,,"If all preconditions are met, MUST create a resource to which the client can upload file segments","MUST respond with a `201` to indicate that the Segmented Upload has been initialised, or raise an error.",POST Staging-URL
-Create,Empty Body,Staging-URL,,MUST reject the request if the conditions of the upload are not acceptable,MUST respond with a `Location` header containing the Temporary-URL where the client can upload file segments,
-Update,*,Deposit,"MUST include the `If-Match` header, if the server implements concurrency control",MUST reject the request if the `If-Match` header does not match the current `ETag` of the resource,,
-Update,Body,Deposit,,,"MUST respond with a `200` if the request was accepted immediately, a `202` if the request was queued for processing, or raise an error.",
-Update,Body,Object-URL,MAY provide the `In-Progress` header,"If no `In-Progress` header is provided, MUST assume that it is `false`",MUST respond with a valid Status document or a suitable error response,
-Update,Body,Object-URL,,,MUST include `ETag` header if implementing concurrency control,
-Append,*,Object-URL,,,,POST Object-URL
-Append,Binary,Object-URL,,,"MUST respond with a `Location` header, containing the File-URL of the Original Deposit File",
-Append,Metadata,Object-URL,,"If accepting the new Metadata MUST add the Metadata to the item, and only treat this as an extension to existing Metadata.  The server MUST NOT overwrite or otherwise remove existing Metadata.",,
-Replace,*,Object-URL,,,,PUT Object-URL
-Replace,Binary,Object-URL,,"If accepting the new File, MUST remove all existing Files from the Object and replace with the new File.  The new File should be marked as an `originalDeposit`.  The server MUST also remove all Metadata, so the Metadata Resource contains no fields.",,
-Replace,Metadata,Object-URL,,"If accepting the new Metadata, MUST remove all existing Files from the Object, and MUST replace the existing Metadata with the new.",,
-Replace,By-Reference,Object-URL,,"If accepting the new By-Reference files, MUST remove all existing Files from the Object and replace with the By-Reference files.  The server MUST remove the existing Files immediately, even before the By-Reference files have dereferenced.  The new files MUST be marked as `originalDeposit`s.  The server MUST also remove all Metadata, so the Metadata Resource contains no fields.",,
-Replace,MD+BR,Object-URL,,"If accepting the new Metadata and By-Reference files, MUST remove all existing Files from the Object and replace with the By-Reference files.  The server MUST remove the existing Files immediately, even before the By-Reference files have dereferenced.  The server MUST also replace all existing Metadata with the new Metadata.",,
-Replace,Metadata,Metadata-URL,,If accepting the new Metadata MUST entirely replace the existing Metadata with the new.,,
-Replace,By-Reference,FileSet-URL,,"If accepting the new By-Reference Files, MUST replace the existing FileSet with the new files.  The server MUST remove all the old files immediately, even before the new By-Reference files have been dereferenced.  The new Files MUST be marked as `originalDeposit`s",,
-Replace,Binary File,FileSet-URL,,"If accepting the new File, MUST replace the existing FileSet with a single new File.  The File MUST be marked as an `originalDeposit`",,
-Replace,By-Reference,File-URL,,"If accepting the new By-Reference File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new file MUST be marked as an `originalDeposit`",,
-Replace,Binary File,File-URL,,"If accepting the new File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new File MUST be marked as an `originalDeposit`",,
-Update,Body,Components,,,"MUST respond with a `204` if the replacement was deposited immediately, a `202` if the replacement was queued for import, or raise an error.",
-Append,By-Reference,Object-URL,,"If accepting the request, MUST attach all the By-Reference files to the Object as `originalDeposit`s",,
-Append,MD+BR,Object-URL,,"If accepting the request, MUST attach all the By-Reference files to the Object as `originalDeposit`s, and MUST add the Metadata to the item, and only treat this as an extension to existing Metadata.  The server MUST NOT overwrite or otherwise remove existing Metadata.",,
-Append,Binary,Object-URL,,,,
-Replace,*,Metadata-URL,,,,PUT Metadata-URL
-Replace,*,FileSet-URL,,,,PUT FileSet-URL
-Replace,*,File-URL,,,,PUT File-URL
-Delete,*,*,,,"MUST respond with a `204` if the delete is successful, `202` if the delete is queued for processing, or raise an error",
-Delete,*,Object-URL,,,,DELETE Object-URL
-Delete,*,FileSet-URL,,,,DELETE FileSet-URL
-Delete,*,File-URL,,,,DELETE File-URL
-Delete,*,Metadata-URL,,,,DELETE Metadata-URL
-Delete,*,Temporary-URL,,,,DELETE Temporary-URL
-Complete,Empty Body,Object-URL,MUST provide the header `In-Progress: false`,MAY inject the content into any ingest workflows,MUST respond with a `204` or a suitable error,POST Object-URL
-Complete,Empty Body,Object-URL,MAY provide the `Content-Length` header with value `0`,,,
-Complete,Empty Body,Object-URL,MUST NOT include any body content,,,
-Append,Body,Temporary-URL,,"MUST reject the request if the segment is incorrect or unexpected: for example, all segments were already received, or the segment is a different size than expected.",MUST respond with a `204` or a suitable error,POST Temporary-URL
-Append,File Segment,Temporary-URL,,"If all preconditions are met, MUST accept the file segment, and record the receipt of it",,
-Append,File Segment,Temporary-URL,,"MUST be prepared to accept file segments in any order, and in parallel",,
-Append,File Segment,Temporary-URL,,"MUST be able to store the incoming file segments as they arrive, and then reconstitute them into a single file when all segments have been received.",,
-Retrieve,Empty Body,Temporary-URL,,,MUST respond with a `200` or a suitable error,GET Temporary-URL
-Retrieve,Empty Body,Temporary-URL,,,"If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.",
+Request,Content,Resource,Request Requirements,Server Requirements,Response Requirements,Protocol Operation,Error Responses
+*,*,*,MAY specify `Authorization` and `On-Behalf-Of` headers (i.e. if authenticating this request),"If `Authorization` (and optionally `On-Behalf-Of`) headers are provided, MUST authenticate the request",,,"If no authentication credentials were supplied, but were expected, MUST respond with a `401` ({{anchor_link(""AuthenticationRequired"")}})"
+*,*,*,,,,,"If authentication fails with supplied credentials, MUST respond with a `403` ({{anchor_link(""AuthenticationFailed"")}})"
+*,*,*,,,,,"If the server does not allow this method in this context at this time, MAY respond with a `405` ({{anchor_link(""MethodNotAllowed"")}})"
+*,*,*,,,,,"If the server does not support On-Behalf-Of deposit and the `On-Behalf-Of` header has been provided, MAY respond with a `412` ({{anchor_link(""OnBehalfOfNotAllowed"")}})"
+Retrieve,*,Service-URL,,,"If `Authorization` (and optionally `On-Behalf-Of`) headers are provided, MUST only list Service-URLs in the Service Document for which a deposit request would be permitted",GET Service-URL,
+Retrieve,*,Service-URL,,,MUST respond with a valid Service Document or a suitable error response,,
+Retrieve,*,Object-URL,,,MUST respond with a valid Status document or a suitable error response,GET Object-URL,
+Retrieve,*,Object-URL,,,MUST include `ETag` header if implementing concurrency control,,
+Retrieve,*,Components,,,MUST include `ETag` header if implementing concurrency control,,
+Retrieve,*,Metadata-URL,,,MUST respond with a valid Metadata document (see definition below) or a suitable error response,GET Metadata-URL,
+Retrieve,*,File-URL,,,"MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response",GET File-URL,
+Modify,*,*,"MUST provide the `Content-Disposition` header, with the appropriate value for the request",,,,
+Modify,*,Deposit,,,MUST include `ETag` header if implementing concurrency control,,
+Modify,Body,*,MUST provide the `Digest` header,MUST verify that the content matches the `Digest` header,,,"If one or more of the digests provided by the client that the server checked did not match, MAY respond with `412` ({{anchor_link(""DigestMismatch"")}}).  Note that servers MAY NOT check digests in real-time."
+Modify,Body,*,SHOULD provide the `Content-Length`,MUST verify that the supplied content matches the `Content-Length` if this is provided,,,"If the body content could not be read correctly, MAY return a `400` ({{anchor_link(""ContentMalformed"")}})"
+Modify,Body,Deposit,,,MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable),,"If the `Content-Type` header contains a format that the server cannot accept, MUST respond with `415` ({{anchor_link(""ContentTypeNotAcceptable"")}})"
+Modify,Body,Deposit,MUST provide the `Content-Type` header,"If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error",,,"If the body content is larger than the maximum allowed by the server, MAY return `413` ({{anchor_link(""MaxUploadSizeExceeded"")}})"
+Modify,Metadata,*,SHOULD provide the `Metadata-Format` header,"If no `Metadata-Format` header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata",,,"If the `Metadata-Format` header indicates a format the server does not support, MUST return `415` ({{anchor_link(""MetadataFormatNotAcceptable"")}})"
+Modify,Metadata,*,MUST provide only the Metadata document,,,,
+Modify,Metadata,Deposit,,,,,"If the `Metadata-Format` header does not match the format found in the body content, MAY return `415` ({{anchor_link(""FormatHeaderMismatch"")}})"
+Modify,By-Reference,*,MUST provide the By-Reference document,"If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request",,,"If rejecting the request due to the announced file size, MUST respond with a `400` ({{anchor_link(""ByReferenceFileSizeExceeded"")}})"
+Modify,By-Reference,*,,,,,"If the server does not support By-Reference, MUST respond with a `412` ({{anchor_link(""ByReferenceNotAllowed"")}})"
+Modify,By-Reference,File-URL,MUST only include a single By-Reference File in the By-Reference document,"If more than one By-Reference File is present, MUST reject the request.",,,"If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a `400` ({{anchor_link(""BadRequest"")}})"
+Modify,MD+BR,*,SHOULD provide the `Metadata-Format` header,"If no `Metadata-Format` header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata",,,"If rejecting the request due to the announced file size, MUST respond with a `400` ({{anchor_link(""ByReferenceFileSizeExceeded"")}})"
+Modify,MD+BR,*,MUST provide the Metadata+By Reference document,"If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request",,,"If the server does not support By-Reference, MUST respond with a `412` ({{anchor_link(""ByReferenceNotAllowed"")}})"
+Modify,MD+BR,Deposit,,,,,"If the `Metadata-Format` header does not match the format found in the body content, MAY return `415` ({{anchor_link(""FormatHeaderMismatch"")}})"
+Modify,MD+BR,Deposit,,,,,"If the `Metadata-Format` header indicates a format the server does not support, MUST return `415` ({{anchor_link(""MetadataFormatNotAcceptable"")}})"
+Modify,Binary,Deposit,,If accepting the request MUST attach the supplied file to the Object as an `originalDeposit`,,,
+Modify,Binary File,*,"MAY provide the `Packaging` header, and if so MUST be the Binary format identifier",The server SHOULD NOT attempt to unpack the file,,,
+Modify,Binary File,*,MUST provide Binary File body content,,,,
+Modify,Packaged Content,*,MUST provide the `Packaging` header,"The server MAY attempt to unpack the file, and create `derivedResource`s from it.",,,"If the server does not accept packages in the format identified in the `Packaging` header, MUST respond with a `415` ({{anchor_link(""PackagingFormatNotAcceptable"")}})"
+Modify,Packaged Content,*,MUST provide Packaged Content in the request body,,,,
+Modify,Packaged Content,Deposit,,,,,"If the `Packaging` header does not match the format found in the body content, SHOULD return `415` ({{anchor_link(""FormatHeaderMismatch"")}}).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response."
+Modify,Empty Body,*,MAY provide the `Content-Length` header with value `0`,,,,
+Modify,Empty Body,*,MUST NOT include any body content,,,,
+Create,*,Service-URL,MAY provide the `Slug` header,"If a `Slug` header is provided, MAY use this as the identifier for the newly created Object.","MUST respond with a `Location` header, containing the Object-URL",POST Service-URL,
+Create,*,Service-URL,,,MUST respond with a valid Status document or a suitable error response,,
+Create,*,Service-URL,,,Status document MUST be available on GET to the Object-URL in the `Location` header immediately (irrespective of whether this is a `201` or `202` response),,
+Create,*,Service-URL,,,"MUST respond with a `201` if the item was created immediately, a `202` if the item was queued for import, or raise an error.",,
+Create,*,Service-URL,,If accepting the request MUST create a new Object,,,
+Create,*,Service-URL,MAY provide the `In-Progress` header,"If no `In-Progress` header is provided, MUST assume that it is `false`",,,
+Create,*,Service-URL,,"If `In-Progress` is `false`, SHOULD expect further updates to the item, and not progress it through any ingest workflows yet.",,,
+Create,Metadata,Service-URL,,If accepting the request MUST populate the Object with the supplied Metadata,,,
+Create,By-Reference,Service-URL,,If accepting the request MUST attach the By-Reference files to the Object.,,,
+Create,MD+BR,Service-URL,,"If accepting the request MUST populate the Object with the supplied Metadata, and attach the By-Reference files to it.",,,
+Create,Empty Body,Staging-URL,,"If all preconditions are met, MUST create a resource to which the client can upload file segments","MUST respond with a `201` to indicate that the Segmented Upload has been initialised, or raise an error.",POST Staging-URL,"If the proposed final assembled file size is larger than the server's limit, MUST return `400` ({{anchor_link(""MaxAssembledSizeExceeded"")}})"
+Create,Empty Body,Staging-URL,,MUST reject the request if the conditions of the upload are not acceptable,MUST respond with a `Location` header containing the Temporary-URL where the client can upload file segments,,"If the proposed segment size is not within the parameters the server supports, MUST return `400` ({{anchor_link(""InvalidSegmentSize"")}})"
+Create,Empty Body,Staging-URL,,,,,"If the proposed number of segments is not within the parameters the server supports, MUST return `400` ({{anchor_link(""SegmentLimitExceeded"")}})"
+Update,*,Deposit,"MUST include the `If-Match` header, if the server implements concurrency control",MUST reject the request if the `If-Match` header does not match the current `ETag` of the resource,,,"For servers implementing concurrency control, if the `If-Match` header does not match the current `ETag`, MUST respond with `412` ({{anchor_link(""ETagNotMatched"")}})"
+Update,*,Deposit,,,,,"For servers implementing concurrency control, if no `If-Match` header is provided, MUST respond with `412` ({{anchor_link(""ETagRequired"")}})"
+Update,Body,Components,,,"MUST respond with a `204` if the replacement was deposited immediately, a `202` if the replacement was queued for import, or raise an error.",,
+Update,Body,Object-URL,MAY provide the `In-Progress` header,"If no `In-Progress` header is provided, MUST assume that it is `false`",MUST respond with a valid Status document or a suitable error response,,
+Update,Body,Object-URL,,,MUST include `ETag` header if implementing concurrency control,,
+Update,Body,Object-URL,,,"MUST respond with a `200` if the request was accepted immediately, a `202` if the request was queued for processing, or raise an error.",,
+Append,*,Object-URL,,,,POST Object-URL,
+Append,Binary,Object-URL,,,"MUST respond with a `Location` header, containing the File-URL of the Original Deposit File",,
+Append,Metadata,Object-URL,,"If accepting the new Metadata MUST add the Metadata to the item, and only treat this as an extension to existing Metadata.  The server MUST NOT overwrite or otherwise remove existing Metadata.",,,
+Replace,*,Object-URL,,,,PUT Object-URL,
+Replace,Binary,Object-URL,,"If accepting the new File, MUST remove all existing Files from the Object and replace with the new File.  The new File should be marked as an `originalDeposit`.  The server MUST also remove all Metadata, so the Metadata Resource contains no fields.",,,
+Replace,Metadata,Object-URL,,"If accepting the new Metadata, MUST remove all existing Files from the Object, and MUST replace the existing Metadata with the new.",,,
+Replace,By-Reference,Object-URL,,"If accepting the new By-Reference files, MUST remove all existing Files from the Object and replace with the By-Reference files.  The server MUST remove the existing Files immediately, even before the By-Reference files have dereferenced.  The new files MUST be marked as `originalDeposit`s.  The server MUST also remove all Metadata, so the Metadata Resource contains no fields.",,,
+Replace,MD+BR,Object-URL,,"If accepting the new Metadata and By-Reference files, MUST remove all existing Files from the Object and replace with the By-Reference files.  The server MUST remove the existing Files immediately, even before the By-Reference files have dereferenced.  The server MUST also replace all existing Metadata with the new Metadata.",,,
+Replace,Metadata,Metadata-URL,,If accepting the new Metadata MUST entirely replace the existing Metadata with the new.,,,
+Replace,By-Reference,FileSet-URL,,"If accepting the new By-Reference Files, MUST replace the existing FileSet with the new files.  The server MUST remove all the old files immediately, even before the new By-Reference files have been dereferenced.  The new Files MUST be marked as `originalDeposit`s",,,
+Replace,Binary File,FileSet-URL,,"If accepting the new File, MUST replace the existing FileSet with a single new File.  The File MUST be marked as an `originalDeposit`",,,
+Replace,By-Reference,File-URL,,"If accepting the new By-Reference File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new file MUST be marked as an `originalDeposit`",,,
+Replace,Binary File,File-URL,,"If accepting the new File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new File MUST be marked as an `originalDeposit`",,,
+Append,By-Reference,Object-URL,,"If accepting the request, MUST attach all the By-Reference files to the Object as `originalDeposit`s",,,
+Append,MD+BR,Object-URL,,"If accepting the request, MUST attach all the By-Reference files to the Object as `originalDeposit`s, and MUST add the Metadata to the item, and only treat this as an extension to existing Metadata.  The server MUST NOT overwrite or otherwise remove existing Metadata.",,,
+Append,Binary,Object-URL,,,,,
+Replace,*,Metadata-URL,,,,PUT Metadata-URL,
+Replace,*,FileSet-URL,,,,PUT FileSet-URL,
+Replace,*,File-URL,,,,PUT File-URL,
+Delete,*,*,,,"MUST respond with a `204` if the delete is successful, `202` if the delete is queued for processing, or raise an error",,
+Delete,*,Object-URL,,,,DELETE Object-URL,
+Delete,*,FileSet-URL,,,,DELETE FileSet-URL,
+Delete,*,File-URL,,,,DELETE File-URL,
+Delete,*,Metadata-URL,,,,DELETE Metadata-URL,
+Delete,*,Temporary-URL,,,,DELETE Temporary-URL,
+Complete,Empty Body,Object-URL,MUST provide the header `In-Progress: false`,MAY inject the content into any ingest workflows,MUST respond with a `204` or a suitable error,POST Object-URL,
+Complete,Empty Body,Object-URL,MAY provide the `Content-Length` header with value `0`,,,,
+Complete,Empty Body,Object-URL,MUST NOT include any body content,,,,
+Append,Body,Temporary-URL,,"MUST reject the request if the segment is incorrect or unexpected: for example, all segments were already received, or the segment is a different size than expected.",MUST respond with a `204` or a suitable error,POST Temporary-URL,"If the provided segment is not the final segment and is not the size that the client had indicated on initialisation, MUST return `400` ({{anchor_link(""InvalidSegmentSize"")}})"
+Append,File Segment,Temporary-URL,,"If all preconditions are met, MUST accept the file segment, and record the receipt of it",,,"If the Temporary-URL has expired, SHOULD return `410` ({{anchor_link(""SegmentedUploadTimedOut"")}}).  Servers may also return `404` and no further explanation."
+Append,File Segment,Temporary-URL,,"MUST be prepared to accept file segments in any order, and in parallel",,,"If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return `400` ({{anchor_link(""UnexpectedSegment"")}})"
+Append,File Segment,Temporary-URL,,"MUST be able to store the incoming file segments as they arrive, and then reconstitute them into a single file when all segments have been received.",,,
+Retrieve,Empty Body,Temporary-URL,,,MUST respond with a `200` or a suitable error,GET Temporary-URL,
+Retrieve,Empty Body,Temporary-URL,,,"If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.",,

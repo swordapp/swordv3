@@ -16,10 +16,12 @@ Segments can be uploaded in any order, and can be uploaded one at a time or in p
 Servers MAY support Segmented File Upload.  To do so, it must provide a staging area where file segments can be uploaded prior to the client
 requesting a specific deposit operation.  The server MUST include a `staging` field in the {{  section_link("Service Document") }} with a URL for where
 the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented File Upload, before 
-assuming that the client will not complete it, with the `stagingMaxIdle` field:
+assuming that the client will not complete it, with the `stagingMaxIdle` field.  In addition, the server SHOULD specify the size
+parameters of the segments using `maxSegmentSize`, `minSegmentSize`, `maxAssembledSize` and `maxSegments`:
 
 ```json
-{{ json_extract("content/examples/service-document.json", ["staging", "stagingMaxIdle"]) }}
+{{ json_extract("content/examples/service-document.json", 
+    ["staging", "stagingMaxIdle", "maxSegmentSize", "minSegmentSize", "maxAssembledSize", "maxSegments"]) }}
 ```
 
 
@@ -97,7 +99,7 @@ requirements(
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Append", "File Segment", "Temporary-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 See the section {{  section_link("Content Disposition") }} for detailed information on the `Content-Disposition` header.  Based on that section, the
@@ -133,7 +135,7 @@ requirements(
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Retrieve", "Empty Body", "Temporary-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 
@@ -151,7 +153,7 @@ requirements(
     hierarchy="tables/reqs_hierarchy",
     groups=["Request", "Content", "Resource"],
     match=["Delete", "Empty Body", "Temporary-URL"],
-    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements"])
+    output=["Protocol Operation", "Request Requirements", "Server Requirements", "Response Requirements", "Error Responses"])
 }}
 
 If a client submits the Temporary-URL as a By-Reference deposit to the server after completing the upload, the client SHOULD NOT delete

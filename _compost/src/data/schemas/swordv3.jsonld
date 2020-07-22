@@ -33,11 +33,9 @@
 		"MinSegmentSizeNotMet" : "http://purl.org/net/sword/3.0/error/MinSegmentSizeNotMet",
 		"OnBehalfOfNotAllowed" : "http://purl.org/net/sword/3.0/error/OnBehalfOfNotAllowed",
 		"PackagingFormatNotAcceptable" : "http://purl.org/net/sword/3.0/error/PackagingFormatNotAcceptable",
-		"SegmentedUploadNotAllowed" : "http://purl.org/net/sword/3.0/error/SegmentedUploadNotAllowed",
 		"SegmentedUploadTimedOut" : "http://purl.org/net/sword/3.0/error/SegmentedUploadTimedOut",
 		"SegmentLimitExceeded" : "http://purl.org/net/sword/3.0/error/SegmentLimitExceeded",
 		"UnexpectedSegment" : "http://purl.org/net/sword/3.0/error/UnexpectedSegment",
-		"ValidationFailed" : "http://purl.org/net/sword/3.0/error/ValidationFailed",
 
 		"byReferenceFiles" : { "@container" : "@list" },
 		"contentDisposition" : { "@type" : "xsd:string" },
