@@ -3,13 +3,13 @@ Request,Content,Resource,Request Requirements,Server Requirements,Response Requi
 *,*,*,,,,,"If authentication fails with supplied credentials, MUST respond with a `403` ({{anchor_link(""AuthenticationFailed"")}})"
 *,*,*,,,,,"If the server does not allow this method in this context at this time, MAY respond with a `405` ({{anchor_link(""MethodNotAllowed"")}})"
 *,*,*,,,,,"If the server does not support On-Behalf-Of deposit and the `On-Behalf-Of` header has been provided, MAY respond with a `412` ({{anchor_link(""OnBehalfOfNotAllowed"")}})"
-Retrieve,*,Service-URL,,,"If `Authorization` (and optionally `On-Behalf-Of`) headers are provided, MUST only list Service-URLs in the Service Document for which a deposit request would be permitted",GET Service-URL,
-Retrieve,*,Service-URL,,,MUST respond with a valid Service Document or a suitable error response,,
-Retrieve,*,Object-URL,,,MUST respond with a valid Status document or a suitable error response,GET Object-URL,
+Retrieve,*,Service-URL,,,"If `Authorization` (and optionally `On-Behalf-Of`) headers are provided, MUST only list Service-URLs in the **Service Document** for which a deposit request would be permitted",GET Service-URL,
+Retrieve,*,Service-URL,,,MUST respond with a valid **Service Document** or a suitable error response,,
+Retrieve,*,Object-URL,,,MUST respond with a valid **Status Document** or a suitable error response,GET Object-URL,
 Retrieve,*,Object-URL,,,MUST include `ETag` header if implementing concurrency control,,
 Retrieve,*,Components,,,MUST include `ETag` header if implementing concurrency control,,
-Retrieve,*,Metadata-URL,,,MUST respond with a valid Metadata document (see definition below) or a suitable error response,GET Metadata-URL,
-Retrieve,*,File-URL,,,"MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response",GET File-URL,
+Retrieve,*,Metadata-URL,,,MUST respond with a valid **Metadata Document** (see definition below) or a suitable error response,GET Metadata-URL,
+Retrieve,*,File-URL,,,"MUST respond with a File (which may be **Packaged Content**, a **Binary File**, a **Metadata Document**, or any other file that the server exposes) or a suitable error response",GET File-URL,
 Modify,*,*,"MUST provide the `Content-Disposition` header, with the appropriate value for the request",,,,
 Modify,*,Deposit,,,MUST include `ETag` header if implementing concurrency control,,
 Modify,Body,*,MUST provide the `Digest` header,MUST verify that the content matches the `Digest` header,,,"If one or more of the digests provided by the client that the server checked did not match, MAY respond with `412` ({{anchor_link(""DigestMismatch"")}}).  Note that servers MAY NOT check digests in real-time."
@@ -17,26 +17,26 @@ Modify,Body,*,SHOULD provide the `Content-Length`,MUST verify that the supplied 
 Modify,Body,Deposit,,,MUST include one or more File-URLs for the deposited content in the Status document.  The behaviour of these File-URLs may vary depending on the type of content deposited (e.g. ByReference and Segmented Uploads do not need to be immediately retrievable),,"If the `Content-Type` header contains a format that the server cannot accept, MUST respond with `415` ({{anchor_link(""ContentTypeNotAcceptable"")}})"
 Modify,Body,Deposit,MUST provide the `Content-Type` header,"If all preconditions are met, MUST either accept the deposit request immediately, queue the request for processing, or respond with an error",,,"If the body content is larger than the maximum allowed by the server, MAY return `413` ({{anchor_link(""MaxUploadSizeExceeded"")}})"
 Modify,Metadata,*,SHOULD provide the `Metadata-Format` header,"If no `Metadata-Format` header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata",,,"If the `Metadata-Format` header indicates a format the server does not support, MUST return `415` ({{anchor_link(""MetadataFormatNotAcceptable"")}})"
-Modify,Metadata,*,MUST provide only the Metadata document,,,,
+Modify,Metadata,*,MUST provide only the **Metadata Document**,,,,
 Modify,Metadata,Deposit,,,,,"If the `Metadata-Format` header does not match the format found in the body content, MAY return `415` ({{anchor_link(""FormatHeaderMismatch"")}})"
-Modify,By-Reference,*,MUST provide the By-Reference document,"If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request",,,"If rejecting the request due to the announced file size, MUST respond with a `400` ({{anchor_link(""ByReferenceFileSizeExceeded"")}})"
+Modify,By-Reference,*,MUST provide the **By-Reference Document**,"If downloading copies of the files in the **By-Reference Document**, MUST do this asynchronously to the deposit request",,,"If rejecting the request due to the announced file size, MUST respond with a `400` ({{anchor_link(""ByReferenceFileSizeExceeded"")}})"
 Modify,By-Reference,*,,,,,"If the server does not support By-Reference, MUST respond with a `412` ({{anchor_link(""ByReferenceNotAllowed"")}})"
-Modify,By-Reference,File-URL,MUST only include a single By-Reference File in the By-Reference document,"If more than one By-Reference File is present, MUST reject the request.",,,"If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a `400` ({{anchor_link(""BadRequest"")}})"
+Modify,By-Reference,File-URL,MUST only include a single By-Reference File in the **By-Reference Document**,"If more than one By-Reference File is present, MUST reject the request.",,,"If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a `400` ({{anchor_link(""BadRequest"")}})"
 Modify,MD+BR,*,SHOULD provide the `Metadata-Format` header,"If no `Metadata-Format` header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata",,,"If rejecting the request due to the announced file size, MUST respond with a `400` ({{anchor_link(""ByReferenceFileSizeExceeded"")}})"
-Modify,MD+BR,*,MUST provide the Metadata+By Reference document,"If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request",,,"If the server does not support By-Reference, MUST respond with a `412` ({{anchor_link(""ByReferenceNotAllowed"")}})"
+Modify,MD+BR,*,MUST provide the **Metadata+By Reference Document**,"If downloading copies of the files in the **By-Reference Document**, MUST do this asynchronously to the deposit request",,,"If the server does not support By-Reference, MUST respond with a `412` ({{anchor_link(""ByReferenceNotAllowed"")}})"
 Modify,MD+BR,Deposit,,,,,"If the `Metadata-Format` header does not match the format found in the body content, MAY return `415` ({{anchor_link(""FormatHeaderMismatch"")}})"
 Modify,MD+BR,Deposit,,,,,"If the `Metadata-Format` header indicates a format the server does not support, MUST return `415` ({{anchor_link(""MetadataFormatNotAcceptable"")}})"
 Modify,Binary,Deposit,,If accepting the request MUST attach the supplied file to the Object as an `originalDeposit`,,,
 Modify,Binary File,*,"MAY provide the `Packaging` header, and if so MUST be the Binary format identifier",The server SHOULD NOT attempt to unpack the file,,,
-Modify,Binary File,*,MUST provide Binary File body content,,,,
+Modify,Binary File,*,MUST provide **Binary File** body content,,,,
 Modify,Packaged Content,*,MUST provide the `Packaging` header,"The server MAY attempt to unpack the file, and create `derivedResource`s from it.",,,"If the server does not accept packages in the format identified in the `Packaging` header, MUST respond with a `415` ({{anchor_link(""PackagingFormatNotAcceptable"")}})"
 Modify,Packaged Content,*,MUST provide Packaged Content in the request body,,,,
 Modify,Packaged Content,Deposit,,,,,"If the `Packaging` header does not match the format found in the body content, SHOULD return `415` ({{anchor_link(""FormatHeaderMismatch"")}}).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response."
 Modify,Empty Body,*,MAY provide the `Content-Length` header with value `0`,,,,
 Modify,Empty Body,*,MUST NOT include any body content,,,,
 Create,*,Service-URL,MAY provide the `Slug` header,"If a `Slug` header is provided, MAY use this as the identifier for the newly created Object.","MUST respond with a `Location` header, containing the Object-URL",POST Service-URL,
-Create,*,Service-URL,,,MUST respond with a valid Status document or a suitable error response,,
-Create,*,Service-URL,,,Status document MUST be available on GET to the Object-URL in the `Location` header immediately (irrespective of whether this is a `201` or `202` response),,
+Create,*,Service-URL,,,MUST respond with a valid **Status Document** or a suitable error response,,
+Create,*,Service-URL,,,**Status Document** MUST be available on GET to the Object-URL in the `Location` header immediately (irrespective of whether this is a `201` or `202` response),,
 Create,*,Service-URL,,,"MUST respond with a `201` if the item was created immediately, a `202` if the item was queued for import, or raise an error.",,
 Create,*,Service-URL,,If accepting the request MUST create a new Object,,,
 Create,*,Service-URL,MAY provide the `In-Progress` header,"If no `In-Progress` header is provided, MUST assume that it is `false`",,,
@@ -50,7 +50,7 @@ Create,Empty Body,Staging-URL,,,,,"If the proposed number of segments is not wit
 Update,*,Deposit,"MUST include the `If-Match` header, if the server implements concurrency control",MUST reject the request if the `If-Match` header does not match the current `ETag` of the resource,,,"For servers implementing concurrency control, if the `If-Match` header does not match the current `ETag`, MUST respond with `412` ({{anchor_link(""ETagNotMatched"")}})"
 Update,*,Deposit,,,,,"For servers implementing concurrency control, if no `If-Match` header is provided, MUST respond with `412` ({{anchor_link(""ETagRequired"")}})"
 Update,Body,Components,,,"MUST respond with a `204` if the replacement was deposited immediately, a `202` if the replacement was queued for import, or raise an error.",,
-Update,Body,Object-URL,MAY provide the `In-Progress` header,"If no `In-Progress` header is provided, MUST assume that it is `false`",MUST respond with a valid Status document or a suitable error response,,
+Update,Body,Object-URL,MAY provide the `In-Progress` header,"If no `In-Progress` header is provided, MUST assume that it is `false`",MUST respond with a valid **Status Document** or a suitable error response,,
 Update,Body,Object-URL,,,MUST include `ETag` header if implementing concurrency control,,
 Update,Body,Object-URL,,,"MUST respond with a `200` if the request was accepted immediately, a `202` if the request was queued for processing, or raise an error.",,
 Append,*,Object-URL,,,,POST Object-URL,
@@ -86,4 +86,4 @@ Append,File Segment,Temporary-URL,,"If all preconditions are met, MUST accept th
 Append,File Segment,Temporary-URL,,"MUST be prepared to accept file segments in any order, and in parallel",,,"If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return `400` ({{anchor_link(""UnexpectedSegment"")}})"
 Append,File Segment,Temporary-URL,,"MUST be able to store the incoming file segments as they arrive, and then reconstitute them into a single file when all segments have been received.",,,
 Retrieve,Empty Body,Temporary-URL,,,MUST respond with a `200` or a suitable error,GET Temporary-URL,
-Retrieve,Empty Body,Temporary-URL,,,"If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.",,
+Retrieve,Empty Body,Temporary-URL,,,"If successful, MUST respond with a **Segmented File Upload Document** describing the current state of the upload.",,

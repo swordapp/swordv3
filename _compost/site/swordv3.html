@@ -117,7 +117,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-22 15:37</p>
+<p><strong>Last modified</strong>: 2020-07-22 15:57</p>
         <p>See also: <a href="/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
 protocol operations.</p>
 <h1><a name="1"></a>1. Credits</h1>
@@ -255,11 +255,11 @@ are listed for each section, please refer to the section above for details on th
 <tbody>
 <tr>
 <td>201</td>
-<td>Resource created, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - Object-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Resource created, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - Object-URL</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>202</td>
-<td>Resource accepted for processing, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - Object-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Resource accepted for processing, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - Object-URL</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>400</td>
@@ -371,11 +371,11 @@ are listed for each section, please refer to the section above for details on th
 <tbody>
 <tr>
 <td>200</td>
-<td>Content appended, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - The File-URL of the Original Deposit File if present</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Content appended, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - The File-URL of the Original Deposit File if present</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>202</td>
-<td>Content accepted for append, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - The File-URL of the Original Deposit File if present</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Content accepted for append, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - The File-URL of the Original Deposit File if present</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>400</td>
@@ -1204,60 +1204,60 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Request is:</p>
 <ul>
 <li>All<ul>
-<li>Delete</li>
-<li>Modify<ul>
-<li>Create</li>
-<li>Update<ul>
-<li>Append</li>
-<li>Replace</li>
-</ul>
-</li>
-</ul>
-</li>
 <li>Complete</li>
 <li>Retrieve</li>
+<li>Modify<ul>
+<li>Update<ul>
+<li>Replace</li>
+<li>Append</li>
+</ul>
+</li>
+<li>Create</li>
+</ul>
+</li>
+<li>Delete</li>
 </ul>
 </li>
 </ul>
 <p>The hierarchy for the Content is:</p>
 <ul>
 <li>All<ul>
+<li>Empty Body</li>
 <li>Body<ul>
-<li>JSON<ul>
-<li>By-Reference</li>
-<li>Metadata</li>
-<li>MD+BR</li>
-</ul>
-</li>
 <li>Binary<ul>
 <li>File Segment</li>
-<li>Binary File</li>
 <li>Packaged Content</li>
+<li>Binary File</li>
+</ul>
+</li>
+<li>JSON<ul>
+<li>Metadata</li>
+<li>MD+BR</li>
+<li>By-Reference</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Empty Body</li>
 </ul>
 </li>
 </ul>
 <p>The hierarchy for the Resource is:</p>
 <ul>
 <li>All<ul>
-<li>Staging<ul>
-<li>Staging-URL</li>
-<li>Temporary-URL</li>
-</ul>
-</li>
 <li>Deposit<ul>
 <li>Service-URL</li>
 <li>Components<ul>
+<li>FileSet-URL</li>
 <li>Metadata-URL</li>
 <li>File-URL</li>
-<li>FileSet-URL</li>
 </ul>
 </li>
 <li>Object-URL</li>
+</ul>
+</li>
+<li>Staging<ul>
+<li>Temporary-URL</li>
+<li>Staging-URL</li>
 </ul>
 </li>
 </ul>
@@ -1305,8 +1305,8 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST only list Service-URLs in the Service Document for which a deposit request would be permitted</li>
-<li>MUST respond with a valid Service Document or a suitable error response</li>
+<li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST only list Service-URLs in the <strong>Service Document</strong> for which a deposit request would be permitted</li>
+<li>MUST respond with a valid <strong>Service Document</strong> or a suitable error response</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1320,7 +1320,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST respond with a valid <strong>Status Document</strong> or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
@@ -1345,7 +1345,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>MUST respond with a valid Metadata document (see definition below) or a suitable error response</li>
+<li>MUST respond with a valid <strong>Metadata Document</strong> (see definition below) or a suitable error response</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1359,7 +1359,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>MUST respond with a File (which may be Packaged Content, a Binary File, a Metadata document, or any other file that the server exposes) or a suitable error response</li>
+<li>MUST respond with a File (which may be <strong>Packaged Content</strong>, a <strong>Binary File</strong>, a <strong>Metadata Document</strong>, or any other file that the server exposes) or a suitable error response</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1434,7 +1434,7 @@ capable of with its requirements fully expanded.</p>
 <p><strong>Request Requirements</strong></p>
 <ul>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
-<li>MUST provide only the Metadata document</li>
+<li>MUST provide only the <strong>Metadata Document</strong></li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -1462,11 +1462,11 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Request Requirements</strong></p>
 <ul>
-<li>MUST provide the By-Reference document</li>
+<li>MUST provide the <strong>By-Reference Document</strong></li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
-<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+<li>If downloading copies of the files in the <strong>By-Reference Document</strong>, MUST do this asynchronously to the deposit request</li>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
@@ -1481,7 +1481,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Request Requirements</strong></p>
 <ul>
-<li>MUST only include a single By-Reference File in the By-Reference document</li>
+<li>MUST only include a single By-Reference File in the <strong>By-Reference Document</strong></li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -1500,12 +1500,12 @@ capable of with its requirements fully expanded.</p>
 <p><strong>Request Requirements</strong></p>
 <ul>
 <li>SHOULD provide the <code>Metadata-Format</code> header</li>
-<li>MUST provide the Metadata+By Reference document</li>
+<li>MUST provide the <strong>Metadata+By Reference Document</strong></li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
 <li>If no <code>Metadata-Format</code> header is provided, MUST assume this is the standard SWORD format: http://purl.org/net/sword/3.0/types/Metadata</li>
-<li>If downloading copies of the files in the By-Reference document, MUST do this asynchronously to the deposit request</li>
+<li>If downloading copies of the files in the <strong>By-Reference Document</strong>, MUST do this asynchronously to the deposit request</li>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
@@ -1542,7 +1542,7 @@ capable of with its requirements fully expanded.</p>
 <p><strong>Request Requirements</strong></p>
 <ul>
 <li>MAY provide the <code>Packaging</code> header, and if so MUST be the Binary format identifier</li>
-<li>MUST provide Binary File body content</li>
+<li>MUST provide <strong>Binary File</strong> body content</li>
 </ul>
 <p><strong>Server Requirements</strong></p>
 <ul>
@@ -1613,8 +1613,8 @@ capable of with its requirements fully expanded.</p>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>MUST respond with a <code>Location</code> header, containing the Object-URL</li>
-<li>MUST respond with a valid Status document or a suitable error response</li>
-<li>Status document MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
+<li>MUST respond with a valid <strong>Status Document</strong> or a suitable error response</li>
+<li><strong>Status Document</strong> MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
 <li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
@@ -1718,7 +1718,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Response Requirements</strong></p>
 <ul>
-<li>MUST respond with a valid Status document or a suitable error response</li>
+<li>MUST respond with a valid <strong>Status Document</strong> or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 </ul>
@@ -2038,7 +2038,7 @@ capable of with its requirements fully expanded.</p>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>MUST respond with a <code>200</code> or a suitable error</li>
-<li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
+<li>If successful, MUST respond with a <strong>Segmented File Upload Document</strong> describing the current state of the upload.</li>
 </ul>
 <hr>
 
@@ -3280,8 +3280,8 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <p>The hierarchy for the Upload Type is:</p>
 <ul>
 <li>All<ul>
-<li>Segmented Upload Initialisation</li>
 <li>File Segment Upload</li>
+<li>Segmented Upload Initialisation</li>
 <li>Direct Deposit</li>
 </ul>
 </li>
@@ -3289,22 +3289,22 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <p>The hierarchy for the Content is:</p>
 <ul>
 <li>All<ul>
+<li>Empty Body</li>
 <li>Body<ul>
-<li>JSON<ul>
-<li>By-Reference</li>
-<li>Metadata</li>
-<li>MD+BR</li>
-</ul>
-</li>
 <li>Binary<ul>
 <li>File Segment</li>
-<li>Binary File</li>
 <li>Packaged Content</li>
+<li>Binary File</li>
+</ul>
+</li>
+<li>JSON<ul>
+<li>Metadata</li>
+<li>MD+BR</li>
+<li>By-Reference</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Empty Body</li>
 </ul>
 </li>
 </ul>
@@ -3580,7 +3580,7 @@ be done via a GET to the Temporary-URL.</p>
 <p><strong>Response Requirements</strong></p>
 <ul>
 <li>MUST respond with a <code>200</code> or a suitable error</li>
-<li>If successful, MUST respond with a Segmented File Upload Document describing the current state of the upload.</li>
+<li>If successful, MUST respond with a <strong>Segmented File Upload Document</strong> describing the current state of the upload.</li>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
