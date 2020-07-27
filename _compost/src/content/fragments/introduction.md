@@ -1,5 +1,5 @@
 See also: [SWORD 3.0 Behaviours]({{ url_for("swordv3-behaviours.html") }}) which provides a denormalised view of the specification's
-protocol operations.
+protocol operations, especially useful for implementers.
 
 
 # {{ header("Credits") }}

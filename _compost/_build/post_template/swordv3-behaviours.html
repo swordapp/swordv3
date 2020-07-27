@@ -81,8 +81,21 @@
 
     <div class="spec">
 
-        <p><strong>Version</strong>: SWORD 3.0 Release Candidate 1</p>
-<p><strong>Last modified</strong>: 2020-07-27 10:00</p>
+        <p><strong>Version</strong>: SWORD 3.0 Release Candidate 2</p>
+<p><strong>Last modified</strong>: 2020-07-27 12:05</p>
+
+<p>This document provides details of the specific protocol requirements for every operation that SWORD 3.0 supports.</p>
+<p>See also: <a href="/swordv3.html">SWORD 3.0 Specification</a> from which this document of denormalised protocol
+operations is derived.</p>
+<p>Each section describes the operation you can perform, and then the technical details of performing it, as follows:</p>
+<ul>
+<li><strong>Protocol Operation</strong>: the HTTP request verb on the resource URL to be used</li>
+<li><strong>Request Requirements</strong>: The burdens on the client making this request</li>
+<li><strong>Server Requirements</strong>: The ways in which the server should treat the request</li>
+<li><strong>Response Requirements</strong>: On a successful request, the requirements on the server when responding to the client</li>
+<li><strong>Error Responses</strong>: In the case of an error, which errors to respond with under each circumstance</li>
+</ul>
+
         <h1><a name="1"></a>1. Retrieve the Service Document</h1>
 <p>Request from the server a list of the Service-URLs that the client can deposit to.  A Service-URL allows the server to support multiple
 different deposit conditions - each URL may have its own set of rules/workflows behind it; for example, Service-URLs may be

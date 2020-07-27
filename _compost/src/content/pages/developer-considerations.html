@@ -1,0 +1,253 @@
+{% extends "spec.html" %}
+
+{% block title %}SWORD 3.0 Specification{% endblock %}
+
+{% block content %}
+
+    <h1 class="main_title">SWORD 3.0 Developer Considerations</h1>
+
+    <div class="nav">
+        <div class="toc">
+            {{ toc("d") }}
+        </div>
+    </div>
+
+    <div class="spec">
+
+        {% markdown %}
+
+In addition to the [SWORD 3.0 Specification]({{ url_for("swordv3.html") }}) and the [SWORD 3.0 Behaviours]({{ url_for("swordv3-behaviours.html") }})
+documentation, this document provides some considerations for developers implementing client or server-side SWORDv3 software
+
+
+# {{ header("In-Progress Deposits", toc="d") }}
+
+Deposits are considered complete as soon as they are updated without an `In-Progress: true` header.
+
+## {{ header("Clients", 2, "d") }}
+
+If you are making a request which you intend to update, you should always send `In-Progress: true` with each request.
+
+On your final request you can omit the `In-Progress` header or provide `In-Progress: false`, to indicate to the server
+that your updates to the object have completed.
+
+Note that you may also complete a deposit at any time by sending an empty POST request to the Object-URL, omitting
+the `In-Progress` header.
+
+## {{ header("Servers", 2, "d") }}
+
+If you are receiving a request from a client, you are free to process the object immediately after the first request
+to that object that omits `In-Progress` or sets `In-Progress:false`.
+
+
+# {{ header("Dereferencing and unpacking during an In-Progress deposit", 1, "d") }}
+
+You should consider whether you want to defer dereferencing (from By-Reference deposits) or unpacking any packaged content until 
+the deposit is marked complete.
+
+While not necessary, it could lead to a simpler implementation that doesn't need to consider race conditions with 
+subsequent dereferencing, unpacking or deletion actions.
+
+Consider:
+
+1. A user uploads a large SimpleZip archive, containing a file `README.txt`
+2. A user uploads a second SimpleZip archive, also containing the file `README.txt`
+3. The two archives are unpacked asynchronously, with the second `README.txt` unpacked first
+4. Before the first archive has finished being unpacked, the user deletes that archive file
+
+The risk of doing this in real time is that the original `README.txt` becomes the version of the file that the object
+has kept, and the replacement to this file in the second archive has been overwritten, even though that original
+deposit package has been removed.
+
+## {{ header("Real-time processing approach", 2, "d") }}
+
+To continue to do this in real time, the correct behaviour would be to record which archive provided each version of 
+`README.md` and store them all, and then ignore or remove any versions from deleted archives upon completion.
+
+This can be modelled in the **Status Document** as a set of `links`:
+
+```
+{
+    "links" : [
+        {
+            "@id" : "http://www.myorg.ac.uk/sword3/object/1/package-1.zip",
+            "rel" : ["http://purl.org/net/sword/3.0/terms/originalDeposit"],
+            "status" : "http://purl.org/net/sword/3.0/filestate/ingested"
+        },
+        {
+            "@id" : "http://www.myorg.ac.uk/sword3/object/1/package-2.zip",
+            "rel" : ["http://purl.org/net/sword/3.0/terms/originalDeposit"],
+            "status" : "http://purl.org/net/sword/3.0/filestate/ingested"
+        },
+        {
+            "@id" : "http://www.myorg.ac.uk/sword3/object/1/README.txt",
+            "rel" : [
+                "http://purl.org/net/sword/3.0/terms/fileSetFile",
+                "http://purl.org/net/sword/3.0/terms/derivedResource"
+            ],
+            "derivedFrom" : "http://www.myorg.ac.uk/sword3/object/1/package-1.zip",
+            "dcterms:replaces" : "http://www.myorg.ac.uk/sword3/object/1/README.txt.old",
+        },
+        {
+            "@id" : "http://www.myorg.ac.uk/sword3/object/1/README.txt.old",
+            "rel" : [
+                "http://purl.org/net/sword/3.0/terms/fileSetFile",
+                "http://purl.org/net/sword/3.0/terms/derivedResource"
+            ],
+            "derivedFrom" : "http://www.myorg.ac.uk/sword3/object/1/package-2.zip",
+            "dcterms:isReplacedBy" : "http://www.myorg.ac.uk/sword3/object/1/README.txt"
+        }
+    ]
+}
+```
+
+Here we can see the first two entries describe the two packages that have been uploaded and successfully ingested.  Below them there are two
+`README.txt` files, each of which indicates which `originalDeposit` they were `derivedFrom`, and because they are deemed
+by the server to be the same file, one replaces the other using the `dcterms:replaces` and `dcterms:isReplacedBy` annotations.
+
+We note straight away that this set up of the files is wrong.  Because package 2 was unpacked first, and then package 1 
+after, the `README.txt` from package 1 is the "current" version of the file, even though it should not be.
+
+In this case, if the client subsequently deletes `package-1.zip` the server ought to remove the `README.txt` associated
+with that package, and promote the version from `package-2.zip` to be the current version.
+
+
+## {{ header("Post completion approach", 2, "d") }}
+
+If the server doesn't unpack the files until after `In-Progress: false` is received, the workflow can proceed as follows.
+First the packages only are recorded in the `links` section of the **Status Document**:
+
+```
+{
+    "links" : [
+        {
+            "@id" : "http://www.myorg.ac.uk/sword3/object/1/package-1.zip",
+            "rel" : ["http://purl.org/net/sword/3.0/terms/originalDeposit"],
+            "status" : "http://purl.org/net/sword/3.0/filestate/pending",
+            "log" : "Packages will be unpacked after deposit completion"
+        },
+        {
+            "@id" : "http://www.myorg.ac.uk/sword3/object/1/package-2.zip",
+            "rel" : ["http://purl.org/net/sword/3.0/terms/originalDeposit"],
+            "status" : "http://purl.org/net/sword/3.0/filestate/pending",
+            "log" : "Packages will be unpacked after deposit completion"
+        }
+    ]
+}
+```
+
+Note that now the `status` is `pending` and there is an (optional) `log` message to indicate that the package will
+be unpacked later.
+
+After the first package is deleted, and the deposit has completed, then the server may unpack the remaining package
+and will assert the state of the object as:
+
+```
+{
+    "links" : [
+        {
+            "@id" : "http://www.myorg.ac.uk/sword3/object/1/package-2.zip",
+            "rel" : ["http://purl.org/net/sword/3.0/terms/originalDeposit"],
+            "status" : "http://purl.org/net/sword/3.0/filestate/pending",
+            "log" : "Packages will be unpacked after deposit completion"
+        },
+        {
+            "@id" : "http://www.myorg.ac.uk/sword3/object/1/README.txt",
+            "rel" : [
+                "http://purl.org/net/sword/3.0/terms/fileSetFile",
+                "http://purl.org/net/sword/3.0/terms/derivedResource"
+            ],
+            "derivedFrom" : "http://www.myorg.ac.uk/sword3/object/1/package-2.zip"
+        },
+    ]
+}
+```
+
+
+# {{ header("The specification is built on JSON-LD", 1, "d") }}
+
+The specification encodes document semantics through [JSON-LD](https://json-ld.org/). This has some implications:
+
+* You should use a JSON-LD parser when processing JSON-LD document submissions, including in SWORD metadata
+
+* Your JSON-LD parser will attempt to dereference the `@context` attribute to discover namespace prefix definitions. 
+You should ensure that this cannot be exploited by clients to perform DoS attacks or access your internal network. You 
+should handle parse errors caused by the referenced context being unresolvable
+
+* Any extensions should use a non-default namespace
+
+
+# {{ header("Alternative metadata formats", 1, "d") }}
+
+Although support for the defaul SWORD Metadata Format is mandated, that doesn't stop you supporting other metadata formats for 
+your client and server applications. If you do this, you should consider how multiple formats interplay when creating 
+the canonical version of your deposited record.
+
+As SWORD is a deposit protocol, you do not need to reconcile between metadata formats from the perspective of the SWORD client.
+
+Consider for example that your server will accept 3 separate formats for metadata:
+
+1. The SWORD default
+2. MODS
+3. An RDF XML document following an in-house vocabulary
+
+These can be announced in the **Service Document**:
+
+```
+{
+    "acceptMetadata" : [
+        "http://purl.org/net/sword/3.0/types/Metadata",
+        "https://www.loc.gov/standards/mods/",
+        "http://myorg.ac.uk/my-rdf-format"
+    ]
+}
+```
+
+Upon receipt of a metadata document in any of these formats, the server is asserting that it is capable of ingesting
+and storing that metadata in whatever internal mechanism it has for that.
+
+There is no guarantee that the client can retrieve the metadata document it supplied in that request.
+
+The server has a number of options in exposing metadata in its supported formats.
+
+The first is that it MUST support the default SWORD format, and this is exposed in the **Status Document** under the
+Metadata-URL:
+
+```
+{{ json_extract(
+    source="content/examples/status.json",
+    keys="metadata")
+}}
+```
+
+Second, it may choose to serialise and expose an arbitrary number of alternative metadata formats in the `links` section
+of the **Status Document** using `rel` with the identifier of the metadata format.  There is no requirement on the 
+server that the alternative metadata formats it exposes match or overlap in any way with the formats that it accepts 
+(though it seems likely in a practical implementation they would).
+
+```
+{
+    "links" : [
+        {
+            "@id" : "http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml",
+            "rel" : ["http://purl.org/net/sword/3.0/terms/formattedMetadata"],
+            "contentType" : "application/xml",
+            "metadataFormat" : "http://www.loc.gov/mods/v3"
+        },
+        {
+            "@id" : "http://www.swordserver.ac.uk/col1/mydeposit/metadata.rdf.xml",
+            "rel" : ["http://purl.org/net/sword/3.0/terms/formattedMetadata"],
+            "contentType" : "application/rdf+xml",
+            "metadataFormat" : "http://myorg.ac.uk/my-rdf-format"
+        }
+    ]
+}
+```
+
+Note that these files **are not** the original files deposited by the client, but representations of the server's
+current metadata record for this object, serialised using those formats.
+        {% endmarkdown %}
+
+    </div>
+
+{% endblock %}

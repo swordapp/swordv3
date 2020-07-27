@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SWORD 3.0 Specification</title>
+
+    <link rel="stylesheet" href="assets/css/swordv3.css">
+</head>
+<body>
+
+
+
+    <h1 class="main_title">SWORD 3.0 Developer Considerations</h1>
+
+    <div class="nav">
+        <div class="toc">
+            <ul>
+<li><a href="#1">1. In-Progress Deposits</a></li>
+<li><a href="#1.1">1.1. Clients</a></li>
+<li><a href="#1.2">1.2. Servers</a></li>
+<li><a href="#2">2. Dereferencing and unpacking during an In-Progress deposit</a></li>
+<li><a href="#2.1">2.1. Real-time processing approach</a></li>
+<li><a href="#2.2">2.2. Post completion approach</a></li>
+<li><a href="#3">3. The specification is built on JSON-LD</a></li>
+<li><a href="#4">4. Alternative metadata formats</a></li>
+</ul>
+        </div>
+    </div>
+
+    <div class="spec">
+
+        <p>In addition to the <a href="/swordv3.html">SWORD 3.0 Specification</a> and the <a href="/swordv3-behaviours.html">SWORD 3.0 Behaviours</a>
+documentation, this document provides some considerations for developers implementing client or server-side SWORDv3 software</p>
+<h1><a name="1"></a>1. In-Progress Deposits</h1>
+<p>Deposits are considered complete as soon as they are updated without an <code>In-Progress: true</code> header.</p>
+<h2><a name="1.1"></a>1.1. Clients</h2>
+<p>If you are making a request which you intend to update, you should always send <code>In-Progress: true</code> with each request.</p>
+<p>On your final request you can omit the <code>In-Progress</code> header or provide <code>In-Progress: false</code>, to indicate to the server
+that your updates to the object have completed.</p>
+<p>Note that you may also complete a deposit at any time by sending an empty POST request to the Object-URL, omitting
+the <code>In-Progress</code> header.</p>
+<h2><a name="1.2"></a>1.2. Servers</h2>
+<p>If you are receiving a request from a client, you are free to process the object immediately after the first request
+to that object that omits <code>In-Progress</code> or sets <code>In-Progress:false</code>.</p>
+<h1><a name="2"></a>2. Dereferencing and unpacking during an In-Progress deposit</h1>
+<p>You should consider whether you want to defer dereferencing (from By-Reference deposits) or unpacking any packaged content until 
+the deposit is marked complete.</p>
+<p>While not necessary, it could lead to a simpler implementation that doesn't need to consider race conditions with 
+subsequent dereferencing, unpacking or deletion actions.</p>
+<p>Consider:</p>
+<ol>
+<li>A user uploads a large SimpleZip archive, containing a file <code>README.txt</code></li>
+<li>A user uploads a second SimpleZip archive, also containing the file <code>README.txt</code></li>
+<li>The two archives are unpacked asynchronously, with the second <code>README.txt</code> unpacked first</li>
+<li>Before the first archive has finished being unpacked, the user deletes that archive file</li>
+</ol>
+<p>The risk of doing this in real time is that the original <code>README.txt</code> becomes the version of the file that the object
+has kept, and the replacement to this file in the second archive has been overwritten, even though that original
+deposit package has been removed.</p>
+<h2><a name="2.1"></a>2.1. Real-time processing approach</h2>
+<p>To continue to do this in real time, the correct behaviour would be to record which archive provided each version of 
+<code>README.md</code> and store them all, and then ignore or remove any versions from deleted archives upon completion.</p>
+<p>This can be modelled in the <strong>Status Document</strong> as a set of <code>links</code>:</p>
+<pre><code>{
+    &quot;links&quot; : [
+        {
+            &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/package-1.zip&quot;,
+            &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/originalDeposit&quot;],
+            &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/ingested&quot;
+        },
+        {
+            &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/package-2.zip&quot;,
+            &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/originalDeposit&quot;],
+            &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/ingested&quot;
+        },
+        {
+            &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/README.txt&quot;,
+            &quot;rel&quot; : [
+                &quot;http://purl.org/net/sword/3.0/terms/fileSetFile&quot;,
+                &quot;http://purl.org/net/sword/3.0/terms/derivedResource&quot;
+            ],
+            &quot;derivedFrom&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/package-1.zip&quot;,
+            &quot;dcterms:replaces&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/README.txt.old&quot;,
+        },
+        {
+            &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/README.txt.old&quot;,
+            &quot;rel&quot; : [
+                &quot;http://purl.org/net/sword/3.0/terms/fileSetFile&quot;,
+                &quot;http://purl.org/net/sword/3.0/terms/derivedResource&quot;
+            ],
+            &quot;derivedFrom&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/package-2.zip&quot;,
+            &quot;dcterms:isReplacedBy&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/README.txt&quot;
+        }
+    ]
+}
+</code></pre>
+
+<p>Here we can see the first two entries describe the two packages that have been uploaded and successfully ingested.  Below them there are two
+<code>README.txt</code> files, each of which indicates which <code>originalDeposit</code> they were <code>derivedFrom</code>, and because they are deemed
+by the server to be the same file, one replaces the other using the <code>dcterms:replaces</code> and <code>dcterms:isReplacedBy</code> annotations.</p>
+<p>We note straight away that this set up of the files is wrong.  Because package 2 was unpacked first, and then package 1 
+after, the <code>README.txt</code> from package 1 is the "current" version of the file, even though it should not be.</p>
+<p>In this case, if the client subsequently deletes <code>package-1.zip</code> the server ought to remove the <code>README.txt</code> associated
+with that package, and promote the version from <code>package-2.zip</code> to be the current version.</p>
+<h2><a name="2.2"></a>2.2. Post completion approach</h2>
+<p>If the server doesn't unpack the files until after <code>In-Progress: false</code> is received, the workflow can proceed as follows.
+First the packages only are recorded in the <code>links</code> section of the <strong>Status Document</strong>:</p>
+<pre><code>{
+    &quot;links&quot; : [
+        {
+            &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/package-1.zip&quot;,
+            &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/originalDeposit&quot;],
+            &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/pending&quot;,
+            &quot;log&quot; : &quot;Packages will be unpacked after deposit completion&quot;
+        },
+        {
+            &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/package-2.zip&quot;,
+            &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/originalDeposit&quot;],
+            &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/pending&quot;,
+            &quot;log&quot; : &quot;Packages will be unpacked after deposit completion&quot;
+        }
+    ]
+}
+</code></pre>
+
+<p>Note that now the <code>status</code> is <code>pending</code> and there is an (optional) <code>log</code> message to indicate that the package will
+be unpacked later.</p>
+<p>After the first package is deleted, and the deposit has completed, then the server may unpack the remaining package
+and will assert the state of the object as:</p>
+<pre><code>{
+    &quot;links&quot; : [
+        {
+            &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/package-2.zip&quot;,
+            &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/originalDeposit&quot;],
+            &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/pending&quot;,
+            &quot;log&quot; : &quot;Packages will be unpacked after deposit completion&quot;
+        },
+        {
+            &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/README.txt&quot;,
+            &quot;rel&quot; : [
+                &quot;http://purl.org/net/sword/3.0/terms/fileSetFile&quot;,
+                &quot;http://purl.org/net/sword/3.0/terms/derivedResource&quot;
+            ],
+            &quot;derivedFrom&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/package-2.zip&quot;
+        },
+    ]
+}
+</code></pre>
+
+<h1><a name="3"></a>3. The specification is built on JSON-LD</h1>
+<p>The specification encodes document semantics through <a href="https://json-ld.org/">JSON-LD</a>. This has some implications:</p>
+<ul>
+<li>
+<p>You should use a JSON-LD parser when processing JSON-LD document submissions, including in SWORD metadata</p>
+</li>
+<li>
+<p>Your JSON-LD parser will attempt to dereference the <code>@context</code> attribute to discover namespace prefix definitions. 
+You should ensure that this cannot be exploited by clients to perform DoS attacks or access your internal network. You 
+should handle parse errors caused by the referenced context being unresolvable</p>
+</li>
+<li>
+<p>Any extensions should use a non-default namespace</p>
+</li>
+</ul>
+<h1><a name="4"></a>4. Alternative metadata formats</h1>
+<p>Although support for the defaul SWORD Metadata Format is mandated, that doesn't stop you supporting other metadata formats for 
+your client and server applications. If you do this, you should consider how multiple formats interplay when creating 
+the canonical version of your deposited record.</p>
+<p>As SWORD is a deposit protocol, you do not need to reconcile between metadata formats from the perspective of the SWORD client.</p>
+<p>Consider for example that your server will accept 3 separate formats for metadata:</p>
+<ol>
+<li>The SWORD default</li>
+<li>MODS</li>
+<li>An RDF XML document following an in-house vocabulary</li>
+</ol>
+<p>These can be announced in the <strong>Service Document</strong>:</p>
+<pre><code>{
+    &quot;acceptMetadata&quot; : [
+        &quot;http://purl.org/net/sword/3.0/types/Metadata&quot;,
+        &quot;https://www.loc.gov/standards/mods/&quot;,
+        &quot;http://myorg.ac.uk/my-rdf-format&quot;
+    ]
+}
+</code></pre>
+
+<p>Upon receipt of a metadata document in any of these formats, the server is asserting that it is capable of ingesting
+and storing that metadata in whatever internal mechanism it has for that.</p>
+<p>There is no guarantee that the client can retrieve the metadata document it supplied in that request.</p>
+<p>The server has a number of options in exposing metadata in its supported formats.</p>
+<p>The first is that it MUST support the default SWORD format, and this is exposed in the <strong>Status Document</strong> under the
+Metadata-URL:</p>
+<pre><code>{
+  &quot;metadata&quot;: {
+    &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object/1/metadata&quot;,
+    &quot;eTag&quot;: &quot;...&quot;
+  }
+}
+</code></pre>
+
+<p>Second, it may choose to serialise and expose an arbitrary number of alternative metadata formats in the <code>links</code> section
+of the <strong>Status Document</strong> using <code>rel</code> with the identifier of the metadata format.  There is no requirement on the 
+server that the alternative metadata formats it exposes match or overlap in any way with the formats that it accepts 
+(though it seems likely in a practical implementation they would).</p>
+<pre><code>{
+    &quot;links&quot; : [
+        {
+            &quot;@id&quot; : &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
+            &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;],
+            &quot;contentType&quot; : &quot;application/xml&quot;,
+            &quot;metadataFormat&quot; : &quot;http://www.loc.gov/mods/v3&quot;
+        },
+        {
+            &quot;@id&quot; : &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.rdf.xml&quot;,
+            &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;],
+            &quot;contentType&quot; : &quot;application/rdf+xml&quot;,
+            &quot;metadataFormat&quot; : &quot;http://myorg.ac.uk/my-rdf-format&quot;
+        }
+    ]
+}
+</code></pre>
+
+<p>Note that these files <strong>are not</strong> the original files deposited by the client, but representations of the server's
+current metadata record for this object, serialised using those formats.</p>
+
+    </div>
+
+
+
+</body>
+</html>

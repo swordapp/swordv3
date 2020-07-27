@@ -15,6 +15,23 @@
     <div class="spec">
 
         {% include "fragments/version.md" %}
+
+{% markdown %}
+This document provides details of the specific protocol requirements for every operation that SWORD 3.0 supports.
+
+See also: [SWORD 3.0 Specification]({{ url_for("swordv3.html") }}) from which this document of denormalised protocol
+operations is derived.
+
+Each section describes the operation you can perform, and then the technical details of performing it, as follows:
+
+* **Protocol Operation**: the HTTP request verb on the resource URL to be used
+* **Request Requirements**: The burdens on the client making this request
+* **Server Requirements**: The ways in which the server should treat the request
+* **Response Requirements**: On a successful request, the requirements on the server when responding to the client
+* **Error Responses**: In the case of an error, which errors to respond with under each circumstance
+
+{% endmarkdown %}
+
         {% include "fragments/behaviours.md" %}
 
     </div>
