@@ -16,15 +16,24 @@
 
         {% include "fragments/version.md" %}
         {% include "fragments/introduction.md" %}
+        {% include "fragments/terminology.md" %}
+        {% include "fragments/structure.md" %}
+        {% include "fragments/http_headers.md" %}
         {% include "fragments/protocol_operations.md" %}
         {% include "fragments/protocol_requirements.md" %}
         {% include "fragments/documents.md"  %}
         {% include "fragments/auth_nz.md" %}
+        {% include "fragments/transport_security.md" %}
         {% include "fragments/errors.md" %}
         {% include "fragments/content_disposition.md" %}
+        {% include "fragments/content_digests.md" %}
+        {% include "fragments/concurrency_control.md" %}
+        {% include "fragments/continued_deposit.md" %}
         {% include "fragments/segmented_file_upload.md" %}
+        {% include "fragments/by_reference.md" %}
         {% include "fragments/metadata_deposit.md" %}
         {% include "fragments/metadata_formats.md" %}
+        {% include "fragments/packaged_content_deposit.md" %}
         {% include "fragments/packaging_formats.md" %}
         {% include "fragments/auto_discovery.md" %}
         {% include "fragments/references.md" %}
@@ -32,35 +41,3 @@
     </div>
 
 {% endblock %}
-
-{#
-{~ html div,clazz=nav ~}
-{% toc %}
-{~ html /div ~}
-
-{~ html div,clazz=spec ~}
-
-{% include VERSION.md %}
-{% include sections/INTRODUCTION.md %}
-{% include sections/TERMINOLOGY.md %}
-{% include sections/STRUCTURE.md %}
-{% include sections/HTTP_HEADERS.md %}
-{% include sections/PROTOCOL_OPERATIONS.md %}
-{% include sections/PROTOCOL_REQUIREMENTS.md %}
-{% include sections/DOCUMENTS.md %}
-{% include sections/AUTH_NZ.md %}
-{% include sections/TRANSPORT_SECURITY.md %}
-{% include sections/CONTENT_DISPOSITION.md %}
-{% include sections/CONTENT_DIGESTS.md %}
-{% include sections/CONCURRENCY_CONTROL.md %}
-{% include sections/CONTINUED_DEPOSIT.md %}
-{% include sections/SEGMENTED_FILE_UPLOAD.md %}
-{% include sections/BY_REFERENCE.md %}
-{% include sections/METADATA_DEPOSIT.md %}
-{% include sections/METADATA_FORMATS.md %}
-{% include sections/PACKAGED_CONTENT_DEPOSIT.md %}
-{% include sections/PACKAGING_FORMATS.md %}
-{% include sections/AUTO_DISCOVERY.md %}
-{% include sections/REFERENCES.md %}
-{~ html /div ~}
-#}

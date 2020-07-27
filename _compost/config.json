@@ -26,6 +26,7 @@
         { "source" : "data/schemas/service-document.schema.json", "target" : "service-document.schema.json" },
         { "source" : "data/schemas/status.schema.json", "target" : "status.schema.json" },
         { "source" : "data/schemas/swordv3.jsonld", "target" : "swordv3.jsonld" },
-        { "source" : "data/schemas/SWORDBagIt.json", "target" :  "SWORDBagIt.json"}
+        { "source" : "data/schemas/SWORDBagIt.json", "target" :  "SWORDBagIt.json"},
+        { "source" : "content/diagrams/structure.png", "target" :  "structure.png"}
     ]
 }
