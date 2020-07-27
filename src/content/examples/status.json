@@ -96,19 +96,5 @@
       "eTag" : "...",
       "status" : "http://purl.org/net/sword/3.0/filestate/ingested"
     }
-  ],
-
-  "forwarding" : [
-    {
-      "@id" : "http://www.otherorg.ac.uk/sword3/object/12",
-
-      "links" : [
-        {
-          "@id" : "http://www.otherorg.ac.uk/col2/yourdeposit.html",
-          "rel" : ["alternate"],
-          "contentType" : "text/html"
-        }
-      ]
-    }
   ]
 }

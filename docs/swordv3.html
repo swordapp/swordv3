@@ -162,7 +162,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 2</p>
-<p><strong>Last modified</strong>: 2020-07-27 13:57</p>
+<p><strong>Last modified</strong>: 2020-07-27 14:02</p>
         <p>See also: <a href="/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
 protocol operations, especially useful for implementers.</p>
 <h1><a name="1"></a>1. Credits</h1>
@@ -1346,40 +1346,40 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Request is:</p>
 <ul>
 <li>All<ul>
+<li>Retrieve</li>
+<li>Delete</li>
 <li>Complete</li>
 <li>Modify<ul>
 <li>Create</li>
 <li>Update<ul>
-<li>Append</li>
 <li>Replace</li>
+<li>Append</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Retrieve</li>
-<li>Delete</li>
 </ul>
 </li>
 </ul>
 <p>The hierarchy for the Content is:</p>
 <ul>
 <li>All<ul>
+<li>Empty Body</li>
 <li>Body<ul>
-<li>JSON<ul>
-<li>Metadata</li>
-<li>By-Reference</li>
-<li>MD+BR</li>
-</ul>
-</li>
 <li>Binary<ul>
 <li>Packaged Content</li>
 <li>Binary File</li>
 <li>File Segment</li>
 </ul>
 </li>
+<li>JSON<ul>
+<li>By-Reference</li>
+<li>MD+BR</li>
+<li>Metadata</li>
 </ul>
 </li>
-<li>Empty Body</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1387,14 +1387,14 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>All<ul>
 <li>Deposit<ul>
+<li>Object-URL</li>
+<li>Service-URL</li>
 <li>Components<ul>
-<li>Metadata-URL</li>
 <li>File-URL</li>
+<li>Metadata-URL</li>
 <li>FileSet-URL</li>
 </ul>
 </li>
-<li>Object-URL</li>
-<li>Service-URL</li>
 </ul>
 </li>
 <li>Staging<ul>
@@ -2737,20 +2737,6 @@ the content and current state of the item.</p>
       &quot;eTag&quot; : &quot;...&quot;,
       &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/ingested&quot;
     }
-  ],
-
-  &quot;forwarding&quot; : [
-    {
-      &quot;@id&quot; : &quot;http://www.otherorg.ac.uk/sword3/object/12&quot;,
-
-      &quot;links&quot; : [
-        {
-          &quot;@id&quot; : &quot;http://www.otherorg.ac.uk/col2/yourdeposit.html&quot;,
-          &quot;rel&quot; : [&quot;alternate&quot;],
-          &quot;contentType&quot; : &quot;text/html&quot;
-        }
-      ]
-    }
   ]
 }
 </code></pre>
@@ -2849,36 +2835,6 @@ the content and current state of the item.</p>
 <td>fileSet.eTag</td>
 <td>string</td>
 <td>The Etag for the FileSet<br><br>MUST be present if the server supports concurrency control</td>
-</tr>
-<tr>
-<td>forwarding</td>
-<td>array</td>
-<td>List of other locations where the object is available.<br><br>MAY be present</td>
-</tr>
-<tr>
-<td>forwarding[].@id</td>
-<td>string</td>
-<td>The SWORD identifier for the Object in the other system<br><br>MAY be present</td>
-</tr>
-<tr>
-<td>forwarding[].links</td>
-<td>array</td>
-<td>List of links to the Object as it appears in the other system<br><br>MAY be present</td>
-</tr>
-<tr>
-<td>forwarding[].links[].@id</td>
-<td>string</td>
-<td>The URL of a representation of the Object in the other system<br><br>MUST be present</td>
-</tr>
-<tr>
-<td>forwarding[].links[].contentType</td>
-<td>string</td>
-<td>The Content Type of the resource<br><br>MAY be present</td>
-</tr>
-<tr>
-<td>forwarding[].links[].rel</td>
-<td>array</td>
-<td>The relationship to the Object that this URL has<br><br>MAY be present</td>
 </tr>
 <tr>
 <td>links</td>
@@ -3425,31 +3381,31 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <p>The hierarchy for the Upload Type is:</p>
 <ul>
 <li>All<ul>
-<li>Direct Deposit</li>
-<li>File Segment Upload</li>
 <li>Segmented Upload Initialisation</li>
+<li>File Segment Upload</li>
+<li>Direct Deposit</li>
 </ul>
 </li>
 </ul>
 <p>The hierarchy for the Content is:</p>
 <ul>
 <li>All<ul>
+<li>Empty Body</li>
 <li>Body<ul>
-<li>JSON<ul>
-<li>Metadata</li>
-<li>By-Reference</li>
-<li>MD+BR</li>
-</ul>
-</li>
 <li>Binary<ul>
 <li>Packaged Content</li>
 <li>Binary File</li>
 <li>File Segment</li>
 </ul>
 </li>
+<li>JSON<ul>
+<li>By-Reference</li>
+<li>MD+BR</li>
+<li>Metadata</li>
 </ul>
 </li>
-<li>Empty Body</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
