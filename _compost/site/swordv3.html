@@ -162,7 +162,7 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 2</p>
-<p><strong>Last modified</strong>: 2020-07-27 13:10</p>
+<p><strong>Last modified</strong>: 2020-07-27 13:42</p>
         <p>See also: <a href="/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
 protocol operations, especially useful for implementers.</p>
 <h1><a name="1"></a>1. Credits</h1>
@@ -1347,17 +1347,17 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>All<ul>
 <li>Delete</li>
-<li>Retrieve</li>
-<li>Complete</li>
 <li>Modify<ul>
-<li>Create</li>
 <li>Update<ul>
-<li>Replace</li>
 <li>Append</li>
+<li>Replace</li>
 </ul>
 </li>
+<li>Create</li>
 </ul>
 </li>
+<li>Complete</li>
+<li>Retrieve</li>
 </ul>
 </li>
 </ul>
@@ -1366,16 +1366,16 @@ capable of with its requirements fully expanded.</p>
 <li>All<ul>
 <li>Empty Body</li>
 <li>Body<ul>
-<li>Binary<ul>
-<li>Binary File</li>
-<li>File Segment</li>
-<li>Packaged Content</li>
+<li>JSON<ul>
+<li>By-Reference</li>
+<li>Metadata</li>
+<li>MD+BR</li>
 </ul>
 </li>
-<li>JSON<ul>
-<li>MD+BR</li>
-<li>Metadata</li>
-<li>By-Reference</li>
+<li>Binary<ul>
+<li>Packaged Content</li>
+<li>File Segment</li>
+<li>Binary File</li>
 </ul>
 </li>
 </ul>
@@ -1387,19 +1387,19 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>All<ul>
 <li>Staging<ul>
-<li>Temporary-URL</li>
 <li>Staging-URL</li>
+<li>Temporary-URL</li>
 </ul>
 </li>
 <li>Deposit<ul>
 <li>Service-URL</li>
-<li>Object-URL</li>
 <li>Components<ul>
-<li>FileSet-URL</li>
 <li>File-URL</li>
+<li>FileSet-URL</li>
 <li>Metadata-URL</li>
 </ul>
 </li>
+<li>Object-URL</li>
 </ul>
 </li>
 </ul>
@@ -3425,9 +3425,9 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <p>The hierarchy for the Upload Type is:</p>
 <ul>
 <li>All<ul>
+<li>Segmented Upload Initialisation</li>
 <li>File Segment Upload</li>
 <li>Direct Deposit</li>
-<li>Segmented Upload Initialisation</li>
 </ul>
 </li>
 </ul>
@@ -3436,16 +3436,16 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <li>All<ul>
 <li>Empty Body</li>
 <li>Body<ul>
-<li>Binary<ul>
-<li>Binary File</li>
-<li>File Segment</li>
-<li>Packaged Content</li>
+<li>JSON<ul>
+<li>By-Reference</li>
+<li>Metadata</li>
+<li>MD+BR</li>
 </ul>
 </li>
-<li>JSON<ul>
-<li>MD+BR</li>
-<li>Metadata</li>
-<li>By-Reference</li>
+<li>Binary<ul>
+<li>Packaged Content</li>
+<li>File Segment</li>
+<li>Binary File</li>
 </ul>
 </li>
 </ul>

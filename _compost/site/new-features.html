@@ -166,36 +166,43 @@ server will reconstitute these segments into a single file, and then the client 
 <h2><a name="3.1"></a>3.1. Announcing Support for Segmented File Upload</h2>
 <p>Servers MAY support Segmented File Upload.  To do so, it must provide a staging area where file segments can be uploaded prior to the client
 requesting a specific deposit operation.  In the Service Document:</p>
-<pre><code class="json">{
+<pre><code class="json">```json
+{
+  &quot;maxAssembledSize&quot;: 30000000000000,
+  &quot;maxSegmentSize&quot;: 16777216000,
+  &quot;maxSegments&quot;: 1000,
+  &quot;minSegmentSize&quot;: 1,
   &quot;staging&quot;: &quot;http://example.com/staging&quot;,
   &quot;stagingMaxIdle&quot;: 3600
 }
 </code></pre>
 
-<h2><a name="3.2"></a>3.2. Process for Segmented File Upload</h2>
-<ol>
-<li>
-<p>Obtain the Staging-URL from the Service from which to request an Temporary-URL</p>
-</li>
-<li>
-<p>Request a Temporary-URL from the Service, via a Segmented Upload Initialisation request.</p>
-</li>
-<li>
-<p>Upload all the file segments to the Temporary-URL</p>
-</li>
-<li>
-<p>Carry out the desired deposit operation as a By-Reference deposit, using the Temporary-URL as the by-reference file.</p>
-</li>
-</ol>
-<h2><a name="3.3"></a>3.3. Segmented Upload Initialisation</h2>
-<pre><code><p>POST /Staging-URL HTTP/1.1</p>
-<hr />
-<p>HTTP/1.1 201</p>
-<p>[Temporary-URL created]</p>
+<pre><code>
+## &lt;a name=&quot;3.2&quot;&gt;&lt;/a&gt;3.2. Process for Segmented File Upload
+
+1. Obtain the Staging-URL from the Service from which to request an Temporary-URL
+
+2. Request a Temporary-URL from the Service, via a Segmented Upload Initialisation request.
+
+3. Upload all the file segments to the Temporary-URL
+
+4. Carry out the desired deposit operation as a By-Reference deposit, using the Temporary-URL as the by-reference file.
+
+
+## &lt;a name=&quot;3.3&quot;&gt;&lt;/a&gt;3.3. Segmented Upload Initialisation
+
 </code></pre>
 
-<h2><a name="3.4"></a>3.4. Uploading File Segments</h2>
-<pre><code><p>POST /Temporary-URL HTTP/1.1
+<p><p>POST /Staging-URL HTTP/1.1</p>
+<hr />
+<p>HTTP/1.1 201</p>
+<p>[Temporary-URL created]</p></p>
+<pre><code>
+## &lt;a name=&quot;3.4&quot;&gt;&lt;/a&gt;3.4. Uploading File Segments
+
+</code></pre>
+
+<p><p>POST /Temporary-URL HTTP/1.1
 Authorization: ...
 Content-Disposition: ...
 Content-Length: ...
@@ -203,39 +210,49 @@ Digest: ...</p>
 <p>[Segment to be added to the Resource.]</p>
 <hr />
 <p>HTTP/1.1 204</p>
-<p>[Segment Received]</p>
+<p>[Segment Received]</p></p>
+<pre><code>
+## &lt;a name=&quot;3.5&quot;&gt;&lt;/a&gt;3.5. Retrieving Information
+
+At any point after creating a Temporary-URL, the client may request information on the state of their Segmented File Upload. This can be
+done via a GET to the Temporary-URL.
+
 </code></pre>
 
-<h2><a name="3.5"></a>3.5. Retrieving Information</h2>
-<p>At any point after creating a Temporary-URL, the client may request information on the state of their Segmented File Upload. This can be
-done via a GET to the Temporary-URL.</p>
-<pre><code>{
-    &quot;@context&quot;: &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
-    &quot;@id&quot;: &quot;http://example.com/temporary/1&quot;,
-    &quot;@type&quot;: &quot;Temporary&quot;,
-
-    &quot;received&quot;: [
-        1,
-        2,
-        4
-    ],
-    &quot;expecting&quot;: [
-        3,
-        5
-    ],
-    &quot;assembledSize&quot;: 10000000,
-    &quot;segmentSize&quot;: 2000000
-}
+<p>{
+    "@context": "https://swordapp.github.io/swordv3/swordv3.jsonld",
+    "@id": "http://example.com/temporary/1",
+    "@type": "Temporary",</p>
+<pre><code>"received": [
+    1,
+    2,
+    4
+],
+"expecting": [
+    3,
+    5
+],
+"assembledSize": 10000000,
+"segmentSize": 2000000
 </code></pre>
+<p>}</p>
+<pre><code>
 
-<h1><a name="4"></a>4. By-Reference Deposit</h1>
-<p>By-Reference Deposit is when the client provides the server with URLs for Files which it would like the server to retrieve asynchronously.</p>
-<p>This could be useful in a number of contexts, such as when the files are very large, and are stored on specialist staging hardware, or
-where the files are already readily available elsewhere.</p>
-<h2><a name="4.1"></a>4.1. Announcing Support for By-Reference Deposit</h2>
-<p>Servers MAY support By-Reference deposit.  If a server supports By-Reference it SHOULD indicate this in the Service Document
-using the field <code>byReferenceDeposit</code>:</p>
-<pre><code class="json">{
+# &lt;a name=&quot;4&quot;&gt;&lt;/a&gt;4. By-Reference Deposit
+
+By-Reference Deposit is when the client provides the server with URLs for Files which it would like the server to retrieve asynchronously.
+
+This could be useful in a number of contexts, such as when the files are very large, and are stored on specialist staging hardware, or
+where the files are already readily available elsewhere.
+
+
+## &lt;a name=&quot;4.1&quot;&gt;&lt;/a&gt;4.1. Announcing Support for By-Reference Deposit
+
+Servers MAY support By-Reference deposit.  If a server supports By-Reference it SHOULD indicate this in the Service Document
+using the field `byReferenceDeposit`:
+
+```json
+{
   &quot;byReferenceDeposit&quot;: true
 }
 </code></pre>

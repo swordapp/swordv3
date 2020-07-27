@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SWORD 3.0 Usage Patterns and Requirements</title>
+
+    <link rel="stylesheet" href="assets/css/swordv3.css">
+</head>
+<body>
+
+
+
+    <h1 class="main_title">SWORD 3.0 Usage Patterns and Requirements</h1>
+
+    <div class="nav">
+        <div class="toc">
+            <ul>
+<li><a href="#1">1. The Documents</a></li>
+<li><a href="#2">2. Working Principles</a></li>
+<li><a href="#3">3. Usage Patterns</a></li>
+<li><a href="#4">4. Requirements</a></li>
+</ul>
+        </div>
+    </div>
+
+    <div class="spec">
+
+        <h1><a name="1"></a>1. The Documents</h1>
+<p><strong>SWORD: Facilitating Deposit Scenarios</strong></p>
+<p><a href="http://dlib.org/dlib/january12/lewis/01lewis.html">http://dlib.org/dlib/january12/lewis/01lewis.html</a></p>
+<p>A review of deposit use cases found during work around SWORD and SONEX in 2012.  Each use case is supported by a number of real-world 
+examples.</p>
+<p><strong>Data Deposit Scenarios</strong></p>
+<p><a href="http://swordapp.org/2012/07/data-deposit-scenarios/">http://swordapp.org/2012/07/data-deposit-scenarios/</a></p>
+<p>A review of research data deposit scenarios, documented during work around SWORD and SONEX in 2012.  We identified data types, sources,
+and target repositories and documented them.  The document lists some real-world examples of data deposit.  It then goes on to list 
+generalised requirements for data deposit and carries out a gap analysis on SWORDv2.</p>
+<p><strong>SWORD Community Development Document</strong></p>
+<p><a href="https://docs.google.com/document/d/1Rh80CbH3F7P8pqK4CqyEMpi-efDclETRMNqyqPO71Z0/edit">https://docs.google.com/document/d/1Rh80CbH3F7P8pqK4CqyEMpi-efDclETRMNqyqPO71Z0/edit</a></p>
+<p>A document circulated by Jisc in 2016 to gather input on case studies, implementations, requirements and sustainability options.  This
+ document is written piecemeal by a number of contributors working with SWORD, so is direct input from implementer base in some cases. </p>
+<p><strong>SWORD Statement of Requirements</strong></p>
+<p><a href="https://docs.google.com/document/d/1fajFcmFL4jRw4ym_pQTIyec8tqy8NKeLFhemdfqRRts/edit">https://docs.google.com/document/d/1fajFcmFL4jRw4ym_pQTIyec8tqy8NKeLFhemdfqRRts/edit</a></p>
+<p>A short document pulled together from various notes gathered by Jisc on SWORD, going into 2017.</p>
+<h1><a name="2"></a>2. Working Principles</h1>
+<p>From those documents we devised a short set of working principles that are not requirements or usage patterns, but which would be worth
+keeping in mind as the project progressed.</p>
+<ul>
+<li>The more optional features, the harder true interoperability</li>
+<li>Simpler the better - aim to remove any unusued features from SWORDv2</li>
+<li>Research data support is key, though not at the expense of existing features</li>
+<li>Make it easy for the community to engage and developers to pick up</li>
+<li>Make it easy to maintain and extend</li>
+<li>Be clear about the distinction between protocol and implementation</li>
+<li>One single simple (as possible) document describing the protocol</li>
+<li>Pay attention to anti-patterns: only one file, only one metadata schema, etc.</li>
+<li>Prioritise current, validated and pressing use cases</li>
+<li>Make it easy to relate implementations to the parts of the protocol</li>
+<li>Minimise the effort to implement against a repository (as few special features as possible)</li>
+</ul>
+<h1><a name="3"></a>3. Usage Patterns</h1>
+<p>A usage pattern is what we called our single units of functionality that we wanted to support.</p>
+<p>Smaller than a use case, larger than a user story.</p>
+<p>All usage patterns were derived from analysis of the source documents, and from implementation experience with SWORDv2.</p>
+<p>Full set <a href="https://docs.google.com/spreadsheets/d/14gP6ZjH_QX1VjZrh3CeJdgMsML2w0S95GWdYknV3ziE/edit">here</a> (41 in total)</p>
+<p>Some examples below.</p>
+<dl><dt><a name="research_data_deposit"></a>Research data deposit</dt><dd>Researchers should be able to easily deposit data for publication, discovery, safe storage, long-term archiving and preservation</dd><dt><a name="transmission_of_data_meeting_metadata_standards"></a>Transmission of data meeting metadata standards</dt><dd>The protocol should support the transfer of well-understood data formats and profiles such as PCDM, METS, RIOXX, etc.</dd><dt><a name="automated_machine-to-machine_deposit"></a>Automated machine-to-machine deposit</dt><dd>Autonomous systems should be able to communicate with eachother as needed via the protocol</dd><dt><a name="man-in-the-middle_broker"></a>Man-in-the-middle broker</dt><dd>Deposits should be possible via a brokerage service or other itermediate, which stands between the depositor and the target archive(s)</dd><dt><a name="real-time_file-storage"></a>Real-time file-storage</dt><dd>The protocol should offer the facilities to enable the repository to behave like a real-time file store for user-facing systems</dd><dt><a name="monitor_workflow_progress"></a>Monitor workflow progress</dt><dd>Be able to track the state of an item as it is in the repository - whether it is in a workflow, in the archive, or if other actions have happened to it</dd><dt><a name="arbitrarily_large_files"></a>Arbitrarily large files</dt><dd>Deposited files may be very large</dd><dt><a name="send_files_by_reference"></a>Send files by reference</dt><dd>Send one or more links to files to be ingested and attached to an item.  Some links may not need to be ingested, a reference may just need to be created</dd></dl>
+
+<h1><a name="4"></a>4. Requirements</h1>
+<p>The requirements are clean single statements about the capabilities that the specification must have.</p>
+<p>Full set <a href="https://docs.google.com/spreadsheets/d/14gP6ZjH_QX1VjZrh3CeJdgMsML2w0S95GWdYknV3ziE/edit">here</a> (66 in total)</p>
+<p>Some examples below.</p>
+<ul><li><a name="deposit_must_support_arbitrarily_large_files"></a>Deposit must support arbitrarily large files</li><li><a name="metadata/content_+_metadata_deposits_should_support_one_or_more_metadata_formats/profiles"></a>Metadata/Content + Metadata deposits should support one or more metadata formats/profiles</li><li><a name="authentication_for_any_action_must_not_require_human_intervention_on_any_individual_request"></a>Authentication for any action must not require human intervention on any individual request</li><li><a name="be_able_to_retrieve_information_about_an_item's_workflow_state_in_the_repository"></a>Be able to retrieve information about an item's workflow state in the repository</li><li><a name="all_information_should_be_machine-readable:_use_of_markup_(e.g._xml),_and_uris_for_status_information"></a>All information should be machine-readable: use of markup (e.g. XML), and URIs for status information</li><li><a name="be_able_to_determine_when_an_item_which_was_previously_deposited_is_no_longer_available_in_the_repository"></a>Be able to determine when an item which was previously deposited is no longer available in the repository</li><li><a name="be_able_to_retrieve_the_latest_version_of_a_file_which_has_been_replaced_one_or_more_times"></a>Be able to retrieve the latest version of a file which has been replaced one or more times</li><li><a name="be_able_to_deposit_content_which_is_not_yet_ready_to_archive_or_put_into_an_ingest_workflow"></a>Be able to deposit content which is not yet ready to archive or put into an ingest workflow</li><li><a name="allow_files_to_be_deposited_in_segments_which_are_re-assembled_on_the_server-side"></a>Allow files to be deposited in segments which are re-assembled on the server-side</li><li><a name="be_able_to_provide_one_or_more_files_(individual_files_or_packages)_as_uri_references_for_the_repository_to_download_as_part_of_the_deposit_process."></a>Be able to provide one or more files (individual files or packages) as URI references for the repository to download as part of the deposit process.</li></ul>
+
+    </div>
+
+
+
+</body>
+</html>
