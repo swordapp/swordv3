@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Differences between SWORDv3 and SWORDv2</title>
+
+    <link rel="stylesheet" href="assets/css/swordv3.css">
+</head>
+<body>
+
+
+
+    <h1 class="main_title">Differences between SWORDv3 and SWORDv2</h1>
+
+    <div class="nav">
+        <div class="toc">
+            <ul>
+<li><a href="#1">1. JSON instead of XML</a></li>
+<li><a href="#2">2. Some Terminology Changes</a></li>
+<li><a href="#3">3. Merged Deposit Receipt and Statement</a><ul>
+<li><a href="#3.1">3.1. Key Differences</a></li>
+</ul>
+</li>
+<li><a href="#4">4. Merged Concepts of Service Document and Collection</a></li>
+<li><a href="#5">5. Support for Arbitrary Metadata</a></li>
+<li><a href="#6">6. Concurrency Control</a></li>
+<li><a href="#7">7. Segmented File Upload</a></li>
+<li><a href="#8">8. By-Reference Deposit</a></li>
+<li><a href="#9">9. More Advanced Packaging</a></li>
+<li><a href="#10">10. Multipart Deposit has gone</a></li>
+<li><a href="#11">11. Other Differences</a></li>
+</ul>
+        </div>
+    </div>
+
+    <div class="spec">
+
+    <h1><a name="1"></a>1. JSON instead of XML</h1>
+<p>No more AtomPub.  Was:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; ?&gt;
+&lt;service xmlns:dcterms=&quot;http://purl.org/dc/terms/&quot;
+    xmlns:sword=&quot;http://purl.org/net/sword/terms/&quot;
+    xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;
+    xmlns=&quot;http://www.w3.org/2007/app&quot;&gt;
+
+    &lt;sword:version&gt;2.0&lt;/sword:version&gt;
+    &lt;sword:maxUploadSize&gt;16777216&lt;/sword:maxUploadSize&gt;
+
+    &lt;workspace&gt;
+        &lt;atom:title&gt;Main Site&lt;/atom:title&gt;
+
+        &lt;collection href=&quot;http://swordapp.org/col-iri/43&quot;&gt;
+            &lt;atom:title&gt;Collection 43&lt;/atom:title&gt;
+            &lt;accept&gt;*/*&lt;/accept&gt;
+            &lt;accept alternate=&quot;multipart-related&quot;&gt;*/*&lt;/accept&gt;
+            &lt;sword:collectionPolicy&gt;Collection Policy&lt;/sword:collectionPolicy&gt;
+            &lt;dcterms:abstract&gt;Collection Description&lt;/dcterms:abstract&gt;
+            &lt;sword:mediation&gt;false&lt;/sword:mediation&gt;
+            &lt;sword:treatment&gt;Treatment description&lt;/sword:treatment&gt;
+            &lt;sword:acceptPackaging&gt;http://purl.org/net/sword/package/SimpleZip&lt;/sword:acceptPackaging&gt;
+            &lt;sword:acceptPackaging&gt;http://purl.org/net/sword/package/METSDSpaceSIP&lt;/sword:acceptPackaging&gt;
+            &lt;sword:service&gt;http://swordapp.org/sd-iri/e4&lt;/sword:service&gt;
+        &lt;/collection&gt;
+    &lt;/workspace&gt;
+&lt;/service&gt;
+</code></pre>
+
+<p>Now</p>
+<pre><code>{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@id&quot; : &quot;http://example.com/service-document&quot;,
+  &quot;@type&quot; : &quot;ServiceDocument&quot;,
+
+  &quot;dc:title&quot; : &quot;Site Name&quot;,
+  &quot;dcterms:abstract&quot; : &quot;Site Description&quot;,
+
+  &quot;root&quot; : &quot;http://example.com/service-document&quot;,
+  &quot;acceptDeposits&quot;: true,
+
+  &quot;version&quot;: &quot;http://purl.org/net/sword/3.0&quot;,
+  &quot;maxUploadSize&quot; : 16777216000,
+  &quot;maxByReferenceSize&quot; : 30000000000000000,
+  &quot;maxSegmentSize&quot; : 16777216000,
+  &quot;minSegmentSize&quot; : 1,
+  &quot;maxAssembledSize&quot; : 30000000000000,
+  &quot;maxSegments&quot; : 1000,
+
+  &quot;accept&quot; : [&quot;*/*&quot;],
+  &quot;acceptArchiveFormat&quot; : [&quot;application/zip&quot;],
+  &quot;acceptPackaging&quot; : [&quot;*&quot;],
+  &quot;acceptMetadata&quot; : [&quot;http://purl.org/net/sword/3.0/types/Metadata&quot;],
+
+  &quot;collectionPolicy&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/collectionpolicy&quot;,
+    &quot;description&quot; : &quot;....&quot;
+  },
+  &quot;treatment&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/treatment&quot;,
+    &quot;description&quot; : &quot;...&quot;
+  },
+
+  &quot;staging&quot; : &quot;http://example.com/staging&quot;,
+  &quot;stagingMaxIdle&quot; : 3600,
+
+  &quot;byReferenceDeposit&quot; : true,
+  &quot;onBehalfOf&quot; : true,
+
+  &quot;digest&quot; : [&quot;SHA-256&quot;, &quot;SHA&quot;, &quot;MD5&quot;],
+  &quot;authentication&quot;: [&quot;Basic&quot;, &quot;OAuth&quot;, &quot;Digest&quot;, &quot;APIKey&quot;],
+
+  &quot;services&quot; : [
+    {
+      &quot;@id&quot;: &quot;http://swordapp.org/deposit/43&quot;,
+
+      &quot;dc:title&quot; : &quot;Deposit Service Name&quot;,
+      &quot;dcterms:abstract&quot; : &quot;Deposit Service Description&quot;,
+
+      &quot;root&quot; : &quot;http://example.com/service-document&quot;,
+      &quot;parent&quot; : &quot;http://example.com/service-document&quot;,
+      &quot;acceptDeposits&quot;: true,
+
+      &quot;services&quot; : []
+    }
+  ]
+}
+</code></pre>
+
+<h1><a name="2"></a>2. Some Terminology Changes</h1>
+<ul>
+<li><strong>Collection</strong> - now referred to as a <strong>Service</strong></li>
+<li><strong>Content</strong> - now referred to as the <strong>FileSet</strong></li>
+<li><strong>Deposit Receipt</strong> - merged with the <strong>Statement</strong> and has become the <strong>Status Document</strong></li>
+<li><strong>Statement</strong> - see above</li>
+<li><strong>Container</strong> - now referred to as an <strong>Object</strong></li>
+<li><strong>Mediated Deposit</strong> - now referred to as <strong>On-Behalf-Of Deposit</strong> for consistency</li>
+</ul>
+<h1><a name="3"></a>3. Merged Deposit Receipt and Statement</h1>
+<p>Originally there were two documents:</p>
+<ul>
+<li><strong>Deposit Receipt</strong> - provided in response to any deposit operation, contained information about the operation and the item</li>
+<li><strong>Statement</strong> - provided detailed information about files and workflow state</li>
+</ul>
+<p>These are now merged into a single <strong>Status Document</strong></p>
+<p><strong>SWORDv2: Deposit Receipt</strong></p>
+<pre><code>&lt;entry xmlns=&quot;http://www.w3.org/2005/Atom&quot;
+        xmlns:sword=&quot;http://purl.org/net/sword/&quot;
+        xmlns:dcterms=&quot;http://purl.org/dc/terms/&quot;&gt;
+
+    &lt;title&gt;My Deposit&lt;/title&gt;
+    &lt;id&gt;info:something:1&lt;/id&gt;
+    &lt;updated&gt;2008-08-18T14:27:08Z&lt;/updated&gt;
+    &lt;summary type=&quot;text&quot;&gt;A summary&lt;/summary&gt;
+    &lt;generator uri=&quot;http://www.myrepository.ac.uk/sword-plugin&quot; version=&quot;1.0&quot;/&gt;
+
+    &lt;!-- the item's metadata --&gt;
+    &lt;dcterms:abstract&gt;The abstract&lt;/dcterms:abstract&gt;
+    &lt;dcterms:accessRights&gt;Access Rights&lt;/dcterms:accessRights&gt;
+    &lt;dcterms:alternative&gt;Alternative Title&lt;/dcterms:alternative&gt;
+    &lt;dcterms:available&gt;Date Available&lt;/dcterms:available&gt;
+    &lt;dcterms:bibliographicCitation&gt;Bibliographic Citation&lt;/dcterms:bibliographicCitation&gt;
+    &lt;dcterms:contributor&gt;Contributor&lt;/dcterms:contributor&gt;
+    &lt;dcterms:description&gt;Description&lt;/dcterms:description&gt;
+    &lt;dcterms:hasPart&gt;Has Part&lt;/dcterms:hasPart&gt;
+    &lt;dcterms:hasVersion&gt;Has Version&lt;/dcterms:hasVersion&gt;
+    &lt;dcterms:identifier&gt;Identifier&lt;/dcterms:identifier&gt;
+    &lt;dcterms:isPartOf&gt;Is Part Of&lt;/dcterms:isPartOf&gt;
+    &lt;dcterms:publisher&gt;Publisher&lt;/dcterms:publisher&gt;
+    &lt;dcterms:references&gt;References&lt;/dcterms:references&gt;
+    &lt;dcterms:rightsHolder&gt;Rights Holder&lt;/dcterms:rightsHolder&gt;
+    &lt;dcterms:source&gt;Source&lt;/dcterms:source&gt;
+    &lt;dcterms:title&gt;Title&lt;/dcterms:title&gt;
+    &lt;dcterms:type&gt;Type&lt;/dcterms:type&gt;
+
+    &lt;sword:verboseDescription&gt;Verbose description&lt;/sword:verboseDescription&gt;
+    &lt;sword:treatment&gt;Unpacked. JPEG contents converted to JPEG2000.&lt;/sword:treatment&gt;
+
+    &lt;link rel=&quot;alternate&quot; href=&quot;http://www.swordserver.ac.uk/col1/mydeposit.html&quot;/&gt;
+    &lt;content type=&quot;application/zip&quot; src=&quot;http://www.swordserver.ac.uk/col1/mydeposit&quot;/&gt;
+    &lt;link rel=&quot;edit-media&quot; href=&quot;http://www.swordserver.ac.uk/col1/mydeposit&quot;/&gt;
+    &lt;link rel=&quot;edit&quot; href=&quot;http://www.swordserver.ac.uk/col1/mydeposit.atom&quot; /&gt;
+    &lt;link rel=&quot;http://purl.org/net/sword/terms/add&quot; href=&quot;http://www.swordserver.ac.uk/col1/mydeposit.atom&quot; /&gt;
+    &lt;sword:packaging&gt;http://purl.org/net/sword/package/BagIt&lt;/sword:packaging&gt;
+
+    &lt;link rel=&quot;http://purl.org/net/sword/terms/originalDeposit&quot;
+            type=&quot;application/zip&quot;
+            href=&quot;http://www.swordserver.ac.uk/col1/mydeposit/package.zip&quot;/&gt;
+    &lt;link rel=&quot;http://purl.org/net/sword/terms/derivedResource&quot;
+            type=&quot;application/pdf&quot;
+            href=&quot;http://www.swordserver.ac.uk/col1/mydeposit/file1.pdf&quot;/&gt;
+    &lt;link rel=&quot;http://purl.org/net/sword/terms/derivedResource&quot;
+            type=&quot;application/pdf&quot;
+            href=&quot;http://www.swordserver.ac.uk/col1/mydeposit/file2.pdf&quot;/&gt;
+
+    &lt;link rel=&quot;http://purl.org/net/sword/terms/statement&quot;
+            type=&quot;application/atom+xml;type=feed&quot;
+            href=&quot;http://www.swordserver.ac.uk/col1/mydeposit.feed&quot;/&gt;
+    &lt;link rel=&quot;http://purl.org/net/sword/terms/statement&quot;
+            type=&quot;application/rdf+xml&quot;
+            href=&quot;http://www.swordserver.ac.uk/col1/mydeposit.rdf&quot;/&gt;
+
+&lt;/entry&gt;
+</code></pre>
+
+<p><strong>SWORDv2: Statement</strong></p>
+<pre><code>&lt;atom:feed xmlns:sword=&quot;http://purl.org/net/sword/terms/&quot;
+            xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+
+    &lt;atom:category scheme=&quot;http://purl.org/net/sword/terms/state&quot;
+        term=&quot;[state identifier]&quot;
+        label=&quot;State&quot;&gt;
+            The work has passed through review and is now in the archive
+    &lt;/atom:category&gt;
+
+    &lt;atom:entry&gt;
+        &lt;atom:category scheme=&quot;http://purl.org/net/sword/terms/&quot;
+            term=&quot;http://purl.org/net/sword/terms/originalDeposit&quot;
+            label=&quot;Orignal Deposit&quot;/&gt;
+        &lt;atom:content type=&quot;application/zip&quot;
+                    src=&quot;http://localhost:8080/part-IRI/43/my_deposit/example.zip&quot;/&gt;
+        &lt;sword:packaging&gt;http://purl.org/net/sword/package/SimpleZip&lt;/sword:packaging&gt;
+        &lt;sword:depositedOn&gt;2011-03-02T20:50:06Z&lt;/sword:depositedOn&gt;
+        &lt;sword:depositedBy&gt;sword&lt;/sword:depositedBy&gt;
+        &lt;sword:depositedOnBehalfOf&gt;jbloggs&lt;/sword:depositedOnBehalfOf&gt;
+    &lt;/atom:entry&gt;
+
+&lt;/atom:feed&gt;
+</code></pre>
+
+<p><strong>SWORDv3: Status Document</strong></p>
+<pre><code>{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1&quot;,
+  &quot;@type&quot; : &quot;Status&quot;,
+  &quot;eTag&quot; : &quot;...&quot;,
+
+  &quot;metadata&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/metadata&quot;,
+    &quot;eTag&quot; : &quot;...&quot;
+  },
+  &quot;fileSet&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1fileset&quot;,
+    &quot;eTag&quot; : &quot;...&quot;
+  },
+
+  &quot;service&quot; : &quot;http://www.myorg.ac.uk/sword3&quot;,
+
+  &quot;state&quot; : [
+    {
+      &quot;@id&quot; : &quot;http://purl.org/net/sword/3.0/state/inProgress&quot;,
+      &quot;description&quot; : &quot;the item is currently inProgress&quot;
+    }
+  ],
+
+  &quot;actions&quot; : {
+    &quot;getMetadata&quot; : true,
+    &quot;getFiles&quot; : true,
+    &quot;appendMetadata&quot; : true,
+    &quot;appendFiles&quot; : true,
+    &quot;replaceMetadata&quot; : true,
+    &quot;replaceFiles&quot; : true,
+    &quot;deleteMetadata&quot; : true,
+    &quot;deleteFiles&quot; : true,
+    &quot;deleteObject&quot; : true
+  },
+
+  &quot;links&quot; : [
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/col1/mydeposit.html&quot;,
+      &quot;rel&quot; : [&quot;alternate&quot;],
+      &quot;contentType&quot; : &quot;text/html&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/package.zip&quot;,
+      &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/originalDeposit&quot;],
+      &quot;contentType&quot; : &quot;application/zip&quot;,
+      &quot;packaging&quot; : &quot;http://purl.org/net/sword/3.0/package/SimpleZip&quot;,
+      &quot;depositedOn&quot; : &quot;[timestamp]&quot;,
+      &quot;depositedBy&quot; : &quot;[user identifier]&quot;,
+      &quot;depositedOnBehalfOf&quot; : &quot;[user identifier]&quot;,
+      &quot;byReference&quot; : &quot;http://www.otherorg.ac.uk/by-reference/file.zip&quot;,
+      &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/ingested&quot;,
+      &quot;log&quot; : &quot;[any information associated with the deposit that the client should know]&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/file1.pdf&quot;,
+      &quot;rel&quot; : [
+        &quot;http://purl.org/net/sword/3.0/terms/fileSetFile&quot;,
+        &quot;http://purl.org/net/sword/3.0/terms/derivedResource&quot;
+      ],
+      &quot;contentType&quot; : &quot;application/pdf&quot;,
+      &quot;derivedFrom&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/package.zip&quot;,
+      &quot;dcterms:relation&quot; : &quot;http://www.myorg.ac.uk/repo/123456789/file1.pdf&quot;,
+      &quot;dcterms:replaces&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/versions/file1.1.pdf&quot;,
+      &quot;eTag&quot; : &quot;...&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/package.1.zip&quot;,
+      &quot;rel&quot; : [&quot;http://purl.org/net/sword/terms/packagedContent&quot;],
+      &quot;contentType&quot; : &quot;application/zip&quot;,
+      &quot;packaging&quot; : &quot;http://purl.org/net/sword/3.0/package/SimpleZip&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
+      &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/formattedMetadata&quot;],
+      &quot;contentType&quot; : &quot;application/xml&quot;,
+      &quot;metadataFormat&quot; : &quot;http://www.loc.gov/mods/v3&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/versions/file1.1.pdf&quot;,
+      &quot;rel&quot; : [&quot;http://purl.org/net/sword/3.0/terms/derivedResource&quot;],
+      &quot;contentType&quot; : &quot;application/pdf&quot;,
+      &quot;dcterms:isReplacedBy&quot; : &quot;http://www.myorg.ac.uk/sword3/object1/file1.pdf&quot;,
+      &quot;versionReplacedOn&quot; : &quot;[xsd:dateTime]&quot;
+    },
+    {
+      &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1/reference.zip&quot;,
+      &quot;rel&quot; : [
+        &quot;http://purl.org/net/sword/3.0/terms/byReferenceDeposit&quot;,
+        &quot;http://purl.org/net/sword/3.0/terms/originalDeposit&quot;,
+        &quot;http://purl.org/net/sword/3.0/terms/fileSetFile&quot;
+      ],
+      &quot;byReference&quot; : &quot;http://www.otherorg.ac.uk/by-reference/file2.zip&quot;,
+      &quot;log&quot; : &quot;Any information on the download, especially if it failed&quot;,
+      &quot;eTag&quot; : &quot;...&quot;,
+      &quot;status&quot; : &quot;http://purl.org/net/sword/3.0/filestate/ingested&quot;
+    }
+  ],
+
+  &quot;forwarding&quot; : [
+    {
+      &quot;@id&quot; : &quot;http://www.otherorg.ac.uk/sword3/object/12&quot;,
+
+      &quot;links&quot; : [
+        {
+          &quot;@id&quot; : &quot;http://www.otherorg.ac.uk/col2/yourdeposit.html&quot;,
+          &quot;rel&quot; : [&quot;alternate&quot;],
+          &quot;contentType&quot; : &quot;text/html&quot;
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<h2><a name="3.1"></a>3.1. Key Differences</h2>
+<ul>
+<li>Metadata is now not included explicitly - instead it is available as a File to be downloaded</li>
+<li><code>lastAction</code> provides equivalent capabilities as the Deposit Receipt</li>
+<li><code>links</code> provide equivalent capabilities as the Statement</li>
+<li>The Status Document now allows you to link back to the Service through which the Object was deposited</li>
+</ul>
+<h1><a name="4"></a>4. Merged Concepts of Service Document and Collection</h1>
+<p>In SWORDv2 there was one Service Document, and that listed multiple (optionally nested) Collections.</p>
+<p>In SWORDv3 there are only Services, which are represented by Service Documents.  Services may or may not accept deposits, and may or may not
+contain nested Services.</p>
+<p><strong>SWORDv2: Service Document</strong></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; ?&gt;
+&lt;service xmlns:dcterms=&quot;http://purl.org/dc/terms/&quot;
+    xmlns:sword=&quot;http://purl.org/net/sword/terms/&quot;
+    xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;
+    xmlns=&quot;http://www.w3.org/2007/app&quot;&gt;
+
+    &lt;sword:version&gt;2.0&lt;/sword:version&gt;
+    &lt;sword:maxUploadSize&gt;16777216&lt;/sword:maxUploadSize&gt;
+
+    &lt;workspace&gt;
+        &lt;atom:title&gt;Main Site&lt;/atom:title&gt;
+
+        &lt;collection href=&quot;http://swordapp.org/col-iri/43&quot;&gt;
+            &lt;atom:title&gt;Collection 43&lt;/atom:title&gt;
+            &lt;accept&gt;*/*&lt;/accept&gt;
+            &lt;accept alternate=&quot;multipart-related&quot;&gt;*/*&lt;/accept&gt;
+            &lt;sword:collectionPolicy&gt;Collection Policy&lt;/sword:collectionPolicy&gt;
+            &lt;dcterms:abstract&gt;Collection Description&lt;/dcterms:abstract&gt;
+            &lt;sword:mediation&gt;false&lt;/sword:mediation&gt;
+            &lt;sword:treatment&gt;Treatment description&lt;/sword:treatment&gt;
+            &lt;sword:acceptPackaging&gt;http://purl.org/net/sword/package/SimpleZip&lt;/sword:acceptPackaging&gt;
+            &lt;sword:acceptPackaging&gt;http://purl.org/net/sword/package/METSDSpaceSIP&lt;/sword:acceptPackaging&gt;
+            &lt;sword:service&gt;http://swordapp.org/sd-iri/e4&lt;/sword:service&gt;
+        &lt;/collection&gt;
+    &lt;/workspace&gt;
+&lt;/service&gt;
+</code></pre>
+
+<p><strong>SWORDv3: Service Document</strong></p>
+<pre><code>{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@id&quot; : &quot;http://example.com/service-document&quot;,
+  &quot;@type&quot; : &quot;ServiceDocument&quot;,
+
+  &quot;dc:title&quot; : &quot;Site Name&quot;,
+  &quot;dcterms:abstract&quot; : &quot;Site Description&quot;,
+
+  &quot;root&quot; : &quot;http://example.com/service-document&quot;,
+  &quot;acceptDeposits&quot;: true,
+
+  &quot;version&quot;: &quot;http://purl.org/net/sword/3.0&quot;,
+  &quot;maxUploadSize&quot; : 16777216000,
+  &quot;maxByReferenceSize&quot; : 30000000000000000,
+  &quot;maxSegmentSize&quot; : 16777216000,
+  &quot;minSegmentSize&quot; : 1,
+  &quot;maxAssembledSize&quot; : 30000000000000,
+  &quot;maxSegments&quot; : 1000,
+
+  &quot;accept&quot; : [&quot;*/*&quot;],
+  &quot;acceptArchiveFormat&quot; : [&quot;application/zip&quot;],
+  &quot;acceptPackaging&quot; : [&quot;*&quot;],
+  &quot;acceptMetadata&quot; : [&quot;http://purl.org/net/sword/3.0/types/Metadata&quot;],
+
+  &quot;collectionPolicy&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/collectionpolicy&quot;,
+    &quot;description&quot; : &quot;....&quot;
+  },
+  &quot;treatment&quot; : {
+    &quot;@id&quot; : &quot;http://www.myorg.ac.uk/treatment&quot;,
+    &quot;description&quot; : &quot;...&quot;
+  },
+
+  &quot;staging&quot; : &quot;http://example.com/staging&quot;,
+  &quot;stagingMaxIdle&quot; : 3600,
+
+  &quot;byReferenceDeposit&quot; : true,
+  &quot;onBehalfOf&quot; : true,
+
+  &quot;digest&quot; : [&quot;SHA-256&quot;, &quot;SHA&quot;, &quot;MD5&quot;],
+  &quot;authentication&quot;: [&quot;Basic&quot;, &quot;OAuth&quot;, &quot;Digest&quot;, &quot;APIKey&quot;],
+
+  &quot;services&quot; : [
+    {
+      &quot;@id&quot;: &quot;http://swordapp.org/deposit/43&quot;,
+
+      &quot;dc:title&quot; : &quot;Deposit Service Name&quot;,
+      &quot;dcterms:abstract&quot; : &quot;Deposit Service Description&quot;,
+
+      &quot;root&quot; : &quot;http://example.com/service-document&quot;,
+      &quot;parent&quot; : &quot;http://example.com/service-document&quot;,
+      &quot;acceptDeposits&quot;: true,
+
+      &quot;services&quot; : []
+    }
+  ]
+}
+</code></pre>
+
+<h1><a name="5"></a>5. Support for Arbitrary Metadata</h1>
+<p>SWORDv2 provided <em>implicit</em> support for arbitrary metadata formats, with no standard way to indicate to the server what you were sending it.</p>
+<p>SWORD v3 provides <em>explicit</em> support for arbitrary metadata formats, via the <code>Metadata-Format</code> header.</p>
+<p><strong>SWORDv2: Create a resource with metadata only</strong></p>
+<pre><code>POST Col-IRI HTTP/1.1
+Host: example.org
+Authorization: Basic ZGFmZnk6c2VjZXJldA==
+Content-Length: [content length]
+Content-Type: application/atom+xml;type=entry
+In-Progress: true
+On-Behalf-Of: jbloggs
+Slug: [suggested identifier]
+
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;entry xmlns=&quot;http://www.w3.org/2005/Atom&quot;
+        xmlns:dcterms=&quot;http://purl.org/dc/terms/&quot;&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+    &lt;id&gt;urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a&lt;/id&gt;
+    &lt;updated&gt;2005-10-07T17:17:08Z&lt;/updated&gt;
+    &lt;author&gt;&lt;name&gt;Contributor&lt;/name&gt;&lt;/author&gt;
+    &lt;summary type=&quot;text&quot;&gt;The abstract&lt;/summary&gt;
+
+    &lt;!-- some embedded metadata --&gt;
+    &lt;dcterms:abstract&gt;The abstract&lt;/dcterms:abstract&gt;
+    &lt;dcterms:accessRights&gt;Access Rights&lt;/dcterms:accessRights&gt;
+    &lt;dcterms:alternative&gt;Alternative Title&lt;/dcterms:alternative&gt;
+    &lt;dcterms:available&gt;Date Available&lt;/dcterms:available&gt;
+    &lt;dcterms:bibliographicCitation&gt;Bibliographic Citation&lt;/dcterms:bibliographicCitation&gt;
+    &lt;dcterms:contributor&gt;Contributor&lt;/dcterms:contributor&gt;
+    &lt;dcterms:description&gt;Description&lt;/dcterms:description&gt;
+    &lt;dcterms:hasPart&gt;Has Part&lt;/dcterms:hasPart&gt;
+    &lt;dcterms:hasVersion&gt;Has Version&lt;/dcterms:hasVersion&gt;
+    &lt;dcterms:identifier&gt;Identifier&lt;/dcterms:identifier&gt;
+    &lt;dcterms:isPartOf&gt;Is Part Of&lt;/dcterms:isPartOf&gt;
+    &lt;dcterms:publisher&gt;Publisher&lt;/dcterms:publisher&gt;
+    &lt;dcterms:references&gt;References&lt;/dcterms:references&gt;
+    &lt;dcterms:rightsHolder&gt;Rights Holder&lt;/dcterms:rightsHolder&gt;
+    &lt;dcterms:source&gt;Source&lt;/dcterms:source&gt;
+    &lt;dcterms:title&gt;Title&lt;/dcterms:title&gt;
+    &lt;dcterms:type&gt;Type&lt;/dcterms:type&gt;
+
+&lt;/entry&gt;
+</code></pre>
+
+<p><strong>SWORDv3: Create a resource with metadata-only</strong></p>
+<p>(using a metadata format that is not the default)</p>
+<pre><code>POST Service-URL
+Content-Type: application/xml
+Content-Disposition: attachment; metadata=true
+Digest: SHA-256=74b2851bd2760785b0987ba219debea69c228353f7ccc67a2bdcd9819f97fc71
+Metadata-Format: http://www.loc.gov/mods/v3
+
+&lt;mods xmlns:mods=&quot;http://www.loc.gov/mods/v3&quot;&gt;
+  &lt;originInfo&gt;
+    &lt;place&gt;
+      &lt;placeTerm type=&quot;code&quot; authority=&quot;marccountry&quot;&gt;nyu&lt;/placeTerm&gt;
+      &lt;placeTerm type=&quot;text&quot;&gt;Ithaca, NY&lt;/placeTerm&gt;
+    &lt;/place&gt;
+    &lt;publisher&gt;Cornell University Press&lt;/publisher&gt;
+    &lt;copyrightDate&gt;1999&lt;/copyrightDate&gt;
+  &lt;/originInfo&gt;
+&lt;/mods&gt;
+</code></pre>
+
+<h1><a name="6"></a>6. Concurrency Control</h1>
+<p>SWORDv2 did not have the concept of concurrency control.</p>
+<p>SWORDv3 provides Optimistic Concurrency Control via the use of <code>ETag</code> and <code>If-Match</code> headers.</p>
+<h1><a name="7"></a>7. Segmented File Upload</h1>
+<p>SWORDv2 dealt only in full by-value deposits of files, which could be problematic if the files are very large.</p>
+<p>In SWORDv3, to transfer a large file, the client can break it down into a number of equally sized segments of binary data (the final segment
+may be a different size to the rest).  It can then initialise a Segmented File Upload with the server, and then transfer the segments.  The
+server will reconstitute these segments into a single file, and then the client may deposit this file by-reference.</p>
+<h1><a name="8"></a>8. By-Reference Deposit</h1>
+<p>SWORDv2 did not have any formal mechanism for depositing files by-reference (although some workarounds existed)</p>
+<p>SWORDv3 provides explicit support for By-Reference deposit, where the client provides the server with URLs for Files which it would like
+the server to retrieve asynchronously.</p>
+<h1><a name="9"></a>9. More Advanced Packaging</h1>
+<p>There has been a lot of pressure on the SWORD team to provide more detail about actual packaging formats.  We have resisted for a long time,
+but for SWORDv3 we have introduced a BagIt profile which is slightly more advanced than the package formats required by SWORDv2</p>
+<pre><code>SwordBagIt
+| -- bag-info.txt
+| -- bagit.txt
+| -- data
+| -- | -- bitstreams ...
+|    \ -- directories ...
+|         \ bitstreams ...
+| -- manifest-sha-256.txt
+| -- metadata
+|     \-- sword.json
+\ -- tagmanifest-sha-256.txt
+</code></pre>
+
+<p>This allows us to represent the item as a combination of an arbitrary structure of bitstreams in the data directory (similar to SimpleZip),
+and the metadata in the sword default format in <code>metadata/sword.json</code>. A <code>manifest</code> (and <code>tagmanifest</code>) of sha-256 checksums is required, as well
+as the <code>bagit.txt</code> file and a <code>bag-info.txt</code> file.</p>
+<h1><a name="10"></a>10. Multipart Deposit has gone</h1>
+<p>SWORDv2 allowed for metadata and files to be depoisted in a <code>multipart/related</code> request.</p>
+<p>This has been removed from SWORDv3 for the following reasons:</p>
+<ul>
+<li>The new SwordBagIt packaging format makes this possible now</li>
+<li><code>multipart/related</code> was poorly supported by server-side web frameworks, and thus hard to implement</li>
+<li>This came from an Atom extension, and we are no longer using Atom</li>
+</ul>
+<h1><a name="11"></a>11. Other Differences</h1>
+<ul>
+<li>Explicit support for redirect HTTP codes</li>
+<li>More granular errors</li>
+<li>JSON-LD contexts for all JSON documents, for better Linked Data support</li>
+<li>More URIs for expressing status and relationships</li>
+<li>Content Negotiation is gone</li>
+</ul>
+
+    </div>
+
+
+
+</body>
+</html>
