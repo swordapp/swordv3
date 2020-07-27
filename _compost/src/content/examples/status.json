@@ -1,20 +1,20 @@
 {
   "@context" : "https://swordapp.github.io/swordv3/swordv3.jsonld",
 
-  "@id" : "http://example.com/object/1",
+  "@id" : "http://www.myorg.ac.uk/sword3/object/1",
   "@type" : "Status",
   "eTag" : "...",
 
   "metadata" : {
-    "@id" : "http://www.myorg.ac.uk/sword3/object1/metadata",
+    "@id" : "http://www.myorg.ac.uk/sword3/object/1/metadata",
     "eTag" : "..."
   },
   "fileSet" : {
-    "@id" : "http://www.myorg.ac.uk/sword3/object1/fileset",
+    "@id" : "http://www.myorg.ac.uk/sword3/object/1fileset",
     "eTag" : "..."
   },
 
-  "service" : "http://swordapp.org/deposit/43",
+  "service" : "http://www.myorg.ac.uk/sword3",
 
   "state" : [
     {
@@ -42,7 +42,7 @@
       "contentType" : "text/html"
     },
     {
-      "@id" : "http://www.myorg.ac.uk/sword3/object1/package.zip",
+      "@id" : "http://www.myorg.ac.uk/sword3/object/1/package.zip",
       "rel" : ["http://purl.org/net/sword/3.0/terms/originalDeposit"],
       "contentType" : "application/zip",
       "packaging" : "http://purl.org/net/sword/3.0/package/SimpleZip",
@@ -54,7 +54,7 @@
       "log" : "[any information associated with the deposit that the client should know]"
     },
     {
-      "@id" : "http://www.myorg.ac.uk/sword3/object1/file1.pdf",
+      "@id" : "http://www.myorg.ac.uk/sword3/object/1/file1.pdf",
       "rel" : [
         "http://purl.org/net/sword/3.0/terms/fileSetFile",
         "http://purl.org/net/sword/3.0/terms/derivedResource"
@@ -62,11 +62,11 @@
       "contentType" : "application/pdf",
       "derivedFrom" : "http://www.myorg.ac.uk/sword3/object1/package.zip",
       "dcterms:relation" : "http://www.myorg.ac.uk/repo/123456789/file1.pdf",
-      "dcterms:replaces" : "http://www.myorg.ac.uk/sword3/object1/versions/file1.1.pdf",
+      "dcterms:replaces" : "http://www.myorg.ac.uk/sword3/object/1/versions/file1.1.pdf",
       "eTag" : "..."
     },
     {
-      "@id" : "http://www.myorg.ac.uk/sword3/object1/package.1.zip",
+      "@id" : "http://www.myorg.ac.uk/sword3/object/1/package.1.zip",
       "rel" : ["http://purl.org/net/sword/terms/packagedContent"],
       "contentType" : "application/zip",
       "packaging" : "http://purl.org/net/sword/3.0/package/SimpleZip"
@@ -78,14 +78,14 @@
       "metadataFormat" : "http://www.loc.gov/mods/v3"
     },
     {
-      "@id" : "http://www.myorg.ac.uk/sword3/object1/versions/file1.1.pdf",
+      "@id" : "http://www.myorg.ac.uk/sword3/object/1/versions/file1.1.pdf",
       "rel" : ["http://purl.org/net/sword/3.0/terms/derivedResource"],
       "contentType" : "application/pdf",
       "dcterms:isReplacedBy" : "http://www.myorg.ac.uk/sword3/object1/file1.pdf",
       "versionReplacedOn" : "[xsd:dateTime]"
     },
     {
-      "@id" : "http://www.myorg.ac.uk/sword3/object1/reference.zip",
+      "@id" : "http://www.myorg.ac.uk/sword3/object/1/reference.zip",
       "rel" : [
         "http://purl.org/net/sword/3.0/terms/byReferenceDeposit",
         "http://purl.org/net/sword/3.0/terms/originalDeposit",
@@ -100,7 +100,7 @@
 
   "forwarding" : [
     {
-      "@id" : "http://www.otherorg.ac.uk/sword3/object12",
+      "@id" : "http://www.otherorg.ac.uk/sword3/object/12",
 
       "links" : [
         {
