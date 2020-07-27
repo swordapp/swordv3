@@ -1,7 +1,0 @@
-State,Description
-http://purl.org/net/sword/3.0/state/accepted,for records accepted for processing but not yet created
-http://purl.org/net/sword/3.0/state/inProgress,"for records that have been deposited, but for which the deposit has not yet completed"
-http://purl.org/net/sword/3.0/state/inWorkflow,for records that are in the server’s ingest workflow
-http://purl.org/net/sword/3.0/state/ingested,"for records that are in the server’s archive state, whatever that might mean (e.g. published to the web)"
-http://purl.org/net/sword/3.0/state/rejected,for records that have been rejected from the server’s workflow
-http://purl.org/net/sword/3.0/state/deleted,for tombstone records

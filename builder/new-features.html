@@ -1,0 +1,358 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="../docs/assets/css/reveal/reveal.css">
+		<link rel="stylesheet" href="../docs/assets/css/reveal/theme/solarized.css">
+        <link rel="stylesheet" href="../docs/assets/css/presentation.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides"><section class=title>
+<h2>New Features</h2>
+
+<p>Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com<br><a href='https://twitter.com/richard_d_jones'>@richard_d_jones</a> <a href='https://twitter.com/cottagelabs'>@cottagelabs</a></p>
+</section>
+<section>
+<ul>
+<li>Concurrency Control</li>
+<li>Metadata Formats</li>
+<li>Segmented File Upload</li>
+<li>By-Reference Deposit</li>
+</ul>
+</section>
+<section>
+<section>
+<h3>Concurrency Control</h3>
+<p>Servers MAY implement Concurrency Control, to prevent clients from unintentionally overwriting data.</p>
+<p>The Server provides the <code>ETag</code> header on every response, which contains a unique version number for the Object.</p>
+<p>The client must then provide the <code>If-Match</code> header with every request to change data, which reflects the latest <code>ETag</code></p>
+</section>
+<section>
+<p>Objects may change for a number of reasons after their initial creation, such as:</p>
+<ul>
+<li>Additional requests by the original depositing client to modify the Object</li>
+<li>Requests for modify by other clients with authorisation to modify the Object</li>
+<li>Modifications to the Object from agents on the server-side, such as administrators, etc.</li>
+</ul>
+</section>
+<section>
+<h3>Announcing Support for Concurrency Control.</h3>
+<p>Servers are not required to support Concurrency Control.</p>
+<p>Clients MUST check response headers for the presence of an <code>ETag</code>. Presence of the <code>ETag</code> indicates that the server requires the client to 
+pay attention to its concurrency control procedures, and to carry out later requests with an <code>If-Match</code> header.</p>
+</section>
+<section>
+<h3>Key Requirements</h3>
+<ul>
+<li>An <code>ETag</code> MUST be provided for each SWORD resource: the Object, the Metadata, the FileSet and any Files.</li>
+<li>The client MUST send the <code>ETag</code> that it expects to represent the current version with every request to change the resource (POST, PUT, 
+DELETE) by placing it in the <code>If-Match</code> header</li>
+<li>If the <code>ETag</code> supplied by the client in the <code>If-Match</code> header does not match the current <code>ETag</code> for the resource, the deposit will fail</li>
+<li>If a resource is modified, its <code>ETag</code> MUST change</li>
+<li>If a resource is modified, the <code>ETags</code> of all resources within which it is contained MUST change.</li>
+</ul>
+</section>
+</section>
+<section>
+<section>
+<h3>Metadata Formats</h3>
+<p>SWORD allows the client to deposit arbitrary metadata onto the server through agnostic support for metadata formats</p>
+</section>
+<section>
+<h3>Announcing Support for Metadata Formats</h3>
+<p>The server can list Metadata formats that it will accept in the <code>acceptMetadata</code> field of the Service Document.</p>
+<p>If no <code>acceptMetadata</code> field is present, the client MUST assume the server only supports the default SWORD metadata format 
+(http://purl.org/net/sword/3.0/types/Metadata).</p>
+<pre><code class="json">{
+  &quot;acceptMetadata&quot;: [
+    &quot;http://purl.org/net/sword/3.0/types/Metadata&quot;
+  ]
+}
+</code></pre>
+
+</section>
+<section>
+<h3>Indicating Metadata Format</h3>
+<p>During deposit, the client SHOULD specify a Metadata-Format header which contains the identifier for the format. For example, if supplying 
+the default SWORD metadata format:</p>
+<pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
+</code></pre>
+
+<p>If this header is not present the server MUST assume it has the above value.</p>
+</section>
+<section>
+<p><strong>Request/Response</strong></p>
+<pre><code>POST /Service-URL HTTP/1.1
+Authorization: ...
+Content-Disposition: ...
+Content-Type: application/json
+Digest: ...
+Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
+
+[Metadata Document]
+
+
+HTTP/1.1 201
+ETag: ...
+Location: ...
+Content-Type: application/json
+
+[Resource created, responds with Status Document]
+
+</code></pre>
+
+</section>
+<section>
+<h3>Default Format</h3>
+<p>SWORD provides a default metadata format which MUST be supported by the server.</p>
+<ul>
+<li>
+<p>It is serialised as JSON and with a JSON-LD <code>@context</code></p>
+</li>
+<li>
+<p>It contains <code>dc</code> and <code>dcterms</code> vocabulary elements, and any other arbitrary elements added by the client</p>
+</li>
+<li>
+<p>It does not pre-suppose any particular profile of usage of these vocabulary elements.</p>
+</li>
+</ul>
+</section>
+<section>
+<p><strong>Default Metadata Example</strong></p>
+<pre><code>{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@id&quot; : &quot;http://example.com/object/1/metadata&quot;,
+  &quot;@type&quot; : &quot;Metadata&quot;,
+
+  &quot;dc:title&quot; : &quot;The title&quot;,
+  &quot;dcterms:abstract&quot; : &quot;This is my abstract&quot;,
+  &quot;dc:contributor&quot; : &quot;A.N. Other&quot;
+}
+
+</code></pre>
+
+</section>
+<section>
+<p><strong>Alternative Format Example</strong></p>
+<pre><code>POST Service-URL
+Content-Type: application/xml
+Content-Disposition: attachment; metadata=true
+Digest: SHA-256=74b2851bd2760785b0987ba219debea69c228353f7ccc67a2bdcd9819f97fc71
+Metadata-Format: http://www.loc.gov/mods/v3
+
+&lt;mods xmlns:mods=&quot;http://www.loc.gov/mods/v3&quot;&gt;
+  &lt;originInfo&gt;
+    &lt;place&gt;
+      &lt;placeTerm type=&quot;code&quot; authority=&quot;marccountry&quot;&gt;nyu&lt;/placeTerm&gt;
+      &lt;placeTerm type=&quot;text&quot;&gt;Ithaca, NY&lt;/placeTerm&gt;
+    &lt;/place&gt;
+    &lt;publisher&gt;Cornell University Press&lt;/publisher&gt;
+    &lt;copyrightDate&gt;1999&lt;/copyrightDate&gt;
+  &lt;/originInfo&gt;
+&lt;/mods&gt;
+</code></pre>
+
+</section>
+</section>
+<section>
+<section>
+<h3>Segmented File Upload</h3>
+<p>If a client has a very large file that it wishes to transfer to the server by value, then in may be beneficial to do this in several small 
+operations, rather than as a single large operation.</p>
+<p>In order to transfer a large file, the client can break it down into a number of equally sized segments of binary data (the final segment 
+may be a different size to the rest). It can then initialise a Segmented File Upload with the server, and then transfer the segments. The 
+server will reconstitute these segments into a single file, and then the client may deposit this file by-reference.</p>
+</section>
+<section>
+<h3>Announcing Support for Segmented File Upload</h3>
+<p>Servers MAY support Segmented File Upload.  To do so, it must provide a staging area where file segments can be uploaded prior to the client
+requesting a specific deposit operation.  In the Service Document:</p>
+<pre><code class="json">{
+  &quot;staging&quot;: &quot;http://example.com/staging&quot;, 
+  &quot;stagingMaxIdle&quot;: 3600
+}
+</code></pre>
+
+</section>
+<section>
+<h3>Process for Segmented File Upload</h3>
+<ol>
+<li>
+<p>Obtain the Staging-URL from the Service from which to request an Temporary-URL</p>
+</li>
+<li>
+<p>Request a Temporary-URL from the Service, via a Segmented Upload Initialisation request.</p>
+</li>
+<li>
+<p>Upload all the file segments to the Temporary-URL</p>
+</li>
+<li>
+<p>Carry out the desired deposit operation as a By-Reference deposit, using the Temporary-URL as the by-reference file.</p>
+</li>
+</ol>
+</section>
+<section>
+<h3>Segmented Upload Initialisation</h3>
+<pre><code>POST /Staging-URL HTTP/1.1
+Authorization: ...
+Content-Disposition: ...
+On-Behalf-Of: ...
+
+
+HTTP/1.1 201
+Location: ...
+
+[Temporary-URL created]
+
+</code></pre>
+
+</section>
+<section>
+<h3>Uploading File Segments</h3>
+<pre><code>POST /Temporary-URL HTTP/1.1
+Authorization: ...
+Content-Disposition: ...
+Content-Length: ...
+Content-Type: ...
+Digest: ...
+
+[Segment to be added to the Resource.]
+
+
+HTTP/1.1 204
+
+[Segment Received]
+
+</code></pre>
+
+</section>
+<section>
+<h3>Retrieving Information</h3>
+<p>At any point after creating a Temporary-URL, the client may request information on the state of their Segmented File Upload. This can be 
+done via a GET to the Temporary-URL.</p>
+<pre><code>{
+    &quot;@context&quot;: &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+    &quot;@id&quot;: &quot;http://example.com/temporary/1&quot;,
+    &quot;@type&quot;: &quot;Temporary&quot;,
+
+    &quot;segments&quot;: {
+        &quot;received&quot;: [
+            1,
+            2,
+            4
+        ],
+        &quot;expecting&quot;: [
+            3,
+            5
+        ],
+        &quot;size&quot;: 10000000,
+        &quot;segment_size&quot;: 2000000
+    }
+}
+
+</code></pre>
+
+</section>
+</section>
+<section>
+<section>
+<h3>By-Reference Deposit</h3>
+<p>By-Reference Deposit is when the client provides the server with URLs for Files which it would like the server to retrieve asynchronously.</p>
+<p>This could be useful in a number of contexts, such as when the files are very large, and are stored on specialist staging hardware, or 
+where the files are already readily available elsewhere.</p>
+</section>
+<section>
+<h3>Announcing Support</h3>
+<p>Servers MAY support By-Reference deposit.  If a server supports By-Reference it SHOULD indicate this in the Service Document 
+using the field <code>byReferenceDeposit</code>:</p>
+<pre><code class="json">{
+  &quot;byReferenceDeposit&quot;: true
+}
+</code></pre>
+
+</section>
+<section>
+<p>Clients may use a By-Reference Deposit anywhere a by-value deposit could be carried out. Instead of sending any Binary content, the client 
+sends the By-Reference Document containing one or more (depending on context) URLs to files which the server can retrieve.</p>
+<pre><code>{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@type&quot; : &quot;ByReference&quot;,
+
+  &quot;byReferenceFiles&quot; : [
+    {
+      &quot;@id&quot; : &quot;http://www.otherorg.ac.uk/by-reference/file.zip&quot;,
+      &quot;contentType&quot; : &quot;application/zip&quot;,
+      &quot;contentLength&quot; : 123456,
+      &quot;contentDisposition&quot; : &quot;attachment; filename=file.zip&quot;,
+      &quot;packaging&quot; : &quot;http://purl.org/net/sword/packaging/SimpleZip&quot;,
+      &quot;digest&quot; : &quot;SHA256=....&quot;,
+      &quot;ttl&quot; : &quot;2018-04-16T00:00:00Z&quot;,
+      &quot;dereference&quot; : true
+    }
+  ]
+}
+
+</code></pre>
+
+</section>
+<section>
+<h3>Usage with Segemented File Upload</h3>
+<p>If carrying out a Segmented File Upload, the final deposit stage is to send the Temporary-URL to the server as part of a By-Reference 
+deposit.</p>
+<pre><code class="json">{
+  &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+
+  &quot;@type&quot; : &quot;ByReference&quot;,
+
+  &quot;byReferenceFiles&quot; : [
+    {
+      &quot;@id&quot; : &quot;[Temporary-URL]&quot;,
+      &quot;contentType&quot; : &quot;application/zip&quot;,
+      &quot;contentLength&quot; : 123456,
+      &quot;contentDisposition&quot; : &quot;attachment; filename=file.zip&quot;,
+      &quot;packaging&quot; : &quot;http://purl.org/net/sword/packaging/SimpleZip&quot;,
+      &quot;digest&quot; : &quot;SHA256=....&quot;
+    }
+  ]
+}
+
+</code></pre>
+
+</section>
+<section>
+<h3>Server-Side processing</h3>
+<ol>
+<li>
+<p>The server receives a By-Reference Document with one or more files listed and creates records for each of these files that it plans to 
+dereference. </p>
+</li>
+<li>
+<p>The server responds to the client with the appropriate response for the action</p>
+</li>
+<li>
+<p>At its own pace the server obtains all the files that are marked for dereference. </p>
+</li>
+<li>
+<p>Once the Files are downloaded and processed, the server sets the file status appropriately in the Status Document</p>
+</li>
+<li>
+<p>If there is an error in downloading or otherwise processing the file, the server sets the status to error and provides a 
+meaningful log message.</p>
+</li>
+</ol>
+</section>
+</section>
+<section class=title>
+<h2>Thanks for Listening</h2>
+
+<p>Richard Jones, Cottage Labs<br>richard [at] cottagelabs [dot] com<br><a href='https://twitter.com/richard_d_jones'>@richard_d_jones</a> <a href='https://twitter.com/cottagelabs'>@cottagelabs</a></p>
+</section>            </div>
+        </div>
+		<script src="../docs/assets/js/reveal/reveal.js"></script>
+		<script>
+			Reveal.initialize();
+		</script>
+	</body>
+</html>
+

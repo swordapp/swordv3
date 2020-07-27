@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SWORD 3.0 Playbook</title>
+
+    <link rel="stylesheet" href="assets/css/swordv3.css">
+</head>
+<body>
+
+
+
+    <h1 class="main_title">SWORD 3.0 Playbook</h1>
+
+    <div class="nav">
+        <div class="toc">
+            <ul>
+<li><a href="#1">1. One Shot Package Deposit</a></li>
+</ul>
+        </div>
+    </div>
+
+    <div class="spec">
+
+        <p><strong>Version</strong>: SWORD 3.0 Release Candidate 2</p>
+<p><strong>Last modified</strong>: 2020-07-27 13:52</p>
+        <h1><a name="1"></a>1. One Shot Package Deposit</h1>
+<p>This is the most basic use case for SWORD, which has been supported in some form since the original version.</p>
+<p>We want to send a package to a server in a single HTTP operation, and we do not wish to have an ongoing conversation
+with the server about the resource once it has been deposited.</p>
+<p>The specific requirements for this deposit are laid out in 
+<a href="/swordv3-behaviours.html#2.6">SWORD 3.0 Behaviours - Creating Objects with Packaged Content</a></p>
+<p>We start by defining the <code>Content-Disposition</code> required for this kind of package deposit:  </p>
+<pre><code>Content-Disposition: attachment; filename=[filename]
+</code></pre>
+
+<p>We can then perform an HTTP POST operation against the Service-URL, with the appropriate headers and body content:</p>
+<pre><code><p>POST /Service-URL HTTP/1.1
+Authorization: ...
+Content-Disposition: attachment; filename=package.zip
+Content-Type: application/zip
+Digest: ...
+Packaging: http://purl.org/net/sword/3.0/package/SWORDBagIt</p>
+<p>[Packaged Content]</p>
+<hr />
+<p>HTTP/1.1 201
+Location: http://www.myorg.ac.uk/sword3/object/1
+Content-Type: application/json</p>
+<p>[Resource created, responds with Status Document]</p>
+</code></pre>
+
+<p>Here, the server responds by telling us that the resource has been created (<code>201</code>) and provides the <code>Location</code> of the
+created resource.</p>
+<p>The body for the response is the <strong>Status Document</strong>, which in this example looks as follows: </p>
+<pre><code>{
+  &quot;@context&quot;: &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
+  &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object/1&quot;,
+  &quot;@type&quot;: &quot;Status&quot;,
+  &quot;actions&quot;: {
+    &quot;appendFiles&quot;: false,
+    &quot;appendMetadata&quot;: false,
+    &quot;deleteFiles&quot;: false,
+    &quot;deleteMetadata&quot;: false,
+    &quot;deleteObject&quot;: false,
+    &quot;getFiles&quot;: true,
+    &quot;getMetadata&quot;: true,
+    &quot;replaceFiles&quot;: false,
+    &quot;replaceMetadata&quot;: false
+  },
+  &quot;fileSet&quot;: {
+    &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object/1fileset&quot;,
+    &quot;eTag&quot;: &quot;...&quot;
+  },
+  &quot;links&quot;: [
+    {
+      &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object1/package.zip&quot;,
+      &quot;contentType&quot;: &quot;application/zip&quot;,
+      &quot;depositedBy&quot;: &quot;[user identifier]&quot;,
+      &quot;depositedOn&quot;: &quot;[timestamp]&quot;,
+      &quot;packaging&quot;: &quot;http://purl.org/net/sword/3.0/package/SWORDBagIt&quot;,
+      &quot;rel&quot;: [
+        &quot;http://purl.org/net/sword/3.0/terms/originalDeposit&quot;
+      ],
+      &quot;status&quot;: &quot;http://purl.org/net/sword/3.0/filestate/unpacking&quot;
+    }
+  ],
+  &quot;metadata&quot;: {
+    &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object/1/metadata&quot;,
+    &quot;eTag&quot;: &quot;...&quot;
+  },
+  &quot;service&quot;: &quot;http://www.myorg.ac.uk/sword3&quot;,
+  &quot;state&quot;: [
+    {
+      &quot;@id&quot;: &quot;http://purl.org/net/sword/3.0/state/inWorkflow&quot;,
+      &quot;description&quot;: &quot;the item is currently in the ingest workflow&quot;
+    }
+  ]
+}
+</code></pre>
+
+<p>This contains a single entry in the <code>links</code> field, which tells us that our original package was deposited, and that
+its current state is that it is <code>unpacking</code>.</p>
+<p>The server also tells us that the item is in the ingest workflow.  This means that the single shot deposit exchange
+has completed, and we are no longer able to make modifications to the item.  This can be seen explicitly in the
+<code>actions</code> section of the document, which tells us that all modification operations are now unavailable, and we can
+only carry out retrieve operations <code>getFiles</code> and <code>getMetadata</code>.</p>
+<p>The deposit is therefore complete, and we do not need to interact any further.</p>
+<p>Later, if we wished, we could retrieve the <strong>Status Document</strong> again to see the progress of the item through the workflow
+and which files and what metadata were extracted from our deposited package.</p>
+
+    </div>
+
+
+
+</body>
+</html>

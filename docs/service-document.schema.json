@@ -93,12 +93,31 @@
 				30000000000000000
 			]
 		},
+		"maxSegmentSize" : {
+			"$id": "/properties/maxSegmentSize",
+			"type": "integer",
+			"title": "Maximum size in bytes as an integer for an individual segment in a segmented upload",
+			"description" : "MAY be present.  If omitted and segmented upload is supported, the client MUST assume the maximum segment size is the same as maxUploadSize.",
+			"default": 0,
+			"examples": [
+				16777216000
+			]
+		},
+		"minSegmentSize" : {
+			"$id": "/properties/minSegmentSize",
+			"type": "integer",
+			"title": "Minimum size in bytes as an integer for an individual segment in a segmented upload",
+			"description" : "MAY be present.  If omitted and segmented upload is supported, the client MUST assume the manimum segment size 1 byte.",
+			"default": 1,
+			"examples": [
+				16777216000
+			]
+		},
 		"maxAssembledSize": {
 			"$id": "/properties/maxAssembledSize",
 			"type": "integer",
 			"title": "Maximum size in bytes as an integer for the total size of an assembled segmented upload",
 			"description" : "SHOULD be present.  If omitted and segmented upload is supported, the client MUST assume the server will accept a file of any size.",
-			"default": 0,
 			"examples": [
 				30000000000000000
 			]

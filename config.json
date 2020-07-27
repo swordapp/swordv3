@@ -1,0 +1,32 @@
+{
+    "src_dir" : "src",
+    "out_dir" : "docs",
+    "build_dir" : "_build",
+
+    "base_url" : "https://swordapp.github.io/swordv3/",
+	"utils" : {
+        "url_for" : {
+            "include_base_url" : false,
+            "include_file_suffix" : true
+        },
+        "anchor_link" : {
+            "function" : "compost.utils.anchor_link",
+            "anchor_prefix" : "error_",
+            "target_document" : "swordv3.html"
+        }
+    },
+
+    "exports" : [
+        { "source" : "data/schemas/by-reference.schema.json", "target" : "by-reference.schema.json" },
+        { "source" : "data/schemas/error.schema.json", "target" : "error.schema.json" },
+        { "source" : "data/schemas/metadata.schema.json", "target" : "metadata.schema.json" },
+        { "source" : "data/schemas/openapi.json", "target" : "openapi.json" },
+        { "source" : "data/schemas/openapi_.yaml", "target" : "openapi.yaml" },
+        { "source" : "data/schemas/segmented-file-upload.schema.json", "target" : "segmented-file-upload.schema.json" },
+        { "source" : "data/schemas/service-document.schema.json", "target" : "service-document.schema.json" },
+        { "source" : "data/schemas/status.schema.json", "target" : "status.schema.json" },
+        { "source" : "data/schemas/swordv3.jsonld", "target" : "swordv3.jsonld" },
+        { "source" : "data/schemas/SWORDBagIt.json", "target" :  "SWORDBagIt.json"},
+        { "source" : "content/diagrams/structure.png", "target" :  "structure.png"}
+    ]
+}
