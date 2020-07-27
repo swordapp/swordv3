@@ -162,8 +162,8 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 2</p>
-<p><strong>Last modified</strong>: 2020-07-27 14:02</p>
-        <p>See also: <a href="/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
+<p><strong>Last modified</strong>: 2020-07-27 15:47</p>
+        <p>See also: <a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
 protocol operations, especially useful for implementers.</p>
 <h1><a name="1"></a>1. Credits</h1>
 <p><strong>Technical Lead</strong>: Richard Jones, Cottage Labs</p>
@@ -397,11 +397,11 @@ are listed for each section, please refer to the section above for details on th
 <tbody>
 <tr>
 <td>201</td>
-<td>Resource created, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - Object-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Resource created, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - Object-URL</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>202</td>
-<td>Resource accepted for processing, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - Object-URL</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Resource accepted for processing, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - Object-URL</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>400</td>
@@ -513,11 +513,11 @@ are listed for each section, please refer to the section above for details on th
 <tbody>
 <tr>
 <td>200</td>
-<td>Content appended, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - The File-URL of the Original Deposit File if present</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Content appended, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - The File-URL of the Original Deposit File if present</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>202</td>
-<td>Content accepted for append, responds with Status Document<br><br><strong>Headers</strong><ul><li>Location - The File-URL of the Original Deposit File if present</li><li>ETag - version identifier</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
+<td>Content accepted for append, responds with Status Document<br><br><strong>Headers</strong><ul><li>ETag - version identifier</li><li>Location - The File-URL of the Original Deposit File if present</li></ul><strong>Body</strong><ul><li>application/json</li></ul></td>
 </tr>
 <tr>
 <td>400</td>
@@ -1320,7 +1320,7 @@ are listed for each section, please refer to the section above for details on th
 the requirements for a specific request, identify each block below which is relevant to your request, and this will
 provide the overall protocol requirements for that operation.</p>
 <p>Converting the below into a set of requirements for a specific request is time consuming, so this has been done for
-you in the <strong><a href="/swordv3-behaviours.html">SWORDv3 Behaviours Document</a></strong>. If you are implementing a SWORD client
+you in the <strong><a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html">SWORDv3 Behaviours Document</a></strong>. If you are implementing a SWORD client
 or server it is <strong>STRONGLY RECOMMENDED</strong> that you work from that document rather than the normalised requirements below.</p>
 <p>There are 3 key aspects of the Request Conditions where requirements can be applied, and these are:</p>
 <ol>
@@ -1340,20 +1340,20 @@ request.</p>
 <li><strong>Server Requirements</strong>: constraints applied to how the server handles the request</li>
 <li><strong>Response Requirements</strong>: constraints applied to how the server responds to the request</li>
 </ol>
-<p>See the document <a href="/swordv3-behaviours.html">SWORDv3 Behaviours</a> to see each of the behaviours SWORDv3 is 
+<p>See the document <a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html">SWORDv3 Behaviours</a> to see each of the behaviours SWORDv3 is 
 capable of with its requirements fully expanded.</p>
 <h2><a name="8.1"></a>8.1. Requirement Hierarchies</h2>
 <p>The hierarchy for the Request is:</p>
 <ul>
 <li>All<ul>
-<li>Retrieve</li>
 <li>Delete</li>
 <li>Complete</li>
+<li>Retrieve</li>
 <li>Modify<ul>
 <li>Create</li>
 <li>Update<ul>
-<li>Replace</li>
 <li>Append</li>
+<li>Replace</li>
 </ul>
 </li>
 </ul>
@@ -1374,8 +1374,8 @@ capable of with its requirements fully expanded.</p>
 </li>
 <li>JSON<ul>
 <li>By-Reference</li>
-<li>MD+BR</li>
 <li>Metadata</li>
+<li>MD+BR</li>
 </ul>
 </li>
 </ul>
@@ -1388,13 +1388,13 @@ capable of with its requirements fully expanded.</p>
 <li>All<ul>
 <li>Deposit<ul>
 <li>Object-URL</li>
-<li>Service-URL</li>
 <li>Components<ul>
-<li>File-URL</li>
-<li>Metadata-URL</li>
 <li>FileSet-URL</li>
+<li>Metadata-URL</li>
+<li>File-URL</li>
 </ul>
 </li>
+<li>Service-URL</li>
 </ul>
 </li>
 <li>Staging<ul>
@@ -1430,10 +1430,10 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1541,8 +1541,8 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1564,8 +1564,8 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1584,7 +1584,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1594,7 +1594,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1612,8 +1612,8 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
-<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1631,7 +1631,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_badrequest">BadRequest</a>)</li>
+<li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_badrequest">BadRequest</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1651,8 +1651,8 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
-<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1662,8 +1662,8 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
-<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1707,7 +1707,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If the server does not accept packages in the format identified in the <code>Packaging</code> header, MUST respond with a <code>415</code> (<a href="/swordv3.html#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
+<li>If the server does not accept packages in the format identified in the <code>Packaging</code> header, MUST respond with a <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1717,7 +1717,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If the <code>Packaging</code> header does not match the format found in the body content, SHOULD return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response.</li>
+<li>If the <code>Packaging</code> header does not match the format found in the body content, SHOULD return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response.</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1811,9 +1811,9 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
-<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
-<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
+<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
+<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -1831,8 +1831,8 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -2148,7 +2148,7 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If the provided segment is not the final segment and is not the size that the client had indicated on initialisation, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the provided segment is not the final segment and is not the size that the client had indicated on initialisation, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -2164,8 +2164,8 @@ capable of with its requirements fully expanded.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If the Temporary-URL has expired, SHOULD return <code>410</code> (<a href="/swordv3.html#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>).  Servers may also return <code>404</code> and no further explanation.</li>
-<li>If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return <code>400</code> (<a href="/swordv3.html#error_unexpectedsegment">UnexpectedSegment</a>)</li>
+<li>If the Temporary-URL has expired, SHOULD return <code>410</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>).  Servers may also return <code>404</code> and no further explanation.</li>
+<li>If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_unexpectedsegment">UnexpectedSegment</a>)</li>
 </ul>
 <p><hr><strong>Request Conditions</strong>:</p>
 <ul>
@@ -3362,7 +3362,7 @@ header.  We follow [<a href="#rfc6266">RFC6266</a>] for its usage.</p>
 </code></pre>
 
 <p>The rules below define how to generate the correct Content-Disposition for a given set of Request Conditions. If you are implementing a SWORD client
-or server it is <strong>STRONGLY RECOMMENDED</strong> that you work from the <strong><a href="/swordv3-behaviours.html">SWORDv3 Behaviours Document</a></strong>,
+or server it is <strong>STRONGLY RECOMMENDED</strong> that you work from the <strong><a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html">SWORDv3 Behaviours Document</a></strong>,
 as this lays out the <code>Content-Disposition</code> requirements per-request, rather than in the form of the normalised requirements below.</p>
 <p>There are three general deposit operations in SWORD:</p>
 <ol>
@@ -3382,8 +3382,8 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <ul>
 <li>All<ul>
 <li>Segmented Upload Initialisation</li>
-<li>File Segment Upload</li>
 <li>Direct Deposit</li>
+<li>File Segment Upload</li>
 </ul>
 </li>
 </ul>
@@ -3400,8 +3400,8 @@ interpreted according to the following hierarchy for each of the above aspects:<
 </li>
 <li>JSON<ul>
 <li>By-Reference</li>
-<li>MD+BR</li>
 <li>Metadata</li>
+<li>MD+BR</li>
 </ul>
 </li>
 </ul>
@@ -3758,15 +3758,15 @@ also specified in the <a href="#9.2">Service Document</a>.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the provided segment is not the final segment and is not the size that the client had indicated on initialisation, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
-<li>If the Temporary-URL has expired, SHOULD return <code>410</code> (<a href="/swordv3.html#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>).  Servers may also return <code>404</code> and no further explanation.</li>
-<li>If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return <code>400</code> (<a href="/swordv3.html#error_unexpectedsegment">UnexpectedSegment</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the provided segment is not the final segment and is not the size that the client had indicated on initialisation, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the Temporary-URL has expired, SHOULD return <code>410</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>).  Servers may also return <code>404</code> and no further explanation.</li>
+<li>If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_unexpectedsegment">UnexpectedSegment</a>)</li>
 </ul>
 <p></p></p>
 <p>See the section <a href="#13">Content Disposition</a> for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
@@ -3800,10 +3800,10 @@ be done via a GET to the Temporary-URL.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <p><strong>NOTE</strong> that you cannot retrieve an actual copy of the full or partially uploaded Segmented File Upload from the Temporary-URL at any point.</p>
@@ -3828,10 +3828,10 @@ Temporary-URL, with the following requirements:</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <p>If a client submits the Temporary-URL as a By-Reference deposit to the server after completing the upload, the client SHOULD NOT delete
@@ -3886,7 +3886,7 @@ using the field <code>byReferenceDeposit</code>:</p>
 <p>Clients may use a By-Reference Deposit anywhere a by-value deposit could be carried out.  Instead of sending any Binary content, the 
 client sends the <a href="#9.4">By-Reference Document</a> containing one or more (depending on context) URLs to files which the server can
 retrieve.</p>
-<p>See the document <a href="/swordv3-behaviours.html">SWORDv3 Behaviours</a> for an expansion of the <a href="#8">Protocol Requirements</a> for 
+<p>See the document <a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html">SWORDv3 Behaviours</a> for an expansion of the <a href="#8">Protocol Requirements</a> for 
 requests to deposit By-Reference.</p>
 <p>The <a href="#13">Content Disposition</a> for a By-Reference deposit is:</p>
 <pre><code>Content-Disposition: attachment; by-reference=true

@@ -6,7 +6,7 @@
     "base_url" : "https://swordapp.github.io/swordv3/",
 	"utils" : {
         "url_for" : {
-            "include_base_url" : false,
+            "include_base_url" : true,
             "include_file_suffix" : true
         },
         "anchor_link" : {

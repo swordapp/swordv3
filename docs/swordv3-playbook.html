@@ -23,13 +23,13 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 2</p>
-<p><strong>Last modified</strong>: 2020-07-27 14:02</p>
+<p><strong>Last modified</strong>: 2020-07-27 15:47</p>
         <h1><a name="1"></a>1. One Shot Package Deposit</h1>
 <p>This is the most basic use case for SWORD, which has been supported in some form since the original version.</p>
 <p>We want to send a package to a server in a single HTTP operation, and we do not wish to have an ongoing conversation
 with the server about the resource once it has been deposited.</p>
 <p>The specific requirements for this deposit are laid out in 
-<a href="/swordv3-behaviours.html#2.6">SWORD 3.0 Behaviours - Creating Objects with Packaged Content</a></p>
+<a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html#2.6">SWORD 3.0 Behaviours - Creating Objects with Packaged Content</a></p>
 <p>We start by defining the <code>Content-Disposition</code> required for this kind of package deposit:  </p>
 <pre><code>Content-Disposition: attachment; filename=[filename]
 </code></pre>

@@ -82,10 +82,10 @@
     <div class="spec">
 
         <p><strong>Version</strong>: SWORD 3.0 Release Candidate 2</p>
-<p><strong>Last modified</strong>: 2020-07-27 14:02</p>
+<p><strong>Last modified</strong>: 2020-07-27 15:47</p>
 
 <p>This document provides details of the specific protocol requirements for every operation that SWORD 3.0 supports.</p>
-<p>See also: <a href="/swordv3.html">SWORD 3.0 Specification</a> from which this document of denormalised protocol
+<p>See also: <a href="https://swordapp.github.io/swordv3/swordv3.html">SWORD 3.0 Specification</a> from which this document of denormalised protocol
 operations is derived.</p>
 <p>Each section describes the operation you can perform, and then the technical details of performing it, as follows:</p>
 <ul>
@@ -123,10 +123,10 @@ full list of Service-URLs, or can be made against an individual Service-URL for 
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h1><a name="2"></a>2. Creating New Objects</h1>
@@ -164,10 +164,10 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h2><a name="2.2"></a>2.2. Creating Objects with only Metadata</h2>
@@ -212,16 +212,16 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
-<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -269,16 +269,16 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
-<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -328,18 +328,18 @@ can subsequently send data.  It is RECOMMENDED that when using this route you sp
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
-<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
-<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
-<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -389,14 +389,14 @@ attempt to unpack.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -446,16 +446,16 @@ may understand how to unpack.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If the server does not accept packages in the format identified in the <code>Packaging</code> header, MUST respond with a <code>415</code> (<a href="/swordv3.html#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
-<li>If the <code>Packaging</code> header does not match the format found in the body content, SHOULD return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response.</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If the server does not accept packages in the format identified in the <code>Packaging</code> header, MUST respond with a <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
+<li>If the <code>Packaging</code> header does not match the format found in the body content, SHOULD return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response.</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -488,13 +488,13 @@ may understand how to unpack.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
-<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
-<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
+<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -526,10 +526,10 @@ document in response.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h2><a name="3.2"></a>3.2. Retrieving the Metadata from an Object</h2>
@@ -557,10 +557,10 @@ by the appropriate URL.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h2><a name="3.3"></a>3.3. Retrieving a Binary File from an Object</h2>
@@ -589,10 +589,10 @@ actual individual files that make up the object, or:</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h2><a name="3.4"></a>3.4. Retrieving a Packaged Content representation of an Object</h2>
@@ -642,18 +642,18 @@ extend existing metadata, such that any new metadata fields are added to the Obj
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
-<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -698,18 +698,18 @@ extend existing metadata, such that any new metadata fields are added to the Obj
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
-<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -756,20 +756,20 @@ extend existing metadata, such that any new metadata fields are added to the Obj
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
-<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
-<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
-<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -817,16 +817,16 @@ without the server unpacking it as it would Packaged Content.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -875,18 +875,18 @@ actionable metadata.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If the server does not accept packages in the format identified in the <code>Packaging</code> header, MUST respond with a <code>415</code> (<a href="/swordv3.html#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
-<li>If the <code>Packaging</code> header does not match the format found in the body content, SHOULD return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response.</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If the server does not accept packages in the format identified in the <code>Packaging</code> header, MUST respond with a <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
+<li>If the <code>Packaging</code> header does not match the format found in the body content, SHOULD return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response.</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -920,13 +920,13 @@ actionable metadata.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
-<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
-<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
+<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -974,18 +974,18 @@ actionable metadata.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
-<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1028,16 +1028,16 @@ actionable metadata.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1081,19 +1081,19 @@ version of the file available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
-<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
-<li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_badrequest">BadRequest</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+<li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_badrequest">BadRequest</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1127,13 +1127,13 @@ version of the file available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
-<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
-<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
+<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1177,18 +1177,18 @@ new ones will replace them.  The server may or may not keep old versions of the 
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
-<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1234,16 +1234,16 @@ presence of metadata which the FileSet-URL is not suitable to handle.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1279,13 +1279,13 @@ content available, at its discretion.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
-<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
-<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
+<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1334,18 +1334,18 @@ not keep old versions of the content available, at its discretion.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
-<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1391,18 +1391,18 @@ The server may or may not keep old versions of the content available, at its dis
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
-<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1450,20 +1450,20 @@ By-Reference upload.  The server may or may not keep old versions of the content
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
-<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
-<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
-<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
+<li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
+<li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
+<li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1512,16 +1512,16 @@ the content available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1570,18 +1570,18 @@ available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
-<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
-<li>If the server does not accept packages in the format identified in the <code>Packaging</code> header, MUST respond with a <code>415</code> (<a href="/swordv3.html#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
-<li>If the <code>Packaging</code> header does not match the format found in the body content, SHOULD return <code>415</code> (<a href="/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response.</li>
-<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
-<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
+<li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
+<li>If the server does not accept packages in the format identified in the <code>Packaging</code> header, MUST respond with a <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
+<li>If the <code>Packaging</code> header does not match the format found in the body content, SHOULD return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response.</li>
+<li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
+<li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1617,13 +1617,13 @@ the content available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
-<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
-<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
+<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1655,10 +1655,10 @@ the content available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h2><a name="6.2"></a>6.2. Deleting a single Binary File from an Object</h2>
@@ -1681,10 +1681,10 @@ the content available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h2><a name="6.3"></a>6.3. Deleting all the Files from an Object</h2>
@@ -1708,10 +1708,10 @@ available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h2><a name="6.4"></a>6.4. Deleting the entire Object</h2>
@@ -1734,10 +1734,10 @@ available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h1><a name="7"></a>7. File Segments</h1>
@@ -1766,13 +1766,13 @@ available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
-<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
-<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If the proposed final assembled file size is larger than the server's limit, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxassembledsizeexceeded">MaxAssembledSizeExceeded</a>)</li>
+<li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1807,15 +1807,15 @@ available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
-<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
-<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
-<li>If the provided segment is not the final segment and is not the size that the client had indicated on initialisation, MUST return <code>400</code> (<a href="/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
-<li>If the Temporary-URL has expired, SHOULD return <code>410</code> (<a href="/swordv3.html#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>).  Servers may also return <code>404</code> and no further explanation.</li>
-<li>If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return <code>400</code> (<a href="/swordv3.html#error_unexpectedsegment">UnexpectedSegment</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
+<li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
+<li>If the provided segment is not the final segment and is not the size that the client had indicated on initialisation, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
+<li>If the Temporary-URL has expired, SHOULD return <code>410</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>).  Servers may also return <code>404</code> and no further explanation.</li>
+<li>If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_unexpectedsegment">UnexpectedSegment</a>)</li>
 </ul>
 <p></p></p>
 <p>The <code>Content-Disposition</code> in this case would be:</p>
@@ -1841,10 +1841,10 @@ available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h2><a name="7.4"></a>7.4. Retrieve information about a Segmented File Upload</h2>
@@ -1867,10 +1867,10 @@ available.</p>
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <h1><a name="8"></a>8. Completing Previously In-Progress Deposits</h1>
@@ -1898,10 +1898,10 @@ server that you have completed your additions or modifications to the Object, so
 </ul>
 <p><strong>Error Responses</strong></p>
 <ul>
-<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
-<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
-<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
-<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
+<li>If no authentication credentials were supplied, but were expected, MUST respond with a <code>401</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationrequired">AuthenticationRequired</a>)</li>
+<li>If authentication fails with supplied credentials, MUST respond with a <code>403</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_authenticationfailed">AuthenticationFailed</a>)</li>
+<li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
+<li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
 <p></p></p>
 <p>No <code>Content-Disposition</code> header is required in this request.</p>
