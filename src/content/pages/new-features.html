@@ -115,7 +115,7 @@ SWORD provides a default metadata format which MUST be supported by the server.
 {% include "examples/metadata.json" %}
 ```
 
-## {{ header("Alternative Format Example") }}
+## {{ header("Alternative Format Example", 2, "f") }}
 
 
 ```
@@ -155,10 +155,8 @@ Servers MAY support Segmented File Upload.  To do so, it must provide a staging 
 requesting a specific deposit operation.  In the Service Document:
 
 ```json
-```json
 {{ json_extract("content/examples/service-document.json",
     ["staging", "stagingMaxIdle", "maxSegmentSize", "minSegmentSize", "maxAssembledSize", "maxSegments"]) }}
-```
 ```
 
 ## {{ header("Process for Segmented File Upload", 2, "f") }}

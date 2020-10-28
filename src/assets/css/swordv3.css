@@ -45,6 +45,7 @@ img {
 .main_title {
     font-size: 3em;
     margin-left: 280px;
+    line-height: 1em;
 }
 
 .nav {
