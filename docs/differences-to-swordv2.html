@@ -64,7 +64,6 @@
     &lt;/workspace&gt;
 &lt;/service&gt;
 </code></pre>
-
 <p>Now</p>
 <pre><code>{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -125,7 +124,6 @@
   ]
 }
 </code></pre>
-
 <h1><a name="2"></a>2. Some Terminology Changes</h1>
 <ul>
 <li><strong>Collection</strong> - now referred to as a <strong>Service</strong></li>
@@ -201,7 +199,6 @@
 
 &lt;/entry&gt;
 </code></pre>
-
 <p><strong>SWORDv2: Statement</strong></p>
 <pre><code>&lt;atom:feed xmlns:sword=&quot;http://purl.org/net/sword/terms/&quot;
             xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
@@ -226,7 +223,6 @@
 
 &lt;/atom:feed&gt;
 </code></pre>
-
 <p><strong>SWORDv3: Status Document</strong></p>
 <pre><code>{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -329,7 +325,6 @@
   ]
 }
 </code></pre>
-
 <h2><a name="3.1"></a>3.1. Key Differences</h2>
 <ul>
 <li>Metadata is now not included explicitly - instead it is available as a File to be downloaded</li>
@@ -368,7 +363,6 @@ contain nested Services.</p>
     &lt;/workspace&gt;
 &lt;/service&gt;
 </code></pre>
-
 <p><strong>SWORDv3: Service Document</strong></p>
 <pre><code>{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
@@ -429,7 +423,6 @@ contain nested Services.</p>
   ]
 }
 </code></pre>
-
 <h1><a name="5"></a>5. Support for Arbitrary Metadata</h1>
 <p>SWORDv2 provided <em>implicit</em> support for arbitrary metadata formats, with no standard way to indicate to the server what you were sending it.</p>
 <p>SWORD v3 provides <em>explicit</em> support for arbitrary metadata formats, via the <code>Metadata-Format</code> header.</p>
@@ -473,7 +466,6 @@ Slug: [suggested identifier]
 
 &lt;/entry&gt;
 </code></pre>
-
 <p><strong>SWORDv3: Create a resource with metadata-only</strong></p>
 <p>(using a metadata format that is not the default)</p>
 <pre><code>POST Service-URL
@@ -493,7 +485,6 @@ Metadata-Format: http://www.loc.gov/mods/v3
   &lt;/originInfo&gt;
 &lt;/mods&gt;
 </code></pre>
-
 <h1><a name="6"></a>6. Concurrency Control</h1>
 <p>SWORDv2 did not have the concept of concurrency control.</p>
 <p>SWORDv3 provides Optimistic Concurrency Control via the use of <code>ETag</code> and <code>If-Match</code> headers.</p>
@@ -521,7 +512,6 @@ but for SWORDv3 we have introduced a BagIt profile which is slightly more advanc
 |     \-- sword.json
 \ -- tagmanifest-sha-256.txt
 </code></pre>
-
 <p>This allows us to represent the item as a combination of an arbitrary structure of bitstreams in the data directory (similar to SimpleZip),
 and the metadata in the sword default format in <code>metadata/sword.json</code>. A <code>manifest</code> (and <code>tagmanifest</code>) of sha-256 checksums is required, as well
 as the <code>bagit.txt</code> file and a <code>bag-info.txt</code> file.</p>

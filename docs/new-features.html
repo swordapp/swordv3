@@ -86,19 +86,17 @@ DELETE) by placing it in the <code>If-Match</code> header</li>
 <p>The server can list Metadata formats that it will accept in the <code>acceptMetadata</code> field of the Service Document.</p>
 <p>If no <code>acceptMetadata</code> field is present, the client MUST assume the server only supports the default SWORD metadata format
 (http://purl.org/net/sword/3.0/types/Metadata).</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;acceptMetadata&quot;: [
     &quot;http://purl.org/net/sword/3.0/types/Metadata&quot;
   ]
 }
 </code></pre>
-
 <h2><a name="2.2"></a>2.2. Indicating Metadata Format</h2>
 <p>During deposit, the client SHOULD specify a <code>Metadata-Format</code> header which contains the identifier for the format. For example, if supplying
 the default SWORD metadata format:</p>
 <pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 </code></pre>
-
 <h2><a name="2.3"></a>2.3. HTTP Exchange</h2>
 <pre><code><p>POST /Service-URL HTTP/1.1
 Authorization: ...
@@ -112,7 +110,6 @@ Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata</p>
 Content-Type: application/json</p>
 <p>[Resource created, responds with Status Document]</p>
 </code></pre>
-
 <h2><a name="2.4"></a>2.4. Default Format</h2>
 <p>SWORD provides a default metadata format which MUST be supported by the server.</p>
 <ul>
@@ -138,7 +135,6 @@ Content-Type: application/json</p>
   &quot;dc:contributor&quot; : &quot;A.N. Other&quot;
 }
 </code></pre>
-
 <h2><a name="2.6"></a>2.6. Alternative Format Example</h2>
 <pre><code>POST Service-URL
 Content-Type: application/xml
@@ -157,7 +153,6 @@ Metadata-Format: http://www.loc.gov/mods/v3
   &lt;/originInfo&gt;
 &lt;/mods&gt;
 </code></pre>
-
 <h1><a name="3"></a>3. Segmented File Upload</h1>
 <p>If a client has a very large file that it wishes to transfer to the server by value, then in may be beneficial to do this in several small
 operations, rather than as a single large operation.</p>
@@ -167,7 +162,7 @@ server will reconstitute these segments into a single file, and then the client 
 <h2><a name="3.1"></a>3.1. Announcing Support for Segmented File Upload</h2>
 <p>Servers MAY support Segmented File Upload.  To do so, it must provide a staging area where file segments can be uploaded prior to the client
 requesting a specific deposit operation.  In the Service Document:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;maxAssembledSize&quot;: 30000000000000,
   &quot;maxSegmentSize&quot;: 16777216000,
   &quot;maxSegments&quot;: 1000,
@@ -176,7 +171,6 @@ requesting a specific deposit operation.  In the Service Document:</p>
   &quot;stagingMaxIdle&quot;: 3600
 }
 </code></pre>
-
 <h2><a name="3.2"></a>3.2. Process for Segmented File Upload</h2>
 <ol>
 <li>
@@ -198,7 +192,6 @@ requesting a specific deposit operation.  In the Service Document:</p>
 <p>HTTP/1.1 201</p>
 <p>[Temporary-URL created]</p>
 </code></pre>
-
 <h2><a name="3.4"></a>3.4. Uploading File Segments</h2>
 <pre><code><p>POST /Temporary-URL HTTP/1.1
 Authorization: ...
@@ -210,7 +203,6 @@ Digest: ...</p>
 <p>HTTP/1.1 204</p>
 <p>[Segment Received]</p>
 </code></pre>
-
 <h2><a name="3.5"></a>3.5. Retrieving Information</h2>
 <p>At any point after creating a Temporary-URL, the client may request information on the state of their Segmented File Upload. This can be
 done via a GET to the Temporary-URL.</p>
@@ -232,7 +224,6 @@ done via a GET to the Temporary-URL.</p>
     &quot;segmentSize&quot;: 2000000
 }
 </code></pre>
-
 <h1><a name="4"></a>4. By-Reference Deposit</h1>
 <p>By-Reference Deposit is when the client provides the server with URLs for Files which it would like the server to retrieve asynchronously.</p>
 <p>This could be useful in a number of contexts, such as when the files are very large, and are stored on specialist staging hardware, or
@@ -240,11 +231,10 @@ where the files are already readily available elsewhere.</p>
 <h2><a name="4.1"></a>4.1. Announcing Support for By-Reference Deposit</h2>
 <p>Servers MAY support By-Reference deposit.  If a server supports By-Reference it SHOULD indicate this in the Service Document
 using the field <code>byReferenceDeposit</code>:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;byReferenceDeposit&quot;: true
 }
 </code></pre>
-
 <h2><a name="4.2"></a>4.2. Usage instead of Binary Deposit</h2>
 <p>Clients may use a By-Reference Deposit anywhere a by-value deposit could be carried out. Instead of sending any Binary content, the client
 sends the By-Reference Document containing one or more (depending on context) URLs to files which the server can retrieve.</p>
@@ -267,11 +257,10 @@ sends the By-Reference Document containing one or more (depending on context) UR
   ]
 }
 </code></pre>
-
 <h2><a name="4.3"></a>4.3. Usage with Segemented File Upload</h2>
 <p>If carrying out a Segmented File Upload, the final deposit stage is to send the Temporary-URL to the server as part of a By-Reference
 deposit.</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
 
   &quot;@type&quot; : &quot;ByReference&quot;,
@@ -288,7 +277,6 @@ deposit.</p>
   ]
 }
 </code></pre>
-
 <h2><a name="4.4"></a>4.4. Server-Side processing</h2>
 <ol>
 <li>

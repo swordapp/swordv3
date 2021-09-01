@@ -161,8 +161,8 @@
 
     <div class="spec">
 
-        <p><strong>Version</strong>: SWORD 3.0 Release Candidate 2</p>
-<p><strong>Last modified</strong>: 2020-10-28 14:03</p>
+        <p><strong>Version</strong>: SWORD 3.0</p>
+<p><strong>Last modified</strong>: 2021-09-01 09:54</p>
         <p>See also: <a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html">SWORD 3.0 Behaviours</a> which provides a denormalised view of the specification's
 protocol operations, especially useful for implementers.</p>
 <h1><a name="1"></a>1. Credits</h1>
@@ -213,7 +213,6 @@ document are to be interpreted as described in [<a href="#rfc2119">RFC2119</a>].
         <h1><a name="5"></a>5. Structure of SWORD Objects</h1>
 <p>Objects, as represented by SWORD, have the following structure:</p>
 <div><img src="https://swordapp.github.io/swordv3/structure.png" alt="Structure of a SWORD Object"></div>
-
 <div class="figure_label">Figure 1: Structure of a SWORD Object</div>
 
 <ul>
@@ -1346,6 +1345,7 @@ capable of with its requirements fully expanded.</p>
 <p>The hierarchy for the Request is:</p>
 <ul>
 <li>All<ul>
+<li>Retrieve</li>
 <li>Modify<ul>
 <li>Create</li>
 <li>Update<ul>
@@ -1355,9 +1355,8 @@ capable of with its requirements fully expanded.</p>
 </li>
 </ul>
 </li>
-<li>Delete</li>
-<li>Retrieve</li>
 <li>Complete</li>
+<li>Delete</li>
 </ul>
 </li>
 </ul>
@@ -1365,16 +1364,16 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>All<ul>
 <li>Body<ul>
-<li>Binary<ul>
-<li>Packaged Content</li>
-<li>File Segment</li>
-<li>Binary File</li>
-</ul>
-</li>
 <li>JSON<ul>
 <li>Metadata</li>
 <li>By-Reference</li>
 <li>MD+BR</li>
+</ul>
+</li>
+<li>Binary<ul>
+<li>Binary File</li>
+<li>Packaged Content</li>
+<li>File Segment</li>
 </ul>
 </li>
 </ul>
@@ -1387,8 +1386,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>All<ul>
 <li>Deposit<ul>
-<li>Object-URL</li>
 <li>Service-URL</li>
+<li>Object-URL</li>
 <li>Components<ul>
 <li>Metadata-URL</li>
 <li>FileSet-URL</li>
@@ -1435,7 +1434,8 @@ capable of with its requirements fully expanded.</p>
 <li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
 <li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Retrieve</li>
 <li><strong>Content</strong>: All</li>
@@ -1450,7 +1450,8 @@ capable of with its requirements fully expanded.</p>
 <li>If <code>Authorization</code> (and optionally <code>On-Behalf-Of</code>) headers are provided, MUST only list Service-URLs in the <strong>Service Document</strong> for which a deposit request would be permitted</li>
 <li>MUST respond with a valid <strong>Service Document</strong> or a suitable error response</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Retrieve</li>
 <li><strong>Content</strong>: All</li>
@@ -1465,7 +1466,8 @@ capable of with its requirements fully expanded.</p>
 <li>MUST respond with a valid <strong>Status Document</strong> or a suitable error response</li>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Retrieve</li>
 <li><strong>Content</strong>: All</li>
@@ -1475,7 +1477,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Retrieve</li>
 <li><strong>Content</strong>: All</li>
@@ -1489,7 +1492,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST respond with a valid <strong>Metadata Document</strong> (see definition below) or a suitable error response</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Retrieve</li>
 <li><strong>Content</strong>: All</li>
@@ -1503,7 +1507,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST respond with a File (which may be <strong>Packaged Content</strong>, a <strong>Binary File</strong>, a <strong>Metadata Document</strong>, or any other file that the server exposes) or a suitable error response</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: All</li>
@@ -1513,7 +1518,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST provide the <code>Content-Disposition</code> header, with the appropriate value for the request</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: All</li>
@@ -1523,7 +1529,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: Body</li>
@@ -1544,7 +1551,8 @@ capable of with its requirements fully expanded.</p>
 <li>If one or more of the digests provided by the client that the server checked did not match, MAY respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_digestmismatch">DigestMismatch</a>).  Note that servers MAY NOT check digests in real-time.</li>
 <li>If the body content could not be read correctly, MAY return a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contentmalformed">ContentMalformed</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: Body</li>
@@ -1567,7 +1575,8 @@ capable of with its requirements fully expanded.</p>
 <li>If the <code>Content-Type</code> header contains a format that the server cannot accept, MUST respond with <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_contenttypenotacceptable">ContentTypeNotAcceptable</a>)</li>
 <li>If the body content is larger than the maximum allowed by the server, MAY return <code>413</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_maxuploadsizeexceeded">MaxUploadSizeExceeded</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: Metadata</li>
@@ -1586,7 +1595,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: Metadata</li>
@@ -1596,7 +1606,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: By-Reference</li>
@@ -1615,7 +1626,8 @@ capable of with its requirements fully expanded.</p>
 <li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
 <li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: By-Reference</li>
@@ -1633,7 +1645,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If rejecting the request due to the presence of more than one By-Reference File in the By-Reference Document, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_badrequest">BadRequest</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: MD+BR</li>
@@ -1654,7 +1667,8 @@ capable of with its requirements fully expanded.</p>
 <li>If rejecting the request due to the announced file size, MUST respond with a <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencefilesizeexceeded">ByReferenceFileSizeExceeded</a>)</li>
 <li>If the server does not support By-Reference, MUST respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_byreferencenotallowed">ByReferenceNotAllowed</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: MD+BR</li>
@@ -1665,7 +1679,8 @@ capable of with its requirements fully expanded.</p>
 <li>If the <code>Metadata-Format</code> header does not match the format found in the body content, MAY return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>)</li>
 <li>If the <code>Metadata-Format</code> header indicates a format the server does not support, MUST return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_metadataformatnotacceptable">MetadataFormatNotAcceptable</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: Binary</li>
@@ -1675,7 +1690,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the request MUST attach the supplied file to the Object as an <code>originalDeposit</code></li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: Binary File</li>
@@ -1690,7 +1706,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>The server SHOULD NOT attempt to unpack the file</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: Packaged Content</li>
@@ -1709,7 +1726,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If the server does not accept packages in the format identified in the <code>Packaging</code> header, MUST respond with a <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_packagingformatnotacceptable">PackagingFormatNotAcceptable</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: Packaged Content</li>
@@ -1719,7 +1737,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If the <code>Packaging</code> header does not match the format found in the body content, SHOULD return <code>415</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_formatheadermismatch">FormatHeaderMismatch</a>).  Note that the server may not be able to inspect the package during the request-response, so MAY NOT return this response.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Modify</li>
 <li><strong>Content</strong>: Empty Body</li>
@@ -1730,7 +1749,8 @@ capable of with its requirements fully expanded.</p>
 <li>MAY provide the <code>Content-Length</code> header with value <code>0</code></li>
 <li>MUST NOT include any body content</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Create</li>
 <li><strong>Content</strong>: All</li>
@@ -1759,7 +1779,8 @@ capable of with its requirements fully expanded.</p>
 <li><strong>Status Document</strong> MUST be available on GET to the Object-URL in the <code>Location</code> header immediately (irrespective of whether this is a <code>201</code> or <code>202</code> response)</li>
 <li>MUST respond with a <code>201</code> if the item was created immediately, a <code>202</code> if the item was queued for import, or raise an error.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Create</li>
 <li><strong>Content</strong>: Metadata</li>
@@ -1769,7 +1790,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the request MUST populate the Object with the supplied Metadata</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Create</li>
 <li><strong>Content</strong>: By-Reference</li>
@@ -1779,7 +1801,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the request MUST attach the By-Reference files to the Object.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Create</li>
 <li><strong>Content</strong>: MD+BR</li>
@@ -1789,7 +1812,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the request MUST populate the Object with the supplied Metadata, and attach the By-Reference files to it.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Create</li>
 <li><strong>Content</strong>: Empty Body</li>
@@ -1815,7 +1839,8 @@ capable of with its requirements fully expanded.</p>
 <li>If the proposed segment size is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
 <li>If the proposed number of segments is not within the parameters the server supports, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmentlimitexceeded">SegmentLimitExceeded</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Update</li>
 <li><strong>Content</strong>: All</li>
@@ -1834,7 +1859,8 @@ capable of with its requirements fully expanded.</p>
 <li>For servers implementing concurrency control, if the <code>If-Match</code> header does not match the current <code>ETag</code>, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagnotmatched">ETagNotMatched</a>)</li>
 <li>For servers implementing concurrency control, if no <code>If-Match</code> header is provided, MUST respond with <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_etagrequired">ETagRequired</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Update</li>
 <li><strong>Content</strong>: Body</li>
@@ -1844,7 +1870,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST respond with a <code>204</code> if the replacement was deposited immediately, a <code>202</code> if the replacement was queued for import, or raise an error.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Update</li>
 <li><strong>Content</strong>: Body</li>
@@ -1864,7 +1891,8 @@ capable of with its requirements fully expanded.</p>
 <li>MUST include <code>ETag</code> header if implementing concurrency control</li>
 <li>MUST respond with a <code>200</code> if the request was accepted immediately, a <code>202</code> if the request was queued for processing, or raise an error.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Append</li>
 <li><strong>Content</strong>: All</li>
@@ -1874,7 +1902,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>POST Object-URL</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Append</li>
 <li><strong>Content</strong>: Binary</li>
@@ -1884,7 +1913,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST respond with a <code>Location</code> header, containing the File-URL of the Original Deposit File</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Append</li>
 <li><strong>Content</strong>: Metadata</li>
@@ -1894,7 +1924,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the new Metadata MUST add the Metadata to the item, and only treat this as an extension to existing Metadata.  The server MUST NOT overwrite or otherwise remove existing Metadata.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: All</li>
@@ -1904,7 +1935,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>PUT Object-URL</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: Binary</li>
@@ -1914,7 +1946,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the new File, MUST remove all existing Files from the Object and replace with the new File.  The new File should be marked as an <code>originalDeposit</code>.  The server MUST also remove all Metadata, so the Metadata Resource contains no fields.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: Metadata</li>
@@ -1924,7 +1957,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the new Metadata, MUST remove all existing Files from the Object, and MUST replace the existing Metadata with the new.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: By-Reference</li>
@@ -1934,7 +1968,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the new By-Reference files, MUST remove all existing Files from the Object and replace with the By-Reference files.  The server MUST remove the existing Files immediately, even before the By-Reference files have dereferenced.  The new files MUST be marked as <code>originalDeposit</code>s.  The server MUST also remove all Metadata, so the Metadata Resource contains no fields.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: MD+BR</li>
@@ -1944,7 +1979,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the new Metadata and By-Reference files, MUST remove all existing Files from the Object and replace with the By-Reference files.  The server MUST remove the existing Files immediately, even before the By-Reference files have dereferenced.  The server MUST also replace all existing Metadata with the new Metadata.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: Metadata</li>
@@ -1954,7 +1990,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the new Metadata MUST entirely replace the existing Metadata with the new.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: By-Reference</li>
@@ -1964,7 +2001,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the new By-Reference Files, MUST replace the existing FileSet with the new files.  The server MUST remove all the old files immediately, even before the new By-Reference files have been dereferenced.  The new Files MUST be marked as <code>originalDeposit</code>s</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: Binary File</li>
@@ -1974,7 +2012,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the new File, MUST replace the existing FileSet with a single new File.  The File MUST be marked as an <code>originalDeposit</code></li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: By-Reference</li>
@@ -1984,7 +2023,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the new By-Reference File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new file MUST be marked as an <code>originalDeposit</code></li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: Binary File</li>
@@ -1994,7 +2034,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the new File, MUST replace the existing File.  The server MAY keep the previous file as an older version.  The new File MUST be marked as an <code>originalDeposit</code></li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Append</li>
 <li><strong>Content</strong>: By-Reference</li>
@@ -2004,7 +2045,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the request, MUST attach all the By-Reference files to the Object as <code>originalDeposit</code>s</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Append</li>
 <li><strong>Content</strong>: MD+BR</li>
@@ -2014,7 +2056,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If accepting the request, MUST attach all the By-Reference files to the Object as <code>originalDeposit</code>s, and MUST add the Metadata to the item, and only treat this as an extension to existing Metadata.  The server MUST NOT overwrite or otherwise remove existing Metadata.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: All</li>
@@ -2024,7 +2067,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>PUT Metadata-URL</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: All</li>
@@ -2034,7 +2078,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>PUT FileSet-URL</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Replace</li>
 <li><strong>Content</strong>: All</li>
@@ -2044,7 +2089,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>PUT File-URL</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Delete</li>
 <li><strong>Content</strong>: All</li>
@@ -2054,7 +2100,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST respond with a <code>204</code> if the delete is successful, <code>202</code> if the delete is queued for processing, or raise an error</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Delete</li>
 <li><strong>Content</strong>: All</li>
@@ -2064,7 +2111,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>DELETE Object-URL</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Delete</li>
 <li><strong>Content</strong>: All</li>
@@ -2074,7 +2122,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>DELETE FileSet-URL</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Delete</li>
 <li><strong>Content</strong>: All</li>
@@ -2084,7 +2133,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>DELETE File-URL</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Delete</li>
 <li><strong>Content</strong>: All</li>
@@ -2094,7 +2144,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>DELETE Metadata-URL</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Delete</li>
 <li><strong>Content</strong>: All</li>
@@ -2104,7 +2155,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>DELETE Temporary-URL</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Complete</li>
 <li><strong>Content</strong>: Empty Body</li>
@@ -2128,7 +2180,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>MUST respond with a <code>204</code> or a suitable error</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Append</li>
 <li><strong>Content</strong>: Body</li>
@@ -2150,7 +2203,8 @@ capable of with its requirements fully expanded.</p>
 <ul>
 <li>If the provided segment is not the final segment and is not the size that the client had indicated on initialisation, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_invalidsegmentsize">InvalidSegmentSize</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Append</li>
 <li><strong>Content</strong>: File Segment</li>
@@ -2167,7 +2221,8 @@ capable of with its requirements fully expanded.</p>
 <li>If the Temporary-URL has expired, SHOULD return <code>410</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>).  Servers may also return <code>404</code> and no further explanation.</li>
 <li>If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_unexpectedsegment">UnexpectedSegment</a>)</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Request</strong>: Retrieve</li>
 <li><strong>Content</strong>: Empty Body</li>
@@ -2202,7 +2257,7 @@ If the root Service Document is requested, the full list of Services, including 
 Service is requested, it MUST only provide information about itself and its children.</p>
 <p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/service-document.schema.json">here</a>.</p>
 <p>An example of the Service Document:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
 
   &quot;@id&quot; : &quot;http://example.com/service-document&quot;,
@@ -2261,7 +2316,6 @@ Service is requested, it MUST only provide information about itself and its chil
   ]
 }
 </code></pre>
-
 <p>The fields available are defined as follows:</p>
 <p><table>
 <thead>
@@ -2437,7 +2491,7 @@ Object as a whole.</p>
 and servers MUST support this metadata format.</p>
 <p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/metadata.schema.json">here</a>.</p>
 <p>An example of the Metadata Document:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
 
   &quot;@id&quot; : &quot;http://example.com/object/1/metadata&quot;,
@@ -2448,7 +2502,6 @@ and servers MUST support this metadata format.</p>
   &quot;dc:contributor&quot; : &quot;A.N. Other&quot;
 }
 </code></pre>
-
 <p>The fields available are defined as follows:</p>
 <p><table>
 <thead>
@@ -2489,12 +2542,10 @@ and servers MUST support this metadata format.</p>
 <p>When sending this document, the client MUST provide a <code>Content-Disposition</code> header of the form:</p>
 <pre><code>Content-Disposition: attachment; metadata=true
 </code></pre>
-
 <p>Additionally, when sending this document the client SHOULD provide the <code>Metadata-Format</code> header with the identifier 
 for the format: http://purl.org/net/sword/3.0/types/Metadata</p>
 <pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 </code></pre>
-
 <p>If the client omits the <code>Metadata-Format</code> header, the server MUST assume that it is the above format.</p>
 <h2><a name="9.4"></a>9.4. By-Reference Document</h2>
 <p>The By-Reference document allows the client to send a list of one or more files that the server will fetch asynchronously.  The 
@@ -2502,7 +2553,7 @@ By-Reference document can be sent when creating an Object initially, or when app
 replacing the Object as a whole.</p>
 <p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/by-reference.schema.json">here</a>.</p>
 <p>An example of the By-Reference Document:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
 
   &quot;@type&quot; : &quot;ByReference&quot;,
@@ -2521,7 +2572,6 @@ replacing the Object as a whole.</p>
   ]
 }
 </code></pre>
-
 <p>The fields available are defined as follows:</p>
 <p><table>
 <thead>
@@ -2592,7 +2642,6 @@ replacing the Object as a whole.</p>
 <p>When sending this document, the client MUST provide a <code>Content-Disposition</code> header of the form:</p>
 <pre><code>Content-Disposition: attachment; by-reference=true
 </code></pre>
-
 <h2><a name="9.5"></a>9.5. Metadata + By-Reference Document</h2>
 <p>In the event that the client wishes to send both Metadata and By-Reference content to the server, this is possible in
 the event that the Metadata format is expressed as JSON, such as the default SWORD metadata format.</p>
@@ -2605,7 +2654,7 @@ entitled <code>metadata</code>, and the entire By-Reference document (again, wit
 <p>When a document of this form is sent, the client MUST set the <code>Content-Disposition</code> header appropriately, to alert the server of its 
 required behaviour.</p>
 <p>An example of the Metadata + By-Reference Document:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;metadata&quot; : {
     &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
     &quot;@type&quot; : &quot;Metadata&quot;,
@@ -2623,15 +2672,12 @@ required behaviour.</p>
   }
 }
 </code></pre>
-
 <p>When sending this document, the client MUST provide a <code>Content-Disposition</code> header of the form:</p>
 <pre><code>Content-Disposition: attachment; metadata=true; by-reference=true
 </code></pre>
-
 <p>Additionally, when sending this document the client SHOULD provide the <code>Metadata-Format</code> header with the identifier for the format: </p>
 <pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 </code></pre>
-
 <p>If the client omits the <code>Metadata-Format</code> header, the server MUST assume that it is the default format: http://purl.org/net/sword/3.0/types/Metadata</p>
 <h2><a name="9.6"></a>9.6. Status Document</h2>
 <p>The status document is provided in response to a deposit operation on a Service-URL, and can be retrieved at any subsequent point by a
@@ -2639,7 +2685,7 @@ GET on the Object-URL, and is returned each time the client takes action on the 
 the content and current state of the item.</p>
 <p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/status.schema.json">here</a>.</p>
 <p>An example of the Status Document:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
 
   &quot;@id&quot; : &quot;http://www.myorg.ac.uk/sword3/object/1&quot;,
@@ -2740,7 +2786,6 @@ the content and current state of the item.</p>
   ]
 }
 </code></pre>
-
 <p>The fields available are defined as follows:</p>
 <p><table>
 <thead>
@@ -2960,7 +3005,7 @@ the content and current state of the item.</p>
 </table></p>
 <h3><a name="9.6.1"></a>9.6.1. Available <code>rel</code> types and their meanings</h3>
 <p><h4>alternate</p></h4>
-<p><p>An alternate, non-SWORD URL which will allow the user to access the same object.  For example, this could be the URL of the landing page in the repository for the item.</p>
+<p>An alternate, non-SWORD URL which will allow the user to access the same object.  For example, this could be the URL of the landing page in the repository for the item.</p>
 <h4>http://purl.org/net/sword/3.0/terms/originalDeposit</h4>
 <p>The resource (file or package) was explicitly deposited via some deposit operation.</p>
 <p>The relevant properties of the link section for any resource with this rel are</p>
@@ -3009,7 +3054,7 @@ the content and current state of the item.</p>
 </ul>
 <h4>http://purl.org/net/sword/3.0/terms/fileSetFile</h4>
 <p>A File which can be considered by the client to be part of the FileSet.  Files in this state are available for modification via the SWORD protocol, and should be considered to form the actual "content" of the Object.</p>
-<p></p></p>
+<p></p>
 <h3><a name="9.6.2"></a>9.6.2. Required SWORD State Information</h3>
 <p><code>state/@id</code> MUST contain one of:</p>
 <dl><dt><a name="http://purl.org/net/sword/3.0/state/accepted"></a>http://purl.org/net/sword/3.0/state/accepted</dt><dd>for records accepted for processing but not yet created</dd><dt><a name="http://purl.org/net/sword/3.0/state/inprogress"></a>http://purl.org/net/sword/3.0/state/inProgress</dt><dd>for records that have been deposited, but for which the deposit has not yet completed</dd><dt><a name="http://purl.org/net/sword/3.0/state/inworkflow"></a>http://purl.org/net/sword/3.0/state/inWorkflow</dt><dd>for records that are in the server’s ingest workflow</dd><dt><a name="http://purl.org/net/sword/3.0/state/ingested"></a>http://purl.org/net/sword/3.0/state/ingested</dt><dd>for records that are in the server’s archive state, whatever that might mean (e.g. published to the web)</dd><dt><a name="http://purl.org/net/sword/3.0/state/rejected"></a>http://purl.org/net/sword/3.0/state/rejected</dt><dd>for records that have been rejected from the server’s workflow</dd><dt><a name="http://purl.org/net/sword/3.0/state/deleted"></a>http://purl.org/net/sword/3.0/state/deleted</dt><dd>for tombstone records</dd></dl>
@@ -3027,7 +3072,7 @@ file (Original Deposits), a “status” field will provide information on the c
 <p>A client may request information on an ongoing Segmented File Upload at any point via a GET to the Temporary-URL.</p>
 <p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/segmented-file-upload.schema.json">here</a>.</p>
 <p>An example of the Segmented File Upload Document:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
     &quot;@context&quot;: &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
     &quot;@id&quot;: &quot;http://example.com/temporary/1&quot;,
     &quot;@type&quot;: &quot;Temporary&quot;,
@@ -3045,7 +3090,6 @@ file (Original Deposits), a “status” field will provide information on the c
     &quot;segmentSize&quot;: 2000000
 }
 </code></pre>
-
 <p>The fields available are defined as follows:</p>
 <p><table>
 <thead>
@@ -3097,7 +3141,7 @@ file (Original Deposits), a “status” field will provide information on the c
 <p>An error document is returned at any point that a synchronous operation fails.</p>
 <p>The full JSON Schema [<a href="#json-schema">JSON-SCHEMA</a>] can be downloaded <a href="/error.schema.json">here</a>.</p>
 <p>An example of the Error Document:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
 
   &quot;@type&quot; : &quot;BadRequest&quot;,
@@ -3107,7 +3151,6 @@ file (Original Deposits), a “status” field will provide information on the c
   &quot;log&quot; : &quot;text log of any debug information for the client&quot;
 }
 </code></pre>
-
 <p>The fields available are defined as follows:</p>
 <p><table>
 <thead>
@@ -3156,7 +3199,7 @@ from the IANA registry of HTTP auth scheme names [<a href="#iana_auth">IANA Auth
 <p>Where an authentication scheme is in use by the server which is not covered by the IANA registry - such as a custom API-token-based 
 approach, the server MAY indicate this in whatever way seems most appropriate.</p>
 <p>For example, a Server which supports Basic, Digest and OAuth authentication, as well as a custom API-Key approach could indicate as follows:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;authentication&quot;: [
     &quot;Basic&quot;,
     &quot;OAuth&quot;,
@@ -3165,17 +3208,15 @@ approach, the server MAY indicate this in whatever way seems most appropriate.</
   ]
 }
 </code></pre>
-
 <p>Servers MAY also choose to support On-Behalf-Of deposit, which means that the authenticating user is providing content to the server, as 
 if another user were actually carrying out this request.  A use case for this would be when a known third-party deposit tool is sending 
 content to a server and has been authorised by another user to add content on their behalf.</p>
 <p>If a server supports On-Behalf-Of deposit, it SHOULD indicate this in the Service Document with the field <code>onBehalfOf</code> set to <code>true</code>. 
 If this field is not present clients MUST assume that the server does not support On-Behalf-Of deposit.</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;onBehalfOf&quot;: true
 }
 </code></pre>
-
 <h2><a name="10.2"></a>10.2. Authentication and Authorisation in requests</h2>
 <p>When carrying out authenticated requests, Authorization headers MUST be sent with every request to the server - the server is not 
 responsible for maintaining state for the client.  The server is responsible for authenticating and authorising every request individually. 
@@ -3360,7 +3401,6 @@ header.  We follow [<a href="#rfc6266">RFC6266</a>] for its usage.</p>
 <p>The general format of a Content-Disposition header is as follows:</p>
 <pre><code>Content-Disposition: [disposition type]; [disposition param]=[value]; ...
 </code></pre>
-
 <p>The rules below define how to generate the correct Content-Disposition for a given set of Request Conditions. If you are implementing a SWORD client
 or server it is <strong>STRONGLY RECOMMENDED</strong> that you work from the <strong><a href="https://swordapp.github.io/swordv3/swordv3-behaviours.html">SWORDv3 Behaviours Document</a></strong>,
 as this lays out the <code>Content-Disposition</code> requirements per-request, rather than in the form of the normalised requirements below.</p>
@@ -3381,8 +3421,8 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <p>The hierarchy for the Upload Type is:</p>
 <ul>
 <li>All<ul>
-<li>Segmented Upload Initialisation</li>
 <li>Direct Deposit</li>
+<li>Segmented Upload Initialisation</li>
 <li>File Segment Upload</li>
 </ul>
 </li>
@@ -3391,16 +3431,16 @@ interpreted according to the following hierarchy for each of the above aspects:<
 <ul>
 <li>All<ul>
 <li>Body<ul>
-<li>Binary<ul>
-<li>Packaged Content</li>
-<li>File Segment</li>
-<li>Binary File</li>
-</ul>
-</li>
 <li>JSON<ul>
 <li>Metadata</li>
 <li>By-Reference</li>
 <li>MD+BR</li>
+</ul>
+</li>
+<li>Binary<ul>
+<li>Binary File</li>
+<li>Packaged Content</li>
+<li>File Segment</li>
 </ul>
 </li>
 </ul>
@@ -3416,7 +3456,7 @@ requirements:</p>
 <li>With a Content type of MD+BR: <strong>MD+BR</strong>, <strong>JSON</strong>, <strong>Body</strong> and <strong>All</strong></li>
 </ul>
 <p>The requirements are:</p>
-<p><p><strong>Request Conditions</strong>:</p>
+<p><p><strong>Request Conditions</strong>:</p></p>
 <ul>
 <li><strong>Upload Type</strong>: Direct Deposit</li>
 <li><strong>Content</strong>: All</li>
@@ -3425,7 +3465,8 @@ requirements:</p>
 <ul>
 <li>attachment</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Upload Type</strong>: Direct Deposit</li>
 <li><strong>Content</strong>: Metadata</li>
@@ -3434,7 +3475,8 @@ requirements:</p>
 <ul>
 <li>metadata=true - Indicates that the body content of the request contains Metadata.  A Direct Deposit containing Metadata MUST contain this parameter.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Upload Type</strong>: Direct Deposit</li>
 <li><strong>Content</strong>: By-Reference</li>
@@ -3443,7 +3485,8 @@ requirements:</p>
 <ul>
 <li>by-reference=true - Indicates that the body content of the request contains By-Reference files.  A Direct Deposit containing By-Reference files MUST contain this parameter.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Upload Type</strong>: Direct Deposit</li>
 <li><strong>Content</strong>: MD+BR</li>
@@ -3453,25 +3496,28 @@ requirements:</p>
 <li>metadata=true - Indicates that the body content of the request contains Metadata.  A Direct Deposit containing Metadata MUST contain this parameter.</li>
 <li>by-reference=true - Indicates that the body content of the request contains By-Reference files.  A Direct Deposit containing By-Reference files MUST contain this parameter.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Upload Type</strong>: Direct Deposit</li>
 <li><strong>Content</strong>: Binary File</li>
 </ul>
 <p><strong>Param</strong></p>
 <ul>
-<li>filename=[filename] - Indicates the intended filename of the deposited file.  MAY be present, and if present the server SHOULD respect it, unless this is an update to an existing file, then the server MAY ignore this parameter. If using a character set outside of ISO-8859-1, you MUST use <code>filename*</code> instead.</li>
+<li>filename=[filename] - Indicates the intended filename of the deposited file.  MAY be present, and if present the server SHOULD respect it, unless this is an update to an existing file, then the server MAY ignore this parameter. If using a character set outside of ISO-8859-1, you MUST use <code>filename\*</code> instead.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Upload Type</strong>: Direct Deposit</li>
 <li><strong>Content</strong>: Packaged Content</li>
 </ul>
 <p><strong>Param</strong></p>
 <ul>
-<li>filename=[filename] - Indicates the intended filename of the deposited file.  MAY be present, and if present the server SHOULD respect it, unless this is an update to an existing file, then the server MAY ignore this parameter. If using a character set outside of ISO-8859-1, you MUST use <code>filename*</code> instead.</li>
+<li>filename=[filename] - Indicates the intended filename of the deposited file.  MAY be present, and if present the server SHOULD respect it, unless this is an update to an existing file, then the server MAY ignore this parameter. If using a character set outside of ISO-8859-1, you MUST use <code>filename\*</code> instead.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Upload Type</strong>: Segmented Upload Initialisation</li>
 <li><strong>Content</strong>: Empty Body</li>
@@ -3487,7 +3533,8 @@ requirements:</p>
 <li>segment_count=[n] - The total number of segments that will be sent to the Temporary-URL.  This MUST be present. Later, any segment uploads with segment_number greater than this number MUST be rejected by the server.</li>
 <li>segment_size=[bytes] - The size of each segment (except the final segment) that the client will be sending.  This MUST be present.  If a non-final segment is sent with a different size, this MUST be rejected by the server.</li>
 </ul>
-<p><hr><strong>Request Conditions</strong>:</p>
+<hr>
+<p><strong>Request Conditions</strong>:</p>
 <ul>
 <li><strong>Upload Type</strong>: File Segment Upload</li>
 <li><strong>Content</strong>: File Segment</li>
@@ -3500,28 +3547,24 @@ requirements:</p>
 <ul>
 <li>segment_number=[n] - The position in the full sequence of this segment.  This MUST be present.  It MUST be an integer, and MUST start counting at 1.  Full list of segments MUST be a sequential list of integers.</li>
 </ul>
-<p><hr></p></p>
+<hr>
+<p></p>
 <p>The following examples show a number of key cases:</p>
 <p><strong>A Metadata Deposit</strong></p>
 <pre><code>Content-Disposition: attachment; metadata=true
 </code></pre>
-
 <p><strong>A By-Reference Deposit</strong></p>
 <pre><code>Content-Disposition: attachment; by-reference=true
 </code></pre>
-
 <p><strong>A Metadata+By-Reference Deposit</strong></p>
 <pre><code>Content-Disposition: attachment; metadata=true; by-reference=true
 </code></pre>
-
 <p><strong>A Binary File Deposit</strong></p>
 <pre><code>Content-Disposition: attachment; filename=[filename]
 </code></pre>
-
 <p><strong>A Segmented Upload Initialisation</strong></p>
 <pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
 </code></pre>
-
 <p><strong>A File Segment Upload</strong></p>
 <pre><code>Content-Disposition: segment; segment_number=[n]
 </code></pre>
@@ -3530,7 +3573,7 @@ requirements:</p>
 servers MUST check against incoming content.</p>
 <h2><a name="14.1"></a>14.1. Announcing Support For Digests</h2>
 <p>Servers can announce support for the Digest formats that they support in the Service Document as follows:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;digest&quot;: [
     &quot;SHA-256&quot;,
     &quot;SHA&quot;,
@@ -3538,7 +3581,6 @@ servers MUST check against incoming content.</p>
   ]
 }
 </code></pre>
-
 <p>The Server SHOULD list all the digest formats that it supports.  Servers MUST support at least SHA-256 and MAY support any other digest 
 formats.</p>
 <p>The Digest formats MUST be identified as per the IANA HTTP Digest Algorithm values: [<a href="#iana_digest">IANA Digest</a>]</p>
@@ -3547,11 +3589,9 @@ formats.</p>
 <p>For every request where there is a request body, the client MUST attach the <code>Digest</code> header with the appropriate content:</p>
 <pre><code>Digest: SHA-256=MzA1ZmIzMDJiZjA4MzUzYTg5ZGY4NDIxMjcyY2JmZTEwNzM5ODdmMjJhY2Y1ZDc5NzFhOTY3MmM1MGNkN2ZlMA==
 </code></pre>
-
 <p>Note that the client MAY send multiple digests from different algorithms, separated by commas in the header:</p>
 <pre><code>Digest: SHA-256=MzA1ZmIzMDJiZjA4MzUzYTg5ZGY4NDIxMjcyY2JmZTEwNzM5ODdmMjJhY2Y1ZDc5NzFhOTY3MmM1MGNkN2ZlMA==, MD5=ZjQxNjA3N2M3MDdhODJkZGJlMGE0YTk2NGRjZWEyNWE=
 </code></pre>
-
 <p>The server MUST validate at least one digest, SHOULD validate all digests, though MAY choose its preferred format to validate against.</p>
         <h1><a name="15"></a>15. Concurrency Control</h1>
 <p>Servers MAY choose to implement concurrency control, in order to ensure that clients do not accidentally overwrite or make changes that 
@@ -3654,7 +3694,7 @@ requesting a specific deposit operation.  The server MUST include a <code>stagin
 the client can initialise its Segmented File Upload.  It SHOULD also specify how long it will retain an unfinished Segmented File Upload, before 
 assuming that the client will not complete it, with the <code>stagingMaxIdle</code> field.  In addition, the server SHOULD specify the size
 parameters of the segments using <code>maxSegmentSize</code>, <code>minSegmentSize</code>, <code>maxAssembledSize</code> and <code>maxSegments</code>:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;maxAssembledSize&quot;: 30000000000000,
   &quot;maxSegmentSize&quot;: 16777216000,
   &quot;maxSegments&quot;: 1000,
@@ -3663,7 +3703,6 @@ parameters of the segments using <code>maxSegmentSize</code>, <code>minSegmentSi
   &quot;stagingMaxIdle&quot;: 3600
 }
 </code></pre>
-
 <h2><a name="17.2"></a>17.2. Outline of Process for Segmented File Upload</h2>
 <ol>
 <li>
@@ -3692,7 +3731,7 @@ contain the <code>ttl</code> or <code>dereference</code> fields in the By-Refere
 <p>Before sending any segments to the server, the client must initialise the process.  This is done by sending a POST request to the
 Staging-URL as per <a href="#7.3.15">POST Staging-URL</a>.</p>
 <p>The requirements of the protocol for a Segment Upload Initialisation are:</p>
-<p><p><strong>Protocol Operation</strong></p>
+<p><p><strong>Protocol Operation</strong></p></p>
 <ul>
 <li>POST Staging-URL</li>
 </ul>
@@ -3714,12 +3753,11 @@ Staging-URL as per <a href="#7.3.15">POST Staging-URL</a>.</p>
 <li>MUST respond with a <code>201</code> to indicate that the Segmented Upload has been initialised, or raise an error.</li>
 <li>MUST respond with a <code>Location</code> header containing the Temporary-URL where the client can upload file segments</li>
 </ul>
-<p></p></p>
+<p></p>
 <p>See the section <a href="#13">Content Disposition</a> for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
 supplied <code>Content-Disposition</code> would be:</p>
 <pre><code>Content-Disposition: segment-init; size=[bytes]; digest=[digest]; segment_count=[n]; segment_size=[bytes]
 </code></pre>
-
 <p>The server MAY choose to reject the Segmented Upload Initialisation request at this stage, for a variety of reasons - for example, it may 
 have a limit on the total number of segments it will accept, or the total size may exceed a maximum file size for assembled files.  In 
 these cases, the server MUST respond with one of the appropriate <a href="#12">Error Types</a>.</p>
@@ -3731,7 +3769,7 @@ segment with MUST be the same size or smaller than the other segments.  Segments
 and if not then smaller than <code>maxUploadSize</code> specified in the <a href="#9.2">Service Document</a>. Segments MUST be larger than the <code>minSegmentSize</code>
 also specified in the <a href="#9.2">Service Document</a>.</p>
 <p>The requirements of the protocol for File Segment Upload are:</p>
-<p><p><strong>Protocol Operation</strong></p>
+<p><p><strong>Protocol Operation</strong></p></p>
 <ul>
 <li>POST Temporary-URL</li>
 </ul>
@@ -3768,12 +3806,11 @@ also specified in the <a href="#9.2">Service Document</a>.</p>
 <li>If the Temporary-URL has expired, SHOULD return <code>410</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_segmenteduploadtimedout">SegmentedUploadTimedOut</a>).  Servers may also return <code>404</code> and no further explanation.</li>
 <li>If the segment was not expected, for example all the expected segments have already been sent, or a segment with this segment number has already been received, MUST return <code>400</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_unexpectedsegment">UnexpectedSegment</a>)</li>
 </ul>
-<p></p></p>
+<p></p>
 <p>See the section <a href="#13">Content Disposition</a> for detailed information on the <code>Content-Disposition</code> header.  Based on that section, the
 supplied <code>Content-Disposition</code> would be:</p>
 <pre><code>Content-Disposition: segment; segment_number=[n]
 </code></pre>
-
 <p>The <code>Content-Type</code> header MUST just be <code>application/octet-stream</code>.</p>
 <p>The <code>Digest</code> header MUST contain the Digest for the File Segment itself, so the server can confirm successful transfer of the segment.</p>
 <h2><a name="17.5"></a>17.5. Retrieving Information about a Segmented File Upload</h2>
@@ -3781,7 +3818,7 @@ supplied <code>Content-Disposition</code> would be:</p>
 be done via a GET to the Temporary-URL.</p>
 <p>This will return you a document as described in <a href="#9.7">Segmented File Upload Document</a>.</p>
 <p>The requirements for this operation are:</p>
-<p><p><strong>Protocol Operation</strong></p>
+<p><p><strong>Protocol Operation</strong></p></p>
 <ul>
 <li>GET Temporary-URL</li>
 </ul>
@@ -3805,12 +3842,12 @@ be done via a GET to the Temporary-URL.</p>
 <li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
 <li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
-<p></p></p>
+<p></p>
 <p><strong>NOTE</strong> that you cannot retrieve an actual copy of the full or partially uploaded Segmented File Upload from the Temporary-URL at any point.</p>
 <h2><a name="17.6"></a>17.6. Aborting an Upload</h2>
 <p>If, part way through a segmented upload (even after completion) the client wishes to abort, it can send an DELETE request to the 
 Temporary-URL, with the following requirements:</p>
-<p><p><strong>Protocol Operation</strong></p>
+<p><p><strong>Protocol Operation</strong></p></p>
 <ul>
 <li>DELETE Temporary-URL</li>
 </ul>
@@ -3833,7 +3870,7 @@ Temporary-URL, with the following requirements:</p>
 <li>If the server does not allow this method in this context at this time, MAY respond with a <code>405</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_methodnotallowed">MethodNotAllowed</a>)</li>
 <li>If the server does not support On-Behalf-Of deposit and the <code>On-Behalf-Of</code> header has been provided, MAY respond with a <code>412</code> (<a href="https://swordapp.github.io/swordv3/swordv3.html#error_onbehalfofnotallowed">OnBehalfOfNotAllowed</a>)</li>
 </ul>
-<p></p></p>
+<p></p>
 <p>If a client submits the Temporary-URL as a By-Reference deposit to the server after completing the upload, the client SHOULD NOT delete
 the Temporary-URL themselves, the server SHOULD take responsibility for this.  If the client deletes the resource before the By-Reference
 deposit has completed, the server SHOULD record an error against the ingest.</p>
@@ -3877,11 +3914,10 @@ by-value deposit.</p>
 <h2><a name="18.1"></a>18.1. Announcing Support for By Reference Deposit</h2>
 <p>Servers MAY support By-Reference deposit.  If a server supports By-Reference it SHOULD indicate this in the <a href="#9.2">Service Document</a> 
 using the field <code>byReferenceDeposit</code>:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;byReferenceDeposit&quot;: true
 }
 </code></pre>
-
 <h2><a name="18.2"></a>18.2. Options for By-Reference Deposit</h2>
 <p>Clients may use a By-Reference Deposit anywhere a by-value deposit could be carried out.  Instead of sending any Binary content, the 
 client sends the <a href="#9.4">By-Reference Document</a> containing one or more (depending on context) URLs to files which the server can
@@ -3891,12 +3927,11 @@ requests to deposit By-Reference.</p>
 <p>The <a href="#13">Content Disposition</a> for a By-Reference deposit is:</p>
 <pre><code>Content-Disposition: attachment; by-reference=true
 </code></pre>
-
 <h3><a name="18.2.1"></a>18.2.1. Usage with Segmented File Upload</h3>
 <p>If carrying out a <a href="#17">Segmented File Upload</a>, the final deposit stage is to send the Temporary-URL<sup>[<a href="#temporary-url">def</a>]</sup> to the server 
 as part of a By-Reference deposit.  In this case the client SHOULD omit the <code>ttl</code> and <code>dereference</code> fields from the
 <a href="#9.4">By-Reference Document</a>, thus:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@context&quot; : &quot;https://swordapp.github.io/swordv3/swordv3.jsonld&quot;,
 
   &quot;@type&quot; : &quot;ByReference&quot;,
@@ -3913,7 +3948,6 @@ as part of a By-Reference deposit.  In this case the client SHOULD omit the <cod
   ]
 }
 </code></pre>
-
 <p>The server MUST recognise one of its own Temporary-URLs, and should implement ingest in the most efficient way possible, remembering that
 you cannot retrieve a copy of the actual Segmented File Upload from the Temporary-URL via GET, so the server MUST have a way to retrieve the content
 from those uploads in another way.  The server MUST NOT delete the resource
@@ -3955,7 +3989,7 @@ meaningful <code>log</code> message.</p>
 <p>While a By-Reference File is being processed, it MUST be represented in the <a href="#9.6">Status Document</a> under the <code>link</code> field.  The
 following sections show how it is represented.</p>
 <p><strong>On Initial Deposit</strong></p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object1/reference.zip&quot;,
   &quot;byReference&quot;: &quot;http://www.otherorg.ac.uk/by-reference/file2.zip&quot;,
   &quot;eTag&quot;: &quot;1&quot;,
@@ -3967,9 +4001,8 @@ following sections show how it is represented.</p>
   &quot;status&quot;: &quot;http://purl.org/net/sword/3.0/filestate/pending&quot;
 }
 </code></pre>
-
 <p><strong>During Download</strong></p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object1/reference.zip&quot;,
   &quot;byReference&quot;: &quot;http://www.otherorg.ac.uk/by-reference/file2.zip&quot;,
   &quot;eTag&quot;: &quot;1&quot;,
@@ -3981,9 +4014,8 @@ following sections show how it is represented.</p>
   &quot;status&quot;: &quot;http://purl.org/net/sword/3.0/filestate/downloading&quot;
 }
 </code></pre>
-
 <p><strong>During Unpacking</strong></p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object1/reference.zip&quot;,
   &quot;byReference&quot;: &quot;http://www.otherorg.ac.uk/by-reference/file2.zip&quot;,
   &quot;eTag&quot;: &quot;2&quot;,
@@ -3994,9 +4026,8 @@ following sections show how it is represented.</p>
   &quot;status&quot;: &quot;http://purl.org/net/sword/3.0/filestate/unpacking&quot;
 }
 </code></pre>
-
 <p><strong>After Completion</strong></p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object1/reference.zip&quot;,
   &quot;byReference&quot;: &quot;http://www.otherorg.ac.uk/by-reference/file2.zip&quot;,
   &quot;eTag&quot;: &quot;2&quot;,
@@ -4007,9 +4038,8 @@ following sections show how it is represented.</p>
   &quot;status&quot;: &quot;http://purl.org/net/sword/3.0/filestate/ingested&quot;
 }
 </code></pre>
-
 <p><strong>In Case of Error</strong></p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object1/reference.zip&quot;,
   &quot;byReference&quot;: &quot;http://www.otherorg.ac.uk/by-reference/file2.zip&quot;,
   &quot;eTag&quot;: &quot;2&quot;,
@@ -4021,7 +4051,6 @@ following sections show how it is represented.</p>
   &quot;status&quot;: &quot;http://purl.org/net/sword/3.0/filestate/error&quot;
 }
 </code></pre>
-
 <h2><a name="18.4"></a>18.4. Responsibilities of the client/reference server</h2>
 <p>To provide deposit By-Reference, the reference server, where the file is initially hosted, SHOULD:</p>
 <ul>
@@ -4058,19 +4087,17 @@ available, this SHOULD be listed in the <code>links</code> section of the <a hre
 <p>The server can list Metadata formats that it will accept in the <code>acceptMetadata</code> field of the <a href="#9.2">Service Document</a>.</p>
 <p>If no <code>acceptMetadata</code> field is present, the client MUST assume the server only supports the default SWORD metadata format 
 (http://purl.org/net/sword/3.0/types/Metadata).</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;acceptMetadata&quot;: [
     &quot;http://purl.org/net/sword/3.0/types/Metadata&quot;
   ]
 }
 </code></pre>
-
 <h2><a name="19.2"></a>19.2. Indicating Metadata Format to the Server</h2>
 <p>During deposit, the client SHOULD specify a <code>Metadata-Format</code> header which contains the identifier for the format.  For example, if 
 supplying the default SWORD metadata format:</p>
 <pre><code>Metadata-Format: http://purl.org/net/sword/3.0/types/Metadata
 </code></pre>
-
 <p>If this header is not present the server MUST assume it has the above value.</p>
         <h1><a name="20"></a>20. Metadata Formats</h1>
 <h2><a name="20.1"></a>20.1. Default Format</h2>
@@ -4091,7 +4118,6 @@ document has the following aspects (as per <a href="#19">Metadata Deposit</a>):<
 <p>When using this Metadata Format, the client should identify it in the Metadata-Format header with the following IRI:</p>
 <pre><code>http://purl.org/net/sword/3.0/types/Metadata
 </code></pre>
-
 <h2><a name="20.2"></a>20.2. Depositing Other Formats</h2>
 <p>In addition to the standard SWORD metadata format described above, SWORD can support the deposit of arbitrary metadata schemas and 
 serialisations.  </p>
@@ -4117,7 +4143,6 @@ Metadata-Format: http://www.loc.gov/mods/v3
   &lt;/originInfo&gt;
 &lt;/mods&gt;
 </code></pre>
-
 <p>If the server supports the MODS Metadata-Format, identified with the IRI <code>http://www.loc.gov/mods/v3</code> then it will be able to create a new 
 Object from this XML document, and populate the Metadata from the data therein.</p>
 <h2><a name="20.3"></a>20.3. Representing Other Formats in the Service Document</h2>
@@ -4133,7 +4158,7 @@ as links in the <code>links</code> section of the <a href="#9.6">Status Document
 <li>Specify the <code>metadataFormat</code> as the format identifier for the metadata schema.</li>
 </ul>
 <p>For example, to reflect the metadata from the previous section back to the client:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@id&quot;: &quot;http://www.swordserver.ac.uk/col1/mydeposit/metadata.mods.xml&quot;,
   &quot;contentType&quot;: &quot;application/xml&quot;,
   &quot;metadataFormat&quot;: &quot;http://www.loc.gov/mods/v3&quot;,
@@ -4154,7 +4179,7 @@ packaging format, and the <code>acceptArchiveFormat</code> field to indicate the
 <p>If no <code>acceptPackaging</code> field is supplied the client MUST assume that the server does not formally support any package formats, and 
 should expect everything to be treated as per the server's policies with regard to the mimetype as per the <code>accept</code> element.</p>
 <p>If no <code>acceptArchiveFormat</code> field is supplied the client MUST assume that the server supports <code>application/zip</code> only.</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;accept&quot;: [
     &quot;*/*&quot;
   ],
@@ -4166,7 +4191,6 @@ should expect everything to be treated as per the server's policies with regard 
   ]
 }
 </code></pre>
-
 <h2><a name="21.2"></a>21.2. Package support during resource creation</h2>
 <p>When depositing Packaged Content, the client SHOULD indicate the archive file MIME type using the <code>Content-Type</code> header, and SHOULD also 
 give information about content packaging using the <code>Packaging</code> header.</p>
@@ -4178,7 +4202,7 @@ http://purl.net/org/sword/3.0/error/PackagingFormatNotAcceptable, or store the c
 <p>Status documents can speak about packaging in two distinct ways, depending on whether an element in the <code>links</code> list refers to a file that 
 was deposited, or a file that is available for retrieval by the client (or both).</p>
 <p>When a package has been deposited as the Original Deposit, it SHOULD record the packaging format and content type alongside it in the record.</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object1/package.zip&quot;,
   &quot;contentType&quot;: &quot;application/zip&quot;,
   &quot;packaging&quot;: &quot;http://purl.org/net/sword/3.0/package/SimpleZip&quot;,
@@ -4187,10 +4211,9 @@ was deposited, or a file that is available for retrieval by the client (or both)
   ]
 }
 </code></pre>
-
 <p>Similarly, when a package has been created by the server from the Object’s content and made available to the client as a service, the 
 packaging format and content type MUST be presented alongside it:</p>
-<pre><code class="json">{
+<pre><code class="language-json">{
   &quot;@id&quot;: &quot;http://www.myorg.ac.uk/sword3/object1/package.1.zip&quot;,
   &quot;contentType&quot;: &quot;application/zip&quot;,
   &quot;packaging&quot;: &quot;http://purl.org/net/sword/3.0/package/SimpleZip&quot;,
@@ -4231,7 +4254,6 @@ the formats specified in the <a href="#9.2">Service Document</a> field <code>acc
 |     \-- sword.json
 \ -- tagmanifest-sha-256.txt
 </code></pre>
-
 <p>This allows us to represent the item as a combination of an arbitrary structure of bitstreams in the data directory (similar to SimpleZip), 
 and the metadata in the sword default format in <code>metadata/sword.json</code>.  A <code>manifest</code> (and <code>tagmanifest</code>) of sha-256 checksums is required, as 
 well as the <code>bagit.txt</code> file and a <code>bag-info.txt</code> file.  Note that although listed, the <code>bag-info.txt</code> is not used by SWORD to transfer metadata.  All metadata MUST appear in
@@ -4248,17 +4270,15 @@ embedded in any web interfaces associated with the service provider.</p>
 a deposit Service.</p>
 <pre><code>&lt;html:link rel=&quot;http://purl.org/net/sword/3.0/discovery/Service&quot; href=&quot;[Service-URL]&quot;/&gt;
 </code></pre>
-
 <h2><a name="23.2"></a>23.2. For Objects</h2>
 <p>Embed an html link with a rel value of <code>http://purl.org/net/sword/3.0/discovery/Object</code> in any page which represents a deposited resource.</p>
 <pre><code>&lt;html:link rel=&quot;http://purl.org/net/sword/3.0/discovery/Object&quot; href=&quot;[Object-URL]&quot;/&gt;
 </code></pre>
-
 <h2><a name="23.3"></a>23.3. Well-Known URI</h2>
 <p>For any server which wishes to expose its main or root Service-URL via Well-Known URIs [<a href="#rfc8615">RFC8615</a>], provide a
 redirect (307) from <code>./well-known/swordv3</code> (PROVISIONAL) to your root Service-URL.</p>
         <h1><a name="24"></a>24. References</h1>
-<p><p><a name="atompub"><strong>AtomPub</strong> Gregario, J. and B. de hOra, "The Atom Publishing Protocol", RFC 5023, October 2007. <a href="http://www.ietf.org/rfc/rfc5023.txt">http://www.ietf.org/rfc/rfc5023.txt</a> </p>
+<p><p><a name="atompub"><strong>AtomPub</strong> Gregario, J. and B. de hOra, "The Atom Publishing Protocol", RFC 5023, October 2007. <a href="http://www.ietf.org/rfc/rfc5023.txt">http://www.ietf.org/rfc/rfc5023.txt</a> </p></p>
 <p><a name="dcmi"><strong>DCMI</strong> DCMI Metadata Terms, 2012-06-14 <a href="http://dublincore.org/documents/dcmi-terms/">http://dublincore.org/documents/dcmi-terms/</a> </p>
 <p><a name="iana_auth"><strong>IANA Auth</strong> Hypertext Transfer Protocol (HTTP) Authentication Scheme Registry <a href="https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml">https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml</a> </p>
 <p><a name="iana_digest"><strong>IANA Digest</strong> Hypertext Transfer Protocol (HTTP) Digest Algorithm Values <a href="https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml">https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml</a> </p>
@@ -4273,7 +4293,7 @@ redirect (307) from <code>./well-known/swordv3</code> (PROVISIONAL) to your root
 <p><a name="rfc7232"><strong>RFC7232</strong> R. Fielding and J. Reschke, "Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests", June 2014 <a href="https://tools.ietf.org/html/rfc7232">https://tools.ietf.org/html/rfc7232</a> </p>
 <p><a name="rfc8615"><strong>RFC8615</strong> M Nottingham. "Well-Known Uniform Resource Identifiers (URIs)", 2019 <a href="https://tools.ietf.org/html/rfc8615">https://tools.ietf.org/html/rfc8615</a> </p>
 <p><a name="sword_1.3"><strong>SWORD 1.3</strong> Downing, J. "SWORD AtomPub Profile version 1.3", 2008. <a href="http://www.swordapp.org/docs/sword-profile-1.3.html">http://www.swordapp.org/docs/sword-profile-1.3.html</a> </p>
-<p><a name="sword_2.0"><strong>SWORD 2.0</strong> Jones, R. and Lewis, S. "SWORD 2.0 Profile", 2011 <a href="http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html">http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html</a></p></p>
+<p><a name="sword_2.0"><strong>SWORD 2.0</strong> Jones, R. and Lewis, S. "SWORD 2.0 Profile", 2011 <a href="http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html">http://swordapp.github.io/SWORDv2-Profile/SWORDProfile.html</a></p>
 
     </div>
 

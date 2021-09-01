@@ -98,7 +98,6 @@ deposit package has been removed.</p>
     ]
 }
 </code></pre>
-
 <p>Here we can see the first two entries describe the two packages that have been uploaded and successfully ingested.  Below them there are two
 <code>README.txt</code> files, each of which indicates which <code>originalDeposit</code> they were <code>derivedFrom</code>, and because they are deemed
 by the server to be the same file, one replaces the other using the <code>dcterms:replaces</code> and <code>dcterms:isReplacedBy</code> annotations.</p>
@@ -126,7 +125,6 @@ First the packages only are recorded in the <code>links</code> section of the <s
     ]
 }
 </code></pre>
-
 <p>Note that now the <code>status</code> is <code>pending</code> and there is an (optional) <code>log</code> message to indicate that the package will
 be unpacked later.</p>
 <p>After the first package is deleted, and the deposit has completed, then the server may unpack the remaining package
@@ -150,7 +148,6 @@ and will assert the state of the object as:</p>
     ]
 }
 </code></pre>
-
 <h1><a name="3"></a>3. The specification is built on JSON-LD</h1>
 <p>The specification encodes document semantics through <a href="https://json-ld.org/">JSON-LD</a>. This has some implications:</p>
 <ul>
@@ -186,7 +183,6 @@ the canonical version of your deposited record.</p>
     ]
 }
 </code></pre>
-
 <p>Upon receipt of a metadata document in any of these formats, the server is asserting that it is capable of ingesting
 and storing that metadata in whatever internal mechanism it has for that.</p>
 <p>There is no guarantee that the client can retrieve the metadata document it supplied in that request.</p>
@@ -200,7 +196,6 @@ Metadata-URL:</p>
   }
 }
 </code></pre>
-
 <p>Second, it may choose to serialise and expose an arbitrary number of alternative metadata formats in the <code>links</code> section
 of the <strong>Status Document</strong> using <code>rel</code> with the identifier of the metadata format.  There is no requirement on the 
 server that the alternative metadata formats it exposes match or overlap in any way with the formats that it accepts 
@@ -222,7 +217,6 @@ server that the alternative metadata formats it exposes match or overlap in any 
     ]
 }
 </code></pre>
-
 <p>Note that these files <strong>are not</strong> the original files deposited by the client, but representations of the server's
 current metadata record for this object, serialised using those formats.</p>
 
